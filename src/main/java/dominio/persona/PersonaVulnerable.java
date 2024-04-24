@@ -1,5 +1,13 @@
 package dominio.persona;
 
+import java.time.LocalDate;
+
 public class PersonaVulnerable {
-    //Me quedó por fuera de la imagen que mandó el Carri :p
+    private String nombre;
+    private LocalDate fechaNacimiento;
+    private LocalDate fechaRegistro;
+    private String domicilio;
+    private TipoDocumento tipoDocumento;
+    private String nroDocumento;
+    private Integer cantMenoresACargo;
 }
