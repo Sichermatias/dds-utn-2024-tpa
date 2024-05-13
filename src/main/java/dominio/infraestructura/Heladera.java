@@ -13,4 +13,5 @@ public class Heladera {
     private Integer cantMaxViandas;
     private ArrayList<Vianda> viandas= new ArrayList<>();
     private LocalDate fechaPuestaEnMarcha;
+    private Boolean activo;
 }

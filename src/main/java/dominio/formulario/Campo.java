@@ -8,4 +8,5 @@ public class Campo {
     private TipoCampo tipo;
     private ArrayList<Opcion> opciones= new ArrayList<>();
     private Boolean esObligatorio;
+    private Boolean activo;
 }
