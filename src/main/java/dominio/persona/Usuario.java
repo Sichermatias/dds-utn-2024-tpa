@@ -1,28 +1,20 @@
 package dominio.persona;
 import dominio.persona.verificadorContrasenias.Requisitos;
+import dominio.persona.verificadorContrasenias.VerificadorContrasenia;
 import lombok.Getter;
 
 import java.util.ArrayList;
-public class Usuario{
+public class Usuario extends VerificadorContrasenia {
 
     private String nombreUsuario;
     @Getter
     private String contrasena;
-    public ArrayList<Requisitos> chequeos=new ArrayList<>();
     private Colaborador persona;
 
-
-
-    private void iniciarRequisitos(ArrayList<Requisitos> req){
-        chequeos.addAll(req);
-    }
     public void crearUsuario(String contrasena, String usuario , ArrayList<Requisitos> requi){
         this.iniciarRequisitos(requi);
         this.nombreUsuario = usuario;
-        if(chequeos.stream().allMatch(requisitos-> requisitos.evaluarContrasena(contrasena))){
-            this.contrasena=contrasena;
-        }
-    }
-
-
+        if(validarContrasena(contrasena)){
+            this.contrasena=contrasena;}
+        } //else ingrese otra contrasena
 }
