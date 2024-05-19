@@ -8,7 +8,9 @@ public class Complejidad extends Requisitos{
         String linea;
         LectorArchivo leer = new LectorArchivo();
         while((linea=leer.traerLinea(ruta))!=null){
-            if(contra.equals(linea))return false;}
+            if(contra.equals(linea))
+                //mensaje error
+                return false;}
         return true;
     }
 
