@@ -1,13 +1,9 @@
 package dominio.persona;
 
-import dominio.contacto.MedioDeContacto;
 import dominio.contacto.Ubicacion;
-import lombok.Getter;
 import lombok.Setter;
-
+import lombok.Getter;
 import java.time.LocalDate;
-import java.util.ArrayList;
-
 @Setter @Getter
 public class PersonaHumana extends Colaborador{
     private TipoDocumento tipoDocumento;

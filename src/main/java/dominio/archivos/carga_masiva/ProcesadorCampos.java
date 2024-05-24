@@ -1,38 +1,104 @@
 package dominio.archivos.carga_masiva;
 
-import dominio.colaboracion.Colaboracion;
-import dominio.colaboracion.TipoColaboracion;
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.NombreDeMedioDeContacto;
 import dominio.persona.PersonaHumana;
 import dominio.persona.TipoDocumento;
+import dominio.colaboracion.Colaboracion;
+import dominio.colaboracion.TipoColaboracion;
+import dominio.repositories.PersonaHumanaRepositorio;
+import java.util.Optional;
 
 public class ProcesadorCampos {
-    public static void procesarCampos(String[] campos){
-        //Busco persona por tipo y num de doc
-        //Si no la encuentro la cargo, si la encuentro la uso.
-        //Como no hay persistencia todavia esto de buscar medio que no existe así que la voy a instanciar.
-        PersonaHumana colaborador=new PersonaHumana();
-        colaborador.setTipoDocumento(TipoDocumento.valueOf(campos[0]));
-        colaborador.setDocumento(campos[1]);
-        colaborador.setNombre(campos[2]);
-        colaborador.setApellido((campos[3]));
-        NombreDeMedioDeContacto contacto=new NombreDeMedioDeContacto();
-        contacto.setNombre("mail");
-        MedioDeContacto mail=new MedioDeContacto();
-        mail.setNombreDeMedioDeContacto(contacto);
-        mail.setValor(campos[4]);
-        colaborador.agregarMedioContacto(mail);
-        procesarColaboracion(campos[5],campos[6],campos[7]);
+
+    public static void procesarCampos(String[] campos) throws CampoInvalidoException {
+        String tipoDocumento = campos[0];
+        String documento = campos[1];
+        String nombre = campos[2];
+        String apellido = campos[3];
+        String email = campos[4];
+        String fechaColaboracion = campos[5];
+        String formaColaboracion = campos[6];
+        String cantidadColaboraciones = campos[7];
+
+        PersonaHumana persona = new PersonaHumana();
+
+        if (ValidadorCampos.validarTipoDocumento(tipoDocumento)) {
+            persona.setTipoDocumento(TipoDocumento.valueOf(tipoDocumento));
+        } else {
+            throw new CampoInvalidoException("Tipo de documento inválido: " + tipoDocumento);
+        }
+
+        if (ValidadorCampos.validarDocumento(documento)) {
+            persona.setDocumento(Integer.parseInt(documento));
+        } else {
+            throw new CampoInvalidoException("Documento inválido: " + documento);
+        }
+
+        if (ValidadorCampos.validarNombre(nombre)) {
+            persona.setNombre(nombre);
+        } else {
+            throw new CampoInvalidoException("Nombre inválido: " + nombre);
+        }
+
+        if (ValidadorCampos.validarNombre(apellido)) {
+            persona.setApellido(apellido);
+        } else {
+            throw new CampoInvalidoException("Apellido inválido: " + apellido);
+        }
+
+        if (ValidadorCampos.validarEmail(email)) {
+            NombreDeMedioDeContacto contacto = new NombreDeMedioDeContacto();
+            contacto.setNombre("mail");
+            MedioDeContacto mail = new MedioDeContacto();
+            mail.setNombreDeMedioDeContacto(contacto);
+            mail.setValor(email);
+            persona.agregarMedioContacto(mail);
+        } else {
+            throw new CampoInvalidoException("Email inválido: " + email);
+        }
+
+
+        procesarColaboraciones(persona, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
+
+        //LA MANDO AL REPO
+        PersonaHumanaRepositorio repositorio = new PersonaHumanaRepositorio();
+        //BUSCO POR DNI SI YA TENGO A LA PERSONA
+        Optional<PersonaHumana> personaGuardada = repositorio.buscarPorDNI(persona.getDocumento());
+        personaGuardada.ifPresentOrElse(
+                personaEncontrada -> {
+                    repositorio.modificar(persona);
+                },
+                () -> {
+                    // NO LO TENGO GUARDADO
+                    // LE ASIGNO CREDENCIALES
+                    repositorio.agregar(persona); //LO AGREGO
+                    //LE MANDO MAIL PARA QUE ACTUALICE LA INFO
+                }
+        );
     }
-    public static void procesarColaboracion(String fecha, String forma, String cantidad){
-        for (Integer i=0;i<cantidad;i++) {
+
+    public static void procesarColaboraciones(PersonaHumana colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
+        if (!ValidadorCampos.validarCantidad(cantidadStr)) {
+            throw new CampoInvalidoException("Cantidad de colaboraciones inválida: " + cantidadStr);
+        }
+
+        int cantidad = Integer.parseInt(cantidadStr);
+        for (int i = 0; i < cantidad; i++) {
             Colaboracion colaboracion = new Colaboracion();
             TipoColaboracion tipo = new TipoColaboracion();
-            tipo.setNombreTipo(forma);
-            colaboracion.setFechaColaboracion(fecha);
+            if (ValidadorCampos.validarFormaColaboracion(forma)) {
+                tipo.setNombreTipo(forma);
+            } else {
+                throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
+            }
+            if (ValidadorCampos.validarFecha(fecha)) {
+                colaboracion.setFechaColaboracion(fecha);
+            } else {
+                throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
+            }
             colaboracion.cambiarTipoColaboracion(tipo);
+            colaborador.agregarColaboracion(colaboracion);
         }
     }
 }
-
