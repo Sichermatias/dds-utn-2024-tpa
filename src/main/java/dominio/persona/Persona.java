@@ -27,6 +27,7 @@ public class Persona {
     private List<MedioDeContacto> mediosDeContacto;
     private Ubicacion ubicacion;
     private List<Colaboracion> colaboraciones;
+    private CalculadorDePuntosAcumulados calculadorDePuntos;
 
     public void agregarMediosDeContacto(MedioDeContacto ... mediosDeContacto) {
         Collections.addAll(this.mediosDeContacto, mediosDeContacto);
