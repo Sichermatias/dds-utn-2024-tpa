@@ -1,4 +1,4 @@
-package dominio.archivos.carga_masiva
+package dominio.archivos.carga_masiva;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
