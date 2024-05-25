@@ -8,7 +8,7 @@ import java.io.IOException;
 public class LectorArchivo {
     private BufferedReader br;
     private String ruta;
-    public static String traerLinea(String ruta) {
+    public String traerLinea(String ruta) {
         try {
             if (br == null || !ruta.equals(LectorArchivo.this.ruta)) {
                 br = new BufferedReader(new FileReader(ruta));
