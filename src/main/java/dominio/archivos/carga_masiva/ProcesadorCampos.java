@@ -1,5 +1,6 @@
 package dominio.archivos.carga_masiva;
 
+import dominio.colaboracion.TipoColaboracionRegistry;
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.NombreDeMedioDeContacto;
 import dominio.persona.Persona;
@@ -90,7 +91,7 @@ public class ProcesadorCampos {
         int cantidad = Integer.parseInt(cantidadStr);
         for (int i = 0; i < cantidad; i++) {
             Colaboracion colaboracion = new Colaboracion();
-            TipoColaboracion tipo = new TipoColaboracion(); //TODO: no se puede instanciar clase abstracta!
+            TipoColaboracion tipo = TipoColaboracionRegistry.create(forma);
             if (ValidadorCampos.validarFormaColaboracion(forma)) {
                 tipo.setNombreTipo(forma);
             } else {
