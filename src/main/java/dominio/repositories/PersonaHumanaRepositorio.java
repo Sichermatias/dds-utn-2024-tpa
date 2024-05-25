@@ -1,22 +1,22 @@
 package dominio.repositories;
-import dominio.persona.PersonaHumana;
+import dominio.persona.Persona;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class PersonaHumanaRepositorio {
-    private List<PersonaHumana> personas;
+    private List<Persona> personas;
 
     public PersonaHumanaRepositorio() {
         this.personas = new ArrayList<>();
     }
 
-    public void agregar(PersonaHumana persona) {
+    public void agregar(Persona persona) {
         personas.add(persona);
     }
 
-    public void modificar(PersonaHumana personaModificada) {
-        Optional<PersonaHumana> personaExistente = buscarPorDNI(personaModificada.getDocumento());
+    public void modificar(Persona personaModificada) {
+        Optional<Persona> personaExistente = buscarPorDNI(personaModificada.getNroDocumento());
         personaExistente.ifPresentOrElse(
                 persona -> {
                     int indice = personas.indexOf(persona);
@@ -27,13 +27,13 @@ public class PersonaHumanaRepositorio {
                 }
         );
     }
-    public void eliminar(PersonaHumana persona) {
+    public void eliminar(Persona persona) {
         personas.remove(persona);
     }
 
-    public Optional<PersonaHumana> buscarPorDNI(int dni) {
+    public Optional<Persona> buscarPorDNI(int dni) {
         return personas.stream()
-                .filter(persona -> persona.getDocumento().equals(dni))
+                .filter(persona -> persona.getNroDocumento().equals(dni))
                 .findFirst();
     }
 }
