@@ -2,11 +2,14 @@ package dominio.archivos.carga_masiva;
 
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.NombreDeMedioDeContacto;
-import dominio.persona.PersonaHumana;
+import dominio.persona.Persona;
 import dominio.persona.TipoDocumento;
 import dominio.colaboracion.Colaboracion;
 import dominio.colaboracion.TipoColaboracion;
+import dominio.persona.TipoPersona;
 import dominio.repositories.PersonaHumanaRepositorio;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class ProcesadorCampos {
@@ -21,7 +24,8 @@ public class ProcesadorCampos {
         String formaColaboracion = campos[6];
         String cantidadColaboraciones = campos[7];
 
-        PersonaHumana persona = new PersonaHumana();
+        Persona persona = new Persona();
+        persona.setTipoPersona(TipoPersona.HUMANA);
 
         if (ValidadorCampos.validarTipoDocumento(tipoDocumento)) {
             persona.setTipoDocumento(TipoDocumento.valueOf(tipoDocumento));
@@ -30,7 +34,7 @@ public class ProcesadorCampos {
         }
 
         if (ValidadorCampos.validarDocumento(documento)) {
-            persona.setDocumento(Integer.parseInt(documento));
+            persona.setNroDocumento(Integer.parseInt(documento));
         } else {
             throw new CampoInvalidoException("Documento inválido: " + documento);
         }
@@ -53,7 +57,7 @@ public class ProcesadorCampos {
             MedioDeContacto mail = new MedioDeContacto();
             mail.setNombreDeMedioDeContacto(contacto);
             mail.setValor(email);
-            persona.agregarMedioContacto(mail);
+            persona.agregarMediosDeContacto(mail);
         } else {
             throw new CampoInvalidoException("Email inválido: " + email);
         }
@@ -64,7 +68,7 @@ public class ProcesadorCampos {
         //LA MANDO AL REPO
         PersonaHumanaRepositorio repositorio = new PersonaHumanaRepositorio();
         //BUSCO POR DNI SI YA TENGO A LA PERSONA
-        Optional<PersonaHumana> personaGuardada = repositorio.buscarPorDNI(persona.getDocumento());
+        Optional<Persona> personaGuardada = repositorio.buscarPorDNI(persona.getNroDocumento());
         personaGuardada.ifPresentOrElse(
                 personaEncontrada -> {
                     repositorio.modificar(persona);
@@ -78,7 +82,7 @@ public class ProcesadorCampos {
         );
     }
 
-    public static void procesarColaboraciones(PersonaHumana colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
+    public static void procesarColaboraciones(Persona colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
         if (!ValidadorCampos.validarCantidad(cantidadStr)) {
             throw new CampoInvalidoException("Cantidad de colaboraciones inválida: " + cantidadStr);
         }
@@ -86,19 +90,19 @@ public class ProcesadorCampos {
         int cantidad = Integer.parseInt(cantidadStr);
         for (int i = 0; i < cantidad; i++) {
             Colaboracion colaboracion = new Colaboracion();
-            TipoColaboracion tipo = new TipoColaboracion();
+            TipoColaboracion tipo = new TipoColaboracion(); //TODO: no se puede instanciar clase abstracta!
             if (ValidadorCampos.validarFormaColaboracion(forma)) {
                 tipo.setNombreTipo(forma);
             } else {
                 throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
             }
             if (ValidadorCampos.validarFecha(fecha)) {
-                colaboracion.setFechaColaboracion(fecha);
+                colaboracion.setFechaColaboracion(LocalDate.parse(fecha));
             } else {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
             colaboracion.cambiarTipoColaboracion(tipo);
-            colaborador.agregarColaboracion(colaboracion);
+            colaborador.agregarColaboraciones(colaboracion);
         }
     }
 }
