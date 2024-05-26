@@ -1,4 +1,4 @@
-import dominio.persona.Usuario;
+import dominio.persona.login.Usuario;
 import dominio.persona.verificadorContrasenias.Complejidad;
 import dominio.persona.verificadorContrasenias.Longitud;
 import dominio.persona.verificadorContrasenias.Requisitos;

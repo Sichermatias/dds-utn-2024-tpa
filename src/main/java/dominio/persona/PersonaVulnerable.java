@@ -8,6 +8,6 @@ public class PersonaVulnerable {
     private LocalDate fechaRegistro;
     private String domicilio;
     private TipoDocumento tipoDocumento;
-    private String nroDocumento;
+    private Integer nroDocumento;
     private Integer cantMenoresACargo;
 }

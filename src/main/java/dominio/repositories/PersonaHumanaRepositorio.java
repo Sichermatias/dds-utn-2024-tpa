@@ -1,10 +1,11 @@
 package dominio.repositories;
 import dominio.persona.Persona;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PersonaHumanaRepositorio {
+public class  PersonaHumanaRepositorio {
     private List<Persona> personas;
 
     public PersonaHumanaRepositorio() {

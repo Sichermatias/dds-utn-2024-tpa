@@ -2,7 +2,7 @@ package dominio.persona;
 
 import dominio.colaboracion.Colaboracion;
 import dominio.contacto.MedioDeContacto;
-import dominio.contacto.Ubicacion;
+import dominio.contacto.ubicacion.Ubicacion;
 import dominio.formulario.FormularioRespondido;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,5 +35,9 @@ public class Persona {
 
     public void agregarColaboraciones(Colaboracion ... colaboraciones) {
         Collections.addAll(this.colaboraciones, colaboraciones);
+    }
+
+    public Integer getNroDocumento() {
+        return nroDocumento;
     }
 }
