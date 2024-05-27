@@ -20,5 +20,4 @@ public abstract class TipoColaboracion {
     public void setNombreTipo(String nombreTipo) {
         this.nombreTipo = nombreTipo;
     }
-    private String nombreTipo;
 }
