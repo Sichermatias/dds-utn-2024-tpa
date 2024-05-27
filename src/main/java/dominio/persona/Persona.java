@@ -28,25 +28,6 @@ public class Persona {
     private Ubicacion ubicacion;
     private List<Colaboracion> colaboraciones;
     private CalculadorDePuntosAcumulados calculadorDePuntos;
-    private Boolean activo;
-
-    public Persona crearPersona(){
-        return new Persona();
-    }
-
-    public Boolean eliminarPersona(Persona persona){
-        persona.activo = false;
-        return true;
-    }
-
-    public Boolean modificarPersona(Persona persona, dataPersona datos){
-        //TODO: Hace falta crear dataPersona?
-        return true;
-    }
-
-    public Boolean realizarColaboracion(Colaboracion colaboracion){
-        return colaboracion.colaborar();
-    }
 
     public void agregarMediosDeContacto(MedioDeContacto ... mediosDeContacto) {
         Collections.addAll(this.mediosDeContacto, mediosDeContacto);
