@@ -16,4 +16,7 @@ public class Colaboracion {
         tipoColaboracion = newTipoColaboracion;
     }
 
+    public Boolean colaborar() {
+        return tipoColaboracion.colaborar();
+    }
 }
