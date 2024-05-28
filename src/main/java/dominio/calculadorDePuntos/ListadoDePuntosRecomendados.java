@@ -1,4 +1,4 @@
-package dominio.CalculadorPuntos;
+package dominio.calculadorDePuntos;
 import java.util.List;
 
 
