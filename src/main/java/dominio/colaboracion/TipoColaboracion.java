@@ -8,6 +8,7 @@ public abstract class TipoColaboracion {
     protected boolean cuentaParaPuntaje;
 
     static {
+        System.out.println("Inicializando registros de tipos de colaboración en bloque estático");
         TipoColaboracionRegistry.register("DINERO", DonacionDeDinero::new);
         TipoColaboracionRegistry.register("DONACION_VIANDAS", DonacionVianda::new);
         TipoColaboracionRegistry.register("REDISTRIBUCION_VIANDAS", Distribucion::new);

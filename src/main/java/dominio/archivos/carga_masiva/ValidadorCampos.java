@@ -22,7 +22,7 @@ public class ValidadorCampos {
     private static final Set<String> TIPOS_DOCUMENTO_VALIDOS = Set.of("DNI", "PASAPORTE", "CEDULA");
 
     // Formas de colaboración permitidas
-    private static final Set<String> FORMAS_COLABORACION_VALIDAS = Set.of("DONACION", "VOLUNTARIADO");
+    private static final Set<String> FORMAS_COLABORACION_VALIDAS = Set.of("DINERO","DONACION_VIANDAS","REDISTRIBUCION_VIANDAS","ENTREGA_TARJETAS");
 
     // Formato de fecha esperado
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");

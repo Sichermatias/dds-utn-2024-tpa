@@ -1,10 +1,9 @@
-package dominio.CalculadorPuntos;
+package dominio.services.recomendadorDePuntos;
 
 
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import dominio.CalculadorPuntos.ListadoDePuntosRecomendados;
+import dominio.calculadorDePuntos.ListadoDePuntosRecomendados;
 public interface RecomendadorDePuntosAdapter {
     @GET("/api/puntosRecomendados")
     Call<ListadoDePuntosRecomendados> solicitarPuntosRecomendados(Double longitud, double latitud, double radio);

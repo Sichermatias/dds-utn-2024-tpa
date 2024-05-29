@@ -1,4 +1,4 @@
-package dominio.CalculadorPuntos;
+package dominio.calculadorDePuntos;
 
 public class PuntoRecomendado {
     public double longitud;

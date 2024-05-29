@@ -1,13 +1,18 @@
 package dominio.repositories;
 import dominio.persona.Persona;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class  PersonaHumanaRepositorio {
     private List<Persona> personas;
-
+    private static PersonaHumanaRepositorio instancia;
+    public static synchronized PersonaHumanaRepositorio obtenerInstancia() {
+        if (instancia == null) {
+            instancia = new PersonaHumanaRepositorio();
+        }
+        return instancia;
+    }
     public PersonaHumanaRepositorio() {
         this.personas = new ArrayList<>();
     }
@@ -16,7 +21,7 @@ public class  PersonaHumanaRepositorio {
         personas.add(persona);
     }
 
-    public void modificar(Persona personaModificada) {
+    public void actualizar(Persona personaModificada) {
         Optional<Persona> personaExistente = buscarPorDNI(personaModificada.getNroDocumento());
         personaExistente.ifPresentOrElse(
                 persona -> {
