@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds;
 
+import static org.mockito.Mockito.*;
 import dominio.archivos.carga_masiva.CampoInvalidoException;
 import dominio.archivos.carga_masiva.CargaMasiva;
 import dominio.persona.verificadorContrasenias.Complejidad;
@@ -21,6 +22,13 @@ public class CargaMasivaTests {
     }
     @Test
     void cargaMasivaDosRepetidos() throws CampoInvalidoException{
+        String rutaArchivo=rutaBase+"CargaMasivaTest2.csv";
+        carga.cargarArchivo(rutaArchivo,";");
+    }
 
+    @Test
+    void cargaMasivaErrorCampo() throws CampoInvalidoException{
+        String rutaArchivo=rutaBase+"CargaMasivaTest3.csv";
+        carga.cargarArchivo(rutaArchivo,";");
     }
 }

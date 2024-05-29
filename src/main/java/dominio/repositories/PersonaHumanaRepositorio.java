@@ -24,10 +24,9 @@ public class  PersonaHumanaRepositorio {
     public void actualizar(Persona personaModificada) {
         Optional<Persona> personaExistente = buscarPorDNI(personaModificada.getNroDocumento());
         personaExistente.ifPresentOrElse(
-                persona -> {
-                    int indice = personas.indexOf(persona);
-                    personas.set(indice, personaModificada);
-                },
+                personaEncontrada -> {
+                    personaEncontrada.agregarColaboraciones(personaModificada.getColaboraciones());
+                 },
                 () -> {
                     throw new IllegalArgumentException("La persona no existe en el repositorio");
                 }

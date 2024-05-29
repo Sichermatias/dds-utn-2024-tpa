@@ -1,12 +1,10 @@
 package dominio.archivos.carga_masiva;
 import dominio.archivos.LectorArchivo;
-import dominio.contacto.MedioDeContacto;
 import dominio.persona.Persona;
 import dominio.persona.login.Rol;
 import dominio.persona.login.Usuario;
 import dominio.repositories.PersonaHumanaRepositorio;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class CargaMasiva {
@@ -26,18 +24,20 @@ public class CargaMasiva {
         Optional<Persona> personaGuardada = repositorio.buscarPorDNI(persona.getNroDocumento());
         personaGuardada.ifPresentOrElse(
                 personaEncontrada -> {
-                    personaEncontrada.agregarColaboraciones(persona.getColaboraciones());
-                    personaEncontrada.agregarMediosDeContacto((ArrayList<MedioDeContacto>) persona.getMediosDeContacto());
                     repositorio.actualizar(persona);
                 },
                 () -> {
-                    Usuario usuario=new Usuario();
+                    // Crear un usuario aquí o donde sea necesario
+                    Usuario usuario = new Usuario();
                     usuario.setNombreUsuario(persona.getNombre());
                     usuario.setContrasena("contrabase");
-                    Rol rol=new Rol();
+                    Rol rol = new Rol();
                     rol.setNombreRol("COLABORADOR");
                     usuario.setRol(rol);
-                    repositorio.agregar(persona); //LO AGREGO
+
+                    // Agregar la persona, no el usuario
+                    repositorio.agregar(persona);
+
                     //Mensaje mensaje=new Mensaje(email,"Usted fue procesado en el sistema como colaborador, por favor ingrese para validar sus datos");
                     //new EstrategiaMail().enviarMensaje(mensaje);
                 });

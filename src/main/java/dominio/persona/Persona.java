@@ -36,8 +36,8 @@ public class Persona {
     public void agregarMedioDeContacto(MedioDeContacto medioDeContacto){
         mediosDeContacto.add(medioDeContacto);
     }
-    public void agregarColaboraciones(ArrayList<Colaboracion> colaboraciones) {
-        colaboraciones.addAll(colaboraciones);
+    public void agregarColaboraciones(ArrayList<Colaboracion> colaboracion) {
+        colaboraciones.addAll(colaboracion);
     }
 
     public void agregarColaboracion(Colaboracion colaboracion) {
