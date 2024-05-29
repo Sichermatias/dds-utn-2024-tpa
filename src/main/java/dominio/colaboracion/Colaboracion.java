@@ -16,4 +16,7 @@ public class Colaboracion {
         tipoColaboracion = newTipoColaboracion;
     }
 
+    public Double puntaje() {
+        return tipoColaboracion.puntaje();
+    }
 }

@@ -1,8 +1,9 @@
 package dominio.persona;
 
+import dominio.colaboracion.Colaboracion;
+
 public class CalculadorDePuntosAcumulados {
     public double calcularPuntosDeColaborador(Persona persona) {
-        //TODO: calculo de puntos para premios
-        return 0;
+        return persona.getColaboraciones().stream().mapToDouble(Colaboracion::puntaje).sum();
     }
 }

@@ -9,8 +9,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class RegistrarPersonasVulnerables {
+    //TODO: esta es la misma clase que DistribucionTarjetas?
     private Persona colaborador;
     private PersonaVulnerable personaVulnerable;
+    private static Double factorDePuntaje = 1.2;
 
     public void cargarDatos (String nombre, LocalDate fechaNacimiento, LocalDate fechaRegistro,
                              Ubicacion ubicacion, TipoDocumento tipoDocumento, Integer nroDocumento,

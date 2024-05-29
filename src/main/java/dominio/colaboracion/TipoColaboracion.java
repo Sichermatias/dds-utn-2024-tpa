@@ -5,6 +5,7 @@ import lombok.Setter;
 
 public abstract class TipoColaboracion {
     private String nombreTipo;
+    protected boolean cuentaParaPuntaje;
 
     static {
         TipoColaboracionRegistry.register("DINERO", DonacionDeDinero::new);
@@ -20,4 +21,6 @@ public abstract class TipoColaboracion {
     public void setNombreTipo(String nombreTipo) {
         this.nombreTipo = nombreTipo;
     }
+
+    public abstract Double puntaje();
 }
