@@ -4,7 +4,7 @@ import dominio.infraestructura.Heladera;
 
 import java.time.LocalDate;
 
-public class Vianda extends TipoColaboracion{
+public class Vianda{
     private String nombreComida;
     private LocalDate fechaCaducidad;
     private LocalDate fechaDonacion;

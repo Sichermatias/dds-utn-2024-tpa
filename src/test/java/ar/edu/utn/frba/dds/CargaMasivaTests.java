@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import dominio.archivos.carga_masiva.CampoInvalidoException;
 import dominio.archivos.carga_masiva.CargaMasiva;
@@ -27,8 +29,10 @@ public class CargaMasivaTests {
     }
 
     @Test
-    void cargaMasivaErrorCampo() throws CampoInvalidoException{
-        String rutaArchivo=rutaBase+"CargaMasivaTest3.csv";
-        carga.cargarArchivo(rutaArchivo,";");
+    void cargaMasivaErrorCampo() {
+        String rutaArchivo = rutaBase + "CargaMasivaTest3.csv";
+        CampoInvalidoException exception = assertThrows(CampoInvalidoException.class, () -> {
+            carga.cargarArchivo(rutaArchivo, ";");
+        });
     }
 }
