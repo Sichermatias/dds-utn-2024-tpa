@@ -16,14 +16,14 @@ public class EjemploDeUsoApiCalculadorPuntos{
     private static final double latitud = 22.10;
     private static final double radio = 100;
     public static void main(String[] args) throws IOException {
-        RecomendadorDePuntos recomendadorDePuntos = RecomendadorDePuntos.getRecomendadorDePuntos();
-        //System.out.println("longitud: " + longitud " / latitud: " + latitud " / radio: " + radio  );
+        RecomendadorDePuntos recomendadorDePuntos = RecomendadorDePuntos.recomendadorDePuntos();
 
-        ListadoDePuntosRecomendados listadoDePuntosRecomendados = RecomendadorDePuntos.getRecomendadorDePuntos().listadoDePuntosRecomendados(longitud,latitud,radio);
+        ListadoDePuntosRecomendados listadoDePuntosRecomendados = recomendadorDePuntos.listadoDePuntosRecomendados(longitud,latitud,radio);
 
-        for(PuntoRecomendado unPuntosRecomendado:listadoDePuntosRecomendados.puntosRecomendados){
+        for(PuntoRecomendado unPunto:listadoDePuntosRecomendados.puntosRecomendados){
+            System.out.println(unPunto.longitud + ") " + unPunto.latitud);
         }
 
     }
 
-    }
+}

@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class RecomendadorDePuntos{
     private static RecomendadorDePuntos recomendadorDePuntos = null;
-    private static final String urlApi = "";
+    private static final String urlApi = "https://b170dbba-4966-4545-8e61-9f5f33ce8569.mock.pstmn.io/api/";
     private Retrofit retrofit;
 
     private RecomendadorDePuntos() {
@@ -19,16 +19,16 @@ public class RecomendadorDePuntos{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-    public static RecomendadorDePuntos getRecomendadorDePuntos() {
+    public static RecomendadorDePuntos recomendadorDePuntos() {
         if(recomendadorDePuntos == null){
             recomendadorDePuntos = new RecomendadorDePuntos();
         }
         return recomendadorDePuntos;
     }
 
-    public ListadoDePuntosRecomendados listadoDePuntosRecomendados(Double longitudPunto, Double latitudPunto, Double radio) throws IOException {
+    public ListadoDePuntosRecomendados listadoDePuntosRecomendados(Double longitud, Double latitud, Double radio) throws IOException {
         RecomendadorDePuntosAdapter recomendadorDePuntosAdapter = this.retrofit.create(RecomendadorDePuntosAdapter.class);
-        Call<ListadoDePuntosRecomendados> solicitarPuntosRecomendados = recomendadorDePuntosAdapter.solicitarPuntosRecomendados(longitudPunto, latitudPunto, radio);
+        Call<ListadoDePuntosRecomendados> solicitarPuntosRecomendados = recomendadorDePuntosAdapter.solicitarPuntosRecomendados(longitud, latitud, radio);
         Response<ListadoDePuntosRecomendados> responsePuntosRecomendados= solicitarPuntosRecomendados.execute();
         return responsePuntosRecomendados.body();
     }
