@@ -1,5 +1,9 @@
 package dominio.colaboracion;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter @Getter
 public class DonacionDeDinero extends TipoColaboracion{
     private Double monto;
     private Frecuencia frecuencia;

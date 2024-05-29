@@ -1,9 +1,12 @@
 package dominio.colaboracion;
 
 import dominio.infraestructura.Heladera;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
+@Getter @Setter
 public class EncargarseDeHeladera extends TipoColaboracion{
     private Heladera heladera;
     private static Double factorDePuntaje;
@@ -14,9 +17,10 @@ public class EncargarseDeHeladera extends TipoColaboracion{
 
     @Override
     public Double puntaje() {
-        Double puntaje = heladera.getMesesSinContarParaElPuntaje() * factorDePuntaje;
-        heladera.setMesesSinContarParaElPuntaje(0);
-        heladera.setUltimaFechaContadaParaPuntaje(LocalDate.now());
+        this.heladera.actualizarMesesSinContarParaPuntaje();
+        Double puntaje = this.heladera.getMesesSinContarParaElPuntaje() * factorDePuntaje;
+        this.heladera.setMesesSinContarParaElPuntaje(0);
+        this.heladera.setUltimaFechaContadaParaPuntaje(LocalDate.now());
         return puntaje;
     }
 }

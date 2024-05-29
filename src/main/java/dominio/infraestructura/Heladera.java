@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 
@@ -25,17 +26,20 @@ public class Heladera {
 
     public Heladera() {
         this.viandas = new ArrayList<>();
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-        if (!activo) {
-            this.sumarMesesSinContarParaPuntaje();
-        }
+        this.activo = true;
         this.ultimaFechaContadaParaPuntaje = LocalDate.now();
     }
 
-    private void sumarMesesSinContarParaPuntaje() {
-        this.mesesSinContarParaElPuntaje = LocalDate.now().compareTo(this.ultimaFechaContadaParaPuntaje);
+    public void setActivo(boolean activo) {
+        this.actualizarMesesSinContarParaPuntaje();
+        this.activo = activo;
+    }
+
+    public void actualizarMesesSinContarParaPuntaje() {
+        LocalDate fechaActual = LocalDate.now();
+        if(this.activo) {
+            this.mesesSinContarParaElPuntaje += Period.between(this.ultimaFechaContadaParaPuntaje, fechaActual).toTotalMonths();
+        }
+        this.ultimaFechaContadaParaPuntaje = fechaActual;
     }
 }
