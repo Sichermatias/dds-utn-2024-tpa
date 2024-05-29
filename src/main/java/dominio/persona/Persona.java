@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,9 +25,9 @@ public class Persona {
     private TipoPersonaJuridica tipoPersonaJuridica;
     private TipoPersona tipoPersona;
     private FormularioRespondido formularioRespondido;
-    private List<MedioDeContacto> mediosDeContacto;
+    private List<MedioDeContacto> mediosDeContacto=new ArrayList<>();
     private Ubicacion ubicacion;
-    private List<Colaboracion> colaboraciones;
+    private ArrayList<Colaboracion> colaboraciones=new ArrayList<>();
     private CalculadorDePuntosAcumulados calculadorDePuntos;
 
     public void agregarMediosDeContacto(MedioDeContacto ... mediosDeContacto) {
@@ -37,6 +38,9 @@ public class Persona {
         Collections.addAll(this.colaboraciones, colaboraciones);
     }
 
+    public void agregarColaboracion(Colaboracion colaboracion) {
+        colaboraciones.add(colaboracion);
+    }
     public Integer getNroDocumento() {
         return nroDocumento;
     }

@@ -1,11 +1,14 @@
 package dominio.archivos.carga_masiva;
 import dominio.archivos.LectorArchivo;
 
-public class CargaMasiva{
+public class CargaMasiva {
+    private final LectorArchivo lectorArchivo = new LectorArchivo();
+
     public void cargarArchivo(String ruta, String separador) throws CampoInvalidoException {
-        LectorArchivo lectorArchivo = new LectorArchivo();
-        String linea = lectorArchivo.traerLinea(ruta);
-        String[] campos = SplitterLineas.split_linea(linea,separador);
-        ProcesadorCampos.procesarCampos(campos);
+        String linea;
+        while ((linea = lectorArchivo.traerLinea(ruta)) != null) {
+            String[] campos = SplitterLineas.split_linea(linea, separador);
+            ProcesadorCampos.procesarCampos(campos);
+        }
     }
 }

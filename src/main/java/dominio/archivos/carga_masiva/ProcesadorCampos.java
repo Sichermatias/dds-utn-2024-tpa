@@ -11,6 +11,7 @@ import dominio.persona.TipoPersona;
 import dominio.repositories.PersonaHumanaRepositorio;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ProcesadorCampos {
@@ -65,11 +66,10 @@ public class ProcesadorCampos {
 
 
         procesarColaboraciones(persona, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
-
         //LA MANDO AL REPO
-        PersonaHumanaRepositorio repositorio = new PersonaHumanaRepositorio();
+        //PersonaHumanaRepositorio repositorio = new PersonaHumanaRepositorio();
         //BUSCO POR DNI SI YA TENGO A LA PERSONA
-        Optional<Persona> personaGuardada = repositorio.buscarPorDNI(persona.getNroDocumento());
+        /*Optional<Persona> personaGuardada = repositorio.buscarPorDNI(persona.getNroDocumento());
         personaGuardada.ifPresentOrElse(
                 personaEncontrada -> {
                     repositorio.modificar(persona);
@@ -80,7 +80,7 @@ public class ProcesadorCampos {
                     repositorio.agregar(persona); //LO AGREGO
                     //LE MANDO MAIL PARA QUE ACTUALICE LA INFO
                 }
-        );
+        );*/
     }
 
     public static void procesarColaboraciones(Persona colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
@@ -98,12 +98,12 @@ public class ProcesadorCampos {
                 throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
             }
             if (ValidadorCampos.validarFecha(fecha)) {
-                colaboracion.setFechaColaboracion(LocalDate.parse(fecha));
+                colaboracion.setFechaColaboracion(fecha);
             } else {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
             colaboracion.cambiarTipoColaboracion(tipo);
-            colaborador.agregarColaboraciones(colaboracion);
+            colaborador.agregarColaboracion(colaboracion);
         }
     }
 }

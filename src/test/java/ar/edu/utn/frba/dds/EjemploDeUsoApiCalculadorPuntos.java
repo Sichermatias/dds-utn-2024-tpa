@@ -17,7 +17,7 @@ public class EjemploDeUsoApiCalculadorPuntos{
     private static final double radio = 100;
     public static void main(String[] args) throws IOException {
         RecomendadorDePuntos recomendadorDePuntos = RecomendadorDePuntos.getRecomendadorDePuntos();
-        System.out.println("longitud: " + longitud " / latitud: " + latitud " / radio: " + radio  );
+        //System.out.println("longitud: " + longitud " / latitud: " + latitud " / radio: " + radio  );
 
         ListadoDePuntosRecomendados listadoDePuntosRecomendados = RecomendadorDePuntos.getRecomendadorDePuntos().listadoDePuntosRecomendados(longitud,latitud,radio);
 
