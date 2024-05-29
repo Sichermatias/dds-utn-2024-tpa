@@ -41,10 +41,10 @@ public class CalculadorDePuntosTest {
     }
 
     @Test
-    public void testCalcularPuntosConDistribucionTarjetas() {
-        DistribucionTarjetas distribucionTarjetas = new DistribucionTarjetas();
+    public void testCalcularPuntosPorTarjetaEntregada() {
+        RegistrarPersonaVulnerable registroPersonaVulnerable = new RegistrarPersonaVulnerable();
         Colaboracion colaboracion = new Colaboracion();
-        colaboracion.cambiarTipoColaboracion(distribucionTarjetas);
+        colaboracion.cambiarTipoColaboracion(registroPersonaVulnerable);
 
         persona.agregarColaboracion(colaboracion);
 
@@ -94,7 +94,7 @@ public class CalculadorDePuntosTest {
     public void testCalcularPuntosConMultiplesColaboraciones() {
         DonacionDeDinero donacion = new DonacionDeDinero();
         donacion.setMonto(100.0);
-        DistribucionTarjetas distribucionTarjetas = new DistribucionTarjetas();
+        RegistrarPersonaVulnerable registroPersonaVulnerable = new RegistrarPersonaVulnerable();
         Distribucion distribucion = new Distribucion();
         Oferta oferta = new Oferta();
 
@@ -102,7 +102,7 @@ public class CalculadorDePuntosTest {
         colaboracion1.cambiarTipoColaboracion(donacion);
 
         Colaboracion colaboracion2 = new Colaboracion();
-        colaboracion2.cambiarTipoColaboracion(distribucionTarjetas);
+        colaboracion2.cambiarTipoColaboracion(registroPersonaVulnerable);
 
         Colaboracion colaboracion3 = new Colaboracion();
         colaboracion3.cambiarTipoColaboracion(distribucion);

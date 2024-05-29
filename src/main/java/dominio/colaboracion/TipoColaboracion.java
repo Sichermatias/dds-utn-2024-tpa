@@ -12,7 +12,7 @@ public abstract class TipoColaboracion {
         TipoColaboracionRegistry.register("DINERO", DonacionDeDinero::new);
         TipoColaboracionRegistry.register("DONACION_VIANDAS", DonacionVianda::new);
         TipoColaboracionRegistry.register("REDISTRIBUCION_VIANDAS", Distribucion::new);
-        TipoColaboracionRegistry.register("ENTREGA_TARJETAS", DistribucionTarjetas::new);
+        TipoColaboracionRegistry.register("ENTREGA_TARJETAS", RegistrarPersonaVulnerable::new);
     }
 
     public String getNombreTipo() {

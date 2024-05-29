@@ -12,7 +12,7 @@ public class TipoColaboracionRegistry {
         registry.put("DINERO", DonacionDeDinero::new);
         registry.put("DONACION_VIANDAS", DonacionVianda::new);
         registry.put("REDISTRIBUCION_VIANDAS", Distribucion::new);
-        registry.put("ENTREGA_TARJETAS", DistribucionTarjetas::new);
+        registry.put("ENTREGA_TARJETAS", RegistrarPersonaVulnerable::new);
     }
 
     public static void register(String nombreTipo, TipoColaboracionFactory factory) {
