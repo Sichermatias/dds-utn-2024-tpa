@@ -30,12 +30,14 @@ public class Persona {
     private ArrayList<Colaboracion> colaboraciones=new ArrayList<>();
     private CalculadorDePuntosAcumulados calculadorDePuntos;
 
-    public void agregarMediosDeContacto(MedioDeContacto ... mediosDeContacto) {
-        Collections.addAll(this.mediosDeContacto, mediosDeContacto);
+    public void agregarMediosDeContacto(ArrayList<MedioDeContacto> mediosDeContacto) {
+        mediosDeContacto.addAll(mediosDeContacto);
     }
-
-    public void agregarColaboraciones(Colaboracion ... colaboraciones) {
-        Collections.addAll(this.colaboraciones, colaboraciones);
+    public void agregarMedioDeContacto(MedioDeContacto medioDeContacto){
+        mediosDeContacto.add(medioDeContacto);
+    }
+    public void agregarColaboraciones(ArrayList<Colaboracion> colaboraciones) {
+        colaboraciones.addAll(colaboraciones);
     }
 
     public void agregarColaboracion(Colaboracion colaboracion) {

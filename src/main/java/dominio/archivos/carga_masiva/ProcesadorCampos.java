@@ -8,7 +8,11 @@ import dominio.persona.TipoDocumento;
 import dominio.colaboracion.Colaboracion;
 import dominio.colaboracion.TipoColaboracion;
 import dominio.persona.TipoPersona;
+import dominio.persona.login.Rol;
+import dominio.persona.login.Usuario;
 import dominio.repositories.PersonaHumanaRepositorio;
+import dominio.services.messageSender.Mensaje;
+import dominio.services.messageSender.strategies.EstrategiaMail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +20,7 @@ import java.util.Optional;
 
 public class ProcesadorCampos {
 
-    public static void procesarCampos(String[] campos) throws CampoInvalidoException {
+    public static Persona procesarCampos(String[] campos) throws CampoInvalidoException {
         String tipoDocumento = campos[0];
         String documento = campos[1];
         String nombre = campos[2];
@@ -59,28 +63,15 @@ public class ProcesadorCampos {
             MedioDeContacto mail = new MedioDeContacto();
             mail.setNombreDeMedioDeContacto(contacto);
             mail.setValor(email);
-            persona.agregarMediosDeContacto(mail);
+            persona.agregarMedioDeContacto(mail);
         } else {
             throw new CampoInvalidoException("Email inválido: " + email);
         }
 
 
         procesarColaboraciones(persona, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
-        //LA MANDO AL REPO
-        //PersonaHumanaRepositorio repositorio = new PersonaHumanaRepositorio();
-        //BUSCO POR DNI SI YA TENGO A LA PERSONA
-        /*Optional<Persona> personaGuardada = repositorio.buscarPorDNI(persona.getNroDocumento());
-        personaGuardada.ifPresentOrElse(
-                personaEncontrada -> {
-                    repositorio.modificar(persona);
-                },
-                () -> {
-                    // NO LO TENGO GUARDADO
-                    // LE ASIGNO CREDENCIALES
-                    repositorio.agregar(persona); //LO AGREGO
-                    //LE MANDO MAIL PARA QUE ACTUALICE LA INFO
-                }
-        );*/
+
+        return persona;
     }
 
     public static void procesarColaboraciones(Persona colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
