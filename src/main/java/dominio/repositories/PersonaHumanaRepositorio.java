@@ -1,11 +1,14 @@
 package dominio.repositories;
 import dominio.persona.Persona;
+import lombok.Getter;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class  PersonaHumanaRepositorio {
-    private List<Persona> personas;
+    @Getter
+    private ArrayList<Persona> personas;
     private static PersonaHumanaRepositorio instancia;
     public static synchronized PersonaHumanaRepositorio obtenerInstancia() {
         if (instancia == null) {
