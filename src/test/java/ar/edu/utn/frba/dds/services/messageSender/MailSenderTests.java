@@ -11,7 +11,7 @@ public class MailSenderTests {
     @Test
     void enviarMail(){
         MailSender mailSender = new MailSender();
-        Mensaje mensaje = new Mensaje("sicher2001@gmail.com", "Hola, estamos probando el envio de mails jejeeeeee");
+        Mensaje mensaje = new Mensaje("lautipetronacci14@gmail.com", "Hola, estamos probando el envio de mails jejeeeeee");
 
         mailSender.enviarMail(mensaje);
     }

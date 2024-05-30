@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class RecomendadorDePuntos{
     private static RecomendadorDePuntos recomendadorDePuntos = null;
-    private static final String urlApi = "https://b170dbba-4966-4545-8e61-9f5f33ce8569.mock.pstmn.io/api/";
+    private static final String urlApi = "https://aefbd88d-6d87-465a-83ee-316af948a4c1.mock.pstmn.io/api/";
     private Retrofit retrofit;
 
     private RecomendadorDePuntos() {

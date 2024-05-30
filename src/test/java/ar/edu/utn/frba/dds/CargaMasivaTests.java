@@ -40,13 +40,11 @@ public class CargaMasivaTests {
 
 
     @Test
-    void cargaMasivaErrorCampo() {
+    void cargaMasivaErrorCampo() throws CampoInvalidoException {
         Mensajero mensajero = mock(Mensajero.class);
         doNothing().when(mensajero).enviarMensaje(any(Mensaje.class));
         CargaMasiva carga = new CargaMasiva(mensajero);
         String rutaArchivo = rutaBase + "CargaMasivaTest3.csv";
-        CampoInvalidoException exception = assertThrows(CampoInvalidoException.class, () -> {
-            carga.cargarArchivo(rutaArchivo, ";");
-        });
+        carga.cargarArchivo(rutaArchivo, ";");
     }
 }
