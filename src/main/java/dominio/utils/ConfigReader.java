@@ -1,4 +1,4 @@
-package dominio.services.utils;
+package dominio.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
