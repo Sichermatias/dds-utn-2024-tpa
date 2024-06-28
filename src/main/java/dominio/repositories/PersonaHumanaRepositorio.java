@@ -1,14 +1,13 @@
 package dominio.repositories;
-import dominio.persona.Persona;
+import dominio.persona.Colaborador;
 import lombok.Getter;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class  PersonaHumanaRepositorio {
     @Getter
-    private ArrayList<Persona> personas;
+    private ArrayList<Colaborador> colaboradors;
     private static PersonaHumanaRepositorio instancia;
     public static synchronized PersonaHumanaRepositorio obtenerInstancia() {
         if (instancia == null) {
@@ -17,28 +16,28 @@ public class  PersonaHumanaRepositorio {
         return instancia;
     }
     public PersonaHumanaRepositorio() {
-        this.personas = new ArrayList<>();
+        this.colaboradors = new ArrayList<>();
     }
 
-    public void agregar(Persona persona) {
-        personas.add(persona);
+    public void agregar(Colaborador colaborador) {
+        colaboradors.add(colaborador);
     }
 
-    public void actualizar(Persona personaModificada) {
-        Optional<Persona> personaExistente = buscarPorDNI(personaModificada.getNroDocumento());
+    public void actualizar(Colaborador colaboradorModificada) {
+        Optional<Colaborador> personaExistente = buscarPorDNI(colaboradorModificada.getNroDocumento());
         personaExistente.ifPresentOrElse(
-                personaEncontrada -> personaEncontrada.agregarColaboraciones(personaModificada.getColaboraciones()),
+                personaEncontrada -> personaEncontrada.agregarColaboraciones(colaboradorModificada.getColaboraciones()),
                 () -> {
                     throw new IllegalArgumentException("La persona no existe en el repositorio");
                 }
         );
     }
-    public void eliminar(Persona persona) {
-        personas.remove(persona);
+    public void eliminar(Colaborador colaborador) {
+        colaboradors.remove(colaborador);
     }
 
-    public Optional<Persona> buscarPorDNI(int dni) {
-        return personas.stream()
+    public Optional<Colaborador> buscarPorDNI(int dni) {
+        return colaboradors.stream()
                 .filter(persona -> persona.getNroDocumento().equals(dni))
                 .findFirst();
     }

@@ -26,7 +26,7 @@ public class CargaMasivaTests {
         CargaMasiva carga = new CargaMasiva(mensajero);
         String rutaArchivo=rutaBase+"CargaMasivaTest2.csv";
         carga.cargarArchivo(rutaArchivo,";");
-        Assertions.assertEquals(1,PersonaHumanaRepositorio.obtenerInstancia().getPersonas().size());
+        Assertions.assertEquals(1,PersonaHumanaRepositorio.obtenerInstancia().getColaboradors().size());
     }
     @Test
     void cargaMasivaDosNuevos() throws CampoInvalidoException {
@@ -35,7 +35,7 @@ public class CargaMasivaTests {
         CargaMasiva carga = new CargaMasiva(mensajero);
         String rutaArchivo =rutaBase + "CargaMasivaTest1.csv"; // Construye la ruta relativa al archivo
         carga.cargarArchivo(rutaArchivo, ";");
-        Assertions.assertEquals(2,PersonaHumanaRepositorio.obtenerInstancia().getPersonas().size());
+        Assertions.assertEquals(2,PersonaHumanaRepositorio.obtenerInstancia().getColaboradors().size());
     }
 
 

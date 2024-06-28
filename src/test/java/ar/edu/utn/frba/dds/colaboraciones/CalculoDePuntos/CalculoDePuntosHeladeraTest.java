@@ -4,7 +4,7 @@ import dominio.colaboracion.Colaboracion;
 import dominio.colaboracion.EncargarseDeHeladera;
 import dominio.infraestructura.Heladera;
 import dominio.persona.CalculadorDePuntosAcumulados;
-import dominio.persona.Persona;
+import dominio.persona.Colaborador;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,28 +14,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CalculoDePuntosHeladeraTest {
 
-    private Persona persona;
+    private Colaborador colaborador;
     private CalculadorDePuntosAcumulados calculador;
     private Heladera heladera;
 
     @BeforeEach
     public void setUp() {
-        persona = new Persona();
+        colaborador = new Colaborador();
         calculador = new CalculadorDePuntosAcumulados();
-        persona.setCalculadorDePuntos(calculador);
+        colaborador.setCalculadorDePuntos(calculador);
         EncargarseDeHeladera encargarseDeHeladera = new EncargarseDeHeladera();
         heladera = new Heladera();
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.cambiarTipoColaboracion(encargarseDeHeladera);
         encargarseDeHeladera.setHeladera(heladera);
-        persona.agregarColaboracion(colaboracion);
+        colaborador.agregarColaboracion(colaboracion);
     }
 
     @Test
     public void testDosMesesActiva() {
         heladera.setUltimaFechaContadaParaPuntaje(LocalDate.parse("2024-03-28")); //Debería calcular 2 meses hasta la fecha
 
-        assertEquals(10.0, calculador.calcularPuntosDeColaborador(persona)); // 2 meses activa * 5
+        assertEquals(10.0, calculador.calcularPuntosDeColaborador(colaborador)); // 2 meses activa * 5
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CalculoDePuntosHeladeraTest {
         heladera.setActivo(false); //suma 5 meses al actualizar
         heladera.setUltimaFechaContadaParaPuntaje(LocalDate.parse("2023-04-28")); //Estuvo inactiva 1 mes, no suma nada
 
-        assertEquals(25.0, calculador.calcularPuntosDeColaborador(persona)); // 5 meses activa * 5
+        assertEquals(25.0, calculador.calcularPuntosDeColaborador(colaborador)); // 5 meses activa * 5
     }
 
     @Test
@@ -52,7 +52,7 @@ public class CalculoDePuntosHeladeraTest {
         heladera.setActivo(false);
         heladera.setUltimaFechaContadaParaPuntaje(LocalDate.parse("2023-10-28")); //Deberia contar 7 meses pero está inactiva
 
-        assertEquals(0.0, calculador.calcularPuntosDeColaborador(persona)); // 0 meses activa * 5
+        assertEquals(0.0, calculador.calcularPuntosDeColaborador(colaborador)); // 0 meses activa * 5
     }
 
     @Test
@@ -62,6 +62,6 @@ public class CalculoDePuntosHeladeraTest {
         heladera.setActivo(true);
         heladera.setUltimaFechaContadaParaPuntaje(LocalDate.parse("2024-02-28")); // 3 meses activa, suma
 
-        assertEquals(15.0, calculador.calcularPuntosDeColaborador(persona)); // 3 meses activa * 5
+        assertEquals(15.0, calculador.calcularPuntosDeColaborador(colaborador)); // 3 meses activa * 5
     }
 }

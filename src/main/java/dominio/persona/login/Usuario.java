@@ -10,7 +10,7 @@ public class Usuario extends VerificadorContrasenia {
 
     private String nombreUsuario;
     private String contrasena;
-    //private Persona colaborador;
+    //private Colaborador colaborador;
     private Rol rol;
 
     public void crearUsuario(String contrasena, String usuario , ArrayList<Requisitos> requi){

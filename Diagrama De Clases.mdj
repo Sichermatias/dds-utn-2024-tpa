@@ -18743,7 +18743,7 @@
 											"top": 784,
 											"width": 340.72314453125,
 											"height": 13,
-											"text": "+calcularPuntosDeColaborador(persona: Persona): double",
+											"text": "+calcularPuntosDeColaborador(colaborador: Persona): double",
 											"horizontalAlignment": 0
 										}
 									],
@@ -29761,7 +29761,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGPku9BFqd5vc0="
 									},
-									"name": "persona",
+									"name": "colaborador",
 									"type": {
 										"$ref": "AAAAAAGOuuz963MxfI0="
 									}
@@ -30480,7 +30480,7 @@
 											"top": 435,
 											"width": 410.76953125,
 											"height": 13,
-											"text": "-persona: Persona",
+											"text": "-colaborador: Persona",
 											"horizontalAlignment": 0
 										}
 									],
@@ -32811,7 +32811,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGPDgzIcY+RS6k="
 							},
-							"name": "persona",
+							"name": "colaborador",
 							"visibility": "private",
 							"type": {
 								"$ref": "AAAAAAGOuuz963MxfI0="
@@ -36478,7 +36478,7 @@
 											"top": 422,
 											"width": 207,
 											"height": 13,
-											"text": "Colaborar como persona humana"
+											"text": "Colaborar como colaborador humana"
 										},
 										{
 											"_type": "LabelView",
@@ -36947,7 +36947,7 @@
 											"top": 667.5,
 											"width": 203,
 											"height": 13,
-											"text": "Colaborar como persona juridica"
+											"text": "Colaborar como colaborador juridica"
 										},
 										{
 											"_type": "LabelView",
@@ -38851,7 +38851,7 @@
 											"top": 739.5,
 											"width": 232,
 											"height": 13,
-											"text": "Dar de alta persona vulnerable"
+											"text": "Dar de alta colaborador vulnerable"
 										},
 										{
 											"_type": "LabelView",
@@ -39320,7 +39320,7 @@
 											"top": 787.5,
 											"width": 287,
 											"height": 13,
-											"text": "Modificar su usuario como persona vulnerable"
+											"text": "Modificar su usuario como colaborador vulnerable"
 										},
 										{
 											"_type": "LabelView",
@@ -39789,7 +39789,7 @@
 											"top": 843.5,
 											"width": 300,
 											"height": 13,
-											"text": "Dar de baja su usuario como persona vulnerable"
+											"text": "Dar de baja su usuario como colaborador vulnerable"
 										},
 										{
 											"_type": "LabelView",
@@ -42094,7 +42094,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGPDEbRazxsOEA="
 					},
-					"name": "Colaborar como persona humana"
+					"name": "Colaborar como colaborador humana"
 				},
 				{
 					"_type": "UMLUseCase",
@@ -42102,7 +42102,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGPDEbRazxsOEA="
 					},
-					"name": "Colaborar como persona juridica"
+					"name": "Colaborar como colaborador juridica"
 				},
 				{
 					"_type": "UMLUseCase",
@@ -42309,7 +42309,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGPDEbRazxsOEA="
 					},
-					"name": "Dar de alta persona vulnerable"
+					"name": "Dar de alta colaborador vulnerable"
 				},
 				{
 					"_type": "UMLUseCase",
@@ -42317,7 +42317,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGPDEbRazxsOEA="
 					},
-					"name": "Modificar su usuario como persona vulnerable"
+					"name": "Modificar su usuario como colaborador vulnerable"
 				},
 				{
 					"_type": "UMLUseCase",
@@ -42325,7 +42325,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGPDEbRazxsOEA="
 					},
-					"name": "Dar de baja su usuario como persona vulnerable"
+					"name": "Dar de baja su usuario como colaborador vulnerable"
 				},
 				{
 					"_type": "UMLActor",

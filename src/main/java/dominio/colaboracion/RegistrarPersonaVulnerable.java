@@ -1,7 +1,7 @@
 package dominio.colaboracion;
 
 import dominio.contacto.ubicacion.Ubicacion;
-import dominio.persona.Persona;
+import dominio.persona.Colaborador;
 import dominio.persona.PersonaVulnerable;
 import dominio.persona.TipoDocumento;
 
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class RegistrarPersonaVulnerable extends TipoColaboracion {
-    private Persona colaborador;
+    private Colaborador colaborador;
     private PersonaVulnerable personaVulnerable;
     private static Double factorDePuntaje = 2.0;
 

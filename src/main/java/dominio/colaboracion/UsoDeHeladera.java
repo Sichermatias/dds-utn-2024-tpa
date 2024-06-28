@@ -15,7 +15,7 @@ public class UsoDeHeladera {
     private Vianda vianda;
     private String codigoTarjeta;
 
-    public void removerViandasDeHeladera(Vianda vianda){
-        this.heladera.viandas.remove(vianda);
+    public void removerViandasDeHeladera(Integer cant){
+        heladera.setViandasActuales(heladera.getViandasActuales()-cant);
     }
 }
