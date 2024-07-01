@@ -2,32 +2,28 @@ package dominio.infraestructura;
 
 import dominio.colaboracion.Vianda;
 import dominio.contacto.ubicacion.Ubicacion;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 // TODO: 6/28/2024 EN METODOS QUE MODIFIQUEN EL ESTADO(CANTIDAD DE VIANDAS O SET DESPERFECTO EN TRUE)NOTIFICAR A SUSCRIPTORES  
-
+import lombok.Getter;
+import lombok.Setter;
+@Setter@Getter
 public class Heladera {
-    @Getter
+
     private Double id;
     private String nombre;
     private Ubicacion ubicacion;
     private String direccion;
     private Integer cantMaxViandas;
-    @Setter@Getter
     public Integer viandasActuales;
-    @Getter
     public Boolean desperfecto;
     private LocalDate fechaPuestaEnMarcha;
-    @Setter
     private LocalDate ultimaFechaContadaParaPuntaje;
-    @Getter @Setter
     private int mesesSinContarParaElPuntaje;
-    @Getter
     private Boolean activo;
     private List<Suscripcion> suscripciones;
 
