@@ -6,9 +6,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
 import java.util.Properties;
-
 import static java.lang.Thread.sleep;
 
 public class BrokerHandler {
@@ -64,10 +62,12 @@ public class BrokerHandler {
 
     }
 
-    public boolean publicar(MqttClient cliente, String topico, MqttMessage mensaje){
+    public boolean publicar(MqttClient cliente, String topico, String mensaje){
+
+        MqttMessage message = this.crearMensaje(mensaje);
 
         try {
-            cliente.publish(topico, mensaje);
+            cliente.publish(topico, message);
             return true;
         } catch(MqttException me) {
             System.out.println("reason " + me.getReasonCode());
@@ -78,5 +78,9 @@ public class BrokerHandler {
             me.printStackTrace();
             return false;
         }
+    }
+
+    public MqttMessage crearMensaje(String mensaje){
+        return new MqttMessage(mensaje.getBytes());
     }
 }

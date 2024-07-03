@@ -12,7 +12,9 @@ public class Main {
         /*BrokerHandler brokerHandler = new BrokerHandler();
         MqttClient cliente = brokerHandler.conectar();
         BrokerReceptorMensajes receptor = new BrokerReceptorMensajes();
-        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/almagro/medrano", receptor);*/
+        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/almagro/medrano", receptor);
+
+        brokerHandler.publicar(cliente, "dds2024/g12/heladeras/almagro/medrano", "{idHeladera:1, temperatura:20.0}");*/
 
         /*QuartzScheduler scheduler = new QuartzScheduler();
         scheduler.start();*/
