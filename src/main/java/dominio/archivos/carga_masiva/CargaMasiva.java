@@ -3,7 +3,7 @@ import dominio.archivos.LectorArchivo;
 import dominio.persona.Colaborador;
 import dominio.persona.login.Rol;
 import dominio.persona.login.Usuario;
-import dominio.repositories.PersonaHumanaRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.PersonaHumanaRepositorio;
 import dominio.services.messageSender.Mensaje;
 import dominio.services.messageSender.Mensajero;
 

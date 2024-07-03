@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import dominio.archivos.carga_masiva.CampoInvalidoException;
 import dominio.archivos.carga_masiva.CargaMasiva;
-import dominio.repositories.PersonaHumanaRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.PersonaHumanaRepositorio;
 import dominio.services.messageSender.Mensaje;
 import dominio.services.messageSender.Mensajero;
 import org.junit.jupiter.api.Assertions;
