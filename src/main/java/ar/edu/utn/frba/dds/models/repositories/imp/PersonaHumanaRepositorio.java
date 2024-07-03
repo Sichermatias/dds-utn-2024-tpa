@@ -1,4 +1,4 @@
-package dominio.repositories;
+package ar.edu.utn.frba.dds.models.repositories.imp;
 import dominio.persona.Colaborador;
 import lombok.Getter;
 
