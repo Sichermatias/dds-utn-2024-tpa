@@ -9,4 +9,8 @@ import java.time.LocalDateTime;
 public class RegistroSensor {
     private LocalDateTime fechaHoraRegistro;
     private Integer valor;
+
+    public boolean seCreoHaceMasDe(int minutos) {
+        return this.fechaHoraRegistro.isBefore(LocalDateTime.now().minusMinutes(minutos));
+    }
 }

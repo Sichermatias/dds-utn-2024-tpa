@@ -39,7 +39,7 @@ public class SensoresController implements IMqttMessageListener {
                 RegistroSensorMovDTO registroSensorMovDTO = new RegistroSensorMovDTO(mqttMessage);
                 this.recibirDatoMovimiento(registroSensorMovDTO);
             }
-            case default -> throw new Exception(); //TODO 2024-07-03: revisar excepcion de mensaje sensor
+            default -> throw new Exception(); //TODO: revisar excepcion de mensaje sensor
         }
     }
 
@@ -85,7 +85,7 @@ public class SensoresController implements IMqttMessageListener {
                 heladeraDelSensor.getId() + "\" con fecha y hora " + fechaHoraActual.toString();
     }
 
-    private void crearIncidente(LocalDateTime fechaHora, Heladera heladeraDelSensor, String descripcion) {
+    public void crearIncidente(LocalDateTime fechaHora, Heladera heladeraDelSensor, String descripcion) {
         Incidente incidente = new Incidente();
         incidente.setTipoIncidente(TipoIncidente.ALERTA);
         incidente.setDescripcionIncidente(descripcion);

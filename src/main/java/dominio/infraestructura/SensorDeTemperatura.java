@@ -18,7 +18,9 @@ public class SensorDeTemperatura {
     }
 
     public RegistroSensor ultimoRegistro() {
-        //TODO: encontrar ultimo registro en lista
+        if (!this.registros.isEmpty()) {
+            return this.registros.get(this.registros.size() - 1);
+        }
         return null;
     }
 
@@ -28,5 +30,9 @@ public class SensorDeTemperatura {
         registroSensor.setValor(temperatura.intValue());
 
         this.registros.add(registroSensor);
+    }
+
+    public boolean ultimoRegistroSeCreoHaceMasDe(int minutos) {
+        return this.ultimoRegistro().seCreoHaceMasDe(minutos);
     }
 }

@@ -34,7 +34,7 @@ public class Colaborador {
     private ArrayList<Colaboracion> colaboraciones=new ArrayList<>();
     private CalculadorDePuntosAcumulados calculadorDePuntos;
     private List<Suscripcion>suscripciones;
-    private int cantViandasDonadas;
+    private int cantSemanalViandasDonadas; // TODO 2024-07-03: cuando el colaborador dona una vianda, hay que sumarle al contador.
 
     public Colaborador() {
         this.suscripciones = new ArrayList<>();
