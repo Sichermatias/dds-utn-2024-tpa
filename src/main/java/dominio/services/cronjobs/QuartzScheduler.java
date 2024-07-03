@@ -14,19 +14,16 @@ import org.quartz.impl.StdSchedulerFactory;
 public class QuartzScheduler {
     public void start() {
         try {
-            // Crear instancia del scheduler
             SchedulerFactory schedulerFactory = new StdSchedulerFactory();
             Scheduler scheduler = schedulerFactory.getScheduler();
 
-            // Definir el trabajo y vincularlo a nuestra clase MyJob
             JobDetail jobDetail = JobBuilder.newJob(VerificarUltimaTemperaturaDeHeladeras.class)
                     .withIdentity("myJob", "group1")
                     .build();
 
-            // Crear el trigger con la expresión cron para ejecutarse cada 60 segundos
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("myTrigger", "group1")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0/60 * * * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("* 0/1 * * * ?"))
                     .build();
 
             // Programar la tarea con el trigger

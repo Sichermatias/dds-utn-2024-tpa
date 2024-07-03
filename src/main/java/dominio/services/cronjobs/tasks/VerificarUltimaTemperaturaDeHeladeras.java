@@ -3,11 +3,13 @@ package dominio.services.cronjobs.tasks;
 import ar.edu.utn.frba.dds.controllers.SensoresController;
 import ar.edu.utn.frba.dds.models.repositories.IIncidentesRepository;
 import ar.edu.utn.frba.dds.models.repositories.ISensoresRepository;
+import dominio.infraestructura.Heladera;
 import dominio.infraestructura.SensorDeTemperatura;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class VerificarUltimaTemperaturaDeHeladeras implements Job {
@@ -17,16 +19,17 @@ public class VerificarUltimaTemperaturaDeHeladeras implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        //Buscar todas las heladeras
+        System.out.println("Verificando ultima temperatura de heladeras");
         List<SensorDeTemperatura> sensoresTemperatura = sensoresRepository.buscarTodosLosSensores();
-        //Por cada heladera, buscar el último registro de temperatura
+
         for (int i = 0; i < sensoresTemperatura.size(); i++) {
             if (sensoresTemperatura.get(i).ultimoRegistroSeCreoHaceMasDe(5)){
-                //crear incidente
+                LocalDateTime fechaHoraActual = LocalDateTime.now();
+                Heladera heladeraDelSensor = sensoresTemperatura.get(i).getHeladera();
+                String descripcion = "La heladera no ha enviado datos en los ultimos 5 minutos";
+                sensoresController.crearIncidente(fechaHoraActual, heladeraDelSensor, descripcion);
             }
         }
-        //Si la ultima actualizacion fue hace mas de 5 minutos -> crear incidente
-        //sensoresController.crearIncidente(new LocalDateTime(), );
     }
 
 }
