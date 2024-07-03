@@ -53,7 +53,6 @@ public class BrokerHandler {
 
         try {
             client.subscribe(topic, receptor);
-            sleep(20000);
             return true;
         } catch(Exception e) {
             System.out.println("Error al suscribirse al topic. Error: " + e);
