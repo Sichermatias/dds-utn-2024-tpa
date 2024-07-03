@@ -34,6 +34,7 @@ public class Colaborador {
     private ArrayList<Colaboracion> colaboraciones=new ArrayList<>();
     private CalculadorDePuntosAcumulados calculadorDePuntos;
     private List<Suscripcion>suscripciones;
+    private int cantSemanalViandasDonadas;
 
     public Colaborador() {
         this.suscripciones = new ArrayList<>();
