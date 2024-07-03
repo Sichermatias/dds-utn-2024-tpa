@@ -23,4 +23,8 @@ public class Incidente {
         this.descripcionIncidente = descripcionIncidente;
         this.fotoIncidente = fotoIncidente;
     }
+
+    public Incidente() {
+
+    }
 }

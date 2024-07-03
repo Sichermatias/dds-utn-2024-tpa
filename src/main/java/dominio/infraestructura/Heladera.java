@@ -1,6 +1,5 @@
 package dominio.infraestructura;
 
-import dominio.colaboracion.Vianda;
 import dominio.contacto.ubicacion.Ubicacion;
 
 
@@ -11,7 +10,7 @@ import java.util.List;
 // TODO: 6/28/2024 EN METODOS QUE MODIFIQUEN EL ESTADO(CANTIDAD DE VIANDAS O SET DESPERFECTO EN TRUE)NOTIFICAR A SUSCRIPTORES  
 import lombok.Getter;
 import lombok.Setter;
-@Setter@Getter
+@Setter @Getter
 public class Heladera {
 
     private Double id;
@@ -26,6 +25,10 @@ public class Heladera {
     private int mesesSinContarParaElPuntaje;
     private Boolean activo;
     private List<Suscripcion> suscripciones;
+    private Modelo modelo;
+    private int cantSemanalIncidentes;
+    private int cantSemanalViandasRetiradas;
+    private int cantSemanalViandasColocadas;
 
     public Heladera() {
         this.activo = true;

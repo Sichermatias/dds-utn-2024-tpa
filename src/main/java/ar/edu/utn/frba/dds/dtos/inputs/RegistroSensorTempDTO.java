@@ -10,7 +10,7 @@ public class RegistroSensorTempDTO {
     private String idHeladera;
     private Double temperatura;
 
-    RegistroSensorTempDTO(MqttMessage mqttMessage){
+    public RegistroSensorTempDTO(MqttMessage mqttMessage){
         JSONObject json = new JSONObject(mqttMessage.toString());
         this.idHeladera = json.getString("idHeladera");
         this.temperatura = json.getDouble("temperatura");

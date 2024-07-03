@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class RegistroSensorMovDTO {
     private String idHeladera;
 
-    RegistroSensorMovDTO(MqttMessage mqttMessage){
+    public RegistroSensorMovDTO(MqttMessage mqttMessage){
         JSONObject json = new JSONObject(mqttMessage.toString());
         this.idHeladera = json.getString("idHeladera");
     }
