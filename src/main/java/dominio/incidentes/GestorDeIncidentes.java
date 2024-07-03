@@ -37,6 +37,7 @@ public class GestorDeIncidentes {
                 if(heladeraLocalidad == unaLocalidadTecnico){
                     //Si matchea, le asigna el incidente al tecnico
                     tecnico.agregarIncidente(incidenteAAsignar);
+                    //TODO 2024-07-03: notificar a los tecnicos sobre incidente
                     tecnicoDisponible = true;
                     System.out.println("el tecnico asignado para el incidente:"+incidenteAAsignar + " es:" + tecnico.getNombre()+ " " + tecnico.getApellido());
                 }

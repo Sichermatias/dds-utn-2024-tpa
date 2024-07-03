@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorMovDTO;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorTempDTO;
 import ar.edu.utn.frba.dds.models.repositories.IIncidentesRepository;
 import ar.edu.utn.frba.dds.models.repositories.ISensoresRepository;
+import dominio.incidentes.GestorDeIncidentes;
 import dominio.incidentes.Incidente;
 import dominio.incidentes.TipoIncidente;
 import dominio.infraestructura.EvaluadorTemperatura;
@@ -19,7 +20,10 @@ public class SensoresController implements IMqttMessageListener {
     private final ISensoresRepository sensoresRepository;
     private final IIncidentesRepository incidentesRepository;
 
-    public SensoresController(ISensoresRepository sensoresRepository, IIncidentesRepository incidentesRepository) {
+    public SensoresController(
+            ISensoresRepository sensoresRepository,
+            IIncidentesRepository incidentesRepository
+    ) {
         this.sensoresRepository = sensoresRepository;
         this.incidentesRepository = incidentesRepository;
     }
@@ -35,7 +39,7 @@ public class SensoresController implements IMqttMessageListener {
                 RegistroSensorMovDTO registroSensorMovDTO = new RegistroSensorMovDTO(mqttMessage);
                 this.recibirDatoMovimiento(registroSensorMovDTO);
             }
-            case default -> throw new Exception(); //TODO: revisar excepcion de mensaje sensor
+            case default -> throw new Exception(); //TODO 2024-07-03: revisar excepcion de mensaje sensor
         }
     }
 
@@ -68,7 +72,7 @@ public class SensoresController implements IMqttMessageListener {
                     this.descripcionAlertasTemp(temperaturaCaptada, fechaHoraActual, heladeraDelSensor));
         }
 
-        this.sensoresRepository.modificarSensorTemperatura(sensorTemperatura);
+        this.sensoresRepository.modificarSensorTemperatura(sensorTemperatura); //TODO 2024-07-03: averiguar si persiste en cascada. Sino, modificar agregarIncidenteAHeladera
     }
 
     private String descripcionAlertasMov(LocalDateTime fechaHoraActual, Heladera heladeraDelSensor) {
@@ -88,6 +92,17 @@ public class SensoresController implements IMqttMessageListener {
         incidente.setFechaIncidente(fechaHora);
         incidente.setHeladeraIncidente(heladeraDelSensor);
 
+        this.agregarIncidenteAHeladera(heladeraDelSensor);
+
+        //TODO 2024-07-03: Persistir de alguna manera el tecnico asignado
+        GestorDeIncidentes.getInstanciaGestor().gestionarIncidente(incidente);
+
         this.incidentesRepository.agregar(incidente);
+    }
+
+    private void agregarIncidenteAHeladera(Heladera heladeraDelSensor) {
+        int cantSemanalIncidentes = heladeraDelSensor.getCantSemanalIncidentes();
+        cantSemanalIncidentes++;
+        heladeraDelSensor.setCantSemanalIncidentes(cantSemanalIncidentes);
     }
 }
