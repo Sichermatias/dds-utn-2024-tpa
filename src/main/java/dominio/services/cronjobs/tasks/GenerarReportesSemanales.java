@@ -4,15 +4,15 @@ import ar.edu.utn.frba.dds.models.repositories.imp.FallosPorHeladeraRepository;
 import ar.edu.utn.frba.dds.models.repositories.imp.ReporteViandasHeladeraRepository;
 import ar.edu.utn.frba.dds.models.repositories.imp.ReportesSemanalesRepository;
 import ar.edu.utn.frba.dds.models.repositories.imp.ViandasDonadasPorColaboradorRepository;
-import dominio.Reportes.FallosPorHeladera;
-import dominio.Reportes.ReporteViandasHeladera;
-import dominio.Reportes.ViandasDonadasPorColaborador;
+import dominio.reportes.FallosPorHeladera;
+import dominio.reportes.ReporteViandasHeladera;
+import dominio.reportes.ViandasDonadasPorColaborador;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 import java.util.List;
 
-public class GernerarReportesSemanales implements Job{
+public class GenerarReportesSemanales implements Job{
     private FallosPorHeladeraRepository repositorioFallosHeladera;
     private ReporteViandasHeladeraRepository repositorioViandasHeladera;
     private ViandasDonadasPorColaboradorRepository repositorioViandasColaborador;

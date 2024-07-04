@@ -1,5 +1,5 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
-import dominio.Reportes.ReporteViandasHeladera;
+import dominio.reportes.ReporteViandasHeladera;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package dominio.Reportes;
+package dominio.reportes;
 
 import dominio.persona.Colaborador;
 import lombok.Getter;

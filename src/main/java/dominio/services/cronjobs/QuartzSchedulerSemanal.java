@@ -1,7 +1,6 @@
 package dominio.services.cronjobs;
 
-import dominio.services.cronjobs.tasks.GernerarReportesSemanales;
-import dominio.services.cronjobs.tasks.VerificarUltimaTemperaturaDeHeladeras;
+import dominio.services.cronjobs.tasks.GenerarReportesSemanales;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -12,7 +11,7 @@ public class QuartzSchedulerSemanal {
         try {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
-            JobDetail job = JobBuilder.newJob(GernerarReportesSemanales.class)
+            JobDetail job = JobBuilder.newJob(GenerarReportesSemanales.class)
                     .withIdentity("weeklyJob", "group1")
                     .build();
 

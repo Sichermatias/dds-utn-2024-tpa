@@ -1,4 +1,4 @@
-package dominio.Reportes;
+package dominio.reportes;
 
 import dominio.infraestructura.Heladera;
 import lombok.Getter;
