@@ -1,12 +1,10 @@
 package dominio.archivos.carga_masiva;
 
-import dominio.colaboracion.TipoColaboracionRegistry;
+import dominio.colaboracion.*;
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.NombreDeMedioDeContacto;
 import dominio.persona.Colaborador;
 import dominio.persona.TipoDocumento;
-import dominio.colaboracion.Colaboracion;
-import dominio.colaboracion.TipoColaboracion;
 import dominio.persona.TipoPersona;
 
 public class ProcesadorCampos {
@@ -73,19 +71,31 @@ public class ProcesadorCampos {
         int cantidad = Integer.parseInt(cantidadStr);
         for (int i = 0; i < cantidad; i++) {
             Colaboracion colaboracion = new Colaboracion();
-            TipoColaboracion tipo = TipoColaboracionRegistry.create(forma);
-            if (ValidadorCampos.validarFormaColaboracion(forma)) {
-                tipo.setNombreTipo(forma);
-            } else {
-                throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
+            switch(forma){
+                case "DINERO":
+                    DonacionDinero donacionDinero= new DonacionDinero();
+                    donacionDinero.setColaboracion(colaboracion);
+                    break;
+                case "DONACION_VIANDAS":
+                    DonacionVianda donacionVianda= new DonacionVianda();
+                    donacionVianda.setColaboracion(colaboracion);
+                    break;
+                case "REDISTRIBUCION_VIANDAS":
+                    RedistribucionViandas redistribucionViandas= new RedistribucionViandas();
+                    redistribucionViandas.setColaboracion(colaboracion);
+                    break;
+                case "ENTREGA_TARJETAS":
+                    RegistrarPersonasVulnerables registrarPersonasVulnerables= new RegistrarPersonasVulnerables();
+                    registrarPersonasVulnerables.setColaboracion(colaboracion);
+                    break;
+                default:
+                    throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
             }
             if (ValidadorCampos.validarFecha(fecha)) {
                 colaboracion.setFechaColaboracion(fecha);
             } else {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
-            colaboracion.cambiarTipoColaboracion(tipo);
-            colaborador.agregarColaboracion(colaboracion);
         }
     }
 }

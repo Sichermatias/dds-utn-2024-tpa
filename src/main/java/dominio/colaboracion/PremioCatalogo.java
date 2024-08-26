@@ -1,6 +1,6 @@
 package dominio.colaboracion;
 
-public class Premio {
+public class PremioCatalogo {
     private String nombre;
     private RubroPremio rubro;
     private String imagenPremio;

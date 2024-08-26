@@ -1,16 +1,20 @@
 package dominio.colaboracion;
 
-public class DonacionVianda extends TipoColaboracion{
+import dominio.persona.Colaborador;
+import lombok.Getter;
+import lombok.Setter;
+
+public class DonacionVianda{
     private Vianda vianda;
     private static Double factorDePuntaje;
-
+    @Setter @Getter
+    private Colaboracion colaboracion;
+    private boolean cuentaParaPuntaje;
     public DonacionVianda() {
-        setNombreTipo("DONACION_VIANDAS");
+        this.colaboracion = new Colaboracion();
         factorDePuntaje = 1.5;
         this.cuentaParaPuntaje = true;
     }
-
-    @Override
     public Double puntaje() {
         Double resultado;
         if(cuentaParaPuntaje) {

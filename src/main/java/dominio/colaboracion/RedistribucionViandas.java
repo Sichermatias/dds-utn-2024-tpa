@@ -6,20 +6,19 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Distribucion extends TipoColaboracion{
+public class RedistribucionViandas {
     private Heladera heladeraOrigen;
     private Heladera heladeraDestino;
     private Integer cantidadViandas;
     private Motivo motivo;
     private static Double factorDePuntaje;
-
-    public Distribucion() {
-        setNombreTipo("REDISTRIBUCION_VIANDAS");
+    private Colaboracion colaboracion;
+    private boolean cuentaParaPuntaje;
+    public RedistribucionViandas() {
+        this.colaboracion = new Colaboracion();
         factorDePuntaje = 1.0;
         this.cuentaParaPuntaje = true;
     }
-
-    @Override
     public Double puntaje() {
         Double resultado;
         if(cuentaParaPuntaje) {

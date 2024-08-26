@@ -34,7 +34,6 @@ public class CargaMasiva {
         personaGuardada.ifPresentOrElse(
                 personaEncontrada -> repositorio.actualizar(colaborador),
                 () -> {
-                    // Crear un usuario aquí o donde sea necesario
                     Usuario usuario = new Usuario();
                     usuario.setNombreUsuario(colaborador.getNombre());
                     usuario.setContrasena("contrabase");

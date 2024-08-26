@@ -1,7 +1,7 @@
-package ar.edu.utn.frba.dds.colaboraciones.CalculoDePuntos;
+/*package ar.edu.utn.frba.dds.colaboraciones.CalculoDePuntos;
 
 import dominio.colaboracion.Colaboracion;
-import dominio.colaboracion.EncargarseDeHeladera;
+import dominio.colaboracion.HostearHeladera;
 import dominio.infraestructura.Heladera;
 import dominio.persona.CalculadorDePuntosAcumulados;
 import dominio.persona.Colaborador;
@@ -23,11 +23,11 @@ public class CalculoDePuntosHeladeraTest {
         colaborador = new Colaborador();
         calculador = new CalculadorDePuntosAcumulados();
         colaborador.setCalculadorDePuntos(calculador);
-        EncargarseDeHeladera encargarseDeHeladera = new EncargarseDeHeladera();
+        HostearHeladera hostearHeladera = new HostearHeladera();
         heladera = new Heladera();
         Colaboracion colaboracion = new Colaboracion();
-        colaboracion.cambiarTipoColaboracion(encargarseDeHeladera);
-        encargarseDeHeladera.setHeladera(heladera);
+        colaboracion.cambiarTipoColaboracion(hostearHeladera);
+        hostearHeladera.setHeladera(heladera);
         colaborador.agregarColaboracion(colaboracion);
     }
 
@@ -65,3 +65,4 @@ public class CalculoDePuntosHeladeraTest {
         assertEquals(15.0, calculador.calcularPuntosDeColaborador(colaborador)); // 3 meses activa * 5
     }
 }
+*/

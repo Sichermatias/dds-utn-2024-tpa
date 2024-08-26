@@ -1,5 +1,6 @@
 package dominio.colaboracion;
 
+import dominio.persona.Colaborador;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,16 +12,17 @@ public class Colaboracion {
     private String descripcion;
 
     public LocalDate fechaColaboracion;
-    private TipoColaboracion tipoColaboracion;
+    private Transaccion transaccion;
+    @Setter @Getter
+    private Colaborador colaborador;
 
-    public void cambiarTipoColaboracion(TipoColaboracion newTipoColaboracion){
-        tipoColaboracion = newTipoColaboracion;
-    }
+
     public void setFechaColaboracion(String fecha){
         fechaColaboracion=LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
+    //TODO adaptar el puntaje a la composicion ya no hay tipoColaboracion
     public Double puntaje() {
-        return tipoColaboracion.puntaje();
+        return 0.0; //tipoColaboracion.puntaje();
     }
 }

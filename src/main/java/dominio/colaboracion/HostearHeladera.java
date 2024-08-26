@@ -7,15 +7,16 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Getter @Setter
-public class EncargarseDeHeladera extends TipoColaboracion{
+public class HostearHeladera{
     private Heladera heladera;
     private static Double factorDePuntaje;
-
-    public EncargarseDeHeladera() {
+    private Colaboracion colaboracion;
+    private boolean cuentaParaPuntaje;
+    public HostearHeladera() {
+        this.cuentaParaPuntaje=true;
+        this.colaboracion = new Colaboracion();
         factorDePuntaje = 5.0;
     }
-
-    @Override
     public Double puntaje() {
         this.heladera.actualizarMesesSinContarParaPuntaje();
         Double puntaje = this.heladera.getMesesSinContarParaElPuntaje() * factorDePuntaje;
