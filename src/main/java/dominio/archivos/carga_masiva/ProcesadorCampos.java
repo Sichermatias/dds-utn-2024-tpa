@@ -1,5 +1,6 @@
 package dominio.archivos.carga_masiva;
 
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import dominio.colaboracion.*;
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.NombreDeMedioDeContacto;
@@ -69,24 +70,33 @@ public class ProcesadorCampos {
         }
 
         int cantidad = Integer.parseInt(cantidadStr);
+        ColaboracionRepositorio colaboracionRepositorio= new ColaboracionRepositorio();
         for (int i = 0; i < cantidad; i++) {
             Colaboracion colaboracion = new Colaboracion();
             switch(forma){
                 case "DINERO":
                     DonacionDinero donacionDinero= new DonacionDinero();
                     donacionDinero.setColaboracion(colaboracion);
+                    colaboracion.setTipo(forma);
+                    colaboracionRepositorio.agregar(colaboracion);
                     break;
                 case "DONACION_VIANDAS":
                     DonacionVianda donacionVianda= new DonacionVianda();
                     donacionVianda.setColaboracion(colaboracion);
+                    colaboracion.setTipo(forma);
+                    colaboracionRepositorio.agregar(colaboracion);
                     break;
                 case "REDISTRIBUCION_VIANDAS":
                     RedistribucionViandas redistribucionViandas= new RedistribucionViandas();
                     redistribucionViandas.setColaboracion(colaboracion);
+                    colaboracion.setTipo(forma);
+                    colaboracionRepositorio.agregar(colaboracion);
                     break;
                 case "ENTREGA_TARJETAS":
                     RegistrarPersonasVulnerables registrarPersonasVulnerables= new RegistrarPersonasVulnerables();
                     registrarPersonasVulnerables.setColaboracion(colaboracion);
+                    colaboracion.setTipo(forma);
+                    colaboracionRepositorio.agregar(colaboracion);
                     break;
                 default:
                     throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
@@ -97,5 +107,6 @@ public class ProcesadorCampos {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
         }
+
     }
 }

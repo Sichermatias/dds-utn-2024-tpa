@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 
 public class Colaboracion {
     private String nombre;
+    @Setter @Getter
+    private String tipo;
     private String descripcion;
 
     public LocalDate fechaColaboracion;
