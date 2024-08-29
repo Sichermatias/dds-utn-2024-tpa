@@ -1,6 +1,5 @@
 package dominio.persona;
 
-import dominio.colaboracion.Colaboracion;
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.ubicacion.Ubicacion;
 import dominio.formulario.FormularioRespondido;
@@ -12,29 +11,52 @@ import dominio.services.messageSender.strategies.EstrategiaMensaje;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "colaborador")
 @Setter
 @Getter
 public class Colaborador {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "nombre", columnDefinition = "VARCHAR", length = 50)
     private String nombre;
+
+    @Column(name = "apellido", columnDefinition = "VARCHAR", length = 50)
     private String apellido;
+
+    @Column(name = "fechaNacimiento", columnDefinition = "DATE")
     private LocalDate fechaNacimiento;
+
+    @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
+
+    @Column(name = "nroDocumento", columnDefinition = "INTEGER")
     private Integer nroDocumento;
+
+    @Column(name = "razonSocial", columnDefinition = "VARCHAR", length = 100)
     private String razonSocial;
+
+
     private RubroPersonaJuridica rubroPersonaJuridica;
     private TipoPersonaJuridica tipoPersonaJuridica;
+
+    @Enumerated(EnumType.STRING)
     private TipoPersona tipoPersona;
+
     private FormularioRespondido formularioRespondido;
     private List<MedioDeContacto> mediosDeContacto=new ArrayList<>();
     private Ubicacion ubicacion;
-    private ArrayList<Colaboracion> colaboraciones=new ArrayList<>();
-    private CalculadorDePuntosAcumulados calculadorDePuntos;
+    private Integer puntaje;
     private List<Suscripcion>suscripciones;
     private int cantSemanalViandasDonadas; // TODO 2024-07-03: cuando el colaborador dona una vianda, hay que sumarle al contador.
+    private Tarjeta tarjeta;
 
     public Colaborador() {
         this.suscripciones = new ArrayList<>();
@@ -71,18 +93,12 @@ public class Colaborador {
         }
     }
     public void agregarMediosDeContacto(ArrayList<MedioDeContacto> mediosDeContacto) {
-        mediosDeContacto.addAll(mediosDeContacto);
+        this.mediosDeContacto.addAll(mediosDeContacto);
     }
     public void agregarMedioDeContacto(MedioDeContacto medioDeContacto){
         mediosDeContacto.add(medioDeContacto);
     }
-    public void agregarColaboraciones(ArrayList<Colaboracion> colaboracion) {
-        colaboraciones.addAll(colaboracion);
-    }
 
-    public void agregarColaboracion(Colaboracion colaboracion) {
-        colaboraciones.add(colaboracion);
-    }
     public Integer getNroDocumento() {
         return nroDocumento;
     }
