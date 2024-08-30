@@ -1,7 +1,6 @@
 package dominio.incidentes;
 
 import dominio.contacto.ubicacion.Localidad;
-import dominio.infraestructura.Heladera;
 import dominio.persona.Tecnico;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class GestorDeIncidentes {
 
     public void gestionarIncidente(Incidente incidenteAAsignar){
 
-        var heladeraLocalidad = incidenteAAsignar.getHeladeraIncidente().getUbicacion().getLocalizacion();
+        var heladeraLocalidad = incidenteAAsignar.getHeladeraIncidente().getUbicacion().getLocalidad();
         boolean tecnicoDisponible = false;
         //Comparacion entre listado de Localidades del tecnico disponible y la localida de la heladera en incidente
         for(Tecnico tecnico : listaTecnicos){

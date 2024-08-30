@@ -25,10 +25,10 @@ public class Colaborador {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "nombre", columnDefinition = "VARCHAR", length = 50)
+    @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 
-    @Column(name = "apellido", columnDefinition = "VARCHAR", length = 50)
+    @Column(name = "apellido", columnDefinition = "VARCHAR(50)")
     private String apellido;
 
     @Column(name = "fechaNacimiento", columnDefinition = "DATE")
@@ -37,25 +37,46 @@ public class Colaborador {
     @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
 
-    @Column(name = "nroDocumento", columnDefinition = "INTEGER")
+    @Column(name = "nroDocumento", columnDefinition = "INTEGER(11)")
     private Integer nroDocumento;
 
-    @Column(name = "razonSocial", columnDefinition = "VARCHAR", length = 100)
+    @Column(name = "razonSocial", columnDefinition = "VARCHAR(100)")
     private String razonSocial;
 
-
+    @ManyToOne
+    @JoinColumn(name = "rubroPersonaJuridica")
     private RubroPersonaJuridica rubroPersonaJuridica;
+
+    @ManyToOne
+    @JoinColumn(name = "tipoPersonaJuridica")
     private TipoPersonaJuridica tipoPersonaJuridica;
 
     @Enumerated(EnumType.STRING)
     private TipoPersona tipoPersona;
 
+    @OneToOne
+    @JoinColumn(name = "formularioRespondido_id")
     private FormularioRespondido formularioRespondido;
+
+    @OneToMany
+    @JoinColumn(name = "colaborador_id")
     private List<MedioDeContacto> mediosDeContacto=new ArrayList<>();
+
+    @Embedded //TODO: está bien embeberlo?
     private Ubicacion ubicacion;
+
+    @Column(name = "puntaje", columnDefinition = "INTEGER(9)")
     private Integer puntaje;
+
+    //TODO: preguntar si es necesario la bidireccionalidad
+    @OneToMany
     private List<Suscripcion>suscripciones;
+
+    @Column(name = "cantSemanalViandasDonadas", columnDefinition = "INTEGER(6)")
     private int cantSemanalViandasDonadas; // TODO 2024-07-03: cuando el colaborador dona una vianda, hay que sumarle al contador.
+
+    @OneToOne
+    @JoinColumn(name = "tarjeta_id")
     private Tarjeta tarjeta;
 
     public Colaborador() {
