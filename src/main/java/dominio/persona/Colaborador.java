@@ -75,8 +75,8 @@ public class Colaborador {
     @Column(name = "cantSemanalViandasDonadas", columnDefinition = "INTEGER(6)")
     private int cantSemanalViandasDonadas; // TODO 2024-07-03: cuando el colaborador dona una vianda, hay que sumarle al contador.
 
-    @OneToOne
-    @JoinColumn(name = "tarjeta_id")
+    @OneToMany
+    @JoinColumn(name = "colaborador_id")
     private Tarjeta tarjeta;
 
     public Colaborador() {
