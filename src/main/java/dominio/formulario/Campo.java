@@ -1,12 +1,28 @@
 package dominio.formulario;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "campo")
 public class Campo {
+    @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
+
+    @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
+
+    @Enumerated(EnumType.STRING)
     private TipoCampo tipo;
-    private ArrayList<Opcion> opciones= new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "campo_id")
+    private List<Opcion> opciones= new ArrayList<>();
+
+    @Column(name = "esObligatorio", columnDefinition = "BIT(1)")
     private Boolean esObligatorio;
+
+    @Column(name = "activo", columnDefinition = "BIT(1)")
     private Boolean activo;
 }
