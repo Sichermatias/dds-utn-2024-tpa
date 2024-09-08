@@ -1,29 +1,26 @@
 package dominio.colaboracion;
 
-import dominio.persona.Colaborador;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "donacionDinero")
 @Setter @Getter
 public class DonacionDinero{
+    @Column(name = "monto")
     private Double monto;
+
+    @ManyToOne
+    @JoinColumn(name = "frecuencia_id", referencedColumnName = "id")
     private Frecuencia frecuencia;
-    private static Double factorDePuntaje;
+
+    @OneToOne
+    @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
-    private boolean cuentaParaPuntaje;
+
     public DonacionDinero() {
         this.colaboracion = new Colaboracion();
-        factorDePuntaje = 0.5;
-        this.cuentaParaPuntaje = true;
-    }
-    public Double puntaje() {
-        double resultado;
-        if(cuentaParaPuntaje) {
-            resultado = factorDePuntaje * this.monto;
-            this.cuentaParaPuntaje = false;
-        } else {
-            resultado = 0.0;
-        }
-        return resultado;
     }
 }

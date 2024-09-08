@@ -7,10 +7,14 @@ import dominio.persona.TipoDocumento;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 import java.util.List;
 
 public class RegistrarPersonasVulnerables {
+    @OneToOne
+    @JoinColumn(name = "colaboracion_id")
     @Setter @Getter
     private Colaboracion colaboracion;
     private Colaborador colaborador;

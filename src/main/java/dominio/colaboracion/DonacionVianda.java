@@ -1,12 +1,16 @@
 package dominio.colaboracion;
 
-import dominio.persona.Colaborador;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 public class DonacionVianda{
     private Vianda vianda;
     private static Double factorDePuntaje;
+    @OneToOne
+    @JoinColumn(name = "colaboracion_id")
     @Setter @Getter
     private Colaboracion colaboracion;
     private boolean cuentaParaPuntaje;
