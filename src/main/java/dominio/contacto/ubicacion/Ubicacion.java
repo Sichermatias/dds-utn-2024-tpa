@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 @Embeddable
 @Setter@Getter
 public class Ubicacion {
-    @Column(name = "direccion")
+    @Column(name = "direccion", columnDefinition = "VARCHAR(255)")
     private String direccion;
 
     @ManyToOne

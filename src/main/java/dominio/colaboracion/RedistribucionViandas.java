@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "redistribucionViandas")
@@ -29,6 +30,14 @@ public class RedistribucionViandas {
     @OneToOne
     @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
+
+    @ManyToMany
+    @JoinTable(
+            name = "vianda_redistribucion",
+            joinColumns = @JoinColumn(name = "redistribucion_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "vianda_id", referencedColumnName = "id")
+    )
+    private List<Vianda> viandas;
 
     @OneToOne
     @JoinColumn(name = "pedidoDeAperturaEnOrigen_id", referencedColumnName = "id")

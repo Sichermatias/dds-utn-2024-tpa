@@ -2,14 +2,35 @@ package dominio.colaboracion;
 
 import dominio.infraestructura.Heladera;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+
+@Entity
+@Table(name = "vianda")
 public class Vianda{
+    @Column(name = "nombreComida", columnDefinition = "VARCHAR(100)")
     private String nombreComida;
+
+    @Column(name = "fechaCaducidad", columnDefinition = "DATE")
     private LocalDate fechaCaducidad;
+
+    @Column(name = "fechaDonacion", columnDefinition = "DATE")
     private LocalDate fechaDonacion;
+
+    @ManyToOne
+    @JoinColumn(name = "heladeraAsignada_id", referencedColumnName = "id")
     private Heladera heladeraAsignada;
+
+    @Column(name = "calorias", columnDefinition = "DOUBLE")
     private Double calorias;
+
+    @Column(name = "peso", columnDefinition = "DOUBLE")
     private Double peso;
+
+    @Column(name = "fueEntregado", columnDefinition = "BIT(1)")
     private Boolean fueEntregado;
+
+    @Column(name = "codigo", columnDefinition = "VARCHAR(50)")
+    private String codigo;
 }

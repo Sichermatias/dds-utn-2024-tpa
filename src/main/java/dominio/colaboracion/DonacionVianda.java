@@ -3,30 +3,30 @@ package dominio.colaboracion;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(name = "donacionVianda")
 public class DonacionVianda{
-    private Vianda vianda;
-    private static Double factorDePuntaje;
+    //TODO: tal vez deberia ser una lista
     @OneToOne
-    @JoinColumn(name = "colaboracion_id")
+    @JoinColumn(name = "vianda_id", referencedColumnName = "id")
+    private Vianda vianda;
+
+    @OneToOne
+    @JoinColumn(name = "colaboracion_id", referencedColumnName = "id")
     @Setter @Getter
     private Colaboracion colaboracion;
-    private boolean cuentaParaPuntaje;
+
+    @OneToOne
+    @JoinColumn(name = "pedidoDeApertura_id", referencedColumnName = "id")
+    private PedidoDeApertura pedidoDeApertura;
+
     public DonacionVianda() {
         this.colaboracion = new Colaboracion();
-        factorDePuntaje = 1.5;
-        this.cuentaParaPuntaje = true;
-    }
-    public Double puntaje() {
-        Double resultado;
-        if(cuentaParaPuntaje) {
-            resultado = factorDePuntaje;
-            this.cuentaParaPuntaje = false;
-        } else {
-            resultado = 0.0;
-        }
-        return resultado;
     }
 }
