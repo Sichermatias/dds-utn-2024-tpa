@@ -1,12 +1,14 @@
 package dominio.formulario;
 
+import dominio.Persistente;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "opcion")
-public class Opcion {
+public class Opcion extends Persistente {
     @Column(name = "textoOpcion", columnDefinition = "TEXT")
     private String textoOpcion;
 

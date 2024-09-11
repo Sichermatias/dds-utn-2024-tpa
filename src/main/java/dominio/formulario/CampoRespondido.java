@@ -1,11 +1,14 @@
 package dominio.formulario;
 
+import dominio.Persistente;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "campoRespondido")
-public class CampoRespondido {
+public class CampoRespondido extends Persistente {
     @ManyToOne
     @JoinColumn(name = "campo_id")
     private Campo campo;
@@ -16,7 +19,7 @@ public class CampoRespondido {
             joinColumns = @JoinColumn(name = "campoRespondido_id"),
             inverseJoinColumns = @JoinColumn(name = "opcion_id")
     )
-    private ArrayList<Opcion> opcionesElegidas=new ArrayList<>();
+    private List<Opcion> opcionesElegidas=new ArrayList<>();
 
     @Column(name = "respuestaIngresada", columnDefinition = "TEXT")
     private String respuestaIngresada;

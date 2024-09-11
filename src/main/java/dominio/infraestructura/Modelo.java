@@ -1,5 +1,6 @@
 package dominio.infraestructura;
 
+import dominio.Persistente;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "modelo")
 @Getter @Setter
-public class Modelo {
+public class Modelo extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(100)")
     private String nombre;
 

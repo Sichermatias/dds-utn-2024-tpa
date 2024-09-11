@@ -1,5 +1,6 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
 import dominio.persona.Colaborador;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "colaboracion")
-public class Colaboracion {
+public class Colaboracion extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 

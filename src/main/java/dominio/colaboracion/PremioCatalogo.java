@@ -1,10 +1,12 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "premioCatalogo")
-public class PremioCatalogo {
+public class PremioCatalogo extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 

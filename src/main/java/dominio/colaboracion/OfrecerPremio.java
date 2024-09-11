@@ -1,10 +1,12 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ofrecerPremio")
-public class OfrecerPremio{
+public class OfrecerPremio extends Persistente {
     @ManyToOne
     @JoinColumn(name = "premioCatalogo_id")
     private PremioCatalogo premioCatalogo;

@@ -1,5 +1,6 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
 import dominio.infraestructura.Heladera;
 import dominio.persona.Tarjeta;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "pedidoDeApertura")
-public class PedidoDeApertura {
+public class PedidoDeApertura extends Persistente {
     @ManyToOne
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;

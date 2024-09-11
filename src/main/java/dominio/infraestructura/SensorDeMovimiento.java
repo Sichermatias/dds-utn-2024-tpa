@@ -11,6 +11,10 @@ import java.util.List;
 @Table(name = "sensorDeMovimiento")
 @Getter @Setter
 public class SensorDeMovimiento {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     @Column(name = "codigo", columnDefinition = "VARCHAR(50)")
     private String codigo;
 

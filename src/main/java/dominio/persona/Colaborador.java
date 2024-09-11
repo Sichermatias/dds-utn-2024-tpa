@@ -1,5 +1,6 @@
 package dominio.persona;
 
+import dominio.Persistente;
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.ubicacion.Ubicacion;
 import dominio.formulario.FormularioRespondido;
@@ -20,10 +21,7 @@ import java.util.List;
 @Table(name = "colaborador")
 @Setter
 @Getter
-public class Colaborador {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Colaborador extends Persistente {
 
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
@@ -77,10 +75,11 @@ public class Colaborador {
 
     @OneToMany
     @JoinColumn(name = "colaborador_id")
-    private Tarjeta tarjeta;
+    private List<Tarjeta> tarjetas;
 
     public Colaborador() {
         this.suscripciones = new ArrayList<>();
+        this.tarjetas = new ArrayList<>();
     }
 
     public void suscribirseHeladera(Heladera heladera, FiltroSuscripcion filtro, Mensajero mensajero, String contacto) {

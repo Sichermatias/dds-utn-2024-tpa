@@ -12,6 +12,10 @@ import java.util.List;
 @Table(name = "sensorDeTemperatura")
 @Getter @Setter
 public class SensorDeTemperatura {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     @Column(name = "codigo", columnDefinition = "VARCHAR(50)")
     private String codigo;
 

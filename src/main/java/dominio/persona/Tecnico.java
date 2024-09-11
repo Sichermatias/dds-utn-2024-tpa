@@ -1,5 +1,6 @@
 package dominio.persona;
 
+import dominio.Persistente;
 import dominio.contacto.MedioDeContacto;
 import dominio.contacto.ubicacion.Localidad;
 import dominio.incidentes.Incidente;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 @Entity
 @Table(name = "tecnico")
 @Getter @Setter
-public class Tecnico {
+public class Tecnico extends Persistente {
     @Id
     @GeneratedValue
     private Long id;

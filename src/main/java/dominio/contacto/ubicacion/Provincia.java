@@ -1,12 +1,14 @@
 package dominio.contacto.ubicacion;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "provincia")
 public class Provincia {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     @Column(name = "nombreProvincia", columnDefinition = "VARCHAR(100)")
     private String nombreProvincia;
 }

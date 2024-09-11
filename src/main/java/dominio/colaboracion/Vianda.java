@@ -1,5 +1,6 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
 import dominio.infraestructura.Heladera;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "vianda")
-public class Vianda{
+public class Vianda extends Persistente {
     @Column(name = "nombreComida", columnDefinition = "VARCHAR(100)")
     private String nombreComida;
 

@@ -1,5 +1,6 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
 import dominio.infraestructura.Heladera;
 import dominio.persona.Tarjeta;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "usoDeHeladera")
 @Getter
 @Setter
-public class UsoDeHeladera {
+public class UsoDeHeladera extends Persistente {
     @ManyToOne
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;

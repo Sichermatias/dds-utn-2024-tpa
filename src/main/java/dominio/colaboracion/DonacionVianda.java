@@ -1,5 +1,6 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "donacionVianda")
-public class DonacionVianda{
+public class DonacionVianda extends Persistente {
     //TODO: tal vez deberia ser una lista
     @OneToOne
     @JoinColumn(name = "vianda_id", referencedColumnName = "id")

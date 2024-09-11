@@ -1,5 +1,6 @@
 package dominio.incidentes;
 
+import dominio.Persistente;
 import dominio.infraestructura.Heladera;
 import dominio.persona.Colaborador;
 
@@ -15,14 +16,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "incidente")
 @Setter @Getter
-public class Incidente {
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @Column(name = "fecha", columnDefinition = "DATETIME")
-    private LocalDateTime fechaIncidente;
-
+public class Incidente extends Persistente {
     @ManyToOne
     @JoinColumn(name = "heladera_id")
     private Heladera heladeraIncidente;
@@ -43,7 +37,7 @@ public class Incidente {
     private List<String> fotosIncidente;
 
     public Incidente(LocalDateTime fechaIncidente, Heladera heladeraIncidente, TipoIncidente tipoIncidente, Colaborador colaboradorIncidente, String descripcionIncidente, String fotosIncidente) {
-        this.fechaIncidente = fechaIncidente;
+        this.fechaHoraAlta = fechaIncidente;
         this.heladeraIncidente = heladeraIncidente;
         this.tipoIncidente = tipoIncidente;
         this.colaboradorIncidente = colaboradorIncidente;

@@ -1,4 +1,5 @@
 package dominio.incidentes;
+import dominio.Persistente;
 import dominio.persona.Tecnico;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "visitaPorIncidente")
 @Setter @Getter
-public class VisitaIncidente {
-    @Id
-    @GeneratedValue
-    private long id;
+public class VisitaIncidente extends Persistente {
 
     @ManyToOne
     @JoinColumn(name = "tecnico_id")

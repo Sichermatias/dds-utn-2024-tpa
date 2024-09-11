@@ -1,5 +1,6 @@
 package dominio.persona;
 
+import dominio.Persistente;
 import dominio.contacto.ubicacion.Ubicacion;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "personaVulnerable")
-public class PersonaVulnerable {
+public class PersonaVulnerable extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 
@@ -30,8 +31,8 @@ public class PersonaVulnerable {
     private Integer nroDocumento;
 
     @OneToMany
-    @JoinColumn(name = "colaborador_id")
-    private Tarjeta tarjeta;
+    @JoinColumn(name = "personaVulnerable_id")
+    private List<Tarjeta> tarjetas;
 
     @ManyToMany
     @JoinTable(
@@ -50,6 +51,7 @@ public class PersonaVulnerable {
 
     public PersonaVulnerable() {
         this.personasVulnACargo = new ArrayList<>();
+        this.tarjetas = new ArrayList<>();
     }
 
     public void calcularUsosMaxPorDia(){

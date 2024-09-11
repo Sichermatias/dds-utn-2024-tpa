@@ -1,5 +1,6 @@
 package dominio.colaboracion;
 
+import dominio.Persistente;
 import dominio.persona.PersonaVulnerable;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "registrarPersonasVulnerables")
-public class RegistrarPersonasVulnerables {
+public class RegistrarPersonasVulnerables extends Persistente {
     @OneToOne
     @JoinColumn(name = "colaboracion_id")
     @Setter @Getter

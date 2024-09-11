@@ -89,7 +89,7 @@ public class SensoresController implements IMqttMessageListener {
         Incidente incidente = new Incidente();
         incidente.setTipoIncidente(TipoIncidente.ALERTA);
         incidente.setDescripcionIncidente(descripcion);
-        incidente.setFechaIncidente(fechaHora);
+        incidente.setFechaHoraAlta(fechaHora);
         incidente.setHeladeraIncidente(heladeraDelSensor);
 
         this.agregarIncidenteAHeladera(heladeraDelSensor);

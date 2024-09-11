@@ -13,7 +13,8 @@ public class MedioDeContacto {
     @GeneratedValue
     private long id;
 
-    @Column(name = "NombreMedioDeContacto", columnDefinition = "VARCHAR(50)")//converters?
+    @ManyToOne
+    @JoinColumn(name = "nombreMedioDeContacto_id", referencedColumnName = "id")
     private NombreDeMedioDeContacto nombreDeMedioDeContacto;
 
     @Column(name = "ContactoDetalle", columnDefinition = "VARCHAR(50)")

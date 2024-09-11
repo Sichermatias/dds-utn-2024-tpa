@@ -1,5 +1,6 @@
 package dominio.infraestructura;
 
+import dominio.Persistente;
 import dominio.contacto.ubicacion.Ubicacion;
 
 
@@ -16,8 +17,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "heladera")
 @Setter @Getter
-public class Heladera {
-    private Long id;
+public class Heladera extends Persistente {
 
     @Column(name = "nombre", columnDefinition = "VARCHAR(100)")
     private String nombre;

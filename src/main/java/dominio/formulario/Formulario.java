@@ -1,12 +1,14 @@
 package dominio.formulario;
 
+import dominio.Persistente;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "formulario")
-public class Formulario {
+public class Formulario extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 

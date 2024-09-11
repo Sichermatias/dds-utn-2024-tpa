@@ -10,6 +10,10 @@ import javax.persistence.*;
 @Setter
 @Getter
 public class Localidad {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;

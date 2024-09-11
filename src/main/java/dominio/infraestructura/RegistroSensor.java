@@ -1,5 +1,6 @@
 package dominio.infraestructura;
 
+import dominio.Persistente;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "registroSensor")
 @Setter @Getter
-public class RegistroSensor {
+public class RegistroSensor extends Persistente {
     @Column(name = "fechaHoraRegistro", columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraRegistro;
 
