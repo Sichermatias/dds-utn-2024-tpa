@@ -78,7 +78,8 @@ public class Tecnico {
 
         if(resolucionIncidente.equals("S")){
             resolucion = true;
-            incidenteAResolver.getHeladeraIncidente().setActivo(true);
+            // TODO: falta agregar Persistente
+            // incidenteAResolver.getHeladeraIncidente().setActivo(true);
         }
 
         new VisitaIncidente(this,incidenteAResolver,LocalDateTime.now(),fotoVisita,resolucion);

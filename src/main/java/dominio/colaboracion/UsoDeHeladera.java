@@ -1,37 +1,30 @@
 package dominio.colaboracion;
 
 import dominio.infraestructura.Heladera;
+import dominio.persona.Tarjeta;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "usoHeladera")
-@Getter @Setter
+@Table(name = "usoDeHeladera")
+@Getter
+@Setter
 public class UsoDeHeladera {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @ManyToOne
-    @JoinColumn(name = "heladera_id")
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
-    @Column(name = "fechaHoraUso", columnDefinition = "DATETIME")
-    private LocalDateTime fechaHora;
-
-    @OneToMany
-    @JoinColumn(name = "usoHeladera_id")//
+    @OneToOne
+    @JoinColumn(name = "vianda_id", referencedColumnName = "id")
     private Vianda vianda;
 
-    @Column(name = "nroTarjeta", columnDefinition = "VARCHAR(14)")
-    private String codigoTarjeta;
+    @ManyToOne
+    @JoinColumn(name = "tarjeta_id", referencedColumnName = "id")
+    private Tarjeta tarjeta;
 
     public void removerViandasDeHeladera(Integer cant){
-        heladera.setViandasActuales(heladera.getViandasActuales()-cant);
+        heladera.setCantViandasActuales(heladera.getCantViandasActuales()-cant);
     }
 }

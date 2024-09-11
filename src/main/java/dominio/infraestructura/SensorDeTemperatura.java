@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "sensorTemperatura")
+@Table(name = "sensorDeTemperatura")
 @Getter @Setter
 public class SensorDeTemperatura {
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Column(name = "codigo", columnDefinition = "VARCHAR(50)")
+    private String codigo;
 
-    @Transient
+    @OneToMany
+    @JoinColumn(name = "sensorTemperatura_id", referencedColumnName = "id")
     private List<RegistroSensor> registros;
 
-    @OneToOne
-    @JoinColumn(name = "heladera_id")
+    @ManyToOne
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
     @Transient

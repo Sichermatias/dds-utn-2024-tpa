@@ -3,38 +3,19 @@ package dominio.infraestructura;
 import dominio.persona.Colaborador;
 import dominio.services.messageSender.Mensaje;
 import dominio.services.messageSender.Mensajero;
-import dominio.services.messageSender.strategies.EstrategiaMensaje;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-
-@Entity
-@Table(name = "Suscripcion")
 public class Suscripcion {
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @Transient
-    private Colaborador colaborador;
-
-    @Transient
+    Colaborador colaborador;
     @Getter@Setter
-    private Heladera heladera;
-
-    @Transient
+    Heladera heladera;
     @Getter@Setter
-    private FiltroSuscripcion filtro;
-
-    @Transient
+    FiltroSuscripcion filtro;
     @Getter@Setter
-    private Mensajero mensajero;
-
-    @Column(name = "contacto", columnDefinition = "VARCHAR(100)")
+    Mensajero mensajero;
     @Getter@Setter
-    private String contacto;
+    String contacto;
     public Suscripcion(Colaborador colaborador, Heladera heladera, FiltroSuscripcion filtro, Mensajero mensajero, String contacto) {
         this.colaborador = colaborador;
         this.heladera = heladera;
@@ -51,7 +32,7 @@ public class Suscripcion {
         if (filtro.getViandasParaLlenar() != null && heladera.getViandasParaLlenar() <= filtro.getViandasParaLlenar()) {
             mensajeBuilder.append(" está a punto de llenarse.");
         }
-        if (filtro.getMinViandas() != null && heladera.getViandasActuales() <= filtro.getMinViandas()) {
+        if (filtro.getMinViandas() != null && heladera.getCantViandasActuales() <= filtro.getMinViandas()) {
             mensajeBuilder.append(" está a punto de vaciarse.");
         }
         if (filtro.getDesperfecto() != null && heladera.getDesperfecto()) {

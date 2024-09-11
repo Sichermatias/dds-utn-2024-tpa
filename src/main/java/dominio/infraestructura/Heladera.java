@@ -4,7 +4,6 @@ import dominio.contacto.ubicacion.Ubicacion;
 
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 // TODO: 6/28/2024 EN METODOS QUE MODIFIQUEN EL ESTADO(CANTIDAD DE VIANDAS O SET DESPERFECTO EN TRUE)NOTIFICAR A SUSCRIPTORES
@@ -18,60 +17,51 @@ import javax.persistence.*;
 @Table(name = "heladera")
 @Setter @Getter
 public class Heladera {
-    @Id
-    @GeneratedValue
     private Long id;
 
-    @Column(name = "nombreHeladera", columnDefinition = "VARCHAR(50)")
+    @Column(name = "nombre", columnDefinition = "VARCHAR(100)")
     private String nombre;
 
-    @Transient
+    @Embedded
     private Ubicacion ubicacion;
 
-    @Column(name = "direccion", columnDefinition = "VARCHAR(100)")
-    private String direccion;
-
-    @Column(name = "cantMaxViandas", columnDefinition = "INTEGER")
+    @Column(name = "cantMaxViandas", columnDefinition = "INTEGER(5)")
     private Integer cantMaxViandas;
 
-    @Column(name = "cantViandasActual", columnDefinition = "INTEGER")
-    public Integer viandasActuales;
-
-    @Column(name = "desperfecto", columnDefinition = "BINARY")
-    public Boolean desperfecto;
+    @Column(name = "cantViandasActuales", columnDefinition = "INTEGER(5)")
+    public Integer cantViandasActuales;
 
     @Column(name = "fechaPuestaEnMarcha", columnDefinition = "DATE")
     private LocalDate fechaPuestaEnMarcha;
 
-    @Column(name = "ultimaFechaPuntaje", columnDefinition = "DATE")
+    @Column(name = "ultimaFechaContadaParaPuntaje", columnDefinition = "DATE")
     private LocalDate ultimaFechaContadaParaPuntaje;
 
-    @Column(name = "cantMesesSinPuntaje", columnDefinition = "INTEGER")
-    private int mesesSinContarParaElPuntaje;
+    @Column(name = "desperfecto", columnDefinition = "BIT(1)")
+    public Boolean desperfecto;
 
-    @Column(name = "estado", columnDefinition = "BINARY")
-    private Boolean activo;
-
-    @Transient //Bidireccionalidad?
+    //TODO: cómo se mapea esto?
+    @Transient
     private List<Suscripcion> suscripciones;
 
-    @Column(name = "modeloHeladera", columnDefinition = "VARCHAR(50)")
+    @ManyToOne
+    @JoinColumn(name = "modelo_id", referencedColumnName = "id")
     private Modelo modelo;
 
-    @Column(name = "cantSemanalIncidentes", columnDefinition = "INTEGER")
+    @Column(name = "cantSemanalIncidentes", columnDefinition = "TINYINT")
     private int cantSemanalIncidentes;
 
-    @Column(name = "cantSemanalViandasRetiradas", columnDefinition = "INTEGER")
+    @Column(name = "cantSemanalViandasRetiradas", columnDefinition = "INTEGER(5)")
     private int cantSemanalViandasRetiradas;
 
-    @Column(name = "cantSemanalViandasColocadas", columnDefinition = "INTEGER")
+    @Column(name = "cantSemanalViandasColocadas", columnDefinition = "INTEGER(5)")
     private int cantSemanalViandasColocadas;
 
     public Heladera() {
-        this.activo = true;
         this.ultimaFechaContadaParaPuntaje = LocalDate.now();
         this.suscripciones = new ArrayList<>();
     }
+
     public void agregarSuscripcion(Suscripcion suscripcion) {
         suscripciones.add(suscripcion);
     }
@@ -87,19 +77,8 @@ public class Heladera {
             }
         }
     }
-    public Integer getViandasParaLlenar(){
-        return cantMaxViandas - viandasActuales;
-    }
-    public void setActivo(boolean activo) {
-        this.actualizarMesesSinContarParaPuntaje();
-        this.activo = activo;
-    }
 
-    public void actualizarMesesSinContarParaPuntaje() {
-        LocalDate fechaActual = LocalDate.now();
-        if(this.activo) {
-            this.mesesSinContarParaElPuntaje += Period.between(this.ultimaFechaContadaParaPuntaje, fechaActual).toTotalMonths();
-        }
-        this.ultimaFechaContadaParaPuntaje = fechaActual;
+    public Integer getViandasParaLlenar(){
+        return cantMaxViandas - cantViandasActuales;
     }
 }

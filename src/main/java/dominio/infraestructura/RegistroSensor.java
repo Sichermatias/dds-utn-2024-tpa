@@ -4,23 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
 
 @Entity
-@Table(name = "RegistroDatoSensor")
+@Table(name = "registroSensor")
 @Setter @Getter
 public class RegistroSensor {
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @Column(name = "FechaHora", columnDefinition = "DATETIME")//converter
+    @Column(name = "fechaHoraRegistro", columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraRegistro;
 
-    @Column(name = "datoValor", columnDefinition = "INTEGER")
+    @Column(name = "valor", columnDefinition = "TINYINT")
     private Integer valor;
 
     public boolean seCreoHaceMasDe(int minutos) {

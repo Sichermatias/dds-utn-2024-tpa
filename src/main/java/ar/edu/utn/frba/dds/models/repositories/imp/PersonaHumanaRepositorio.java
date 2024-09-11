@@ -23,15 +23,19 @@ public class  PersonaHumanaRepositorio {
         colaboradors.add(colaborador);
     }
 
+
     public void actualizar(Colaborador colaboradorModificada) {
-        Optional<Colaborador> personaExistente = buscarPorDNI(colaboradorModificada.getNroDocumento());
+        /*
+        TODO 2024-09-11: rompe porque colaborador ya no tiene colaboracionOptional<Colaborador> personaExistente = buscarPorDNI(colaboradorModificada.getNroDocumento());
         personaExistente.ifPresentOrElse(
                 personaEncontrada -> personaEncontrada.agregarColaboraciones(colaboradorModificada.getColaboraciones()),
                 () -> {
                     throw new IllegalArgumentException("La persona no existe en el repositorio");
                 }
         );
+     */
     }
+
     public void eliminar(Colaborador colaborador) {
         colaboradors.remove(colaborador);
     }

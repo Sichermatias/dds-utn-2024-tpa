@@ -8,27 +8,28 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "sensorMovimiento")
+@Table(name = "sensorDeMovimiento")
 @Getter @Setter
 public class SensorDeMovimiento {
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Column(name = "codigo", columnDefinition = "VARCHAR(50)")
+    private String codigo;
 
-    @Transient
+    @OneToMany
+    @JoinColumn(name = "sensorMovimiento_id", referencedColumnName = "id")
     private List<RegistroSensor> registros;
 
-    @OneToOne
-    @JoinColumn(name = "heladera_id")
+    @ManyToOne
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
-    @Column(name = "predeterminadoRegistros", columnDefinition = "INTEGER")
-    private static int valorPredeterminadoRegistros;
+    //TODO: llevarlo a una config
+    @Transient
+    private static int valorPredeterminadoMovimiento;
 
     public void agregarRegistro(LocalDateTime fechaHora) {
         RegistroSensor registroSensor = new RegistroSensor();
         registroSensor.setFechaHoraRegistro(fechaHora);
-        registroSensor.setValor(valorPredeterminadoRegistros);
+        registroSensor.setValor(valorPredeterminadoMovimiento);
         this.registros.add(registroSensor);
     }
 }
