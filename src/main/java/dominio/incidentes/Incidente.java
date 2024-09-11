@@ -4,24 +4,51 @@ import dominio.infraestructura.Heladera;
 import dominio.persona.Colaborador;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "incidente")
 @Setter @Getter
 public class Incidente {
-    private LocalDateTime fechaIncidente;
-    private Heladera heladeraIncidente;
-    private TipoIncidente tipoIncidente;
-    private Colaborador colaboradorIncidente;
-    private String descripcionIncidente;
-    private String fotoIncidente;
+    @Id
+    @GeneratedValue
+    private long id;
 
-    public Incidente(LocalDateTime fechaIncidente, Heladera heladeraIncidente, TipoIncidente tipoIncidente, Colaborador colaboradorIncidente, String descripcionIncidente, String fotoIncidente) {
+    @Column(name = "fecha", columnDefinition = "DATETIME")
+    private LocalDateTime fechaIncidente;
+
+    @ManyToOne
+    @JoinColumn(name = "heladera_id")
+    private Heladera heladeraIncidente;
+
+    @Enumerated(EnumType.STRING)
+    private TipoIncidente tipoIncidente;
+
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id")
+    private Colaborador colaboradorIncidente;
+
+    @Column(name = "descripcion", columnDefinition = "VARCHAR(255)")
+    private String descripcionIncidente;
+
+    @ElementCollection
+    @CollectionTable(name = "incidente_foto_id", joinColumns = @JoinColumn(name = "Incidente_id"))
+    @Column(name = "foto")
+    private List<String> fotosIncidente;
+
+    public Incidente(LocalDateTime fechaIncidente, Heladera heladeraIncidente, TipoIncidente tipoIncidente, Colaborador colaboradorIncidente, String descripcionIncidente, String fotosIncidente) {
         this.fechaIncidente = fechaIncidente;
         this.heladeraIncidente = heladeraIncidente;
         this.tipoIncidente = tipoIncidente;
         this.colaboradorIncidente = colaboradorIncidente;
         this.descripcionIncidente = descripcionIncidente;
-        this.fotoIncidente = fotoIncidente;
+        this.fotosIncidente = new ArrayList<>();
     }
 
     public Incidente() {

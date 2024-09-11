@@ -11,24 +11,60 @@ import java.util.List;
 // TODO 2024-07-03: cuando se colocan o se retiran viandas, hay que sumarle a su respectivo contador
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "heladera")
 @Setter @Getter
 public class Heladera {
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    private Double id;
+    @Column(name = "nombreHeladera", columnDefinition = "VARCHAR(50)")
     private String nombre;
+
+    @Transient
     private Ubicacion ubicacion;
+
+    @Column(name = "direccion", columnDefinition = "VARCHAR(100)")
     private String direccion;
+
+    @Column(name = "cantMaxViandas", columnDefinition = "INTEGER")
     private Integer cantMaxViandas;
+
+    @Column(name = "cantViandasActual", columnDefinition = "INTEGER")
     public Integer viandasActuales;
+
+    @Column(name = "desperfecto", columnDefinition = "BINARY")
     public Boolean desperfecto;
+
+    @Column(name = "fechaPuestaEnMarcha", columnDefinition = "DATE")
     private LocalDate fechaPuestaEnMarcha;
+
+    @Column(name = "ultimaFechaPuntaje", columnDefinition = "DATE")
     private LocalDate ultimaFechaContadaParaPuntaje;
+
+    @Column(name = "cantMesesSinPuntaje", columnDefinition = "INTEGER")
     private int mesesSinContarParaElPuntaje;
+
+    @Column(name = "estado", columnDefinition = "BINARY")
     private Boolean activo;
+
+    @Transient //Bidireccionalidad?
     private List<Suscripcion> suscripciones;
+
+    @Column(name = "modeloHeladera", columnDefinition = "VARCHAR(50)")
     private Modelo modelo;
+
+    @Column(name = "cantSemanalIncidentes", columnDefinition = "INTEGER")
     private int cantSemanalIncidentes;
+
+    @Column(name = "cantSemanalViandasRetiradas", columnDefinition = "INTEGER")
     private int cantSemanalViandasRetiradas;
+
+    @Column(name = "cantSemanalViandasColocadas", columnDefinition = "INTEGER")
     private int cantSemanalViandasColocadas;
 
     public Heladera() {

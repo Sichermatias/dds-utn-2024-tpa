@@ -7,18 +7,34 @@ import dominio.services.messageSender.strategies.EstrategiaMensaje;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "Suscripcion")
 public class Suscripcion {
-    Colaborador colaborador;
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @Transient
+    private Colaborador colaborador;
+
+    @Transient
     @Getter@Setter
-    Heladera heladera;
+    private Heladera heladera;
+
+    @Transient
     @Getter@Setter
-    FiltroSuscripcion filtro;
+    private FiltroSuscripcion filtro;
+
+    @Transient
     @Getter@Setter
-    Mensajero mensajero;
+    private Mensajero mensajero;
+
+    @Column(name = "contacto", columnDefinition = "VARCHAR(100)")
     @Getter@Setter
-    String contacto;
+    private String contacto;
     public Suscripcion(Colaborador colaborador, Heladera heladera, FiltroSuscripcion filtro, Mensajero mensajero, String contacto) {
         this.colaborador = colaborador;
         this.heladera = heladera;

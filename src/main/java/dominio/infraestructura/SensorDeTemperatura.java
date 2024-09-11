@@ -3,14 +3,27 @@ package dominio.infraestructura;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "sensorTemperatura")
 @Getter @Setter
 public class SensorDeTemperatura {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Transient
     private List<RegistroSensor> registros;
+
+    @OneToOne
+    @JoinColumn(name = "heladera_id")
     private Heladera heladera;
+
+    @Transient
     private EvaluadorTemperatura evaluadorTemperatura;
 
     public SensorDeTemperatura() {

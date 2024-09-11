@@ -6,11 +6,25 @@ import java.time.format.DateTimeFormatter;
 
 import lombok.Getter;
 import lombok.Setter;
-@Getter
-@Setter
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "fallosHeladera")
+@Getter @Setter
 public class FallosPorHeladera {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "heladera_id")
     private Heladera heladera;
+
+    @Column(name = "fechaReporteSemanal", columnDefinition = "DATE")
     private LocalDate fechaDeReporteSemanal;
+
+    @Column(name = "cantFallosHeladera", columnDefinition = "INTEGER")
     private int cantFallosHeladera;
 
     public FallosPorHeladera(Heladera heladera, LocalDate fechaDeReporteSemanal) {
