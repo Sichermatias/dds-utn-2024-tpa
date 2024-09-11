@@ -12767,7 +12767,7 @@
 													"top": 1799,
 													"width": 347.23583984375,
 													"height": 13,
-													"text": "+incidentesAsignados: list<Incidente>",
+													"text": "-incidentesAsignados: list<Incidente>",
 													"horizontalAlignment": 0
 												}
 											],
@@ -20690,7 +20690,7 @@
 													"top": 1748,
 													"width": 176.31884765625,
 													"height": 13,
-													"text": "+fechaVisita: LocalDateTime",
+													"text": "-fechaVisita: LocalDateTime",
 													"horizontalAlignment": 0
 												},
 												{
@@ -20707,7 +20707,7 @@
 													"top": 1763,
 													"width": 176.31884765625,
 													"height": 13,
-													"text": "+fotoVisita: List<Foto>",
+													"text": "-fotoVisita: List<Foto>",
 													"horizontalAlignment": 0
 												},
 												{
@@ -20724,7 +20724,7 @@
 													"top": 1778,
 													"width": 176.31884765625,
 													"height": 13,
-													"text": "+incidenteResuelto: Boolean",
+													"text": "-incidenteResuelto: Boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -32416,6 +32416,7 @@
 										"$ref": "AAAAAAGQayoumS3iN7I="
 									},
 									"name": "fechaVisita",
+									"visibility": "private",
 									"type": "LocalDateTime"
 								},
 								{
@@ -32425,6 +32426,7 @@
 										"$ref": "AAAAAAGQayoumS3iN7I="
 									},
 									"name": "fotoVisita",
+									"visibility": "private",
 									"type": "List<Foto>"
 								},
 								{
@@ -32434,6 +32436,7 @@
 										"$ref": "AAAAAAGQayoumS3iN7I="
 									},
 									"name": "incidenteResuelto",
+									"visibility": "private",
 									"type": "Boolean"
 								},
 								{
@@ -57818,6 +57821,7 @@
 										"$ref": "AAAAAAGPby4FnllDN/Q="
 									},
 									"name": "incidentesAsignados",
+									"visibility": "private",
 									"type": "list<Incidente>"
 								}
 							],
