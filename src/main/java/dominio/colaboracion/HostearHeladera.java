@@ -18,6 +18,9 @@ public class HostearHeladera{
     @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
 
+    @Column(name = "enVigencia", columnDefinition = "BIT(1)")
+    private Boolean enVigencia;
+
     public HostearHeladera() {
         this.colaboracion = new Colaboracion();
     }

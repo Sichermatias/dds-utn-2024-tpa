@@ -19,7 +19,7 @@ public class FiltroSuscripcion {
         if (viandasParaLlenar != null && heladera.getViandasParaLlenar() <= viandasParaLlenar) {
             return true;
         }
-        if (minViandas != null && heladera.getViandasActuales() <= minViandas) {
+        if (minViandas != null && heladera.getCantViandasActuales() <= minViandas) {
             return true;
         }
         if (desperfecto != null && heladera.getDesperfecto()) {

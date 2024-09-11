@@ -3,11 +3,8 @@ package dominio.infraestructura;
 import dominio.persona.Colaborador;
 import dominio.services.messageSender.Mensaje;
 import dominio.services.messageSender.Mensajero;
-import dominio.services.messageSender.strategies.EstrategiaMensaje;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
 
 public class Suscripcion {
     Colaborador colaborador;
@@ -35,7 +32,7 @@ public class Suscripcion {
         if (filtro.getViandasParaLlenar() != null && heladera.getViandasParaLlenar() <= filtro.getViandasParaLlenar()) {
             mensajeBuilder.append(" está a punto de llenarse.");
         }
-        if (filtro.getMinViandas() != null && heladera.getViandasActuales() <= filtro.getMinViandas()) {
+        if (filtro.getMinViandas() != null && heladera.getCantViandasActuales() <= filtro.getMinViandas()) {
             mensajeBuilder.append(" está a punto de vaciarse.");
         }
         if (filtro.getDesperfecto() != null && heladera.getDesperfecto()) {

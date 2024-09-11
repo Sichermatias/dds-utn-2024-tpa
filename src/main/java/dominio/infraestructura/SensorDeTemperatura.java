@@ -3,14 +3,27 @@ package dominio.infraestructura;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "sensorDeTemperatura")
 @Getter @Setter
 public class SensorDeTemperatura {
+    @Column(name = "codigo", columnDefinition = "VARCHAR(50)")
+    private String codigo;
+
+    @OneToMany
+    @JoinColumn(name = "sensorTemperatura_id", referencedColumnName = "id")
     private List<RegistroSensor> registros;
+
+    @ManyToOne
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
+
+    @Transient
     private EvaluadorTemperatura evaluadorTemperatura;
 
     public SensorDeTemperatura() {
