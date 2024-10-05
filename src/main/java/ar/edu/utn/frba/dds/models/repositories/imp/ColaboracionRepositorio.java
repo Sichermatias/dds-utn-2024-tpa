@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
 
-import dominio.colaboracion.Colaboracion;
+import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
 import lombok.Getter;
 
 import java.util.ArrayList;

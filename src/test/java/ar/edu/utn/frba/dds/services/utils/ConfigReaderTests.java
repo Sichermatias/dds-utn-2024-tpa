@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.services.utils;
 
-import dominio.utils.ConfigReader;
+import ar.edu.utn.frba.dds.dominio.utils.ConfigReader;
 import org.junit.jupiter.api.Test;
 import java.util.Properties;
 

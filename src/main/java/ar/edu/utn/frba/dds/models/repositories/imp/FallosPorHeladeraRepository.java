@@ -1,5 +1,5 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
-import dominio.reportes.FallosPorHeladera;
+import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

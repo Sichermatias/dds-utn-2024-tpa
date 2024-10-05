@@ -1,11 +1,8 @@
 package ar.edu.utn.frba.dds.services.messageSender;
 
-import dominio.services.messageSender.Mensaje;
-import dominio.services.messageSender.adapters.MailSender;
+import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensaje;
+import ar.edu.utn.frba.dds.dominio.services.messageSender.adapters.MailSender;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-
-import java.util.Properties;
 
 import static org.mockito.Mockito.*;
 

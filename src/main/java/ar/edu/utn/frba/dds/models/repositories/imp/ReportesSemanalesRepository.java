@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
-import dominio.reportes.FallosPorHeladera;
-import dominio.reportes.ReporteViandasHeladera;
-import dominio.reportes.ViandasDonadasPorColaborador;
+import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
+import ar.edu.utn.frba.dds.dominio.reportes.ReporteViandasHeladera;
+import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
 
 import java.util.List;
 public class ReportesSemanalesRepository {

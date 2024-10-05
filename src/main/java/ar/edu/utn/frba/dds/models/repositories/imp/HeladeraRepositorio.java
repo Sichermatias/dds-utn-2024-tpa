@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
-import dominio.infraestructura.Heladera;
-import dominio.infraestructura.Suscripcion;
+import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
+import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
 
 import java.util.ArrayList;
 import java.util.Optional;

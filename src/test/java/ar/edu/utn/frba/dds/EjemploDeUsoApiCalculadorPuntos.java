@@ -1,14 +1,10 @@
 package ar.edu.utn.frba.dds;
 
-import dominio.services.recomendadorDePuntos.RecomendadorDePuntosAdapter;
-import dominio.services.recomendadorDePuntos.RecomendadorDePuntos;
-import dominio.calculadorDePuntos.PuntoRecomendado;
-import dominio.calculadorDePuntos.ListadoDePuntosRecomendados;
+import ar.edu.utn.frba.dds.dominio.services.recomendadorDePuntos.RecomendadorDePuntos;
+import ar.edu.utn.frba.dds.dominio.calculadorDePuntos.PuntoRecomendado;
+import ar.edu.utn.frba.dds.dominio.calculadorDePuntos.ListadoDePuntosRecomendados;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class EjemploDeUsoApiCalculadorPuntos{
 

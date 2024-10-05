@@ -1,7 +1,7 @@
-import dominio.persona.login.Usuario;
-import dominio.persona.verificadorContrasenias.Complejidad;
-import dominio.persona.verificadorContrasenias.Longitud;
-import dominio.persona.verificadorContrasenias.Requisitos;
+import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
+import ar.edu.utn.frba.dds.dominio.persona.verificadorContrasenias.Complejidad;
+import ar.edu.utn.frba.dds.dominio.persona.verificadorContrasenias.Longitud;
+import ar.edu.utn.frba.dds.dominio.persona.verificadorContrasenias.Requisitos;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

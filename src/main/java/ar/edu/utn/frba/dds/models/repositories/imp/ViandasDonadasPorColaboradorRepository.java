@@ -1,5 +1,5 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
-import dominio.reportes.ViandasDonadasPorColaborador;
+import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

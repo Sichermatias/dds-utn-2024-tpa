@@ -1,9 +1,9 @@
 /*package ar.edu.utn.frba.dds.colaboraciones.CalculoDePuntos;
 
 import dominio.colaboracion.*;
-import dominio.infraestructura.Heladera;
+import ar.edu.utn.frba.dds.infraestructura.dominio.Heladera;
 import dominio.persona.CalculadorDePuntosAcumulados;
-import dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.persona.dominio.Colaborador;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,5 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
-import dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import lombok.Getter;
 
 import java.util.ArrayList;

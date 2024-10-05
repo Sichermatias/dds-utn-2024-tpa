@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
-import dominio.infraestructura.SensorDeMovimiento;
-import dominio.infraestructura.SensorDeTemperatura;
+import ar.edu.utn.frba.dds.dominio.infraestructura.SensorDeMovimiento;
+import ar.edu.utn.frba.dds.dominio.infraestructura.SensorDeTemperatura;
 
 import java.util.List;
 
