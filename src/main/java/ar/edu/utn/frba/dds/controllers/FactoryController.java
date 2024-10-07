@@ -1,0 +1,17 @@
+package ar.edu.utn.frba.dds.controllers;
+
+import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
+import org.modelmapper.ModelMapper;
+
+public class FactoryController {
+
+    public static Object controller(String nombre) {
+        Object controller = null;
+        switch (nombre) {
+            case "Login": controller = new LoginController(new UsuarioRepositorio()); break;
+            case "Usuarios": controller = new UsuariosController(new UsuarioRepositorio()); break;
+            case "LandingPage": controller = new LandingPageController();break;
+        }
+        return controller;
+    }
+}
