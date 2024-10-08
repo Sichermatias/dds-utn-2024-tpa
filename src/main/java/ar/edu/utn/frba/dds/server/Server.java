@@ -53,10 +53,10 @@ public class Server {
         JavalinRenderer.register(
                 (path, model, context) -> { // Función que renderiza el template
                     Handlebars handlebars = new Handlebars();
-                    Template template = null;
+                    Template template;
                     try {
-                        template = handlebars.compile(
-                                "templates/" + path.replace(".hbs",""));
+                        // No necesitas agregar manualmente "templates/"
+                        template = handlebars.compile("templates/" + path.replace(".hbs", ""));
                         return template.apply(model);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -67,3 +67,4 @@ public class Server {
         );
     }
 }
+

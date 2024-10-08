@@ -19,4 +19,9 @@ public class MedioDeContacto {
 
     @Column(name = "ContactoDetalle", columnDefinition = "VARCHAR(50)")
     private String valor;
+
+    public MedioDeContacto(NombreDeMedioDeContacto nombreDeMedioDeContacto, String contacto) {
+        this.nombreDeMedioDeContacto=nombreDeMedioDeContacto;
+        this.valor=contacto;
+    }
 }

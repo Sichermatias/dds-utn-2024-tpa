@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Persona Jurídica</title>
+    <link rel="stylesheet" type="text/css" href="/css/StyleLandingPage.css">
+</head>
+<body>
+<header>
+    <div class="navbar">
+        <a href="/" class="logo">SISTEMA MAACVS</a>
+        <nav>
+            <a href="/inicio">Inicio</a>
+            <a href="/mapa">Mapa</a>
+            <a href="/nosotros">Acerca de Nosotros</a>
+            <a href="/registro" class="active">Registrar</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="form-container">
+        <form action="/register-juridica" method="POST">
+            <h1>Registrar Persona Jurídica</h1>
+
+            <!-- Fila: Razón Social y Tipo de Persona Jurídica -->
+            <div class="row">
+                <input type="text" id="razonSocial" name="razonSocial" placeholder="Razón Social" required>
+                <select id="tipoPersonaJuridica" name="tipoPersonaJuridica" required>
+                    <option value="" disabled selected>Seleccionar Tipo</option>
+                    {{#each tipos}}
+                    <option value="{{this.id}}">{{this.nombre}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <!-- Fila: Rubro y Dirección -->
+            <div class="row">
+                <select id="rubroPersonaJuridica" name="rubroPersonaJuridica" required>
+                    <option value="" disabled selected>Seleccionar Rubro</option>
+                    {{#each rubros}}
+                    <option value="{{this.id}}">{{this.nombre}}</option>
+                    {{/each}}
+                </select>
+                <input type="text" id="direccion" name="direccion" placeholder="Dirección (opcional)">
+            </div>
+
+            <!-- Fila: Contacto y Dato de Contacto -->
+            <div class="row">
+                <input type="text" id="contacto" name="contacto" placeholder="Tipo de Medio de Contacto">
+                <input type="text" id="datoContacto" name="datoContacto" placeholder="Dato de Contacto">
+            </div>
+
+            <!-- Fila: Nombre de Usuario y Contraseña -->
+            <div class="row">
+                <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            </div>
+
+            <!-- Botón para crear Persona Jurídica -->
+            <button type="submit">Crear Persona Jurídica</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

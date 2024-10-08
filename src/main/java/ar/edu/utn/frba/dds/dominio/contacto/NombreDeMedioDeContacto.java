@@ -15,4 +15,8 @@ public class NombreDeMedioDeContacto {
 
     @Column(name = "nombre", columnDefinition = "VARCHAR(100)")
     private String nombre;
+
+    public NombreDeMedioDeContacto(String nombreContacto) {
+        this.nombre=nombreContacto;
+    }
 }

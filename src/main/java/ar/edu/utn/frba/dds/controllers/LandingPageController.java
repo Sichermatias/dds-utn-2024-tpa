@@ -11,12 +11,11 @@ public class LandingPageController implements ICrudViewsHandler, WithSimplePersi
     @Override
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        //model.put("fallo", false);
+        model.put("fallo", false);
         context.consumeSessionAttribute("logeado");
         context.consumeSessionAttribute("administrador");
-
         model.put("logeado",false);
-        context.render("landingPage.hbs", model); //TODO:NOMBRE CORRECTO DEL ARCHIVO HBS
+        context.render("Landing-Page.hbs", model); //TODO:NOMBRE CORRECTO DEL ARCHIVO HBS
     }
 
     @Override

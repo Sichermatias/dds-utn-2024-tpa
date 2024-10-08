@@ -10,8 +10,7 @@ public class AuthMiddleware {
         ArrayList<String> rutasPermitidas = new ArrayList<>();
         rutasPermitidas.add("/");
         rutasPermitidas.add("/login");
-        rutasPermitidas.add("/usuarios");
-        rutasPermitidas.add("/usuarios/crear");
+        rutasPermitidas.add("/registro");
         config.accessManager((handler, context, routeRoles) -> {
          if(context.sessionAttribute("usuario_id")==null && !rutasPermitidas.contains(context.path())){
              throw new AccessDeniedException();

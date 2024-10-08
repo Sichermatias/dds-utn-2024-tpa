@@ -65,8 +65,13 @@ h1 {
     justify-content: space-between;
 }
 
-.row input {
-    width: 40%;
+.row input, .row select {
+    width: 48%; /* Asegura que tanto inputs como selects ocupen el mismo espacio */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }
 
 /* Estilo de los inputs */
@@ -79,6 +84,40 @@ input[type="text"], input[type="password"] {
     font-size: 14px;
 }
 
+/* Estilo de los desplegables */
+select {
+    appearance: none;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    width: 100%; /* Alinea el tamaño con los inputs */
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #b22222; /* Tonalidad roja */
+    outline: none;
+}
+
+.select-container {
+    width: 48%; /* Igual que el input */
+    position: relative;
+}
+
+.select-container::after {
+    content: '▼'; /* Triángulo para el desplegable */
+    font-size: 12px;
+    color: #333;
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    pointer-events: none;
+}
+
+/* Estilo de los botones */
 button {
     width: 100%;
     padding: 12px;

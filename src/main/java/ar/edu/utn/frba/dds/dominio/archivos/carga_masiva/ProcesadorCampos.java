@@ -48,11 +48,8 @@ public class ProcesadorCampos {
         }
 
         if (ValidadorCampos.validarEmail(email)) {
-            NombreDeMedioDeContacto contacto = new NombreDeMedioDeContacto();
-            contacto.setNombre("mail");
-            MedioDeContacto mail = new MedioDeContacto();
-            mail.setNombreDeMedioDeContacto(contacto);
-            mail.setValor(email);
+            NombreDeMedioDeContacto contacto = new NombreDeMedioDeContacto("mail");
+            MedioDeContacto mail = new MedioDeContacto(contacto,email);
             colaborador.agregarMedioDeContacto(mail);
         } else {
             throw new CampoInvalidoException("Email inválido: " + email);
