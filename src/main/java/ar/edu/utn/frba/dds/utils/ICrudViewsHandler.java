@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.server.utils;
+package ar.edu.utn.frba.dds.utils;
 import io.javalin.http.Context;
 
 public interface ICrudViewsHandler {

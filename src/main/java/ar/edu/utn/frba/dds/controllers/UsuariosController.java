@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-import ar.edu.utn.frba.dds.server.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 
 import java.util.HashMap;
 import java.util.List;

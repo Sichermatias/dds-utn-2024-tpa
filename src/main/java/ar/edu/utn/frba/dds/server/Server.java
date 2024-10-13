@@ -1,13 +1,14 @@
 package ar.edu.utn.frba.dds.server;
 
+import ar.edu.utn.frba.dds.utils.Initializer;
+import ar.edu.utn.frba.dds.utils.JavalinRenderer;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
-import io.javalin.rendering.JavalinRenderer;
 import ar.edu.utn.frba.dds.server.handlers.*;
-import ar.edu.utn.frba.dds.server.middlewares.AuthMiddleware;
+import ar.edu.utn.frba.dds.middlewares.AuthMiddleware;
 import java.io.IOException;
 import java.util.function.Consumer;
 
@@ -25,12 +26,12 @@ public class Server {
             int port = Integer.parseInt(System.getProperty("port", "7777"));
             app = Javalin.create(config()).start(port);
 
-            app.before(ctx -> ctx.sessionAttribute("key", "value"));
-
-            initTemplateEngine();
+            /*initTemplateEngine();*/
+            AuthMiddleware.apply(app);
             AppHandlers.applyHandlers(app);
-            Router router = new Router();
-            router.init();
+            Router.init(app);
+
+            Initializer.init();
         }
     }
 
@@ -40,27 +41,21 @@ public class Server {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "/public";
             });
-            AuthMiddleware.apply(config);
+
+            config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
+                Handlebars handlebars = new Handlebars();
+                Template template = null;
+                try {
+                    template = handlebars.compile(
+                            "templates/" + path.replace(".hbs", ""));
+                    return template.apply(model);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    context.status(HttpStatus.NOT_FOUND);
+                    return "No se encuentra la página indicada...";
+                }
+            }));
         };
-    }
-
-
-    private static void initTemplateEngine() {
-        JavalinRenderer.register(
-                (path, model, context) -> { // Función que renderiza el template
-                    Handlebars handlebars = new Handlebars();
-                    Template template;
-                    try {
-                        // No necesitas agregar manualmente "templates/"
-                        template = handlebars.compile("templates/" + path.replace(".hbs", ""));
-                        return template.apply(model);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        context.status(HttpStatus.NOT_FOUND);
-                        return "No se encuentra la página indicada...";
-                    }
-                }, ".hbs" // Extensión del archivo de template
-        );
     }
 }
 
