@@ -25,7 +25,7 @@ public class UsuarioRepositorio extends BaseRepositorio<Usuario> implements With
         Usuario usuarioFinal = null;
 
         for (Usuario usuario1 : usuarios) {
-            if (usuario1.getNombreUsuario().equals(usuario.getNombreUsuario()) && usuario1.getContrasena().equals(usuario.getContrasena())) {
+            if (usuario1.getNombreUsuario().equals(usuario.getNombreUsuario()) && usuario1.getContrasenia().equals(usuario.getContrasenia())) {
                 usuarioFinal = usuario1;
             }
         }

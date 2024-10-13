@@ -19,6 +19,10 @@ public class Rol {
     @Setter
     private String nombreRol;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
+    private TipoRol tipo;
+
     @ManyToMany
     @JoinTable(name = "rol_permiso",
                 joinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "id"),
@@ -29,7 +33,11 @@ public class Rol {
         this.permisos = new ArrayList<>();
     }
 
-    public boolean tenesPermiso(Permiso permiso) {
-        return this.permisos.contains(permiso);
+    public boolean tienePermiso(String nombreInternoPermiso) {
+        return this.permisos.stream().anyMatch(p -> p.coincideConNombreInterno(nombreInternoPermiso));
+    }
+
+    public boolean tieneRol(TipoRol tipoRol) {
+        return this.getTipo().equals(tipoRol);
     }
 }

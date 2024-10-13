@@ -12,10 +12,17 @@ public class Permiso {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "descripcionPermiso", columnDefinition = "VARCHAR(100)")
-    private String descripcion;
+    @Column(name = "nombre", columnDefinition = "VARCHAR(100)")
+    private String nombre;
 
-    public Permiso(String descripcion) {
-        this.descripcion = descripcion;
+    @Column(name = "nombreInterno", columnDefinition = "VARCHAR(100)")
+    private String nombreInterno;
+
+    public Permiso(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public boolean coincideConNombreInterno(String nombre) {
+        return this.nombreInterno.equals(nombre);
     }
 }

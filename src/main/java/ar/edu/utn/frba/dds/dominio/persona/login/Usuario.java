@@ -14,11 +14,11 @@ public class Usuario extends VerificadorContrasenia {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "nombreUsuario", columnDefinition = "VARCHAR(50)")
+    @Column(name = "nombreUsuario", columnDefinition = "VARCHAR(50)", unique = true)
     private String nombreUsuario;
 
     @Column(name = "contraseñaUsuario", columnDefinition = "VARCHAR(50)")
-    private String contrasena;
+    private String contrasenia;
     //private Colaborador colaborador;
     @ManyToOne
     @JoinTable(name = "usuario_Rol",
@@ -26,10 +26,15 @@ public class Usuario extends VerificadorContrasenia {
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "id"))
     private Rol rol;
 
-    public void crearUsuario(String contrasena, String usuario , ArrayList<Requisitos> requi){
+    public void crearUsuario(String contrasenia, String usuario , ArrayList<Requisitos> requi){
         this.iniciarRequisitos(requi);
         this.nombreUsuario = usuario;
-        if(validarContrasena(contrasena)){
-            this.contrasena=contrasena;}
-        } //else ingrese otra contrasena
+        if(validarContrasena(contrasenia)){
+            this.contrasenia =contrasenia;
+        } //else ingrese otra contrasenia
+    }
+
+    public boolean tienePermiso(String nombreInternoPermiso) {
+        return this.rol.tienePermiso(nombreInternoPermiso);
+    }
 }
