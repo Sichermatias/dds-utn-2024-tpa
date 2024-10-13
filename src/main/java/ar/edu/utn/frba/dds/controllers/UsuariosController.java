@@ -2,10 +2,8 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
-import com.github.jknack.handlebars.internal.lang3.ObjectUtils;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
 import ar.edu.utn.frba.dds.server.utils.ICrudViewsHandler;
 
 import java.util.HashMap;
@@ -66,7 +64,7 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
                 usuarioActual.setNombreUsuario(usuarioNuevo.getNombreUsuario());
             }
             if(usuarioNuevo.getNombreUsuario()!= null){
-                usuarioActual.setContrasena(usuarioNuevo.getContrasena());
+                usuarioActual.setContrasenia(usuarioNuevo.getContrasenia());
             }
             if(usuarioNuevo.getRol()!=null){
                 usuarioActual.setRol(usuarioNuevo.getRol());
@@ -106,7 +104,7 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
             usuario.setNombreUsuario(context.formParam("nombre"));
         }
         if (!Objects.equals(context.formParam("contrasena"), "")) {
-            usuario.setContrasena(context.formParam("contrasena"));
+            usuario.setContrasenia(context.formParam("contrasena"));
         }
         /*
         Persona persona = new Persona();

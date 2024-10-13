@@ -14,28 +14,28 @@ public class ContextTest {
     ArrayList<Requisitos> chequeos=new ArrayList<>();
     //ACA LOS TEST
     @Test
-    public void noSeCreaPorTamanioContraseña() {
+    public void noSeCreaPorTamanioContrasenia() {
         Usuario usuario = new Usuario();
 
         chequeos.add(tam);
         usuario.crearUsuario("123", "G19", chequeos);
-        Assertions.assertNotEquals("123", usuario.getContrasena());
+        Assertions.assertNotEquals("123", usuario.getContrasenia());
     }
 
     @Test
-    public void seCreaContraseña() {
+    public void seCreaContrasenia() {
         Usuario usuario = new Usuario();
         chequeos.add(tam);
         chequeos.add(top);
         usuario.crearUsuario("djkasbjkdbsakkdkasb", "G19", chequeos);
-        Assertions.assertEquals("djkasbjkdbsakkdkasb", usuario.getContrasena());
+        Assertions.assertEquals("djkasbjkdbsakkdkasb", usuario.getContrasenia());
     }
 
     @Test
-    public void noSeCreaPortop10000Contraseña() {
+    public void noSeCreaPortop10000Contrasenia() {
         Usuario usuario = new Usuario();
         chequeos.add(top);
         usuario.crearUsuario("123456789", "G19", chequeos);
-        Assertions.assertNotEquals("123456789", usuario.getContrasena());
+        Assertions.assertNotEquals("123456789", usuario.getContrasenia());
     }
 }

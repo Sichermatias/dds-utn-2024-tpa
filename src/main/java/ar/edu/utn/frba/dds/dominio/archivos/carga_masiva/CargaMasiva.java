@@ -36,7 +36,7 @@ public class CargaMasiva {
                 () -> {
                     Usuario usuario = new Usuario();
                     usuario.setNombreUsuario(colaborador.getNombre());
-                    usuario.setContrasena("contrabase");
+                    usuario.setContrasenia("contrabase");
                     Rol rol = new Rol();
                     rol.setNombreRol("COLABORADOR");
                     usuario.setRol(rol);
