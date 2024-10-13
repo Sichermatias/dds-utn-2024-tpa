@@ -1,11 +1,13 @@
 package ar.edu.utn.frba.dds.server;
 import ar.edu.utn.frba.dds.controllers.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+
+import static ar.edu.utn.frba.dds.server.Server.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Router implements WithSimplePersistenceUnit {
     public void init() {
-        Server.app().routes(() -> {
+        app().routes(() -> {
 
             // Pantalla principal y login
             get("/", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
@@ -27,9 +29,7 @@ public class Router implements WithSimplePersistenceUnit {
             post("/usuarios/{id}/editar", ((UsuariosController) FactoryController.controller("Usuarios"))::edit);
 
             // Limpiar la sesión al finalizar cada petición
-            after(ctx -> {
-                entityManager().clear();
-            });
+            after(ctx -> entityManager().clear());
         });
     }
 }

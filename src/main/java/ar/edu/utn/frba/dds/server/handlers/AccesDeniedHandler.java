@@ -9,7 +9,7 @@ public class AccesDeniedHandler implements IHandler{
     public void setHandle(Javalin app) {
     app.exception(AccessDeniedException.class, (e, ctx)-> {
        ctx.redirect("/");
-       //             context.render("prohibido.hbs");
+       //ctx.render("Prohibido.hbs");
     });
     }
 }

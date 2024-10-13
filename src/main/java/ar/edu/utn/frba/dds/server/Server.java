@@ -4,7 +4,6 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
-import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import ar.edu.utn.frba.dds.server.handlers.*;
@@ -23,13 +22,10 @@ public class Server {
 
     public static void init() {
         if (app == null) {
-            Integer port = Integer.parseInt(System.getProperty("port", "7777"));
+            int port = Integer.parseInt(System.getProperty("port", "7777"));
             app = Javalin.create(config()).start(port);
 
-            app.before(ctx -> {
-                Context context = ctx;
-                context.sessionAttribute("key", "value");
-            });
+            app.before(ctx -> ctx.sessionAttribute("key", "value"));
 
             initTemplateEngine();
             AppHandlers.applyHandlers(app);

@@ -20,7 +20,7 @@ public class Usuario extends VerificadorContrasenia {
     @Column(name = "contraseñaUsuario", columnDefinition = "VARCHAR(50)")
     private String contrasena;
     //private Colaborador colaborador;
-    @ManyToMany
+    @ManyToOne
     @JoinTable(name = "usuario_Rol",
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "id"))

@@ -27,22 +27,12 @@
             <!-- Fila: Razón Social y Tipo de Persona Jurídica -->
             <div class="row">
                 <input type="text" id="razonSocial" name="razonSocial" placeholder="Razón Social" required>
-                <select id="tipoPersonaJuridica" name="tipoPersonaJuridica" required>
-                    <option value="" disabled selected>Seleccionar Tipo</option>
-                    {{#each tipos}}
-                    <option value="{{this.id}}">{{this.nombre}}</option>
-                    {{/each}}
-                </select>
+                <input type="text" id="tipoPersonaJuridica" name="tipoPersonaJuridica" placeholder="Tipo de persona juridica">
             </div>
 
             <!-- Fila: Rubro y Dirección -->
             <div class="row">
-                <select id="rubroPersonaJuridica" name="rubroPersonaJuridica" required>
-                    <option value="" disabled selected>Seleccionar Rubro</option>
-                    {{#each rubros}}
-                    <option value="{{this.id}}">{{this.nombre}}</option>
-                    {{/each}}
-                </select>
+                <input type="text" id="rubro" name="rubro" placeholder="Rubro">
                 <input type="text" id="direccion" name="direccion" placeholder="Dirección (opcional)">
             </div>
 

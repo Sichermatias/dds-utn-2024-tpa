@@ -15,7 +15,7 @@ public class LandingPageController implements ICrudViewsHandler, WithSimplePersi
         context.consumeSessionAttribute("logeado");
         context.consumeSessionAttribute("administrador");
         model.put("logeado",false);
-        context.render("Landing-Page.hbs", model); //TODO:NOMBRE CORRECTO DEL ARCHIVO HBS
+        context.render("Landing-Page.hbs", model);
     }
 
     @Override

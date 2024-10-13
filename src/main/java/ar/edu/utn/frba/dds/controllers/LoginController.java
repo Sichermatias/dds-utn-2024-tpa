@@ -27,11 +27,11 @@ public class LoginController implements ICrudViewsHandler{
         if(context.sessionAttribute("usuario_id")!= null){
             model.put("logeado",true);
            //model.put("administrador",esAdmin(context));
-            context.render("/landingPage.hbs", model);
+            context.render("Landing-Page.hbs", model);
         }else{
             model.put("logeado",false);
 
-            context.render("login.hbs", model);
+            context.render("Inicio.hbs", model);
         }
 
     }
@@ -67,8 +67,8 @@ public class LoginController implements ICrudViewsHandler{
         if(usuarioRegistrado!=null ){
             context.sessionAttribute("usuario_id", usuarioRegistrado.getId());
           model.put("logeado",true);
-        //model.put("administrador",esAdmin(context));
-        context.render("/landingPage.hbs", model);
+          //model.put("administrador",esAdmin(context));
+        context.render("Landing-Page.hbs", model);
         }
         else{
             context.redirect("/");
