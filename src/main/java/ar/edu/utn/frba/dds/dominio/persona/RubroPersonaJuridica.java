@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.dominio.persona;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
 @Entity
 @Table(name = "rubroPersonaJuridica")
 public class RubroPersonaJuridica {
@@ -10,5 +12,7 @@ public class RubroPersonaJuridica {
     private Long id;
 
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
+    @Setter
+    @Getter
     private String nombre;
 }

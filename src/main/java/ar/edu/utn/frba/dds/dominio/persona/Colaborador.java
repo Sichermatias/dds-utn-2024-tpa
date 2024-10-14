@@ -41,11 +41,11 @@ public class Colaborador extends Persistente {
     @Column(name = "razonSocial", columnDefinition = "VARCHAR(100)")
     private String razonSocial;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "rubroPersonaJuridica")
     private RubroPersonaJuridica rubroPersonaJuridica;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tipoPersonaJuridica")
     private TipoPersonaJuridica tipoPersonaJuridica;
 
@@ -56,7 +56,7 @@ public class Colaborador extends Persistente {
     @JoinColumn(name = "formularioRespondido_id")
     private FormularioRespondido formularioRespondido;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaborador_id")
     private List<MedioDeContacto> mediosDeContacto=new ArrayList<>();
 

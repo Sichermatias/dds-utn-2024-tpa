@@ -13,7 +13,7 @@ public class MedioDeContacto {
     @GeneratedValue
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "nombreMedioDeContacto_id", referencedColumnName = "id")
     private NombreDeMedioDeContacto nombreDeMedioDeContacto;
 

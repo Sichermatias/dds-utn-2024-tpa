@@ -1,16 +1,14 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.config.ServiceLocator;
-import ar.edu.utn.frba.dds.controllers.FactoryController;
-import ar.edu.utn.frba.dds.controllers.LoginController;
-import ar.edu.utn.frba.dds.controllers.RegistroController;
-import ar.edu.utn.frba.dds.controllers.UsuariosController;
+import ar.edu.utn.frba.dds.controllers.*;
 import io.javalin.Javalin;
 
 public class Router {
     public static void init(Javalin app) {
         // Pantalla principal y login
-        app.get("/", ServiceLocator.instanceOf(LoginController.class)::index);
+        //app.get("/", ServiceLocator.instanceOf(LandingPageController.class)::index);
+        app.get("/", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
         app.get("/login", ((LoginController) FactoryController.controller("Login"))::index);
         app.post("/login", ((LoginController) FactoryController.controller("Login"))::update);
 

@@ -7,7 +7,8 @@ import static org.mockito.Mockito.mock;
 
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CampoInvalidoException;
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CargaMasiva;
-import ar.edu.utn.frba.dds.models.repositories.imp.PersonaHumanaRepositorio;
+import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensaje;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +27,7 @@ public class CargaMasivaTests {
         CargaMasiva carga = new CargaMasiva(mensajero);
         String rutaArchivo=rutaBase+"CargaMasivaTest2.csv";
         carga.cargarArchivo(rutaArchivo,";");
-        Assertions.assertEquals(1,PersonaHumanaRepositorio.obtenerInstancia().getColaboradors().size());
+        Assertions.assertEquals(1, ColaboradorRepositorio.getInstancia().buscarTodos(Colaborador.class).size());
     }
     @Test
     void cargaMasivaDosNuevos() throws CampoInvalidoException {
@@ -35,7 +36,7 @@ public class CargaMasivaTests {
         CargaMasiva carga = new CargaMasiva(mensajero);
         String rutaArchivo =rutaBase + "CargaMasivaTest1.csv"; // Construye la ruta relativa al archivo
         carga.cargarArchivo(rutaArchivo, ";");
-        Assertions.assertEquals(2,PersonaHumanaRepositorio.obtenerInstancia().getColaboradors().size());
+        Assertions.assertEquals(2, ColaboradorRepositorio.getInstancia().buscarTodos(Colaborador.class).size());
     }
 
 

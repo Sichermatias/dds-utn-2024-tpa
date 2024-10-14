@@ -19,6 +19,7 @@ public class Rol {
     @Setter
     private String nombreRol;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo")
     private TipoRol tipo;
