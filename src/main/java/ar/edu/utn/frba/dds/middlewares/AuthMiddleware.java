@@ -10,6 +10,14 @@ import java.util.ArrayList;
 
 public class AuthMiddleware {
     public static void apply(Javalin app) {
+        ArrayList<String> rutasPublicas= new ArrayList<>();
+        rutasPublicas.add("/css/StyleLandingPage.css");
+        rutasPublicas.add("/css/StyleLogin.css");
+        rutasPublicas.add("/css/StyleRegistroHumana.css");
+        rutasPublicas.add("/css/StyleRegistroJuridica.css");
+        rutasPublicas.add("/css/StyleSignin.css");
+
+
         ArrayList<String> rutasPermitidas = new ArrayList<>();
         rutasPermitidas.add("/");
         rutasPermitidas.add("/login");
@@ -22,7 +30,7 @@ public class AuthMiddleware {
 
             var userRole = getUserRoleType(ctx);
             System.out.print(userRole);
-            if (!isRoleAllowed(userRole,ctx) && !rutasPermitidas.contains(ctx.path())) {
+            if (!isRoleAllowed(userRole,ctx) && !rutasPermitidas.contains(ctx.path()) && !rutasPublicas.contains(ctx.path())) {
                 throw new AccessDeniedException();
             }
         });
