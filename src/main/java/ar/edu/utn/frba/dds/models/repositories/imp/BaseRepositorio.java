@@ -73,7 +73,7 @@ public abstract class BaseRepositorio<T> {
         CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
         Root<T> root = cq.from(claseEntidad);
 
-        Predicate condicion = cb.equal(root.get("nombre"), nombre);
+        Predicate condicion = cb.equal(root.get("nombreUsuario"), nombre);
         cq.where(condicion);
         cq.select(root);
         return getEntityManager().createQuery(cq).getResultList();

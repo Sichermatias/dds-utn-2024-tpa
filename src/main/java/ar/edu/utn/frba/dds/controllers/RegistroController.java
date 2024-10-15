@@ -117,7 +117,7 @@ public class RegistroController implements WithSimplePersistenceUnit {
         usuario.setNombreUsuario(nombreUsuario);
 
         Rol rol = new Rol();
-        rol.setTipo(TipoRol.COLABORADOR_JURIDICO);
+        rol.setTipo(TipoRol.COLABORADOR);
         rol.setNombreRol("Usuario");
         usuario.setRol(rol);
 
@@ -199,7 +199,7 @@ public class RegistroController implements WithSimplePersistenceUnit {
         usuario.setNombreUsuario(nombreUsuario);
 
         Rol rol = new Rol();
-        rol.setTipo(TipoRol.COLABORADOR_HUMANO);
+        rol.setTipo(TipoRol.COLABORADOR);
         rol.setNombreRol("Usuario");
         usuario.setRol(rol);
 

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-//TODO: REPO USUARIOS Y USUARIOS EN GENERAL.
 public class LoginController implements ICrudViewsHandler{
 
      private UsuarioRepositorio usuarioRepositorio;
@@ -56,22 +55,28 @@ public class LoginController implements ICrudViewsHandler{
 
     @Override
     public void update(Context context) {
-        Map<String, Object> model = new HashMap<>();
+        List<Usuario> usuarios = usuarioRepositorio.buscarPorNombre(Usuario.class, context.formParam("username"));
+        // Verificar si se encontró al usuario
+        if (!usuarios.isEmpty()) {
+            Usuario usuario = usuarios.get(0);
 
-        Usuario usuario = new Usuario();
-        this.asignarParametros(usuario, context);
-            List<Usuario> Todosusuarios = usuarioRepositorio.buscarTodos(Usuario.class);
-            Usuario usuarioRegistrado = usuarioRepositorio.usuarioRegistrado(usuario, Todosusuarios);
-        if(usuarioRegistrado!=null ){
-            context.sessionAttribute("usuario_id", usuarioRegistrado.getId());
-          model.put("logeado",true);
-          //model.put("administrador",esAdmin(context));
-        context.render("Landing-Page.hbs", model);
-        }
-        else{
-            context.redirect("/");
+            // Verificar la contraseña (asegúrate de que esto se haga de manera segura)
+            if (usuario.getContrasenia().equals(context.formParam("password"))) {
+                // Almacenar el ID del usuario y el rol en la sesión
+                context.sessionAttribute("usuario_id", usuario.getId());
+                context.sessionAttribute("tipo_rol", usuario.getRol().getTipo().name());
+                // Redirigir a la página principal o a la página de destino
+                context.redirect("/"); // Cambia esto según tu ruta
+            } else {
+                // Manejar el caso donde la contraseña es incorrecta
+                context.redirect("/login?error=contraseña_incorrecta");
+            }
+        } else {
+            // Manejar el caso donde no se encuentra el usuario
+            context.redirect("/login?error=usuario_no_encontrado");
         }
     }
+
 
     @Override
     public void delete(Context context) {
