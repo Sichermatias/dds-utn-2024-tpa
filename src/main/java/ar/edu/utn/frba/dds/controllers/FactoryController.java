@@ -11,7 +11,7 @@ public class FactoryController {
             case "Registro" -> new RegistroController(new ColaboradorRepositorio());
             case "Usuarios" -> new UsuariosController(new UsuarioRepositorio());
             case "LandingPage" -> new LandingPageController();
-            case "Premios" -> new PremiosController();
+            case "Premios" -> new PremiosController(new ColaboradorRepositorio());
             default -> null;
         };
     }

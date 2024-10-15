@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.dominio.persona;
 
+import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMensaje;
 import ar.edu.utn.frba.dds.dominio.Persistente;
@@ -42,22 +43,22 @@ public class Colaborador extends Persistente {
     private String razonSocial;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "rubroPersonaJuridica")
+    @JoinColumn(name = "rubroPersonaJuridica", referencedColumnName = "id")
     private RubroPersonaJuridica rubroPersonaJuridica;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "tipoPersonaJuridica")
+    @JoinColumn(name = "tipoPersonaJuridica", referencedColumnName = "id")
     private TipoPersonaJuridica tipoPersonaJuridica;
 
     @Enumerated(EnumType.STRING)
     private TipoPersona tipoPersona;
 
     @OneToOne
-    @JoinColumn(name = "formularioRespondido_id")
+    @JoinColumn(name = "formularioRespondido_id", referencedColumnName = "id")
     private FormularioRespondido formularioRespondido;
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "colaborador_id")
+    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private List<MedioDeContacto> mediosDeContacto=new ArrayList<>();
 
     @Embedded //TODO: está bien embeberlo?
@@ -74,8 +75,12 @@ public class Colaborador extends Persistente {
     private int cantSemanalViandasDonadas; // TODO 2024-07-03: cuando el colaborador dona una vianda, hay que sumarle al contador.
 
     @OneToMany
-    @JoinColumn(name = "colaborador_id")
+    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private List<Tarjeta> tarjetas;
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private Usuario usuario;
 
     public Colaborador() {
         this.suscripciones = new ArrayList<>();
