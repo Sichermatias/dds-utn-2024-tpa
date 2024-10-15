@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.server;
 
-import ar.edu.utn.frba.dds.config.ServiceLocator;
 import ar.edu.utn.frba.dds.controllers.*;
 import io.javalin.Javalin;
 
@@ -28,5 +27,8 @@ public class Router {
         app.get("/usuarios/{id}/eliminar", ((UsuariosController) FactoryController.controller("Usuarios"))::delete);
         app.get("/usuarios/{id}", ((UsuariosController) FactoryController.controller("Usuarios"))::show);
         app.post("/usuarios/{id}/editar", ((UsuariosController) FactoryController.controller("Usuarios"))::edit);
-    };
+
+        //Puntos y canje de premios
+        app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
+    }
 }

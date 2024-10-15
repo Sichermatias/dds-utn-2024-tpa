@@ -3,10 +3,11 @@ package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 
-public class PremiosController implements ICrudViewsHandler {
+public class PremiosController extends Controller implements ICrudViewsHandler {
     @Override
     public void index(Context context) {
-
+        //Map<String, Object> model = new HashMap<>();
+        context.render("Puntos-Humano.hbs");
     }
 
     @Override
