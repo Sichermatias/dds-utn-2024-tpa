@@ -59,12 +59,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Fila de dos columnas */
-.row {
-    display: flex;
-    justify-content: space-between;
-}
-
 .row input, .row select {
     width: 48%; /* Asegura que tanto inputs como selects ocupen el mismo espacio */
     padding: 10px;
@@ -93,7 +87,7 @@ select {
     padding: 10px;
     font-size: 14px;
     border-radius: 4px;
-    width: 100%; /* Alinea el tamaño con los inputs */
+    width: 90%; /* Alinea el tamaño con los inputs */
     cursor: pointer;
 }
 
@@ -131,4 +125,18 @@ button {
 
 button:hover {
     background-color: #8b1a1a; /* Más oscuro al hacer hover */
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Añadir espacio entre los inputs dentro de la fila */
+}
+
+.row input, .row select {
+    width: 100%; /* Cambiado a 100% para que el gap sea consistente */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }

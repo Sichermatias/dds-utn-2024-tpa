@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Persona Humana</title>
+    <link rel="stylesheet" type="text/css" href="/css/StyleRegistroJuridica.css">
+</head>
+<body>
+<header>
+    <div class="navbar">
+        <a href="/" class="logo">SISTEMA MAACVS</a>
+        <nav>
+            <a href="/inicio">Inicio</a>
+            <a href="/mapa">Mapa</a>
+            <a href="/nosotros">Acerca de Nosotros</a>
+            <a href="/registro" class="active">Registrar</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="form-container">
+        <form action="/registro/humana" method="POST">
+            <h1>Registrar Persona Humana</h1>
+
+            <!-- Fila: Razón Social y Tipo de Persona Jurídica -->
+            <div class="row">
+                <input type="text" id="razonSocial" name="razonSocial" placeholder="Razón Social" required>
+                <input type="text" id="tipoPersonaJuridica" name="tipoPersonaJuridica" placeholder="Tipo de persona juridica">
+            </div>
+
+            <!-- Fila: Rubro y Dirección -->
+            <div class="row">
+                <input type="text" id="rubro" name="rubro" placeholder="Rubro">
+                <input type="text" id="direccion" name="direccion" placeholder="Dirección (opcional)">
+            </div>
+
+            <!-- Fila: Contacto y Dato de Contacto -->
+            <div class="row">
+                <input type="text" id="nombreContacto" name="nombreContacto" placeholder="Tipo de Medio de Contacto">
+                <input type="text" id="contacto" name="contacto" placeholder="Dato de Contacto">
+            </div>
+
+            <!-- Fila: Nombre de Usuario y Contraseña -->
+            <div class="row">
+                <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            </div>
+
+            <!-- Botón para crear Persona Jurídica -->
+            <button type="submit">Crear Persona Humana</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

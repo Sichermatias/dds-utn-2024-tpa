@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Persona Jurídica</title>
-    <link rel="stylesheet" type="text/css" href="/css/StyleLandingPage.css">
+    <link rel="stylesheet" type="text/css" href="/css/StyleRegistroJuridica.css">
 </head>
 <body>
 <header>
@@ -27,19 +27,40 @@
             <!-- Fila: Razón Social y Tipo de Persona Jurídica -->
             <div class="row">
                 <input type="text" id="razonSocial" name="razonSocial" placeholder="Razón Social" required>
-                <input type="text" id="tipoPersonaJuridica" name="tipoPersonaJuridica" placeholder="Tipo de persona juridica">
+
+                <input type="text" list="tipoPersonaJuridicaOptions" id="tipoPersonaJuridica" name="tipoPersonaJuridica" placeholder="Tipo de Persona Jurídica">
+                <datalist id="tipoPersonaJuridicaOptions">
+                    <option value="S.A">
+                    <option value="S.R.L.">
+                    <option value="S.A.S">
+                    <option value="A.C">
+                    <option value="Fundacion">
+                </datalist>
             </div>
 
             <!-- Fila: Rubro y Dirección -->
             <div class="row">
-                <input type="text" id="rubro" name="rubro" placeholder="Rubro">
+                <input type="text" list="rubroOptions" id="rubro" name="rubro" placeholder="Rubro">
+                <datalist id="rubroOptions">
+                    <option value="Comercio">
+                    <option value="Gastronomia">
+                    <option value="Servicios">
+                    <option value="Industria">
+                </datalist>
                 <input type="text" id="direccion" name="direccion" placeholder="Dirección (opcional)">
             </div>
 
-            <!-- Fila: Contacto y Dato de Contacto -->
-            <div class="row">
-                <input type="text" id="nombreContacto" name="nombreContacto" placeholder="Tipo de Medio de Contacto">
-                <input type="text" id="contacto" name="contacto" placeholder="Dato de Contacto">
+            <div id="contact-container">
+                <div class="row">
+                    <input type="text" list="nombreContactoOptions" id="nombreContacto" name="nombreContacto[]" placeholder="Medio de Contacto">
+                    <datalist id="nombreContactoOptions">
+                        <option value="E-MAIL">
+                        <option value="WHATSAPP">
+                        <option value="TELEFONO LINEA">
+                    </datalist>
+                    <input type="text" id="contacto" name="contacto[]" placeholder="Dato de Contacto">
+                    <button type="button" id="addContact" class="add-button">Agregar otro medio</button>
+                </div>
             </div>
 
             <!-- Fila: Nombre de Usuario y Contraseña -->
@@ -53,5 +74,66 @@
         </form>
     </div>
 </main>
+
+<script>
+    document.getElementById('addContact').addEventListener('click', function() {
+        const contactContainer = document.getElementById('contact-container');
+        const currentContacts = contactContainer.querySelectorAll('.row').length;
+
+        if (currentContacts < 3) {  // Limitar a 3 medios de contacto
+            const newContactRow = document.createElement('div');
+            newContactRow.classList.add('row');
+
+            newContactRow.innerHTML = `
+                <input type="text" list="nombreContactoOptions" name="nombreContacto[]" placeholder="Medio de Contacto">
+                <input type="text" name="contacto[]" placeholder="Dato de Contacto">
+                <button type="button" class="remove-button">Eliminar</button>
+            `;
+
+            contactContainer.appendChild(newContactRow);
+
+            // Añadir evento al botón de eliminar
+            newContactRow.querySelector('.remove-button').addEventListener('click', function() {
+                newContactRow.remove();
+            });
+        } else {
+            alert("Solo puedes agregar hasta 3 medios de contacto.");
+        }
+    });
+</script>
+<style>
+/* Ajustar altura de los botones para coincidir con los inputs */
+.add-button, .remove-button {
+    margin-left: 10px;
+    padding: 10px; /* Coincide con el padding de los inputs */
+    background-color: #b22222; /* Color rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    height: 40px; /* Ajusta la altura para coincidir con los inputs */
+    width: 48%;
+}
+
+.remove-button {
+    background-color: #8b1a1a; /* Color rojo oscuro */
+}
+
+.add-button:hover, .remove-button:hover {
+    background-color: #a81818;
+}
+
+/* Ajustar los campos de entrada */
+input[type="text"], input[type="password"], select {
+    width: 48%;
+    padding: 10px; /* Padding ajustado */
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+</style>
+
 </body>
 </html>

@@ -29,7 +29,7 @@ public class LoginController implements ICrudViewsHandler{
         }else{
             model.put("logeado",false);
 
-            context.render("Inicio.hbs", model);
+            context.render("Login.hbs", model);
         }
 
     }
