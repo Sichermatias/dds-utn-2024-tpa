@@ -12,6 +12,9 @@ public class Router {
         app.get("/login", ((LoginController) FactoryController.controller("Login"))::index);
         app.post("/login", ((LoginController) FactoryController.controller("Login"))::update);
 
+
+        app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
+
         // Registro de personas
         app.get("/registro", ((RegistroController) FactoryController.controller("Registro"))::elegirTipo);
         app.get("/registro/juridica", ((RegistroController) FactoryController.controller("Registro"))::formularioJuridica);

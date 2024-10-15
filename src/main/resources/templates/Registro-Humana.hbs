@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Persona Humana</title>
-    <link rel="stylesheet" type="text/css" href="/css/StyleRegistroJuridica.css">
+    <link rel="stylesheet" type="text/css" href="/StyleRegistroHumana.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 </head>
 <body>
 <header>
@@ -24,23 +26,43 @@
         <form action="/registro/humana" method="POST">
             <h1>Registrar Persona Humana</h1>
 
-            <!-- Fila: Razón Social y Tipo de Persona Jurídica -->
+            <!-- Fila: Nombre y Apellido -->
             <div class="row">
-                <input type="text" id="razonSocial" name="razonSocial" placeholder="Razón Social" required>
-                <input type="text" id="tipoPersonaJuridica" name="tipoPersonaJuridica" placeholder="Tipo de persona juridica">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
             </div>
 
-            <!-- Fila: Rubro y Dirección -->
+            <!-- Fila: Tipo de Documento y Número de Documento -->
             <div class="row">
-                <input type="text" id="rubro" name="rubro" placeholder="Rubro">
-                <input type="text" id="direccion" name="direccion" placeholder="Dirección (opcional)">
+                <input type="text" list="tipoDocumentoOptions" id="tipoDocumento" name="tipoDocumento" placeholder="Tipo de Documento" required>
+                <datalist id="tipoDocumentoOptions">
+                    <option value="DNI">
+                    <option value="LC">
+                    <option value="LE">
+                </datalist>
+                <input type="text" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
             </div>
 
-            <!-- Fila: Contacto y Dato de Contacto -->
+            <!-- Fila: Fecha de Nacimiento y Nacionalidad -->
             <div class="row">
-                <input type="text" id="nombreContacto" name="nombreContacto" placeholder="Tipo de Medio de Contacto">
-                <input type="text" id="contacto" name="contacto" placeholder="Dato de Contacto">
+                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
             </div>
+
+            <!-- Fila: Contacto y Dato de Contacto (con opción de agregar hasta 3) -->
+            <div id="contact-fields">
+                <div class="row">
+                    <input type="text" list="nombreContactoOptions" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto">
+                    <datalist id="nombreContactoOptions">
+                        <option value="E-MAIL">
+                        <option value="WHATSAPP">
+                        <option value="TELEFONO LINEA">
+                    </datalist>
+                    <input type="text" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>
+                </div>
+            </div>
+
+            <!-- Botón para agregar más medios de contacto -->
+            <button type="button" class="add-contact">Agregar Medio de Contacto</button>
 
             <!-- Fila: Nombre de Usuario y Contraseña -->
             <div class="row">
@@ -48,10 +70,94 @@
                 <input type="password" id="password" name="password" placeholder="Contraseña" required>
             </div>
 
-            <!-- Botón para crear Persona Jurídica -->
+            <input type="hidden" id="lat" name="lat">
+            <input type="hidden" id="lng" name="lng">
+            <input type="hidden" id="direccion" name="direccion">
+
+            <!-- Botón para crear Persona Humana -->
             <button type="submit">Crear Persona Humana</button>
         </form>
     </div>
+
+    <!-- Mapa de selección de ubicación -->
+    <div id="map" style="height: 400px; width: 50%; float: right;"></div>
 </main>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script>
+    // Inicializar el mapa
+var map = L.map('map').setView([-34.61, -58.38], 13); // Centrar en Buenos Aires
+
+// Añadir el "tile layer" del mapa (estilo y proveedor del mapa)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Crear un geocoder para buscar direcciones
+var geocoder = L.Control.Geocoder.nominatim();
+
+// Agregar el control de geocodificación al mapa
+L.Control.geocoder({
+    defaultMarkGeocode: false, // No agregar automáticamente un marcador
+    position: 'topright',
+    placeholder: 'Buscar dirección',
+    errorMessage: 'No se encontró la dirección'
+}).on('markgeocode', function(e) {
+    // Obtener el resultado
+    var result = e.geocode;
+    var lat = result.center.lat;
+    var lng = result.center.lng;
+    var address = result.name;  // La dirección completa
+
+    // Colocar un marcador en la ubicación seleccionada
+    L.marker(result.center).addTo(map)
+        .bindPopup(address)
+        .openPopup();
+
+    // Actualizar los campos ocultos con latitud, longitud y otros detalles
+    document.getElementById('lat').value = lat;
+    document.getElementById('lng').value = lng;
+    document.getElementById('direccion').value = address;
+    // Centrar el mapa en la ubicación seleccionada
+    map.setView(result.center, 13);
+}).addTo(map);
+
+// Opcional: Centrar el mapa en la ubicación del usuario (si se permite el acceso a la ubicación)
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        map.setView([lat, lng], 13); // Centrar en la ubicación del usuario
+    });
+}
+
+ let contactCount = 1; // Contador de medios de contacto
+
+    document.querySelector('.add-contact').addEventListener('click', function() {
+        if (contactCount < 3) {
+            contactCount++;
+
+            // Crear nuevos campos para el medio de contacto
+            const newContactRow = document.createElement('div');
+            newContactRow.classList.add('row');
+            newContactRow.innerHTML = `
+                <input type="text" list="nombreContactoOptions" id="nombreContacto${contactCount}" name="nombreContacto${contactCount}" placeholder="Tipo de Medio de Contacto">
+                <input type="text" id="contacto${contactCount}" name="contacto${contactCount}" placeholder="Dato de Contacto" required>
+                <button type="button" class="remove-contact" onclick="removeContact(this)">Eliminar</button>
+            `;
+
+            document.getElementById('contact-fields').appendChild(newContactRow);
+        }
+    });
+
+    // Función para eliminar un medio de contacto
+    function removeContact(button) {
+        const contactRow = button.parentElement;
+        contactRow.remove();
+        contactCount--;
+    }
+</script>
 </body>
 </html>

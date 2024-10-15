@@ -9,25 +9,20 @@ import io.javalin.http.Context;
 import java.util.ArrayList;
 
 public class AuthMiddleware {
-    /*public static void apply(JavalinConfig config) {
+    public static void apply(Javalin app) {
         ArrayList<String> rutasPermitidas = new ArrayList<>();
         rutasPermitidas.add("/");
         rutasPermitidas.add("/login");
         rutasPermitidas.add("/registro");
         rutasPermitidas.add("/registro/juridica");
-        config.accessManager((handler, context, routeRoles) -> {
-         if(context.sessionAttribute("usuario_id")==null && !rutasPermitidas.contains(context.path())){
-             throw new AccessDeniedException();
-         }
-         else
-         {handler.handle(context);}
-        });
-    }*/
+        rutasPermitidas.add("/registro/humana");
 
-    public static void apply(Javalin app) {
+
         app.beforeMatched(ctx -> {
+
             var userRole = getUserRoleType(ctx);
-            if (!ctx.routeRoles().isEmpty() && !ctx.routeRoles().contains(userRole)) {
+            System.out.print(userRole);
+            if (!isRoleAllowed(userRole,ctx) && !rutasPermitidas.contains(ctx.path())) {
                 throw new AccessDeniedException();
             }
         });
@@ -36,5 +31,11 @@ public class AuthMiddleware {
     private static Rol getUserRoleType(Context context) {
         return context.sessionAttribute("tipo_rol") != null?
                 Rol.valueOf(context.sessionAttribute("tipo_rol")) : null;
+    }
+
+    private static boolean isRoleAllowed(Rol userRole, Context ctx) {
+        if (userRole == Rol.ADMIN || userRole == Rol.COLABORADOR) {
+            return true;
+        }else return false;
     }
 }

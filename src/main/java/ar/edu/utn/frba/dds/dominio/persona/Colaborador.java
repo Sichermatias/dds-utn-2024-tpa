@@ -35,8 +35,8 @@ public class Colaborador extends Persistente {
     @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
 
-    @Column(name = "nroDocumento", columnDefinition = "INTEGER(11)")
-    private Integer nroDocumento;
+    @Column(name = "nroDocumento", columnDefinition = "VARCHAR(100)")
+    private String nroDocumento;
 
     @Column(name = "razonSocial", columnDefinition = "VARCHAR(100)")
     private String razonSocial;
@@ -119,7 +119,7 @@ public class Colaborador extends Persistente {
         mediosDeContacto.add(medioDeContacto);
     }
 
-    public Integer getNroDocumento() {
+    public String getNroDocumento() {
         return nroDocumento;
     }
 }

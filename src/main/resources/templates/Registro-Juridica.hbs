@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Persona Jurídica</title>
-    <link rel="stylesheet" type="text/css" href="/css/StyleRegistroJuridica.css">
+    <title>Registro Persona Juridica</title>
+    <link rel="stylesheet" type="text/css" href="/StyleRegistroHumana.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 </head>
 <body>
 <header>
@@ -18,7 +20,6 @@
         </nav>
     </div>
 </header>
-
 <main>
     <div class="form-container">
         <form action="/registro/juridica" method="POST">
@@ -47,21 +48,20 @@
                     <option value="Servicios">
                     <option value="Industria">
                 </datalist>
-                <input type="text" id="direccion" name="direccion" placeholder="Dirección (opcional)">
             </div>
-
-            <div id="contact-container">
+            <div id="contact-fields">
                 <div class="row">
-                    <input type="text" list="nombreContactoOptions" id="nombreContacto" name="nombreContacto[]" placeholder="Medio de Contacto">
+                    <input type="text" list="nombreContactoOptions" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto">
                     <datalist id="nombreContactoOptions">
                         <option value="E-MAIL">
                         <option value="WHATSAPP">
                         <option value="TELEFONO LINEA">
                     </datalist>
-                    <input type="text" id="contacto" name="contacto[]" placeholder="Dato de Contacto">
-                    <button type="button" id="addContact" class="add-button">Agregar otro medio</button>
+                    <input type="text" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>
                 </div>
             </div>
+            <!-- Botón para agregar más medios de contacto -->
+            <button type="button" class="add-contact">Agregar Medio de Contacto</button>
 
             <!-- Fila: Nombre de Usuario y Contraseña -->
             <div class="row">
@@ -69,71 +69,93 @@
                 <input type="password" id="password" name="password" placeholder="Contraseña" required>
             </div>
 
+            <input type="hidden" id="lat" name="lat">
+            <input type="hidden" id="lng" name="lng">
+            <input type="hidden" id="direccion" name="direccion">
+
             <!-- Botón para crear Persona Jurídica -->
             <button type="submit">Crear Persona Jurídica</button>
         </form>
     </div>
+    <!-- Mapa de selección de ubicación -->
+    <div id="map" style="height: 400px; width: 50%; float: right;"></div>
 </main>
 
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <script>
-    document.getElementById('addContact').addEventListener('click', function() {
-        const contactContainer = document.getElementById('contact-container');
-        const currentContacts = contactContainer.querySelectorAll('.row').length;
+    // Inicializar el mapa
+var map = L.map('map').setView([-34.61, -58.38], 13); // Centrar en Buenos Aires
 
-        if (currentContacts < 3) {  // Limitar a 3 medios de contacto
+// Añadir el "tile layer" del mapa (estilo y proveedor del mapa)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Crear un geocoder para buscar direcciones
+var geocoder = L.Control.Geocoder.nominatim();
+
+// Agregar el control de geocodificación al mapa
+L.Control.geocoder({
+    defaultMarkGeocode: false, // No agregar automáticamente un marcador
+    position: 'topright',
+    placeholder: 'Buscar dirección',
+    errorMessage: 'No se encontró la dirección'
+}).on('markgeocode', function(e) {
+    // Obtener el resultado
+    var result = e.geocode;
+    var lat = result.center.lat;
+    var lng = result.center.lng;
+    var address = result.name;  // La dirección completa
+
+    // Colocar un marcador en la ubicación seleccionada
+    L.marker(result.center).addTo(map)
+        .bindPopup(address)
+        .openPopup();
+
+    // Actualizar los campos ocultos con latitud, longitud y otros detalles
+    document.getElementById('lat').value = lat;
+    document.getElementById('lng').value = lng;
+    document.getElementById('direccion').value = address;
+    // Centrar el mapa en la ubicación seleccionada
+    map.setView(result.center, 13);
+}).addTo(map);
+
+// Opcional: Centrar el mapa en la ubicación del usuario (si se permite el acceso a la ubicación)
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        map.setView([lat, lng], 13); // Centrar en la ubicación del usuario
+    });
+}
+
+ let contactCount = 1; // Contador de medios de contacto
+
+    document.querySelector('.add-contact').addEventListener('click', function() {
+        if (contactCount < 3) {
+            contactCount++;
+
+            // Crear nuevos campos para el medio de contacto
             const newContactRow = document.createElement('div');
             newContactRow.classList.add('row');
-
             newContactRow.innerHTML = `
-                <input type="text" list="nombreContactoOptions" name="nombreContacto[]" placeholder="Medio de Contacto">
-                <input type="text" name="contacto[]" placeholder="Dato de Contacto">
-                <button type="button" class="remove-button">Eliminar</button>
+                <input type="text" list="nombreContactoOptions" id="nombreContacto${contactCount}" name="nombreContacto${contactCount}" placeholder="Tipo de Medio de Contacto">
+                <input type="text" id="contacto${contactCount}" name="contacto${contactCount}" placeholder="Dato de Contacto" required>
+                <button type="button" class="remove-contact" onclick="removeContact(this)">Eliminar</button>
             `;
 
-            contactContainer.appendChild(newContactRow);
-
-            // Añadir evento al botón de eliminar
-            newContactRow.querySelector('.remove-button').addEventListener('click', function() {
-                newContactRow.remove();
-            });
-        } else {
-            alert("Solo puedes agregar hasta 3 medios de contacto.");
+            document.getElementById('contact-fields').appendChild(newContactRow);
         }
     });
+
+    // Función para eliminar un medio de contacto
+    function removeContact(button) {
+        const contactRow = button.parentElement;
+        contactRow.remove();
+        contactCount--;
+    }
 </script>
-<style>
-/* Ajustar altura de los botones para coincidir con los inputs */
-.add-button, .remove-button {
-    margin-left: 10px;
-    padding: 10px; /* Coincide con el padding de los inputs */
-    background-color: #b22222; /* Color rojo */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    height: 40px; /* Ajusta la altura para coincidir con los inputs */
-    width: 48%;
-}
-
-.remove-button {
-    background-color: #8b1a1a; /* Color rojo oscuro */
-}
-
-.add-button:hover, .remove-button:hover {
-    background-color: #a81818;
-}
-
-/* Ajustar los campos de entrada */
-input[type="text"], input[type="password"], select {
-    width: 48%;
-    padding: 10px; /* Padding ajustado */
-    margin-bottom: 15px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-</style>
-
 </body>
 </html>

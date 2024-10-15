@@ -6,6 +6,37 @@ body {
     margin: 0;
     padding: 0;
 }
+.add-button, .remove-button {
+    margin-left: 10px;
+    padding: 10px; /* Coincide con el padding de los inputs */
+    background-color: #b22222; /* Color rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    height: 40px; /* Ajusta la altura para coincidir con los inputs */
+    width: 48%;
+}
+
+.remove-button {
+    background-color: #8b1a1a; /* Color rojo oscuro */
+}
+
+.add-button:hover, .remove-button:hover {
+    background-color: #a81818;
+}
+
+/* Ajustar los campos de entrada */
+input[type="text"], input[type="password"], select {
+    width: 48%;
+    padding: 10px; /* Padding ajustado */
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
 
 header {
     background-color: #b22222; /* Tonalidad roja */

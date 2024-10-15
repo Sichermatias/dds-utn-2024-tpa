@@ -30,7 +30,7 @@ public class ProcesadorCampos {
         }
 
         if (ValidadorCampos.validarDocumento(documento)) {
-            colaborador.setNroDocumento(Integer.parseInt(documento));
+            colaborador.setNroDocumento(documento);
         } else {
             throw new CampoInvalidoException("Documento inválido: " + documento);
         }

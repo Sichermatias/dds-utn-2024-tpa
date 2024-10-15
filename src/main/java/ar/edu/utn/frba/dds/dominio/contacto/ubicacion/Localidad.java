@@ -14,7 +14,7 @@ public class Localidad {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
