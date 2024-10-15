@@ -208,9 +208,9 @@ public class RegistroController implements WithSimplePersistenceUnit {
         context.status(HttpStatus.CREATED).redirect("/login");
     }
     public void checkUsername(Context ctx) {
-        UsuarioRepositorio usuarioRepositorio= UsuarioRepositorio.getInstancia();
+        UsuarioRepositorio usuarioRepositorio = UsuarioRepositorio.getInstancia();
         String username = ctx.queryParam("username");
-        boolean isAvailable = !usuarioRepositorio.buscarPorNombre(Usuario.class,username).isEmpty();
-        ctx.json(isAvailable); // Retorna true o false como JSON
+        boolean isAvailable = usuarioRepositorio.buscarPorNombre(Usuario.class, username).isEmpty();
+        ctx.json(isAvailable);
     }
 }

@@ -16,6 +16,7 @@ public class AuthMiddleware {
         rutasPublicas.add("/css/StyleRegistroHumana.css");
         rutasPublicas.add("/css/StyleRegistroJuridica.css");
         rutasPublicas.add("/css/StyleSignin.css");
+        rutasPublicas.add("/check-username");
 
 
         ArrayList<String> rutasPermitidas = new ArrayList<>();

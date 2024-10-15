@@ -68,6 +68,7 @@
                 <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
                 <input type="password" id="password" name="password" placeholder="Contraseña" required>
             </div>
+            <span id="username-check-result" style="color: red; display: none;">El nombre de usuario ya existe.</span>
 
             <input type="hidden" id="lat" name="lat">
             <input type="hidden" id="lng" name="lng">
@@ -156,15 +157,36 @@ if (navigator.geolocation) {
         contactRow.remove();
         contactCount--;
     }
-        // Validación del formulario
-    function validateForm() {
-        var direccion = document.getElementById('direccion').value;
-        if (!direccion) {
-            alert('Por favor, selecciona una dirección en el mapa.');
-            return false; // Evitar el envío del formulario
-        }
-        return true; // Permitir el envío del formulario
+    // Verificación del nombre de usuario
+    document.getElementById('nombreUsuario').addEventListener('blur', function() {
+    const username = this.value;
+
+    if (username) {
+        fetch(`/check-username?username=${username}`)
+            .then(response => response.json())
+            .then(isAvailable => {
+                const resultElement = document.getElementById('username-check-result');
+                if (!isAvailable) {
+                    resultElement.style.display = 'block';  // Muestra mensaje de usuario ya en uso
+                } else {
+                    resultElement.style.display = 'none';  // Oculta el mensaje si está disponible
+                }
+            });
     }
+    });
+    // Validación adicional antes de enviar el formulario
+    document.getElementById('registroForm').addEventListener('submit', function(event) {
+        const isUsernameTaken = document.getElementById('username-check-result').style.display === 'block';
+             var direccion = document.getElementById('direccion').value;
+        if (!direccion) {
+            event.preventDefault();
+            alert('Debes ingresar una ubicacion en el mapa');
+        }
+        if (isUsernameTaken) {
+            event.preventDefault();
+            alert('El nombre de usuario ya está en uso.');
+        }
+    });
 </script>
 </body>
 </html>

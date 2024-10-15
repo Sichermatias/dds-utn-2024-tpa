@@ -20,7 +20,7 @@ public class Router {
         app.get("/registro/humana", ((RegistroController) FactoryController.controller("Registro"))::formularioHumana);
         app.post("/registro/juridica", ((RegistroController) FactoryController.controller("Registro"))::registrarJuridica);
         app.post("/registro/humana", ((RegistroController) FactoryController.controller("Registro"))::registrarHumana);
-
+        app.get("/check-username", ((RegistroController) FactoryController.controller("Registro"))::checkUsername);
         // Lógica de usuarios (CRUD)
         app.get("/usuarios", ((UsuariosController) FactoryController.controller("Usuarios"))::index);
         app.post("/usuarios/crear", ((UsuariosController) FactoryController.controller("Usuarios"))::create);

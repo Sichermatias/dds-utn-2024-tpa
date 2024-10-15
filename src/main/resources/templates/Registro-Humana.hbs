@@ -23,7 +23,7 @@
 
 <main>
     <div class="form-container">
-        <form action="/registro/humana" method="POST" onsubmit="return validateForm()">
+        <form id="registroForm" action="/registro/humana" method="POST">
             <h1>Registrar Persona Humana</h1>
 
             <!-- Fila: Nombre y Apellido -->
@@ -43,12 +43,12 @@
                 <input type="text" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
             </div>
 
-            <!-- Fila: Fecha de Nacimiento y Nacionalidad -->
+            <!-- Fila: Fecha de Nacimiento -->
             <div class="row">
                 <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
             </div>
 
-            <!-- Fila: Contacto y Dato de Contacto (con opción de agregar hasta 3) -->
+            <!-- Fila: Contacto y Dato de Contacto -->
             <div id="contact-fields">
                 <div class="row">
                     <input type="text" list="nombreContactoOptions" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto">
@@ -69,6 +69,7 @@
                 <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
                 <input type="password" id="password" name="password" placeholder="Contraseña" required>
             </div>
+            <span id="username-check-result" style="color: red; display: none;">El nombre de usuario ya existe.</span>
 
             <input type="hidden" id="lat" name="lat">
             <input type="hidden" id="lng" name="lng">
@@ -124,7 +125,7 @@
         map.setView(result.center, 13);
     }).addTo(map);
 
-    // Opcional: Centrar el mapa en la ubicación del usuario (si se permite el acceso a la ubicación)
+    // Opcional: Centrar el mapa en la ubicación del usuario
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var lat = position.coords.latitude;
@@ -159,15 +160,36 @@
         contactCount--;
     }
 
-    // Validación del formulario
-    function validateForm() {
+    // Verificación del nombre de usuario
+    document.getElementById('nombreUsuario').addEventListener('blur', function() {
+    const username = this.value;
+
+    if (username) {
+        fetch(`/check-username?username=${username}`)
+            .then(response => response.json())
+            .then(isAvailable => {
+                const resultElement = document.getElementById('username-check-result');
+                if (!isAvailable) {
+                    resultElement.style.display = 'block';  // Muestra mensaje de usuario ya en uso
+                } else {
+                    resultElement.style.display = 'none';  // Oculta el mensaje si está disponible
+                }
+            });
+    }
+    });
+    // Validación adicional antes de enviar el formulario
+    document.getElementById('registroForm').addEventListener('submit', function(event) {
+        const isUsernameTaken = document.getElementById('username-check-result').style.display === 'block';
         var direccion = document.getElementById('direccion').value;
         if (!direccion) {
-            alert('Por favor, selecciona una dirección en el mapa.');
-            return false; // Evitar el envío del formulario
+            event.preventDefault();
+            alert('Debes ingresar una ubicacion en el mapa');
         }
-        return true; // Permitir el envío del formulario
-    }
+        if (isUsernameTaken) {
+            event.preventDefault();
+            alert('El nombre de usuario ya está en uso.');
+        }
+    });
 </script>
 </body>
 </html>
