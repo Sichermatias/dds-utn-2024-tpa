@@ -156,6 +156,15 @@ if (navigator.geolocation) {
         contactRow.remove();
         contactCount--;
     }
+        // Validación del formulario
+    function validateForm() {
+        var direccion = document.getElementById('direccion').value;
+        if (!direccion) {
+            alert('Por favor, selecciona una dirección en el mapa.');
+            return false; // Evitar el envío del formulario
+        }
+        return true; // Permitir el envío del formulario
+    }
 </script>
 </body>
 </html>

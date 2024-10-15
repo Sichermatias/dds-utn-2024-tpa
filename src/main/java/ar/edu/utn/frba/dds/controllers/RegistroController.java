@@ -57,7 +57,7 @@ public class RegistroController implements WithSimplePersistenceUnit {
 
         System.out.println("Dirección: " + direccion);
         // Extraer la ciudad y localidad desde la dirección
-        String[] completa= direccion.split(",");
+        String[] completa = direccion.split(",");
         System.out.println("Ciudad: " + completa[3]);
         String ciudad = completa[2];
         System.out.println("Localidad: " + completa[5]);
@@ -128,7 +128,6 @@ public class RegistroController implements WithSimplePersistenceUnit {
     }
 
 
-
     public void registrarHumana(Context context) {
 
         String nombre = context.formParam("nombre");
@@ -145,7 +144,7 @@ public class RegistroController implements WithSimplePersistenceUnit {
 
         System.out.println("Dirección: " + direccion);
         // Extraer la ciudad y localidad desde la dirección
-        String[] completa= direccion.split(",");
+        String[] completa = direccion.split(",");
         System.out.println("Ciudad: " + completa[3]);
         String ciudad = completa[2];
         System.out.println("Localidad: " + completa[5]);
@@ -207,5 +206,11 @@ public class RegistroController implements WithSimplePersistenceUnit {
 
         // Redireccionar a la página de login
         context.status(HttpStatus.CREATED).redirect("/login");
+    }
+    public void checkUsername(Context ctx) {
+        UsuarioRepositorio usuarioRepositorio= UsuarioRepositorio.getInstancia();
+        String username = ctx.queryParam("username");
+        boolean isAvailable = !usuarioRepositorio.buscarPorNombre(Usuario.class,username).isEmpty();
+        ctx.json(isAvailable); // Retorna true o false como JSON
     }
 }
