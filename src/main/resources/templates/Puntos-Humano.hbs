@@ -137,7 +137,7 @@
                                                     <i class="bi bi-gift-fill" style="font-size: 1.5em;"></i>
                                                 </div>
                                                 <div class="ps-3">
-                                                    <h6 style="font-size: 2em; color: green; font-weight: bold;">533</h6>
+                                                    <h6 style="font-size: 2em; color: green; font-weight: bold;">{{puntaje}}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,6 +164,7 @@
                     </div>
 
                     <!-- Columna aparte para la donación de premios -->
+                    {{#if esJuridico}}
                     <div class="col-lg-4 col-md-8 d-flex flex-column align-items-center justify-content-center">
                         <div class="card mb-3">
                             <div class="card-body">
@@ -178,6 +179,7 @@
                             </div>
                         </div>
                     </div>
+                    {{/if}}
                 </div>
             </div>
         </section>
