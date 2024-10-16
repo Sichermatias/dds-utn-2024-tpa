@@ -99,6 +99,7 @@ public class RegistroController implements WithSimplePersistenceUnit {
 
         // Persistir Colaborador
 
+        colaborador.setPuntaje(0);
         colaborador.setUsuario(usuario);
 
         personaRepositorio.persistir(colaborador);
@@ -161,6 +162,7 @@ public class RegistroController implements WithSimplePersistenceUnit {
         rol.setNombreRol("Usuario");
         usuario.setRol(rol);
 
+        colaborador.setPuntaje(0);
         colaborador.setUsuario(usuario);
         // Persistir Colaborador
         personaRepositorio.persistir(colaborador);
