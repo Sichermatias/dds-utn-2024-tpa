@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
+import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
@@ -11,10 +13,11 @@ public class LandingPageController implements ICrudViewsHandler, WithSimplePersi
     @Override
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        model.put("fallo", false);
-        context.consumeSessionAttribute("logeado");
-        context.consumeSessionAttribute("administrador");
-        model.put("logeado",false);
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        System.out.print(tipoRol);
+        if (tipoRol != null) {
+            model.put("tipo_rol", tipoRol);
+        }
         context.render("Landing-Page.hbs", model);
     }
 

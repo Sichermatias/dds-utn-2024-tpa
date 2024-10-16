@@ -4,6 +4,7 @@ import io.javalin.security.RouteRole;
 
 public enum Rol implements RouteRole {
     ADMIN,
-    COLABORADOR,
+    COLABORADOR_HUMANO,
+    COLABORADOR_JURIDICO,
     TECNICO,
 }

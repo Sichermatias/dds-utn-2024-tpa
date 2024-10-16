@@ -16,6 +16,7 @@ public class AuthMiddleware {
         rutasPublicas.add("/css/StyleRegistroHumana.css");
         rutasPublicas.add("/css/StyleRegistroJuridica.css");
         rutasPublicas.add("/css/StyleSignin.css");
+        rutasPublicas.add("/js/*");
         rutasPublicas.add("/check-username");
 
 
@@ -31,7 +32,8 @@ public class AuthMiddleware {
 
             var userRole = getUserRoleType(ctx);
             System.out.print(userRole);
-            if (!isRoleAllowed(userRole,ctx) && !rutasPermitidas.contains(ctx.path()) && !rutasPublicas.contains(ctx.path())) {
+
+            if (!isRoleAllowed(userRole,ctx) && !rutasPermitidas.contains(ctx.path()) && ctx.path().startsWith("/public") && ctx.path().startsWith("/css") && ctx.path().startsWith("/js")) {
                 throw new AccessDeniedException();
             }
         });
@@ -43,7 +45,7 @@ public class AuthMiddleware {
     }
 
     private static boolean isRoleAllowed(Rol userRole, Context ctx) {
-        if (userRole == Rol.ADMIN || userRole == Rol.COLABORADOR) {
+        if (userRole == Rol.ADMIN || userRole == Rol.COLABORADOR_HUMANO || userRole == Rol.COLABORADOR_JURIDICO) {
             return true;
         }else return false;
     }

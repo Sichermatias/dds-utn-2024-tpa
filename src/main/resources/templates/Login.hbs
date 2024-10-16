@@ -8,17 +8,8 @@
 </head>
 <body>
 <header>
-    <div class="navbar">
-        <a href="/" class="logo">SISTEMA MAACVS</a>
-        <nav>
-            <a href="/">Inicio</a>
-            <a href="/mapa">Mapa</a>
-            <a href="/nosotros">Acerca de Nosotros</a>
-            <a href="/registro" class="active">Registrate!</a>
-        </nav>
-    </div>
+    {{>templates/Navbar}}
 </header>
-
 <main>
     <div class="form-container">
         <form action="/login" method="POST">

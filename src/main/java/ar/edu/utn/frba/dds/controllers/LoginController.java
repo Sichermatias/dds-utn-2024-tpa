@@ -56,17 +56,13 @@ public class LoginController implements ICrudViewsHandler{
     @Override
     public void update(Context context) {
         List<Usuario> usuarios = usuarioRepositorio.buscarPorNombre(Usuario.class, context.formParam("username"));
-        // Verificar si se encontró al usuario
         if (!usuarios.isEmpty()) {
             Usuario usuario = usuarios.get(0);
-
-            // Verificar la contraseña (asegúrate de que esto se haga de manera segura)
             if (usuario.getContrasenia().equals(context.formParam("password"))) {
-                // Almacenar el ID del usuario y el rol en la sesión
+                // Almacenar el ID del usuario y el rol en la sesion
                 context.sessionAttribute("usuario_id", usuario.getId());
                 context.sessionAttribute("tipo_rol", usuario.getRol().getTipo().name());
-                // Redirigir a la página principal o a la página de destino
-                context.redirect("/"); // Cambia esto según tu ruta
+                context.redirect("/");
             } else {
                 // Manejar el caso donde la contraseña es incorrecta
                 context.redirect("/login?error=contraseña_incorrecta");
