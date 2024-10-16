@@ -18,10 +18,20 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
 
     @Override
     public void index(Context context) {
+
+
         Usuario usuario = this.usuarioLogueado(context);
         Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
 
         Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        String usuarioId= context.sessionAttribute("usuario_id");
+        System.out.print(tipoRol);
+        System.out.print(usuarioId);
+        if (tipoRol != null) {
+            model.put("tipo_rol", tipoRol);
+            model.put("usuario_id", usuarioId);
+        }
         model.put("puntaje", colaborador.getPuntaje());
         context.render("Puntos-Humano.hbs", model);
     }
