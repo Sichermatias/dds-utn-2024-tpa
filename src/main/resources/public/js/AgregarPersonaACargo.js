@@ -10,6 +10,14 @@ document.querySelector('.add-cargo').addEventListener('click', function() {
         newCargoRow.innerHTML = `
             <input type="text" id="nombrePersonaACargo${cargoCount}" name="nombrePersonaACargo${cargoCount}" placeholder="Nombre Persona a Cargo">
             <input type="text" id="apellidoPersonaACargo${cargoCount}" name="apellidoPersonaACargo${cargoCount}" placeholder="Apellido Persona a Cargo">
+        <input type="text" list="tipoDocumentoOptions${cargoCount}" id="tipoDocumento${cargoCount}" name="tipoDocumento${cargoCount}" placeholder="Tipo de Documento" required>
+                        <datalist id="tipoDocumentoOptions${cargoCount}">
+                            <option value="DNI">
+                            <option value="LC">
+                            <option value="LE">
+                        </datalist>
+                        <input type="text" id="nroDocumento${cargoCount}" name="nroDocumento${cargoCount}" placeholder="Número de documento" required>
+
             <button type="button" class="remove-cargo" onclick="removeCargo(this)">Eliminar</button>
         `;
 
