@@ -19,13 +19,18 @@
             <input type="text" id="username" name="username" placeholder="Usuario" required>
 
             <label for="password"></label>
-            <input type="password" id="password" name="password"
-                   placeholder="Contraseña" required>
+            <input type="password" id="password" name="password" placeholder="Contraseña" required>
 
             <button type="submit">Iniciar sesión</button>
 
             <p>¿No tienes una cuenta? <a href="/registro">Regístrate ahora</a></p>
         </form>
+
+        {{#if error}}
+            <div style="color: red;">
+                {{error}}
+            </div>
+        {{/if}}
     </div>
 </main>
 </body>
