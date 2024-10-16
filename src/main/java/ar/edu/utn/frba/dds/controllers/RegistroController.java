@@ -96,7 +96,6 @@ public class RegistroController implements WithSimplePersistenceUnit {
         rol.setNombreRol("Usuario");
         usuario.setRol(rol);
 
-
         // Persistir Colaborador
 
         colaborador.setPuntaje(0);
