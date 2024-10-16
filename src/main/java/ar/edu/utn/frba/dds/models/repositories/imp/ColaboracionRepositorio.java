@@ -3,10 +3,11 @@ package ar.edu.utn.frba.dds.models.repositories.imp;
 import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
 import lombok.Getter;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColaboracionRepositorio {
+public class ColaboracionRepositorio extends BaseRepositorio {
         @Getter
         private List<Colaboracion> colaboraciones;
         private static ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio instancia;
@@ -29,4 +30,9 @@ public class ColaboracionRepositorio {
         public void eliminar(Colaboracion colaborador) {
             colaboraciones.remove(colaborador);
         }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return null;
+    }
 }

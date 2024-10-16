@@ -18,10 +18,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "colaborador")
 @Setter
 @Getter
+@Entity
+@Table(name = "colaborador")
 public class Colaborador extends Persistente {
 
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
@@ -78,7 +78,7 @@ public class Colaborador extends Persistente {
     @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private List<Tarjeta> tarjetas;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
 

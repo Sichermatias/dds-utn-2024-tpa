@@ -7,10 +7,14 @@ import ar.edu.utn.frba.dds.dominio.persona.TipoPersona;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
-public class ProcesadorCampos {
+public class ProcesadorCampos implements WithSimplePersistenceUnit {
+
+    public static ColaboracionRepositorio repositorio= new ColaboracionRepositorio();
 
     public static Colaborador procesarCampos(String[] campos) throws CampoInvalidoException {
+        Colaborador colaborador=new Colaborador();
         String tipoDocumento = campos[0];
         String documento = campos[1];
         String nombre = campos[2];
@@ -20,7 +24,6 @@ public class ProcesadorCampos {
         String formaColaboracion = campos[6];
         String cantidadColaboraciones = campos[7];
 
-        Colaborador colaborador = new Colaborador();
         colaborador.setTipoPersona(TipoPersona.HUMANA);
 
         if (ValidadorCampos.validarTipoDocumento(tipoDocumento)) {
@@ -55,9 +58,7 @@ public class ProcesadorCampos {
             throw new CampoInvalidoException("Email inválido: " + email);
         }
 
-
         procesarColaboraciones(colaborador, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
-
         return colaborador;
     }
 
@@ -65,38 +66,39 @@ public class ProcesadorCampos {
         if (!ValidadorCampos.validarCantidad(cantidadStr)) {
             throw new CampoInvalidoException("Cantidad de colaboraciones inválida: " + cantidadStr);
         }
-
         int cantidad = Integer.parseInt(cantidadStr);
-        ColaboracionRepositorio colaboracionRepositorio= new ColaboracionRepositorio();
         for (int i = 0; i < cantidad; i++) {
             Colaboracion colaboracion = new Colaboracion();
-            switch(forma){
-                case "DINERO":
-                    DonacionDinero donacionDinero= new DonacionDinero();
+            switch (forma) {
+                case "DINERO" -> {
+                    DonacionDinero donacionDinero = new DonacionDinero();
                     donacionDinero.setColaboracion(colaboracion);
                     colaboracion.setTipo(forma);
-                    colaboracionRepositorio.agregar(colaboracion);
-                    break;
-                case "DONACION_VIANDAS":
-                    DonacionVianda donacionVianda= new DonacionVianda();
+                    colaboracion.setColaborador(colaborador);
+                    repositorio.agregar(colaboracion);
+                }
+                case "DONACION_VIANDAS" -> {
+                    DonacionVianda donacionVianda = new DonacionVianda();
                     donacionVianda.setColaboracion(colaboracion);
                     colaboracion.setTipo(forma);
-                    colaboracionRepositorio.agregar(colaboracion);
-                    break;
-                case "REDISTRIBUCION_VIANDAS":
-                    RedistribucionViandas redistribucionViandas= new RedistribucionViandas();
+                    colaboracion.setColaborador(colaborador);
+                    repositorio.agregar(colaboracion);
+                }
+                case "REDISTRIBUCION_VIANDAS" -> {
+                    RedistribucionViandas redistribucionViandas = new RedistribucionViandas();
                     redistribucionViandas.setColaboracion(colaboracion);
                     colaboracion.setTipo(forma);
-                    colaboracionRepositorio.agregar(colaboracion);
-                    break;
-                case "ENTREGA_TARJETAS":
-                    RegistrarPersonasVulnerables registrarPersonasVulnerables= new RegistrarPersonasVulnerables();
+                    colaboracion.setColaborador(colaborador);
+                    repositorio.agregar(colaboracion);
+                }
+                case "ENTREGA_TARJETAS" -> {
+                    RegistrarPersonasVulnerables registrarPersonasVulnerables = new RegistrarPersonasVulnerables();
                     registrarPersonasVulnerables.setColaboracion(colaboracion);
                     colaboracion.setTipo(forma);
-                    colaboracionRepositorio.agregar(colaboracion);
-                    break;
-                default:
-                    throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
+                    colaboracion.setColaborador(colaborador);
+                    repositorio.agregar(colaboracion);
+                }
+                default -> throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
             }
             if (ValidadorCampos.validarFecha(fecha)) {
                 colaboracion.setFechaColaboracion(fecha);
@@ -104,6 +106,5 @@ public class ProcesadorCampos {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
         }
-
     }
 }

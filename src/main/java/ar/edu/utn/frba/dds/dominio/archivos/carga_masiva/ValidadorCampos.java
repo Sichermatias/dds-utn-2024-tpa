@@ -31,7 +31,6 @@ public class ValidadorCampos {
     private static final int MAX_LONGITUD_TIPO_DOC = 3;
     private static final int MAX_LONGITUD_DOCUMENTO = 10;
     private static final int MAX_LONGITUD_NOMBRE = 50;
-    private static final int MAX_LONGITUD_APELLIDO = 50;
     private static final int MAX_LONGITUD_MAIL = 50;
     private static final int MAX_LONGITUD_FECHA_COLABORACION = 10;
     private static final int MAX_LONGITUD_FORMA_COLABORACION = 22;
@@ -42,7 +41,7 @@ public class ValidadorCampos {
     }
 
     public static boolean validarDocumento(String campo) {
-        return campo != null && campo.length() <= MAX_LONGITUD_DOCUMENTO && NUMERO_PATTERN.matcher(campo).matches() && campo.length() >= 5 && campo.length() <= 20;
+        return campo != null && campo.length() <= MAX_LONGITUD_DOCUMENTO && NUMERO_PATTERN.matcher(campo).matches() && campo.length() >= 5;
     }
 
     public static boolean validarNombre(String campo) {

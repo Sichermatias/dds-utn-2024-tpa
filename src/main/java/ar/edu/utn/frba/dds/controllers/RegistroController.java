@@ -1,8 +1,6 @@
 package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
-import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
-import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Provincia;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.persona.*;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
@@ -13,17 +11,15 @@ import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import org.modelmapper.internal.bytebuddy.asm.Advice;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RegistroController implements WithSimplePersistenceUnit {
-    private ColaboradorRepositorio personaRepositorio;
+    private final ColaboradorRepositorio personaRepositorio;
 
     public RegistroController(ColaboradorRepositorio personaRepositorio) {
         this.personaRepositorio = personaRepositorio;
@@ -55,29 +51,11 @@ public class RegistroController implements WithSimplePersistenceUnit {
         List<String> nombresContacto = context.formParams("nombreContacto[]");
         List<String> datosContacto = context.formParams("contacto[]");
 
-        System.out.println("Dirección: " + direccion);
-        // Extraer la ciudad y localidad desde la dirección
-        String[] completa = direccion.split(",");
-        System.out.println("Ciudad: " + completa[3]);
-        String ciudad = completa[2];
-        System.out.println("Localidad: " + completa[5]);
-        String localidad = completa[5];
-
         // Crear objeto de ubicación
         Ubicacion ubicacion = new Ubicacion();
         ubicacion.setDireccion(direccion);
         ubicacion.setLatitud(latitud);
         ubicacion.setLongitud(longitud);
-
-        // Asignar ciudad y localidad
-        Localidad loc = new Localidad();
-        loc.setNombreLocalidad(localidad);
-
-        Provincia provincia = new Provincia();
-        provincia.setNombreProvincia(ciudad);
-
-        loc.setProvincia(provincia);
-        ubicacion.setLocalidad(loc);
 
         // Crear el objeto Colaborador
         Colaborador colaborador = new Colaborador();
@@ -105,9 +83,6 @@ public class RegistroController implements WithSimplePersistenceUnit {
         // Fecha de alta
         colaborador.setFechaHoraAlta(LocalDateTime.now());
 
-        // Persistir Colaborador
-        personaRepositorio.persistir(colaborador);
-
         // Crear y persistir Usuario
         String nombreUsuario = context.formParam("nombreUsuario");
         String password = context.formParam("password");
@@ -121,7 +96,12 @@ public class RegistroController implements WithSimplePersistenceUnit {
         rol.setNombreRol("Usuario");
         usuario.setRol(rol);
 
-        UsuarioRepositorio.getInstancia().persistir(usuario);
+
+        // Persistir Colaborador
+
+        colaborador.setUsuario(usuario);
+
+        personaRepositorio.persistir(colaborador);
 
         // Redireccionar a la página de login
         context.status(HttpStatus.CREATED).redirect("/login");
@@ -142,29 +122,11 @@ public class RegistroController implements WithSimplePersistenceUnit {
         List<String> nombresContacto = context.formParams("nombreContacto[]");
         List<String> datosContacto = context.formParams("contacto[]");
 
-        System.out.println("Dirección: " + direccion);
-        // Extraer la ciudad y localidad desde la dirección
-        String[] completa = direccion.split(",");
-        System.out.println("Ciudad: " + completa[3]);
-        String ciudad = completa[2];
-        System.out.println("Localidad: " + completa[5]);
-        String localidad = completa[5];
-
         // Crear objeto de ubicación
         Ubicacion ubicacion = new Ubicacion();
         ubicacion.setDireccion(direccion);
         ubicacion.setLatitud(latitud);
         ubicacion.setLongitud(longitud);
-
-        // Asignar ciudad y localidad
-        Localidad loc = new Localidad();
-        loc.setNombreLocalidad(localidad);
-
-        Provincia provincia = new Provincia();
-        provincia.setNombreProvincia(ciudad);
-
-        loc.setProvincia(provincia);
-        ubicacion.setLocalidad(loc);
 
         // Crear el objeto Colaborador
         Colaborador colaborador = new Colaborador();
@@ -186,9 +148,6 @@ public class RegistroController implements WithSimplePersistenceUnit {
         // Fecha de alta
         colaborador.setFechaHoraAlta(LocalDateTime.now());
 
-        // Persistir Colaborador
-        personaRepositorio.persistir(colaborador);
-
         // Crear y persistir Usuario
         String nombreUsuario = context.formParam("nombreUsuario");
         String password = context.formParam("password");
@@ -202,8 +161,9 @@ public class RegistroController implements WithSimplePersistenceUnit {
         rol.setNombreRol("Usuario");
         usuario.setRol(rol);
 
-        UsuarioRepositorio.getInstancia().persistir(usuario);
-
+        colaborador.setUsuario(usuario);
+        // Persistir Colaborador
+        personaRepositorio.persistir(colaborador);
         // Redireccionar a la página de login
         context.status(HttpStatus.CREATED).redirect("/login");
     }

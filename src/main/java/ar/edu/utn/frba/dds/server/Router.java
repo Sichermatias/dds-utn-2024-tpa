@@ -10,9 +10,7 @@ public class Router {
         app.get("/", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
         app.get("/login", ((LoginController) FactoryController.controller("Login"))::index);
         app.post("/login", ((LoginController) FactoryController.controller("Login"))::update);
-
-
-        app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
+        app.get("/logout", ((LoginController) FactoryController.controller("Login"))::logout);
 
         // Registro de personas
         app.get("/registro", ((RegistroController) FactoryController.controller("Registro"))::elegirTipo);
@@ -21,6 +19,13 @@ public class Router {
         app.post("/registro/juridica", ((RegistroController) FactoryController.controller("Registro"))::registrarJuridica);
         app.post("/registro/humana", ((RegistroController) FactoryController.controller("Registro"))::registrarHumana);
         app.get("/check-username", ((RegistroController) FactoryController.controller("Registro"))::checkUsername);
+
+        app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);
+        app.post("/cargar-csv", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::cargarCSV);
+
+
+        app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
+
         // Lógica de usuarios (CRUD)
         app.get("/usuarios", ((UsuariosController) FactoryController.controller("Usuarios"))::index);
         app.post("/usuarios/crear", ((UsuariosController) FactoryController.controller("Usuarios"))::create);

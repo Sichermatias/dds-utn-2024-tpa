@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargar CSV</title>
+    <link rel="stylesheet" href="/css/StyleLandingPage.css">
+</head>
+<body>
+<header>
+    {{>templates/Navbar}}
+</header>
+<main>
+    <div class="form-container">
+        <form action="/cargar-csv" method="POST" enctype="multipart/form-data">
+            <h1>Cargar Archivo CSV</h1>
+            <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+            <button type="submit">Cargar</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

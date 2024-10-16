@@ -5,20 +5,22 @@
         <a href="/nosotros">Acerca de Nosotros</a>
 
         {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
-            <a href="/perfil">Perfil</a>
-            <a href="/logout">Cerrar Sesión</a>
             <a href="/">Alta personas vulnerables</a>
-            <a href="/">Otra cosa humana</a>
+            <a href="/">Otras cosas humanas</a>
+            <a href="/"></a>
+            <a href="/logout">Cerrar Sesión</a>
         {{else if (eq tipo_rol "COLABORADOR_JURIDICO")}}
-            <a href="/perfil">Perfil</a>
-            <a href="/logout">Cerrar Sesión</a>
             <a href="/cargamasiva">CARGAR CSV</a>
-            <a href="/">Mis Tareas</a>
-        {{else if (eq tipo_rol "ADMIN")}}
-            <a href="/perfil">Perfil</a>
+            <a href="/">Otras cosas juridicas</a>
+            <a href="/perfil">Mi cuenta</a>
             <a href="/logout">Cerrar Sesión</a>
+
+        {{else if (eq tipo_rol "ADMIN")}}
             <a href="/">CRUD USUARIOS</a>
             <a href="/">COSAS ADMIN</a>
+            <a href="/perfil">Mi cuenta</a>
+            <a href="/logout">Cerrar Sesión</a>
+
         {{else}}
             <a href="/login">Ingreso</a>
             <a href="/registro">Registro</a>

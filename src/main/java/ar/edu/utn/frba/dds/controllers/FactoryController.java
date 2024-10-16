@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
+import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMensaje;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
 
@@ -12,6 +14,7 @@ public class FactoryController {
             case "Usuarios" -> new UsuariosController(new UsuarioRepositorio());
             case "LandingPage" -> new LandingPageController();
             case "Premios" -> new PremiosController(new ColaboradorRepositorio());
+            case "CargaMasiva" -> new CargaMasivaController();
             default -> null;
         };
     }

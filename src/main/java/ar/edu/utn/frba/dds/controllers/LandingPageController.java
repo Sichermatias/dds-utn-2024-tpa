@@ -1,7 +1,5 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
-import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;

@@ -1,55 +1,54 @@
 package ar.edu.utn.frba.dds.dominio.archivos.carga_masiva;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensaje;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.archivos.LectorArchivo;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.util.List;
-import java.util.Optional;
 
-import static org.mockito.Mockito.mock;
-
-public class CargaMasiva {
-    private final LectorArchivo lectorArchivo = new LectorArchivo();
+public class CargaMasiva implements WithSimplePersistenceUnit {
+    public LectorArchivo lectorArchivo = new LectorArchivo();
+    public ColaboradorRepositorio repositorio= new ColaboradorRepositorio();
     public Mensajero mensajero;
 
     public CargaMasiva(Mensajero mensaje) {
-    mensajero=mensaje;
+        this.mensajero = mensaje;
     }
 
     public void cargarArchivo(String ruta, String separador) throws CampoInvalidoException {
         String linea;
         while ((linea = lectorArchivo.traerLinea(ruta)) != null) {
             String[] campos = SplitterLineas.split_linea(linea, separador);
-            Colaborador colaborador =ProcesadorCampos.procesarCampos(campos);
+            Colaborador colaborador = ProcesadorCampos.procesarCampos(campos);
             cargarPersona(colaborador);
         }
     }
-    public void cargarPersona(Colaborador colaborador) {
-        ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia();
 
+    public void cargarPersona(Colaborador colaborador) {
         // BUSCO POR DNI SI YA TENGO A LA PERSONA
-        List<Colaborador> personaGuardada = repositorio.buscarPorDNI(Colaborador.class, String.valueOf(colaborador.getNroDocumento()));
+        List<Colaborador> personaGuardada = repositorio.buscarPorDNI(Colaborador.class, colaborador.getNroDocumento());
 
         if (!personaGuardada.isEmpty()) {
-            // Si la persona ya existe, la actualizo
             repositorio.actualizar(colaborador);
         } else {
-            // Si la persona no existe, la creo
             Usuario usuario = new Usuario();
             usuario.setNombreUsuario(colaborador.getNombre());
-            usuario.setContrasenia("contrabase");  // Puedes usar una lógica de generación de contraseñas más robusta aquí
+            usuario.setContrasenia("contrabase");
 
             Rol rol = new Rol();
+            TipoRol tipoRol = TipoRol.COLABORADOR_HUMANO;
+            rol.setTipo(tipoRol);
             rol.setNombreRol("COLABORADOR");
             usuario.setRol(rol);
 
+            colaborador.setUsuario(usuario);
             repositorio.persistir(colaborador);
 
-            // Enviar mensaje al contacto por mail (si está disponible)
             colaborador.getMediosDeContacto().stream()
                     .filter(medioDeContacto -> "mail".equals(medioDeContacto.getNombreDeMedioDeContacto().getNombre()))
                     .findFirst()

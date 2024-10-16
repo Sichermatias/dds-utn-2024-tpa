@@ -21,7 +21,11 @@ public class LoginController implements ICrudViewsHandler{
         context.sessionAttribute("login_error", null);
         context.render("Login.hbs", Collections.singletonMap("error", error));
     }
-
+    public void logout(Context context){
+        context.sessionAttribute("usuario_id", null);
+        context.sessionAttribute("tipo_rol", null);
+        context.redirect("/");
+    }
     @Override
     public void show(Context context) {
 

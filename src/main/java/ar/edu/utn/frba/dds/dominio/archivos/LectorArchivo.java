@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-
 public class LectorArchivo {
     private BufferedReader br;
     private String ruta;
