@@ -185,6 +185,6 @@ public class RegistroController implements WithSimplePersistenceUnit {
         }
         context.render("Registro-Vulnerable.hbs", model);
     }
-    public void RegistroVulnerable(Context context){
+    public void registroVulnerable(Context context){
     }
 }

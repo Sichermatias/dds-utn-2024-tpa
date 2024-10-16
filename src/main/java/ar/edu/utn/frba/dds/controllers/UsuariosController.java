@@ -102,7 +102,6 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
                 });
         context.redirect("/usuarios");
     }
-
     @Override
     public void update(Context context) {
         Map<String, Object> model = new HashMap<>();
