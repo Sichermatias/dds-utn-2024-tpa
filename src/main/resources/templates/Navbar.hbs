@@ -5,12 +5,12 @@
         <a href="/nosotros">Acerca de Nosotros</a>
         {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
             <a href="/registro/vulnerable">Alta personas vulnerables</a>
-            <a href="/">Otras cosas humanas</a>
+            <a href="/puntos-y-premios">Puntos y premios</a>
             <a href="/perfil">Mi cuenta</a>
             <a href="/logout">Cerrar Sesión</a>
         {{else if (eq tipo_rol "COLABORADOR_JURIDICO")}}
             <a href="/cargamasiva">CARGAR CSV</a>
-            <a href="/">Otras cosas juridicas</a>
+            <a href="/puntos-y-premios">Puntos y premios</a>
             <a href="/perfil">Mi cuenta</a>
             <a href="/logout">Cerrar Sesión</a>
         {{else if (eq tipo_rol "ADMIN")}}
