@@ -22,7 +22,7 @@ public class Router {
 
         app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);
         app.post("/cargar-csv", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::cargarCSV);
-
+        app.get("/nosotros", ((UsuariosController) FactoryController.controller("Usuarios"))::nosotros);
 
         app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
 
