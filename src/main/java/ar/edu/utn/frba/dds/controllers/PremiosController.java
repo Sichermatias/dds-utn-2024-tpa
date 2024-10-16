@@ -18,11 +18,8 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
 
     @Override
     public void index(Context context) {
-
-
         Usuario usuario = this.usuarioLogueado(context);
         Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
-
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
@@ -40,12 +37,10 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
     public void show(Context context) {
 
     }
-
     @Override
     public void create(Context context) {
 
     }
-
     @Override
     public void save(Context context) {
 

@@ -20,7 +20,7 @@ public class Router {
         app.post("/registro/humana", ((RegistroController) FactoryController.controller("Registro"))::registrarHumana);
         app.get("/check-username", ((RegistroController) FactoryController.controller("Registro"))::checkUsername);
         app.get("/registro/vulnerable", ((RegistroController) FactoryController.controller("Registro"))::indexRegistroVulnerable);
-        app.get("/registro/vulnerable", ((RegistroController) FactoryController.controller("Registro"))::registroVulnerable);
+        app.post("/registro/vulnerable", ((RegistroController) FactoryController.controller("Registro"))::registroVulnerable);
 
 
         app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);

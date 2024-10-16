@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Persona Vulnerable</title>
+    <link rel="stylesheet" type="text/css" href="/css/StyleRegistroHumana.css">
+</head>
+<body>
+<header>
+    {{>templates/Navbar}}
+</header>
+<main>
+    <div class="form-container">
+        <form id="registroForm" action="/registro/vulnerable" method="POST">
+            <h1>Registrar Persona Vulnerable</h1>
+
+            <!-- Fila: Nombre y Apellido -->
+            <div class="row">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+            </div>
+
+            <!-- Fila: Tipo de Documento y Número de Documento -->
+            <div class="row">
+                <input type="text" list="tipoDocumentoOptions" id="tipoDocumento" name="tipoDocumento" placeholder="Tipo de Documento" required>
+                <datalist id="tipoDocumentoOptions">
+                    <option value="DNI">
+                    <option value="LC">
+                    <option value="LE">
+                </datalist>
+                <input type="text" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
+            </div>
+
+            <!-- Fila: Fecha de Nacimiento -->
+            <div class="row">
+                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+            </div>
+
+            <!-- Fila: Tarjetas -->
+            <div id="tarjetas-fields">
+                <div class="row">
+                    <input type="text" id="tarjeta1" name="tarjeta1" placeholder="Número de Tarjeta" required>
+                </div>
+            </div>
+            <!-- Botón para agregar más tarjetas -->
+            <button type="button" class="add-tarjeta">Agregar Tarjeta</button>
+
+            <!-- Fila: Personas Vulnerables a Cargo -->
+            <div id="cargo-fields">
+                <div class="row">
+                    <input type="text" id="personaACargo1" name="personaACargo1" placeholder="Persona Vulnerable a Cargo">
+                </div>
+            </div>
+            <!-- Botón para agregar más personas a cargo -->
+            <button type="button" class="add-cargo">Agregar Persona a Cargo</button>
+
+            <!-- Fila: Cantidad de Usos Máximos por Día -->
+            <div class="row">
+                <input type="number" id="cantUsosMaximosPorDia" name="cantUsosMaximosPorDia" placeholder="Usos Máximos por Día" required>
+            </div>
+
+            <!-- Botón para crear Persona Vulnerable -->
+            <button type="submit">Crear Persona Vulnerable</button>
+        </form>
+    </div>
+    </main>
+<script src="/js/AgregarPersonaCargo.js"></script>
+</body>
+</html>
