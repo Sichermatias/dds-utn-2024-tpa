@@ -12,7 +12,7 @@ public class LandingPageController implements ICrudViewsHandler, WithSimplePersi
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
-        String usuarioId= context.sessionAttribute("usuario_id");
+        Long usuarioId= context.sessionAttribute("usuario_id");
         System.out.print(tipoRol);
         System.out.print(usuarioId);
         if (tipoRol != null) {
