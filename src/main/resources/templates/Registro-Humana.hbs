@@ -4,76 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Persona Humana</title>
-    <link rel="stylesheet" type="text/css" href="/css/StyleRegistroHumana.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
+{{>templates/Navbar}}
 <body>
-<header>
-    {{>templates/Navbar}}
-</header>
-<main>
-    <div class="form-container">
-        <form id="registroForm" action="/registro/humana" method="POST">
-            <h1>Registrar Persona Humana</h1>
+<main class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <form id="registroForm" action="/registro/humana" method="POST">
+                    <h1 class="text-center text-primary">Registrar Persona Humana</h1>
 
-            <!-- Fila: Nombre y Apellido -->
-            <div class="row">
-                <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-                <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" list="tipoDocumentoOptions" id="tipoDocumento" name="tipoDocumento" placeholder="Tipo de Documento" required>
+                            <datalist id="tipoDocumentoOptions">
+                                <option value="DNI">
+                                <option value="LC">
+                                <option value="LE">
+                            </datalist>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                        </div>
+                    </div>
+
+                    <div id="contact-fields">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" list="nombreContactoOptions" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto" required>
+                                <datalist id="nombreContactoOptions">
+                                    <option value="E-MAIL">
+                                    <option value="WHATSAPP">
+                                    <option value="TELEFONO LINEA">
+                                </datalist>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline-primary add-contact">Agregar Medio de Contacto</button>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
+                            <span id="username-check-result" class="text-danger" style="display: none;">El nombre de usuario ya existe.</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="lat" name="lat">
+                    <input type="hidden" id="lng" name="lng">
+                    <input type="hidden" id="direccion" name="direccion">
+
+                    <button type="submit" class="btn btn-primary btn-block">Crear Persona Humana</button>
+                </form>
             </div>
+        </div>
 
-            <!-- Fila: Tipo de Documento y Número de Documento -->
-            <div class="row">
-                <input type="text" list="tipoDocumentoOptions" id="tipoDocumento" name="tipoDocumento" placeholder="Tipo de Documento" required>
-                <datalist id="tipoDocumentoOptions">
-                    <option value="DNI">
-                    <option value="LC">
-                    <option value="LE">
-                </datalist>
-                <input type="text" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
-            </div>
-
-            <!-- Fila: Fecha de Nacimiento -->
-            <div class="row">
-                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
-            </div>
-
-            <!-- Fila: Contacto y Dato de Contacto -->
-            <div id="contact-fields">
-                <div class="row">
-                    <input type="text" list="nombreContactoOptions" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto">
-                    <datalist id="nombreContactoOptions">
-                        <option value="E-MAIL">
-                        <option value="WHATSAPP">
-                        <option value="TELEFONO LINEA">
-                    </datalist>
-                    <input type="text" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>
-                </div>
-            </div>
-
-            <!-- Botón para agregar más medios de contacto -->
-            <button type="button" class="add-contact">Agregar Medio de Contacto</button>
-
-            <!-- Fila: Nombre de Usuario y Contraseña -->
-            <div class="row">
-                <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
-                <input type="password" id="password" name="password" placeholder="Contraseña" required>
-            </div>
-            <span id="username-check-result" style="color: red; display: none;">El nombre de usuario ya existe.</span>
-
-            <input type="hidden" id="lat" name="lat">
-            <input type="hidden" id="lng" name="lng">
-            <input type="hidden" id="direccion" name="direccion">
-
-            <!-- Botón para crear Persona Humana -->
-            <button type="submit">Crear Persona Humana</button>
-        </form>
+        <!-- Mapa de selección de ubicación -->
+        <div class="col-md-6">
+            <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+        </div>
     </div>
-
-    <!-- Mapa de selección de ubicación -->
-    <div id="map" style="height: 400px; width: 50%; float: right;"></div>
 </main>
+
+<footer class="text-center py-4 bg-primary text-white">
+    <p>&copy; 2024 Sistema MAACVS. Todos los derechos reservados.</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <script src="/js/MapaRegistro.js"></script>

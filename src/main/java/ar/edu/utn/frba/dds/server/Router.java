@@ -22,7 +22,6 @@ public class Router {
         app.get("/registro/vulnerable", ((RegistroController) FactoryController.controller("Registro"))::indexRegistroVulnerable);
         app.post("/registro/vulnerable", ((RegistroController) FactoryController.controller("Registro"))::registroVulnerable);
 
-
         app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);
         app.post("/cargar-csv", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::cargarCSV);
         app.get("/nosotros", ((UsuariosController) FactoryController.controller("Usuarios"))::nosotros);

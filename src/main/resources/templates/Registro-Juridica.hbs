@@ -3,71 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Persona Juridica</title>
-    <link rel="stylesheet" type="text/css" href="/css/StyleRegistroHumana.css">
+    <title>Registro Persona Jurídica</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-<header>
-    {{>templates/Navbar}}
-</header>
-<main>
-    <div class="form-container">
-        <form id="registroForm" action="/registro/juridica" method="POST">
-            <h1>Registrar Persona Jurídica</h1>
+{{>templates/Navbar}}
+<main class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <form id="registroForm" action="/registro/juridica" method="POST">
+                    <h1 class="text-center text-primary">Registrar Persona Jurídica</h1>
 
-            <!-- Fila: Razón Social y Tipo de Persona Jurídica -->
-            <div class="row">
-                <input type="text" id="razonSocial" name="razonSocial" placeholder="Razón Social" required>
-                <input type="text" list="tipoPersonaJuridicaOptions" id="tipoPersonaJuridica" name="tipoPersonaJuridica" placeholder="Tipo de Persona Jurídica">
-                <datalist id="tipoPersonaJuridicaOptions">
-                    <option value="S.A">
-                    <option value="S.R.L.">
-                    <option value="S.A.S">
-                    <option value="A.C">
-                    <option value="Fundacion">
-                </datalist>
-            </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <input type="text" class="form-control" id="razonSocial" name="razonSocial" placeholder="Razón Social" required>
+                        </div>
+                    </div>
 
-            <!-- Fila: Rubro y Dirección -->
-            <div class="row">
-                <input type="text" list="rubroOptions" id="rubro" name="rubro" placeholder="Rubro">
-                <datalist id="rubroOptions">
-                    <option value="Comercio">
-                    <option value="Gastronomia">
-                    <option value="Servicios">
-                    <option value="Industria">
-                </datalist>
-            </div>
-            <div id="contact-fields">
-                <div class="row">
-                    <input type="text" list="nombreContactoOptions" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto">
-                    <datalist id="nombreContactoOptions">
-                        <option value="E-MAIL">
-                        <option value="WHATSAPP">
-                        <option value="TELEFONO LINEA">
-                    </datalist>
-                    <input type="text" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>
-                </div>
-            </div>
-            <!-- Botón para agregar más medios de contacto -->
-            <button type="button" class="add-contact">Agregar Medio de Contacto</button>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" list="tipoPersonaJuridicaOptions" class="form-control" id="tipoPersonaJuridica" name="tipoPersonaJuridica" placeholder="Tipo de Persona Jurídica" required>
+                            <datalist id="tipoPersonaJuridicaOptions">
+                                <option value="S.A">
+                                <option value="S.R.L.">
+                                <option value="S.A.S">
+                                <option value="A.C">
+                                <option value="Fundacion">
+                            </datalist>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" list="rubroOptions" class="form-control" id="rubro" name="rubro" placeholder="Rubro" required>
+                            <datalist id="rubroOptions">
+                                <option value="Comercio">
+                                <option value="Gastronomia">
+                                <option value="Servicios">
+                                <option value="Industria">
+                            </datalist>
+                        </div>
+                    </div>
 
-            <!-- Fila: Nombre de Usuario y Contraseña -->
-            <div class="row">
-                <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
-                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                    <div id="contact-fields">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" list="nombreContactoOptions" class="form-control" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto" required>
+                                <datalist id="nombreContactoOptions">
+                                    <option value="E-MAIL">
+                                    <option value="WHATSAPP">
+                                    <option value="TELEFONO LINEA">
+                                </datalist>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline-primary add-contact">Agregar Medio de Contacto</button>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de Usuario" required>
+                            <span id="username-check-result" class="text-danger" style="display: none;">El nombre de usuario ya existe.</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="lat" name="lat">
+                    <input type="hidden" id="lng" name="lng">
+                    <input type="hidden" id="direccion" name="direccion">
+
+                    <button type="submit" class="btn btn-primary btn-block">Crear Persona Jurídica</button>
+                </form>
             </div>
-            <span id="username-check-result" style="color: red; display: none;">El nombre de usuario ya existe.</span>
-            <input type="hidden" id="lat" name="lat">
-            <input type="hidden" id="lng" name="lng">
-            <input type="hidden" id="direccion" name="direccion">
-            <button type="submit">Crear Persona Jurídica</button>
-        </form>
+        </div>
+
+        <!-- Mapa de selección de ubicación -->
+        <div class="col-md-6">
+            <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+        </div>
     </div>
-    <div id="map" style="height: 400px; width: 50%; float: right;"></div>
 </main>
+
+<footer class="text-center py-4 bg-primary text-white">
+    <p>&copy; 2024 Sistema MAACVS. Todos los derechos reservados.</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <script src="/js/MapaRegistro.js"></script>

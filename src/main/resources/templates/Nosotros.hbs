@@ -3,33 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/StyleLandingPage.css">
+    <title>Nosotros</title>
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet"> <!-- Tu CSS personalizado -->
+    <style>
+        .footer {
+            background-color: #007bff; /* Color de fondo del pie de página */
+            color: white; /* Color del texto */
+            padding: 20px 0; /* Espaciado */
+        }
+    </style>
 </head>
 <body>
-<header>
     {{>templates/Navbar}}
-</header>
-    <title>Nosotros</title>
-<div class="container">
-    <h1>Sobre Nosotros</h1>
-    <p>
-        Este sistema ha sido desarrollado con el objetivo de facilitar la gestión de colaboradores,
-        permitiendo registrar tanto personas humanas como jurídicas, y optimizando la administración
-        y el procesamiento de datos en masa. A través de una interfaz sencilla y un backend robusto,
-        buscamos ofrecer una experiencia eficiente para los usuarios.
-    </p>
+<main class="container mt-5 pt-5">
+    <div class="hero-section">
+        <h1>Sobre Nosotros</h1>
+        <p>
+            Este sistema ha sido desarrollado con el objetivo de facilitar la gestión de colaboradores,
+            permitiendo registrar tanto personas humanas como jurídicas, y optimizando la administración
+            y el procesamiento de datos en masa. A través de una interfaz sencilla y un backend robusto,
+            buscamos ofrecer una experiencia eficiente para los usuarios.
+        </p>
 
-    <div class="authors">
-        <h2>Autores</h2>
-        <ul class="author-list">
-            <li>Federico Bietti</li>
-            <li>Carri</li>
-            <li>Matias Sicher</li>
-            <li>Lautaro Petronacci</li>
-            <li>Martin Ibarra</li>
-        </ul>
+        <div class="authors">
+            <h2>Autores</h2>
+            <ul class="author-list list-unstyled">
+                <li>Federico Bietti</li>
+                <li>Carri</li>
+                <li>Matias Sicher</li>
+                <li>Lautaro Petronacci</li>
+                <li>Martin Ibarra</li>
+            </ul>
+        </div>
     </div>
-</div>
+</main>
 
+<footer class="text-center footer">
+    <p>&copy; 2024 Sistema MAACVS. Todos los derechos reservados.</p>
+</footer>
+
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
