@@ -9,11 +9,12 @@ import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProcesadorCampos implements WithSimplePersistenceUnit {
-
-    public static ColaboracionRepositorio repositorio= new ColaboracionRepositorio();
-
-    public static Colaborador procesarCampos(String[] campos) throws CampoInvalidoException {
+    public static List<Colaboracion> procesarCampos(String[] campos) throws CampoInvalidoException {
         Colaborador colaborador=new Colaborador();
         String tipoDocumento = campos[0];
         String documento = campos[1];
@@ -58,53 +59,36 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
             throw new CampoInvalidoException("Email inválido: " + email);
         }
 
-        procesarColaboraciones(colaborador, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
-        return colaborador;
+        List<Colaboracion> colaboraciones = procesarColaboraciones(colaborador, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
+        return colaboraciones;
     }
+    public static List<Colaboracion> procesarColaboraciones(Colaborador colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
+        List<Colaboracion> colaboraciones = new ArrayList<>();
 
-    public static void procesarColaboraciones(Colaborador colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
         if (!ValidadorCampos.validarCantidad(cantidadStr)) {
             throw new CampoInvalidoException("Cantidad de colaboraciones inválida: " + cantidadStr);
         }
+
         int cantidad = Integer.parseInt(cantidadStr);
+
         for (int i = 0; i < cantidad; i++) {
             Colaboracion colaboracion = new Colaboracion();
             switch (forma) {
-                case "DINERO" -> {
-                    DonacionDinero donacionDinero = new DonacionDinero();
-                    donacionDinero.setColaboracion(colaboracion);
+                case "DINERO", "DONACION_VIANDAS", "REDISTRIBUCION_VIANDAS", "ENTREGA_TARJETAS" -> {
                     colaboracion.setTipo(forma);
+                    colaboracion.setFechaHoraAlta(LocalDateTime.now());
                     colaboracion.setColaborador(colaborador);
-                    repositorio.agregar(colaboracion);
-                }
-                case "DONACION_VIANDAS" -> {
-                    DonacionVianda donacionVianda = new DonacionVianda();
-                    donacionVianda.setColaboracion(colaboracion);
-                    colaboracion.setTipo(forma);
-                    colaboracion.setColaborador(colaborador);
-                    repositorio.agregar(colaboracion);
-                }
-                case "REDISTRIBUCION_VIANDAS" -> {
-                    RedistribucionViandas redistribucionViandas = new RedistribucionViandas();
-                    redistribucionViandas.setColaboracion(colaboracion);
-                    colaboracion.setTipo(forma);
-                    colaboracion.setColaborador(colaborador);
-                    repositorio.agregar(colaboracion);
-                }
-                case "ENTREGA_TARJETAS" -> {
-                    RegistrarPersonasVulnerables registrarPersonasVulnerables = new RegistrarPersonasVulnerables();
-                    registrarPersonasVulnerables.setColaboracion(colaboracion);
-                    colaboracion.setTipo(forma);
-                    colaboracion.setColaborador(colaborador);
-                    repositorio.agregar(colaboracion);
+                    colaboraciones.add(colaboracion);
                 }
                 default -> throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
             }
+
             if (ValidadorCampos.validarFecha(fecha)) {
                 colaboracion.setFechaColaboracion(fecha);
             } else {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
         }
+        return colaboraciones;
     }
 }

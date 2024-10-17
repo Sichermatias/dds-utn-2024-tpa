@@ -29,7 +29,7 @@ public class Colaboracion extends Persistente {
     @JoinColumn(name = "transaccion_id")
     private Transaccion transaccion;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaborador_id")
     @Setter @Getter
     private Colaborador colaborador;

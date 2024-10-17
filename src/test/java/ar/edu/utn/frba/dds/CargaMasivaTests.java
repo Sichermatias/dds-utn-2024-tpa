@@ -11,6 +11,7 @@ import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensaje;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,7 @@ import javax.persistence.PersistenceUnit;
 import java.io.File;
 
 
-public class CargaMasivaTests implements WithSimplePersistenceUnit {
+public class CargaMasivaTests implements SimplePersistenceTest {
 
     @PersistenceUnit(unitName = "simple-persistence-unit")
 
@@ -39,17 +40,11 @@ public class CargaMasivaTests implements WithSimplePersistenceUnit {
     }
     @Test
     void cargaMasivaDosNuevos() throws CampoInvalidoException {
-        withTransaction(()-> {
-            Mensajero mensajero = mock(Mensajero.class);
+        Mensajero mensajero = mock(Mensajero.class);
         doNothing().when(mensajero).enviarMensaje(any(Mensaje.class));
         CargaMasiva carga = new CargaMasiva(mensajero);
         String rutaArchivo =rutaBase + "CargaMasivaTest1.csv"; // Construye la ruta relativa al archivo
-            try {
-                carga.cargarArchivo(rutaArchivo,";");
-            } catch (CampoInvalidoException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        carga.cargarArchivo(rutaArchivo,";");
         Assertions.assertEquals(2, ColaboradorRepositorio.getInstancia().buscarTodos(Colaborador.class).size());
     }
 

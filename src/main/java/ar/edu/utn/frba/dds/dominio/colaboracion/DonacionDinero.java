@@ -17,7 +17,7 @@ public class DonacionDinero extends Persistente {
     @JoinColumn(name = "frecuencia_id", referencedColumnName = "id")
     private Frecuencia frecuencia;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
 

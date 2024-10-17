@@ -1,4 +1,5 @@
 package ar.edu.utn.frba.dds.dominio.archivos.carga_masiva;
+import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensaje;
@@ -9,6 +10,7 @@ import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CargaMasiva implements WithSimplePersistenceUnit {
@@ -20,13 +22,16 @@ public class CargaMasiva implements WithSimplePersistenceUnit {
         this.mensajero = mensaje;
     }
 
-    public void cargarArchivo(String ruta, String separador) throws CampoInvalidoException {
+    public List<Colaboracion> cargarArchivo(String ruta, String separador) throws CampoInvalidoException {
         String linea;
+        List<Colaboracion> colaboracionesTotales=new ArrayList<>();
         while ((linea = lectorArchivo.traerLinea(ruta)) != null) {
             String[] campos = SplitterLineas.split_linea(linea, separador);
-            Colaborador colaborador = ProcesadorCampos.procesarCampos(campos);
-            cargarPersona(colaborador);
+            ProcesadorCampos procesadorCampos=new ProcesadorCampos();
+            List<Colaboracion> colaboraciones = procesadorCampos.procesarCampos(campos);
+            colaboracionesTotales.addAll(colaboraciones);
         }
+        return colaboracionesTotales;
     }
 
     public void cargarPersona(Colaborador colaborador) {
@@ -34,7 +39,7 @@ public class CargaMasiva implements WithSimplePersistenceUnit {
         List<Colaborador> personaGuardada = repositorio.buscarPorDNI(Colaborador.class, colaborador.getNroDocumento());
 
         if (!personaGuardada.isEmpty()) {
-            repositorio.actualizar(colaborador);
+            repositorio.persistir(colaborador);
         } else {
             Usuario usuario = new Usuario();
             usuario.setNombreUsuario(colaborador.getNombre());
