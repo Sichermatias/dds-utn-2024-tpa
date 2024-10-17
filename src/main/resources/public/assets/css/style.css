@@ -1218,6 +1218,15 @@ h6 {
   font-size: 14px;
   transition: all 0.3s;
   border-top: 1px solid #cddfff;
+  position: absolute;
+  bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #007bff; /* Cambia según tu diseño */
+    color: white;
+    text-align: center;
+    padding: 1rem 0; /* Ajusta según tu diseño */
+}
 }
 
 .footer .copyright {
@@ -1231,8 +1240,16 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
-
-
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #007bff; /* Cambia según tu diseño */
+    color: white;
+    text-align: center;
+    padding: 1rem 0; /* Ajusta según tu diseño */
+}
 /*--------------------------------------------------------------
 # OVERWRITE
 --------------------------------------------------------------*/
