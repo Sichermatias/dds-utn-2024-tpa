@@ -38,7 +38,7 @@ public class Rol {
         return this.permisos.stream().anyMatch(p -> p.coincideConNombreInterno(nombreInternoPermiso));
     }
 
-    public boolean tieneRol(TipoRol tipoRol) {
-        return this.getTipo().equals(tipoRol);
+    public String nombreTipoRol() {
+        return this.tipo.toString();
     }
 }
