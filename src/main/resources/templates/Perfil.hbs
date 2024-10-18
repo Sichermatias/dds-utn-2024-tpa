@@ -3,32 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mejorando el Acceso a Alimentos</title>
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
-<body>
 {{>templates/Navbar}}
+<body>
 <main class="container mt-5 pt-5">
-    <div class="hero-section text-center mb-5">
-        <h1>Acceso Alimentario en Contextos de Vulnerabilidad Socioeconómica</h1>
-        <p>Colocamos heladeras en todo el país para ayudar a las personas en situación de vulnerabilidad alimentaria.</p>
-        <a href="/mapa" class="btn btn-danger">Ver Heladeras</a>
-    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Perfil de Usuario</h1>
 
-    <section class="solution-section mb-5">
-        <h2 class="text-center">Nuestro Sistema</h2>
-        <p class="text-center">Desarrollamos un sistema que mejora la organización y gestión de las heladeras, asegurando un acceso eficiente a los alimentos. Con este sistema, los voluntarios pueden:</p>
-        <ul class="list-group">
-            <li class="list-group-item">Localizar heladeras cercanas y saber si están activas.</li>
-            <li class="list-group-item">Recibir notificaciones sobre heladeras que necesitan ser abastecidas.</li>
-            <li class="list-group-item">Reportar problemas técnicos rápidamente.</li>
-        </ul>
-        <div class="text-center mt-3">
-            <a href="/registro" class="btn btn-primary">Regístrate!</a>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" value="Nombre del Usuario" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" value="Apellido del Usuario" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombreUsuario">Nombre de Usuario:</label>
+                    <input type="text" class="form-control" id="nombreUsuario" value="usuario123" disabled>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-primary" onclick="verColaboraciones()">Ver Mis Colaboraciones</button>
+                    <button type="button" class="btn btn-secondary" onclick="verPuntos()">Ver Mis Puntos</button>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 </main>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function verColaboraciones() {
+    // Lógica para redirigir o mostrar las colaboraciones del usuario
+    window.location.href = '/colaboraciones'; // Cambia la URL según sea necesario
+}
+
+function verPuntos() {
+    // Lógica para redirigir o mostrar los puntos del usuario
+    window.location.href = '/puntos-y-premios'; // Cambia la URL según sea necesario
+}
+</script>
 </body>
 </html>
