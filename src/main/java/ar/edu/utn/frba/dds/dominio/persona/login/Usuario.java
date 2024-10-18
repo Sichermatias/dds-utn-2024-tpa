@@ -37,4 +37,8 @@ public class Usuario extends VerificadorContrasenia {
     public boolean tienePermiso(String nombreInternoPermiso) {
         return this.rol.tienePermiso(nombreInternoPermiso);
     }
+
+    public String nombreTipoRol() {
+        return this.rol.nombreTipoRol();
+    }
 }

@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
-import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
@@ -22,15 +21,14 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
         Usuario usuario = this.usuarioLogueado(context);
         Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
         Map<String, Object> model = new HashMap<>();
-        String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
+        String tipoRol = usuario.nombreTipoRol();
         if (tipoRol != null) {
             model.put("usuario_id", usuarioId);
-            if (tipoRol.equals(TipoRol.COLABORADOR_JURIDICO.toString())) {
-                model.put("esJuridico", true);
-            }
+            model.put("tipo_rol", tipoRol);
         }
         model.put("puntaje", colaborador.getPuntaje());
+        model.put("tipo_rol", tipoRol);
         context.render("Puntos-Humano.hbs", model);
     }
 
