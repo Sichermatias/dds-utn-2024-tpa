@@ -62,6 +62,20 @@ public class Server {
                     }
                 });
 
+                handlebars.registerHelper("ifCond", new Helper<Object>() {
+                    @Override
+                    public Object apply(Object context, Options options) throws IOException {
+                        // Verifica si el context o los parámetros son nulos
+                        if (context == null || options.params.length < 1) {
+                            return options.inverse(null); // Renderiza la parte "else" si context es null
+                        }
+
+                        String tipo = (String) options.param(0);
+                        // Comparación asegurando que ambos no sean nulos
+                        return context.equals(tipo) ? options.fn(context) : options.inverse(context);
+                    }
+                });
+
                 Template template;
                 try {
                     template = handlebars.compile("templates/" + path.replace(".hbs", ""));

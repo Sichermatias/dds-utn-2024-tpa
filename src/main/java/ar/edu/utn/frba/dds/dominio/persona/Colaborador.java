@@ -1,5 +1,8 @@
 package ar.edu.utn.frba.dds.dominio.persona;
 
+import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
+import ar.edu.utn.frba.dds.dominio.colaboracion.DonacionDinero;
+import ar.edu.utn.frba.dds.dominio.colaboracion.Frecuencia;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMensaje;
@@ -15,6 +18,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +90,15 @@ public class Colaborador extends Persistente {
         this.suscripciones = new ArrayList<>();
         this.tarjetas = new ArrayList<>();
     }
-
+    public DonacionDinero donarDinero(Colaboracion colaboracion, Double monto, Frecuencia frecuencia){
+        DonacionDinero donacionDinero=new DonacionDinero();
+        donacionDinero.setColaboracion(colaboracion);
+        donacionDinero.setMonto(monto);
+        donacionDinero.setFrecuencia(frecuencia);
+        donacionDinero.setFechaHoraAlta(LocalDateTime.now());
+        donacionDinero.setActivo(true);
+        return donacionDinero;
+    }
     public void suscribirseHeladera(Heladera heladera, FiltroSuscripcion filtro, Mensajero mensajero, String contacto) {
         Suscripcion suscripcion = new Suscripcion(this, heladera, filtro, mensajero, contacto);
         suscripciones.add(suscripcion);

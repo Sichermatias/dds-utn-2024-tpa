@@ -11,6 +11,7 @@ import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensaje;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
+import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMensaje;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaWhatsapp;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
@@ -46,42 +47,37 @@ public class CargaMasivaController implements ICrudViewsHandler, WithSimplePersi
             try (InputStream inputStream = file.content();
                  BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 
-                EstrategiaMensaje estrategiaMensaje = new EstrategiaWhatsapp(); // Configura el mensajero
+                EstrategiaMensaje estrategiaMensaje = new EstrategiaMail(); // Configura el mensajero
                 Mensajero mensajero = new Mensajero(estrategiaMensaje);
                 CargaMasiva cargaMasiva = new CargaMasiva(mensajero);
 
-                String rutaTemporal = guardarArchivoTemporal(file); // Método para guardar temporalmente el archivo
-                List<Colaboracion> colaboraciones = cargaMasiva.cargarArchivo(rutaTemporal, ";"); // Pasamos la ruta del archivo temporal
-
-                ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia(); // Repositorio usado en varias ocasiones
+                String rutaTemporal = guardarArchivoTemporal(file);
+                List<Colaboracion> colaboraciones = cargaMasiva.cargarArchivo(rutaTemporal, ";");            ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia(); // Repositorio usado en varias ocasiones
 
                 for (Colaboracion colaboracion : colaboraciones) {
                     Colaborador colaborador = colaboracion.getColaborador();
 
-                    // Verificar si el colaborador ya existe en el sistema
                     List<Colaborador> personaGuardada = repositorio.buscarPorDNI(Colaborador.class, colaborador.getNroDocumento());
                     if (!personaGuardada.isEmpty()) {
                         colaboracion.setColaborador(personaGuardada.get(0));
                         ColaboracionRepositorio.getInstancia().persist(colaboracion);
                     } else {
-                        // Si no existe, persistir el colaborador nuevo
                         Usuario usuario = new Usuario();
                         usuario.setNombreUsuario(colaborador.getNombre()+colaborador.getApellido());
-                        usuario.setContrasenia(colaborador.getNroDocumento()); // Generar una contraseña aleatoria
+                        usuario.setContrasenia(colaborador.getNroDocumento());
 
                         Rol rol = new Rol();
                         TipoRol tipoRol = TipoRol.COLABORADOR_HUMANO;
                         rol.setTipo(tipoRol);
                         rol.setNombreRol("COLABORADOR");
                         usuario.setRol(rol);
-                        
+
                         colaborador.setUsuario(usuario);
 
                         ColaboracionRepositorio.getInstancia().persistir(colaboracion);
                     }
                 }
-
-                ctx.redirect("/"); // Redirige a la página principal o a donde prefieras
+                ctx.redirect("/");
 
             } catch (CampoInvalidoException e) {
                 ctx.status(400).result("Error en el archivo: " + e.getMessage());

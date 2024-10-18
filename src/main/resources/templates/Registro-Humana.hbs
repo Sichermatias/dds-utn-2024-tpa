@@ -30,12 +30,12 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <input type="text" class="form-control" list="tipoDocumentoOptions" id="tipoDocumento" name="tipoDocumento" placeholder="Tipo de Documento" required>
-                            <datalist id="tipoDocumentoOptions">
-                                <option value="DNI">
-                                <option value="LC">
-                                <option value="LE">
-                            </datalist>
+                            <select class="form-control" id="tipoDocumento" name="tipoDocumento" required>
+                                <option value="" disabled selected>Selecciona Tipo de Documento</option>
+                                <option value="DNI">DNI</option>
+                                <option value="LC">LC</option>
+                                <option value="LE">LE</option>
+                            </select>
                         </div>
                         <div class="form-group col-md-6">
                             <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
@@ -51,12 +51,12 @@
                     <div id="contact-fields">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <input type="text" class="form-control" list="nombreContactoOptions" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto" required>
-                                <datalist id="nombreContactoOptions">
-                                    <option value="E-MAIL">
-                                    <option value="WHATSAPP">
-                                    <option value="TELEFONO LINEA">
-                                </datalist>
+                                <select class="form-control" id="nombreContacto1" name="nombreContacto1" required>
+                                    <option value="" disabled selected>Selecciona Medio de Contacto</option>
+                                    <option value="E-MAIL">E-MAIL</option>
+                                    <option value="WHATSAPP">WHATSAPP</option>
+                                    <option value="TELEFONO LINEA">TELEFONO LINEA</option>
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <input type="text" class="form-control" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>

@@ -15,6 +15,7 @@ public class FactoryController {
             case "LandingPage" -> new LandingPageController();
             case "Premios" -> new PremiosController(new ColaboradorRepositorio());
             case "CargaMasiva" -> new CargaMasivaController();
+            case "Colaboracion" -> new ColaboracionController();
             default -> null;
         };
     }

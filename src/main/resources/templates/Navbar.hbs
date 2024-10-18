@@ -5,19 +5,14 @@
             <img src="/assets/img/icon.png" alt="" class="me-2">
             <span>SISTEMA MAACVS</span>
         </a>
-
         <nav class="header-nav ms-auto">
             <ul class="navbar-nav d-flex flex-row">
                 <li class="nav-item me-3">
                     <a class="nav-link" href="/mapa">Mapa</a>
                 </li>
-                <li class="nav-item me-3">
-                    <a class="nav-link" href="/nosotros">Acerca de Nosotros</a>
-                </li>
-
                 {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/registro/vulnerable">Alta personas vulnerables</a>
+                        <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
                     </li>
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
@@ -55,6 +50,10 @@
                         <a class="nav-link" href="/logout">Cerrar Sesión</a>
                     </li>
                 {{else}}
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/nosotros">Acerca de Nosotros</a>
+                    </li>
+
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/login">Ingreso</a>
                     </li>

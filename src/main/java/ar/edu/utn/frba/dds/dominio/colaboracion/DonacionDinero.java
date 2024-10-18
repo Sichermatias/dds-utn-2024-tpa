@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "donacionDinero")
 @Setter @Getter
-public class DonacionDinero extends Persistente {
+public class DonacionDinero extends Persistente{
     @Column(name = "monto")
     private Double monto;
 

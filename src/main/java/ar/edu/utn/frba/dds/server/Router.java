@@ -27,6 +27,12 @@ public class Router {
         app.get("/nosotros", ((UsuariosController) FactoryController.controller("Usuarios"))::nosotros);
 
         app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
+        app.get("/perfil", ((LandingPageController) FactoryController.controller("LandingPage"))::indexPerfil);
+
+
+        app.get("/colaboraciones", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
+
+
 
         // Lógica de usuarios (CRUD)
         app.get("/usuarios", ((UsuariosController) FactoryController.controller("Usuarios"))::index);

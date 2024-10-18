@@ -50,12 +50,12 @@
                     <div id="contact-fields">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <input type="text" list="nombreContactoOptions" class="form-control" id="nombreContacto1" name="nombreContacto1" placeholder="Tipo de Medio de Contacto" required>
-                                <datalist id="nombreContactoOptions">
-                                    <option value="E-MAIL">
-                                    <option value="WHATSAPP">
-                                    <option value="TELEFONO LINEA">
-                                </datalist>
+                                <select class="form-control" id="nombreContacto1" name="nombreContacto1" required>
+                                    <option value="" disabled selected>Selecciona Medio de Contacto</option>
+                                    <option value="E-MAIL">E-MAIL</option>
+                                    <option value="WHATSAPP">WHATSAPP</option>
+                                    <option value="TELEFONO LINEA">TELEFONO LINEA</option>
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <input type="text" class="form-control" id="contacto1" name="contacto1" placeholder="Dato de Contacto" required>
