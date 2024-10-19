@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.config;
 
 
+import ar.edu.utn.frba.dds.controllers.ColaboracionController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
 
 import java.util.HashMap;
@@ -22,6 +24,14 @@ public class ServiceLocator {
             }
             else if (componentName.equals(UsuarioRepositorio.class.getName())) {
                 UsuarioRepositorio instance = new UsuarioRepositorio();
+                instances.put(componentName, instance);
+            }
+            if(componentName.equals(ColaboracionController.class.getName())) {
+                ColaboracionController instance = new ColaboracionController();
+                instances.put(componentName, instance);
+            }
+            else if (componentName.equals(ColaboradorRepositorio.class.getName())) {
+                ColaboradorRepositorio instance = new ColaboradorRepositorio();
                 instances.put(componentName, instance);
             }
         }

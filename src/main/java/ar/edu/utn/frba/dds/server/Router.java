@@ -30,7 +30,8 @@ public class Router {
         app.get("/perfil", ((LandingPageController) FactoryController.controller("LandingPage"))::indexPerfil);
 
 
-        app.get("/colaboraciones", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
+        app.get("/colaboraciones/juridica", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
+        app.get("/colaboraciones/humana", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
 
 
 

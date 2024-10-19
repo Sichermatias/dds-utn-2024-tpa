@@ -685,7 +685,7 @@ h6 {
   font-size: 15px;
   font-weight: 600;
   color: #4154f1;
-  transition: 0.3;
+  transition: 0.3s;
   background: #f6f9ff;
   padding: 10px 15px;
   border-radius: 4px;
@@ -736,7 +736,7 @@ h6 {
   font-size: 14px;
   font-weight: 600;
   color: #012970;
-  transition: 0.3;
+  transition: 0.3s;
   padding: 10px 0 10px 40px;
   transition: 0.3s;
 }
@@ -1218,15 +1218,13 @@ h6 {
   font-size: 14px;
   transition: all 0.3s;
   border-top: 1px solid #cddfff;
-  position: absolute;
   bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #007bff; /* Cambia según tu diseño */
-    color: white;
-    text-align: center;
-    padding: 1rem 0; /* Ajusta según tu diseño */
-}
+  left: 0;
+  right: 0;
+  background-color: #007bff; /* Cambia según tu diseño */
+  color: white;
+  text-align: center;
+  padding: 1rem 0; /* Ajusta según tu diseño */
 }
 
 .footer .copyright {
@@ -1241,7 +1239,6 @@ h6 {
   color: #012970;
 }
 .footer {
-    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
