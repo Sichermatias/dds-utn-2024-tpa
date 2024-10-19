@@ -1,0 +1,66 @@
+<header id="header" class="header d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="/" class="logo d-flex align-items-center">
+            <img src="/assets/img/icon.png" alt="" class="me-2">
+            <span>SISTEMA MAACVS</span>
+        </a>
+        <nav class="header-nav ms-auto">
+            <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item me-3">
+                    <a class="nav-link" href="/mapa">Mapa</a>
+                </li>
+                {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/perfil">Mi cuenta</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                    </li>
+                {{else if (eq tipo_rol "COLABORADOR_JURIDICO")}}
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/cargamasiva">CARGAR CSV</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/perfil">Mi cuenta</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                    </li>
+                {{else if (eq tipo_rol "ADMIN")}}
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/">CRUD USUARIOS</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/">COSAS ADMIN</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/perfil">Mi cuenta</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                    </li>
+                {{else}}
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/nosotros">Acerca de Nosotros</a>
+                    </li>
+
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/login">Ingreso</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/registro">Registro</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </nav><!-- End Icons Navigation -->
+    </div>
+</header><!-- End Header -->
