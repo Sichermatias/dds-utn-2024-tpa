@@ -14,6 +14,7 @@ import io.javalin.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,6 +188,87 @@ public class RegistroController implements WithSimplePersistenceUnit {
         context.render("Registro-Vulnerable.hbs", model);
     }
     public void registroVulnerable(Context context){
-        context.render("/");
+
+        String nombre = context.formParam("nombre");
+        String apellido = context.formParam("apellido");
+        String tipoDocumento = context.formParam("tipoDocumento");
+        String nroDocumento = context.formParam("nroDocumento");
+        String fechaNacimiento = context.formParam("fechaNacimiento");
+
+        List<String> nombrePersonaACargo = context.formParams("nombrePersonaACargo[]");
+        List<String> apellidoPersonaACargo = context.formParams("apellidoPersonaACargo[]");
+        List<String> tipoDocumentoACargo = context.formParams("tipoDocumento[]");
+        List<String> nroDocumentoACargo = context.formParams("nroDocumento[]");
+        List<String> fechaNacimientoACargo = context.formParams("fechaNacimiento[]");
+
+        String cantUsosMaximosPorDia = context.formParam("cantUsosMaximosPorDia");
+
+        //Crear el objeto PersonaVulnerable
+        PersonaVulnerable personaVulnerable = new PersonaVulnerable();
+        personaVulnerable.setNombre(nombre);
+        personaVulnerable.setApellido(apellido);
+        personaVulnerable.setTipoDocumento(TipoDocumento.valueOf(tipoDocumento));
+        personaVulnerable.setNroDocumento(nroDocumento);
+        personaVulnerable.setFechaNacimiento(LocalDate.parse(fechaNacimiento));
+
+        // Agregar personas a cargo
+        for (int i = 0; i < nombrePersonaACargo.size(); i++) {
+            PersonaVulnerable personaVulnerableACargo = new PersonaVulnerable();
+            personaVulnerableACargo.setNombre(nombrePersonaACargo.get(i));
+            personaVulnerableACargo.setApellido(apellidoPersonaACargo.get(i));
+            personaVulnerableACargo.setTipoDocumento(TipoDocumento.valueOf(tipoDocumentoACargo.get(i)));
+            personaVulnerableACargo.setNroDocumento(nroDocumentoACargo.get(i));
+            personaVulnerableACargo.setFechaNacimiento(LocalDate.parse(fechaNacimientoACargo.get(i)));
+            personaVulnerable.agregarPersonasVulnerablesACargo(personaVulnerableACargo);
+        }
+
+        personaVulnerable.setCantUsosMaximosPorDia(Integer.valueOf(cantUsosMaximosPorDia));
+
+
+        //context.render("/");
+
+
+/*
+        // Crear el objeto Colaborador
+        Colaborador colaborador = new Colaborador();
+        colaborador.setTipoPersona(TipoPersona.HUMANA);
+        colaborador.setNombre(nombre);
+        colaborador.setApellido(apellido);
+        colaborador.setTipoDocumento(TipoDocumento.valueOf(tipoDocumento));
+        colaborador.setNroDocumento(nroDocumento);
+        colaborador.setFechaNacimiento(LocalDate.parse(fechaNacimiento));
+        colaborador.setUbicacion(ubicacion);
+
+        // Agregar medios de contacto
+        for (int i = 0; i < nombresContacto.size(); i++) {
+            NombreDeMedioDeContacto nombreMedio = new NombreDeMedioDeContacto(nombresContacto.get(i));
+            MedioDeContacto medioDeContacto = new MedioDeContacto(nombreMedio, datosContacto.get(i));
+            colaborador.agregarMedioDeContacto(medioDeContacto);
+        }
+
+        // Fecha de alta
+        colaborador.setFechaHoraAlta(LocalDateTime.now());
+
+        // Crear y persistir Usuario
+        String nombreUsuario = context.formParam("nombreUsuario");
+        String password = context.formParam("password");
+
+        Usuario usuario = new Usuario();
+        usuario.setContrasenia(password);
+        usuario.setNombreUsuario(nombreUsuario);
+
+        Rol rol = new Rol();
+        rol.setTipo(TipoRol.COLABORADOR_HUMANO);
+        rol.setNombreRol("Usuario");
+        usuario.setRol(rol);
+
+        colaborador.setPuntaje(0);
+        colaborador.setUsuario(usuario);
+        // Persistir Colaborador
+        personaRepositorio.persistir(colaborador);
+        // Redireccionar a la página de login
+        context.status(HttpStatus.CREATED).redirect("/login");*/
     }
+
+
 }

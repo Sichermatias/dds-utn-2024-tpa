@@ -2,13 +2,16 @@ package ar.edu.utn.frba.dds.dominio.persona;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+@Setter
+@Getter
 @Entity
 @Table(name = "personaVulnerable")
 public class PersonaVulnerable extends Persistente {
@@ -28,7 +31,7 @@ public class PersonaVulnerable extends Persistente {
     private TipoDocumento tipoDocumento;
 
     @Column(name = "nroDocumento", columnDefinition = "INTEGER(11)")
-    private Integer nroDocumento;
+    private String nroDocumento;
 
     @OneToMany
     @JoinColumn(name = "personaVulnerable_id")
