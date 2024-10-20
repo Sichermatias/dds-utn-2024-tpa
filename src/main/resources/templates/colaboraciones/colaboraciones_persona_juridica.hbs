@@ -1,208 +1,105 @@
 {{#partial "contenido"}}
-    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Registrar Colaboración</h1>
 
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-6">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 col-md-7 d-flex flex-column align-items-center justify-content-center">
-
-                        <div class="card mb-3">
-
-                            <div class="card-body">
-
-                                <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Contribuciones</h5>
-                                </div>
-                                <nav>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="/">Panel de control</a></li>
-                                        <li class="breadcrumb-item active">Contribuciones</li>
-                                    </ol>
-                                </nav>
-
-                                <form class="row g-3 needs-validation" novalidate>
-                                    <div class="col-12">
-                                        <label for="yourName" class="form-label">Tipo de Contribución*</label>
-
-                                        <div class="col-sm-10">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="gridRadios"
-                                                       id="gridRadios1" value="option1" checked onclick="change_form()">
-                                                <label class="form-check-label" for="gridRadios1">
-                                                    Económica
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="gridRadios"
-                                                       id="gridRadios2" value="option2" onclick="change_form()">
-                                                <label class="form-check-label" for="gridRadios2">
-                                                    Hacerse cargo de una heladera
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="gridRadios"
-                                                       id="gridRadios3" value="option3" onclick="change_form()">
-                                                <label class="form-check-label" for="gridRadios3">
-                                                    Ofrecer nuevo Producto / Servicio
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--ECONOMICA-->
-
-                                    <div class="col-12 economico">
-                                        <label for="inputDate" class="form-label">Fecha*</label>
-                                        <input type="date" class="form-control">
-                                    </div>
-
-                                    <div class="col-12 economico">
-                                        <label for="yourName" class="form-label">Monto*</label>
-                                        <input type="number" name="monto" class="form-control" id="monto" required>
-                                        <div class="invalid-feedback">Ingresar monto valido</div>
-                                    </div>
-
-                                    <div class="col-12 economico">
-                                        <label for="inputState" class="form-label">Frecuencia*</label>
-                                        <select id="inputState" class="form-select">
-                                            <option selected>Elegir...</option>
-                                            <option>semanal</option>
-                                            <option>mensual</option>
-                                            <option>etc</option>
-                                        </select>
-                                    </div>
-
-                                    <!--HACERSE CARGO DE HELADERA -->
-
-                                    <div class="col-12 heladera">
-                                        <label for="inputState" class="form-label">Seleccionar heladera*</label>
-                                        <select id="inputState" class="form-select">
-                                            <option selected>Elegir...</option>
-                                            <option>...</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-12 heladera">
-                                        <label for="yourName" class="form-label">Direccion*</label>
-                                        <input type="text" name="address" class="form-control" id="direccion" required>
-                                        <div class="invalid-feedback">Ingresar direccion válida</div>
-                                    </div>
-
-                                    <div class="col-12 heladera">
-                                        <label for="yourName" class="form-label">¿Necesitas sugerencias de
-                                            colocación?</label>
-
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.2187426305522!2d-58.42264122521321!3d-34.59862980722773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb2e1493a6a3%3A0x1862a7c0b8163e5d!2sUTN.BA!5e0!3m2!1ses!2sar!4v1725461529675!5m2!1ses!2sar"
-                                                width="600" height="450" style="border:0;" allowfullscreen=""
-                                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                                    </div>
-
-                                    <!--OFRECER PRODUCTO / SERVICIO -->
-                                    <div class="col-12 producto_servicio">
-                                        <label for="yourName" class="form-label">Nombre*</label>
-                                        <input type="text" name="name" class="form-control" id="name" required>
-                                        <div class="invalid-feedback">Ingresar nombre válido</div>
-                                    </div>
-
-                                    <div class="col-12 producto_servicio">
-                                        <label for="yourName" class="form-label">Rubro*</label>
-                                        <input type="text" name="rubro" class="form-control" id="rubro" required>
-                                        <div class="invalid-feedback">Ingresar rubro válido</div>
-                                    </div>
-
-                                    <div class="col-12 producto_servicio">
-                                        <label for="yourName" class="form-label">Puntos necesarios*</label>
-                                        <input type="number" name="monto" class="form-control" id="monto" required>
-                                        <div class="invalid-feedback">Ingresar numero valido</div>
-                                    </div>
-
-                                    <div class="col-12 producto_servicio">
-                                        <label for="yourName" class="form-label">Cargar imagen</label>
-                                        <input type="file" id="imagen_producto_servicio"
-                                               name="imagen_producto_servicio" accept="image/png, image/jpeg"/>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Enviar</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Tipo de Colaboración -->
+                <div class="form-group mb-3">
+                    <label for="tipoColaboracion">Tipo de Colaboración</label>
+                    <select class="form-control" id="tipoColaboracion" name="tipoColaboracion" required>
+                        <option value="">Seleccionar</option>
+                        <option value="DINERO">Dinero</option>
+                        <option value="DONACION_VIANDAS">Donación de Viandas</option>
+                        <option value="REDISTRIBUCION_VIANDAS">Redistribución de Viandas</option>
+                        <option value="ENTREGA_TARJETAS">Entrega de Tarjetas</option>
+                    </select>
                 </div>
-            </div>
 
-        </section>
-        <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-            <i class="bi bi-arrow-up-short"></i>
-        </a>
+                <!-- Dinero Form -->
+                <form id="dineroForm" action="/registro/colaboracion" method="POST" style="display:none;">
+                    <div class="form-group mb-3">
+                        <label for="monto">Monto</label>
+                        <input type="number" class="form-control" id="monto" name="monto" placeholder="Monto en dinero">
+                    </div>
+                    <div class="form-group mb-3">
+                        <select class="form-control" id="frecuencia" name="frecuencia" placeholder="Frecuencia de donación">
+                            <option value="MENSUAL">Mensual</option>
+                            <option value="TRIMESTRAL">Trimestral</option>
+                            <option value="ANUAL">Anual</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
+                </form>
+
+                <!-- Donación Viandas Form -->
+                <form id="donacionViandasForm" action="/registro/colaboracion" method="POST" style="display:none;">
+                    <div class="form-group mb-3">
+                        <label for="nombreComida">Nombre de la Comida</label>
+                        <input type="text" class="form-control" id="nombreComida" name="nombreComida" placeholder="Nombre de la comida">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="fechaCaducidad">Fecha de Caducidad</label>
+                        <input type="date" class="form-control" id="fechaCaducidad" name="fechaCaducidad">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="calorias">Calorías</label>
+                        <input type="number" class="form-control" id="calorias" name="calorias" placeholder="Calorías">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="peso">Peso (kg)</label>
+                        <input type="number" class="form-control" id="peso" name="peso" placeholder="Peso en kg">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
+                </form>
+
+                <!-- Redistribución Viandas Form -->
+                <form id="redistribucionViandasForm" action="/registro/colaboracion" method="POST" style="display:none;">
+                    <div class="form-group mb-3">
+                        <label for="heladeraOrigen">Heladera Origen</label>
+                        <input type="text" class="form-control" id="heladeraOrigen" name="heladeraOrigen" placeholder="Heladera de origen">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="heladeraDestino">Heladera Destino</label>
+                        <input type="text" class="form-control" id="heladeraDestino" name="heladeraDestino" placeholder="Heladera de destino">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="cantidadViandas">Cantidad de Viandas</label>
+                        <input type="number" class="form-control" id="cantidadViandas" name="cantidadViandas" placeholder="Cantidad de viandas">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="motivoRedistribucion">Motivo de Redistribución</label>
+                        <input type="text" class="form-control" id="motivoRedistribucion" name="motivoRedistribucion" placeholder="Motivo de redistribución">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
+                </form>
+
+                <!-- Entrega Tarjetas Form -->
+                <form id="entregaTarjetasForm" action="/registro/colaboracion" method="POST" style="display:none;">
+                    <p>Serás redirigido a /registro/vulnerable</p>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
-
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tipoColaboracion = document.getElementById('tipoColaboracion');
+            const forms = {
+                DINERO: document.getElementById('dineroForm'),
+                DONACION_VIANDAS: document.getElementById('donacionViandasForm'),
+                REDISTRIBUCION_VIANDAS: document.getElementById('redistribucionViandasForm'),
+                ENTREGA_TARJETAS: document.getElementById('entregaTarjetasForm')
+            };
 
-        change_form();
-
-        function change_form() {
-
-            if (document.getElementById("gridRadios1").checked == true) { //economico
-
-                var lista_human = document.getElementsByClassName("economico");
-                for (var i = 0; i < lista_human.length; i++) {
-                    lista_human[i].style.display = "inline-block";
+            tipoColaboracion.addEventListener('change', function () {
+                Object.values(forms).forEach(form => form.style.display = 'none');
+                if (this.value) {
+                    forms[this.value].style.display = 'block';
                 }
-
-                var lista = document.getElementsByClassName("heladera");
-                for (var i = 0; i < lista.length; i++) {
-                    lista[i].style.display = "none";
-                }
-
-                var lista = document.getElementsByClassName("producto_servicio");
-                for (var i = 0; i < lista.length; i++) {
-                    lista[i].style.display = "none";
-                }
-            }
-
-            if (document.getElementById("gridRadios2").checked == true) {  //HELADERAS
-                var lista_human = document.getElementsByClassName("heladera");
-                for (var i = 0; i < lista_human.length; i++) {
-                    lista_human[i].style.display = "inline-block";
-                }
-
-                var lista_human = document.getElementsByClassName("economico");
-                for (var i = 0; i < lista_human.length; i++) {
-                    lista_human[i].style.display = "none";
-                }
-
-                var lista = document.getElementsByClassName("producto_servicio");
-                for (var i = 0; i < lista.length; i++) {
-                    lista[i].style.display = "none";
-                }
-
-            }
-
-            if (document.getElementById("gridRadios3").checked == true) { //producto servicio
-
-                var lista_human = document.getElementsByClassName("producto_servicio");
-                for (var i = 0; i < lista_human.length; i++) {
-                    lista_human[i].style.display = "inline-block";
-                }
-
-                var lista = document.getElementsByClassName("heladera");
-                for (var i = 0; i < lista.length; i++) {
-                    lista[i].style.display = "none";
-                }
-
-                var lista = document.getElementsByClassName("economico");
-                for (var i = 0; i < lista.length; i++) {
-                    lista[i].style.display = "none";
-                }
-            }
-
-        }
+            });
+        });
     </script>
 {{/partial}}
-{{> templates/base title="Colaborar"}}
+{{> templates/base title="Registrar Colaboración"}}

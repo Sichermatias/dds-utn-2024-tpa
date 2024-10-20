@@ -23,11 +23,11 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             model.put("usuario_id", usuarioId);
         }*/
 
-        String tipoRol = "COLABORADOR_JURIDICO";
+        String tipoRol = "COLABORADOR_HUMANO";
 
         switch (tipoRol) {
             case "COLABORADOR_JURIDICO":
-                context.render("Realizar-Colaboracion.hbs", model);
+                context.render("colaboraciones/colaboraciones_persona_juridica.hbs", model);
                 break;
             case "COLABORADOR_HUMANO":
                 context.render("colaboraciones/colaboraciones_persona_humana.hbs", model);
