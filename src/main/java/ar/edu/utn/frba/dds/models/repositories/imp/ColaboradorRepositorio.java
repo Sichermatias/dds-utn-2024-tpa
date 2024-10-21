@@ -15,6 +15,12 @@ public class ColaboradorRepositorio extends BaseRepositorio<Colaborador> impleme
         colaboradores.add(colaborador);
     }
 
+    public Colaborador obtenerColaboradorPorUsuarioId(Long usuarioId) {
+        ColaboradorRepositorio colaboradorRepositorio = new ColaboradorRepositorio();
+        List<Colaborador> colaboradores = colaboradorRepositorio.buscarPorUsuarioId(Colaborador.class,usuarioId);
+        return colaboradores.isEmpty() ? null : colaboradores.get(0);
+    }
+
     public static ColaboradorRepositorio getInstancia(){
         if (instancia == null){
             instancia = new ColaboradorRepositorio();

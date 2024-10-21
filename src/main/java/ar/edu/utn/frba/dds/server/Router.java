@@ -8,6 +8,9 @@ public class Router {
         // Pantalla principal y login
         //app.get("/", ServiceLocator.instanceOf(LandingPageController.class)::index);
         app.get("/", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
+        app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
+        app.get("/nosotros", ((LandingPageController) FactoryController.controller("LandingPage"))::indexNosotros);
+
         app.get("/login", ((LoginController) FactoryController.controller("Login"))::index);
         app.post("/login", ((LoginController) FactoryController.controller("Login"))::update);
         app.get("/logout", ((LoginController) FactoryController.controller("Login"))::logout);
@@ -24,18 +27,20 @@ public class Router {
 
         app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);
         app.post("/cargar-csv", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::cargarCSV);
-        app.get("/nosotros", ((UsuariosController) FactoryController.controller("Usuarios"))::nosotros);
 
-        app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
-        app.get("/perfil", ((LandingPageController) FactoryController.controller("LandingPage"))::indexPerfil);
-
-
-        app.get("/colaboraciones/juridica", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
-        app.get("/colaboraciones/humana", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
-
-
+        app.get("/colaboraciones", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
+        app.get("/colaboraciones/nueva", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexNueva);
+        app.get("/colaboraciones/historico", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexHistorico);
 
         // Lógica de usuarios (CRUD)
+        app.get("/perfil", ((UsuariosController) FactoryController.controller("Usuarios"))::indexPerfil);
+        app.get("/editar/humana", ((UsuariosController) FactoryController.controller("Usuarios"))::indexEditHumana);
+        app.post("/editar/humana",((UsuariosController) FactoryController.controller("Usuarios"))::editHumana);
+        app.get("/editar/juridica", ((UsuariosController) FactoryController.controller("Usuarios"))::indexEditJuridica);
+        app.post("/editar/juridica",((UsuariosController) FactoryController.controller("Usuarios"))::editJuridica);
+
+
+
         app.get("/usuarios", ((UsuariosController) FactoryController.controller("Usuarios"))::index);
         app.post("/usuarios/crear", ((UsuariosController) FactoryController.controller("Usuarios"))::create);
         app.get("/usuarios/{id}/eliminar", ((UsuariosController) FactoryController.controller("Usuarios"))::delete);

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Persona Humana</title>
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+
+</head>
+{{>templates/Navbar}}
+<body>
+<main class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Perfil de {{colaborador.nombre}} {{colaborador.apellido}}</h1>
+            <p><strong>Documento:</strong> {{colaborador.tipoDocumento}} {{colaborador.nroDocumento}}</p>
+            <p><strong>Fecha de Nacimiento:</strong> {{colaborador.fechaNacimiento}}</p>
+            <p><strong>Usuario:</strong> {{colaborador.usuario.nombreUsuario}}</p>
+            <p><strong>Ubicación:</strong> {{colaborador.ubicacion.direccion}}</p>
+            <p><strong>Medios de Contacto:</strong></p>
+            <ul>
+                {{#each colaborador.mediosDeContacto}}
+                    <li>{{this.nombre}}: {{this.valor}}</li>
+                {{/each}}
+            </ul>
+
+            <a href="/editar/humana" class="btn btn-primary">Editar Perfil</a>
+        </div>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+</body>
+</html>

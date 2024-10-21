@@ -9,6 +9,15 @@ import javax.persistence.*;
 @Table(name = "medioDeContacto")
 @Setter @Getter
 public class MedioDeContacto {
+
+    public MedioDeContacto() {
+    }
+
+    public MedioDeContacto(String nombre, String valor) {
+        this.nombreDeMedioDeContacto.setNombre(nombre);
+        this.valor = valor;
+    }
+
     @Id
     @GeneratedValue
     private long id;

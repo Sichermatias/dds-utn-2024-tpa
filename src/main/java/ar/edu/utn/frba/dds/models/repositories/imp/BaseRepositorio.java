@@ -11,6 +11,19 @@ import java.util.List;
 public abstract class BaseRepositorio<T> {
     protected abstract EntityManager getEntityManager();
 
+
+    public List<T> buscarPorUsuarioId(Class<T> claseEntidad, Long usuarioId) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
+        Root<T> root = cq.from(claseEntidad);
+
+        Predicate condicion = cb.equal(root.get("usuario").get("id"), usuarioId);
+        cq.where(condicion);
+        cq.select(root);
+
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
     public void persistir(T entidad) {
         EntityTransaction transaction = null;
         try {

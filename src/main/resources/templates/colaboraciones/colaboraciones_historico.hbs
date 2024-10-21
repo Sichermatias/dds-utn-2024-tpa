@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colaboraciones Históricas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+</head>
+{{> templates/Navbar}}
+<body>
+<main class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Colaboraciones Históricas</h1>
+
+                <!-- Tabla de Colaboraciones -->
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Tipo de Colaboración</th>
+                        <th>Detalles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each colaboraciones}}
+                        <tr>
+                            <td>{{this.fecha}}</td>
+                            <td>{{this.tipo}}</td>
+                            <td>
+                                {{#ifCond this.tipo '==' 'DINERO'}}
+                                    Monto: ${{this.monto}} <br> Frecuencia: {{this.frecuencia}}
+                                {{/ifCond}}
+                                {{#ifCond this.tipo '==' 'DONACION_VIANDAS'}}
+                                    Comida: {{this.nombreComida}} <br> Calorías: {{this.calorias}} <br> Peso: {{this.peso}} kg
+                                {{/ifCond}}
+                                {{#ifCond this.tipo '==' 'REDISTRIBUCION_VIANDAS'}}
+                                    Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}
+                                {{/ifCond}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <!-- Botón para regresar al perfil -->
+                <div class="text-center mt-4">
+                    <a href="/perfil" class="btn btn-outline-primary">Volver al Perfil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -9,6 +9,11 @@ import javax.persistence.*;
 @Table(name = "nombreMedioDeContacto")
 @Setter @Getter
 public class NombreDeMedioDeContacto {
+
+    public NombreDeMedioDeContacto() {
+    }
+
+
     @Id
     @GeneratedValue
     private Long id;

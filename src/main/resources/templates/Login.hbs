@@ -4,50 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ingresar</title>
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet"> <!-- Tu CSS personalizado -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-
-    <style>
-        /* Estilos personalizados */
-        .hero-section {
-            padding: 30px 0; /* Espaciado superior e inferior reducido */
-            background-color: #f8f9fa; /* Color de fondo suave */
-        }
-
-        .form-container {
-            margin: 20px auto; /* Margen superior e inferior */
-            padding: 20px; /* Espaciado interno */
-            border: 1px solid #dee2e6; /* Borde del formulario */
-            border-radius: 5px; /* Esquinas redondeadas */
-            background-color: white; /* Color de fondo */
-            max-width: 400px; /* Ancho máximo del formulario */
-        }
-
-        .footer {
-            background-color: #007bff; /* Color de fondo del pie de página */
-            color: white; /* Color del texto */
-            padding: 20px 0; /* Espaciado */
-        }
-    </style>
 </head>
+{{>templates/Navbar}}
 <body>
-
-<header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-        <a href="/" class="logo d-flex align-items-center">
-            <img src="assets/img/icon.png" alt="Logo" style="width: 40px; height: auto;">
-            <span class="d-none d-lg-block">SISTEMA MAACVS</span>
-        </a>
-    </div>
-</header><!-- End Header -->
-
-<header>
-    {{>templates/Navbar}}
-</header>
-
 <main class="container mt-5 pt-5">
     <div class="hero-section text-center mb-4"> <!-- Margen inferior reducido -->
         <h1>INGRESAR</h1>

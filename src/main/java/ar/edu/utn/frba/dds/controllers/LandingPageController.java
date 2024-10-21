@@ -9,20 +9,7 @@ import java.util.Map;
 
 public class LandingPageController implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
-    public void indexPerfil(Context context){
-        Map<String, Object> model = new HashMap<>();
-        String tipoRol = context.sessionAttribute("tipo_rol");
-        Long usuarioId= context.sessionAttribute("usuario_id");
-        String path= context.path();
-        System.out.print(tipoRol);
-        System.out.print(usuarioId);
-        if (tipoRol != null) {
-            model.put("path", path);
-            model.put("tipo_rol", tipoRol);
-            model.put("usuario_id", usuarioId);
-        }
-        context.render("Perfil.hbs", model);
-    }
+
     @Override
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
@@ -36,6 +23,20 @@ public class LandingPageController implements ICrudViewsHandler, WithSimplePersi
         }
         context.render("Landing-Page.hbs", model);
     }
+
+    public void indexNosotros(Context context){
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        System.out.print(tipoRol);
+        System.out.print(usuarioId);
+        if (tipoRol != null) {
+            model.put("tipo_rol", tipoRol);
+            model.put("usuario_id", usuarioId);
+        }
+        context.render("Nosotros.hbs", model);
+    }
+
 
     @Override
     public void show(Context context) {

@@ -1,10 +1,15 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
+import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ColaboracionController implements ICrudViewsHandler, WithSimplePersistenceUnit {
@@ -12,7 +17,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     @Override
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        /*String tipoRol = context.sessionAttribute("tipo_rol");
+        String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
         String path= context.path();
         System.out.print(tipoRol);
@@ -21,11 +26,16 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             model.put("path", path);
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
-        }*/
-
-        String tipoRol = "COLABORADOR_HUMANO";
-
-        switch (tipoRol) {
+            context.render("/colaboraciones/colaboraciones.hbs", model);
+        }
+    }
+    public void indexNueva(Context context){
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        System.out.print(tipoRol);
+        System.out.print(usuarioId);
+            switch (tipoRol) {
             case "COLABORADOR_JURIDICO":
                 context.render("colaboraciones/colaboraciones_persona_juridica.hbs", model);
                 break;
@@ -35,6 +45,29 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             default:
                 context.render("Landing-Page.hbs", model);
                 break;
+        }
+    }
+
+    public void indexHistorico(Context context) {
+        ColaboradorRepositorio repositorioColaborador = ColaboradorRepositorio.getInstancia();
+        ColaboracionRepositorio repositorioColaboracion = ColaboracionRepositorio.getInstancia();
+
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long usuarioId = context.sessionAttribute("usuario_id");
+
+        Colaborador colaborador = repositorioColaborador.obtenerColaboradorPorUsuarioId(usuarioId);
+
+        if (colaborador != null) {
+            List<Colaboracion> colaboracionesHistoricas = repositorioColaboracion.obtenerColaboracionesPorColaboradorId(colaborador.getId());
+
+            model.put("colaborador", colaborador);
+            model.put("colaboraciones", colaboracionesHistoricas);
+            model.put("tipo_rol", tipoRol);
+
+            context.render("/colaboraciones/colaboraciones_historico.hbs", model);
+        } else {
+            context.status(404).result("Colaborador no encontrado");
         }
     }
 
