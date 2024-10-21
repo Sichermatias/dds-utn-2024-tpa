@@ -6,9 +6,6 @@
         </a>
         <nav class="header-nav ms-auto">
             <ul class="navbar-nav d-flex flex-row">
-                <li class="nav-item me-3">
-                    <a class="nav-link" href="/mapa">Mapa</a>
-                </li>
                 {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
@@ -16,6 +13,11 @@
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
                     </li>
+
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/heladeras">Heladeras</a>
+                    </li>
+
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/perfil">Mi cuenta</a>
                     </li>
@@ -31,6 +33,11 @@
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
                     </li>
+
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/heladeras">Heladeras</a>
+                    </li>
+
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/perfil">Mi cuenta</a>
                     </li>
@@ -53,13 +60,13 @@
                     </li>
 
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/">COSAS ADMIN</a>
+                        <a class="nav-link" href="/heladeras">Heladeras</a>
                     </li>
 
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/logout">Cerrar Sesión</a>
                     </li>
-                {{else}}
+                    {{else}}
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/nosotros">Acerca de Nosotros</a>
                     </li>

@@ -32,6 +32,8 @@ public class Router {
         app.get("/colaboraciones/nueva", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexNueva);
         app.get("/colaboraciones/historico", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexHistorico);
 
+        app.get("/heladeras", ((HeladerasController) FactoryController.controller("Heladeras"))::index);
+
         // Lógica de usuarios (CRUD)
         app.get("/perfil", ((UsuariosController) FactoryController.controller("Usuarios"))::indexPerfil);
         app.get("/editar/humana", ((UsuariosController) FactoryController.controller("Usuarios"))::indexEditHumana);

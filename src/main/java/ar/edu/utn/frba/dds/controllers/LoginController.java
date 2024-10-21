@@ -19,7 +19,7 @@ public class LoginController implements ICrudViewsHandler{
     public void index(Context context) {
         String error = context.sessionAttribute("login_error");
         context.sessionAttribute("login_error", null);
-        context.render("Login.hbs", Collections.singletonMap("error", error));
+        context.render("/login/Login.hbs", Collections.singletonMap("error", error));
     }
     public void logout(Context context){
         context.sessionAttribute("usuario_id", null);
