@@ -37,7 +37,7 @@ public class PersonaVulnerable extends Persistente {
     @JoinColumn(name = "personaVulnerable_id")
     private List<Tarjeta> tarjetas;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "hijoVulnerable_padreVulnerable",
             joinColumns = @JoinColumn(name = "padre_id", referencedColumnName = "id"),

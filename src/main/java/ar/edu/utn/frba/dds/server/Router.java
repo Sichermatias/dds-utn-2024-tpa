@@ -16,14 +16,14 @@ public class Router {
         app.get("/logout", ((LoginController) FactoryController.controller("Login"))::logout);
 
         // Registro de personas
-        app.get("/registro", ((RegistroController) FactoryController.controller("Registro"))::elegirTipo);
-        app.get("/registro/juridica", ((RegistroController) FactoryController.controller("Registro"))::formularioJuridica);
-        app.get("/registro/humana", ((RegistroController) FactoryController.controller("Registro"))::formularioHumana);
-        app.post("/registro/juridica", ((RegistroController) FactoryController.controller("Registro"))::registrarJuridica);
-        app.post("/registro/humana", ((RegistroController) FactoryController.controller("Registro"))::registrarHumana);
-        app.get("/check-username", ((RegistroController) FactoryController.controller("Registro"))::checkUsername);
-        app.get("/registro/vulnerable", ((RegistroController) FactoryController.controller("Registro"))::indexRegistroVulnerable);
-        app.post("/registro/vulnerable", ((RegistroController) FactoryController.controller("Registro"))::registroVulnerable);
+        app.get("/registro", ((RegistroUsuariosController) FactoryController.controller("Registro"))::elegirTipo);
+        app.get("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioJuridica);
+        app.get("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioHumana);
+        app.post("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarJuridica);
+        app.post("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarHumana);
+        app.get("/check-username", ((RegistroUsuariosController) FactoryController.controller("Registro"))::checkUsername);
+        app.get("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Registro"))::indexRegistroVulnerable);
+        app.post("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Registro"))::registroVulnerable);
 
         app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);
         app.post("/cargar-csv", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::cargarCSV);

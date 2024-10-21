@@ -55,7 +55,7 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
                 case "COLABORADOR_JURIDICO":
                     context.render("/perfil/Perfil_Juridico.hbs", model);
                     break;
-                case default:
+                default:
                     context.render("LandingPage.hbs",model);
                     break;
             }
