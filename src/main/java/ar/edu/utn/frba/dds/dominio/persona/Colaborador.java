@@ -99,10 +99,11 @@ public class Colaborador extends Persistente {
         donacionDinero.setActivo(true);
         return donacionDinero;
     }
-    public void suscribirseHeladera(Heladera heladera, FiltroSuscripcion filtro, Mensajero mensajero, String contacto) {
+    public Suscripcion suscribirseHeladera(Heladera heladera, FiltroSuscripcion filtro, Mensajero mensajero, String contacto) {
         Suscripcion suscripcion = new Suscripcion(this, heladera, filtro, mensajero, contacto);
         suscripciones.add(suscripcion);
         heladera.agregarSuscripcion(suscripcion);
+        return suscripcion;
     }
 
     public void cancelarSuscripcion(Heladera heladera) {

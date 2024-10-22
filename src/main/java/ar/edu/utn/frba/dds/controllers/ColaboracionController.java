@@ -139,10 +139,6 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     public void ColaboracionHeladera (Context context){
         Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
 
-
-        System.out.println("HOLAA");
-
-
         Transaccion transaccion = new Transaccion();
         transaccion.setMontoPuntaje(50.0);
         transaccion.setColaborador(colaborador);
@@ -165,9 +161,6 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         hostearHeladera.setEnVigencia(true);
 
         transaccionRepositorio.persistir(hostearHeladera);
-
-        System.out.println("Colaboracion Heladera");
-
         //context.redirect("/colaboraciones");
     }
 

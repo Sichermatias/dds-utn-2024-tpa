@@ -40,6 +40,9 @@ public class Router {
         app.get("/heladeras/{id}", ((HeladerasController) FactoryController.controller("Heladeras"))::indexInd);
         app.get("/heladeras/{id}/incidente", ((HeladerasController) FactoryController.controller("Heladeras"))::indexFalla);
         app.post("/heladeras/{id}/incidente", ((HeladerasController) FactoryController.controller("Heladeras"))::formularioIncidente);
+        app.get("/heladeras/{id}/suscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::indexSuscripcionHeladera);
+        app.post("/heladeras/{id}/suscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::suscripcionHeladera);
+
 
         // Lógica de usuarios (CRUD)
         app.get("/perfil", ((UsuariosController) FactoryController.controller("Usuarios"))::indexPerfil);
