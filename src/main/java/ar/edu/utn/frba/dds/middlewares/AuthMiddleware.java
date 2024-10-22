@@ -29,10 +29,7 @@ public class AuthMiddleware {
 
 
         app.beforeMatched(ctx -> {
-
             var userRole = getUserRoleType(ctx);
-            System.out.print(userRole);
-
             if (!isRoleAllowed(userRole,ctx) && !rutasPermitidas.contains(ctx.path()) && ctx.path().startsWith("/public") && ctx.path().startsWith("/css") && ctx.path().startsWith("/js")) {
                 throw new AccessDeniedException();
             }

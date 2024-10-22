@@ -5,8 +5,6 @@ import io.javalin.Javalin;
 
 public class Router {
     public static void init(Javalin app) {
-        // Pantalla principal y login
-        //app.get("/", ServiceLocator.instanceOf(LandingPageController.class)::index);
         app.get("/", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
         app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
         app.get("/nosotros", ((LandingPageController) FactoryController.controller("LandingPage"))::indexNosotros);
@@ -15,7 +13,6 @@ public class Router {
         app.post("/login", ((LoginController) FactoryController.controller("Login"))::update);
         app.get("/logout", ((LoginController) FactoryController.controller("Login"))::logout);
 
-        // Registro de personas
         app.get("/registro", ((RegistroUsuariosController) FactoryController.controller("Registro"))::elegirTipo);
         app.get("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioJuridica);
         app.get("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioHumana);
@@ -43,26 +40,14 @@ public class Router {
         app.get("/heladeras/{id}/suscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::indexSuscripcionHeladera);
         app.post("/heladeras/{id}/suscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::suscripcionHeladera);
 
-
-        // Lógica de usuarios (CRUD)
         app.get("/perfil", ((UsuariosController) FactoryController.controller("Usuarios"))::indexPerfil);
         app.get("/editar/humana", ((UsuariosController) FactoryController.controller("Usuarios"))::indexEditHumana);
         app.post("/editar/humana",((UsuariosController) FactoryController.controller("Usuarios"))::editHumana);
         app.get("/editar/juridica", ((UsuariosController) FactoryController.controller("Usuarios"))::indexEditJuridica);
         app.post("/editar/juridica",((UsuariosController) FactoryController.controller("Usuarios"))::editJuridica);
 
-
-
-        app.get("/usuarios", ((UsuariosController) FactoryController.controller("Usuarios"))::index);
-        app.post("/usuarios/crear", ((UsuariosController) FactoryController.controller("Usuarios"))::create);
-        app.get("/usuarios/{id}/eliminar", ((UsuariosController) FactoryController.controller("Usuarios"))::delete);
-        app.get("/usuarios/{id}", ((UsuariosController) FactoryController.controller("Usuarios"))::show);
-        app.post("/usuarios/{id}/editar", ((UsuariosController) FactoryController.controller("Usuarios"))::edit);
-
-        //Puntos y canje de premios
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
 
-        //Reportes
         app.get("/reportes/fallos_heladera", ((FallosHeladeraController) FactoryController.controller("FallosHeladera"))::index);
     }
 }
