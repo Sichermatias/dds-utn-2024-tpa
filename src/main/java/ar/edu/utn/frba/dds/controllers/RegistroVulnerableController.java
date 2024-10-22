@@ -26,13 +26,6 @@ public class RegistroVulnerableController implements WithSimplePersistenceUnit {
     public RegistroVulnerableController(PersonaVulnerableRepositorio personaVulnerableRepositorio) {
         this.personaVulnerableRepositorio = personaVulnerableRepositorio;
     }
-    /*
-     public void checkUsername(Context ctx) {
-        UsuarioRepositorio usuarioRepositorio = UsuarioRepositorio.getInstancia();
-        String username = ctx.queryParam("username");
-        boolean isAvailable = usuarioRepositorio.buscarPorNombre(Usuario.class, username).isEmpty();
-        ctx.json(isAvailable);
-    }*/
 
     public void indexRegistroVulnerable(Context context){
         Map<String, Object> model = new HashMap<>();
@@ -92,7 +85,6 @@ public class RegistroVulnerableController implements WithSimplePersistenceUnit {
         /*TODO: CREAR Y PERSISTIR COLABORACION*/
 
 
-        //context.render("/");
         // Redireccionar a la página de login
         context.status(HttpStatus.CREATED).redirect("/login");
 

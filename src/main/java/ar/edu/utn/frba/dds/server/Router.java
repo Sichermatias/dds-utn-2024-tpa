@@ -22,8 +22,9 @@ public class Router {
         app.post("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarJuridica);
         app.post("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarHumana);
         app.get("/check-username", ((RegistroUsuariosController) FactoryController.controller("Registro"))::checkUsername);
-        app.get("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Registro"))::indexRegistroVulnerable);
-        app.post("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Registro"))::registroVulnerable);
+
+        app.get("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerable"))::indexRegistroVulnerable);
+        app.post("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerable"))::registroVulnerable);
 
         app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);
         app.post("/cargar-csv", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::cargarCSV);
@@ -51,5 +52,9 @@ public class Router {
 
         //Puntos y canje de premios
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
+
+        //Fallas tecnicas
+        app.get("/reporte/falla_tecnicas", ((FallasTecnicasController) FactoryController.controller("Fallas"))::indexFormularioFallaTecnica);
+        app.post("/reporte/falla_tecnicas", ((FallasTecnicasController) FactoryController.controller("Fallas"))::formularioFallaTecnica);
     }
 }

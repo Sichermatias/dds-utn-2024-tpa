@@ -16,7 +16,8 @@ public class FactoryController {
             case "CargaMasiva" -> new CargaMasivaController();
             case "Colaboracion" -> new ColaboracionController();
             case "Heladeras" -> new HeladerasController();
-            case "Vulnerables" -> new RegistroVulnerableController(new PersonaVulnerableRepositorio());
+            case "Vulnerable" -> new RegistroVulnerableController(new PersonaVulnerableRepositorio());
+            case "Fallas" -> new FallasTecnicasController();
             default -> null;
         };
     }

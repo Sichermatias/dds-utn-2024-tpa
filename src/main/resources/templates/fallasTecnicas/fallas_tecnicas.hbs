@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Falla en Heladera</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Reporte de Falla en Heladera</h1>
+    <form action="/reportarFalla" method="post" enctype="multipart/form-data">
+
+        <!-- Heladera -->
+        <div class="form-group">
+            <label for="heladera">Heladera que reporta la falla:</label>
+            <select name="heladera" id="heladera" required>
+                {{#each heladeras}}
+                    <option value="{{this.id}}">{{this.nombre}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <!-- Colaborador (Autocompletado con ID de sesión del usuario) -->
+        <div class="form-group">
+            <label for="colaborador">Colaborador que reporta:</label>
+            <input type="text" id="colaborador" name="colaborador" value="{{usuarioActual.id}}" readonly>
+        </div>
+
+        <!-- Fecha y Hora (Autocompletado con la hora actual) -->
+        <div class="form-group">
+            <label for="fechaHora">Fecha y Hora:</label>
+            <input type="datetime-local" id="fechaHora" name="fechaHora" value="{{fechaActual}}" readonly>
+        </div>
+
+        <!-- Descripción (Opcional) -->
+        <div class="form-group">
+            <label for="descripcion">Descripción de la falla (opcional):</label>
+            <textarea id="descripcion" name="descripcion" placeholder="Describe el problema (opcional)"></textarea>
+        </div>
+
+        <!-- Foto (Opcional) -->
+        <div class="form-group">
+            <label for="foto">Subir foto (opcional):</label>
+            <input type="file" id="foto" name="foto" accept="image/*">
+        </div>
+
+        <!-- Botón de Enviar -->
+        <button type="submit">Reportar Falla</button>
+    </form>
+</div>
+</body>
+</html>
