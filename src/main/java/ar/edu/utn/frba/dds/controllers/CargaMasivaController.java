@@ -2,18 +2,14 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CampoInvalidoException;
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CargaMasiva;
-import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.ProcesadorCampos;
-import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.SplitterLineas;
 import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
-import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensaje;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMensaje;
-import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaWhatsapp;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
@@ -36,8 +32,8 @@ public class CargaMasivaController implements ICrudViewsHandler, WithSimplePersi
         if (tipoRol != null) {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
-        }
-        context.render("Carga-Masiva.hbs", model);
+            context.render("Carga-Masiva.hbs", model);
+        }else context.redirect("/login");
     }
     public void cargarCSV(Context ctx) {
         UploadedFile file = ctx.uploadedFile("csvFile");

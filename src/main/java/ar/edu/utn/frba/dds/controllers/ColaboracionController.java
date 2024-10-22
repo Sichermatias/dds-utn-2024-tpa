@@ -15,7 +15,6 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
             context.render("/colaboraciones/colaboraciones.hbs", model);
-        }else context.render("/login", model);
+        }else context.redirect("/login");
     }
     public void indexNueva(Context context){
         Map<String, Object> model = new HashMap<>();
@@ -50,7 +49,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
                 context.render("colaboraciones/colaboraciones_persona_humana.hbs", model);
                 break;
             default:
-                context.render("Landing-Page.hbs", model);
+                context.redirect("/login");
                 break;
         }
     }
@@ -73,7 +72,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             model.put("colaboraciones", colaboracionesHistoricas);
             context.render("/colaboraciones/colaboraciones_historico.hbs", model);
         } else {
-            context.status(404).result("Colaborador no encontrado");
+            context.redirect("/login");
         }
     }
 
@@ -104,7 +103,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setNombre("");
-        colaboracion.setTipo("DINERO");
+        colaboracion.setTipo("DONACION_VIANDAS");
         colaboracion.setDescripcion("");
         colaboracion.setFechaColaboracion(LocalDate.now());
         colaboracion.setTransaccion(transaccion);
@@ -124,7 +123,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setNombre("");
-        colaboracion.setTipo("DINERO");
+        colaboracion.setTipo("REDISTRIBUCION_VIANDAS");
         colaboracion.setDescripcion("");
         colaboracion.setFechaColaboracion(LocalDate.now());
         colaboracion.setTransaccion(transaccion);
@@ -150,13 +149,15 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setNombre("");
-        colaboracion.setTipo("");
+        colaboracion.setTipo("HOSTEAR_HELADERA");
         colaboracion.setDescripcion("");
         colaboracion.setFechaColaboracion(LocalDate.now());
         colaboracion.setTransaccion(transaccion);
         colaboracion.setColaborador(colaborador);
 
         Heladera heladera = GenericFactory.createInstance(Heladera.class);
+        heladera.setUbicacion(colaborador.getUbicacion());
+        heladera.setNombre("Nombre Heladera");
 
         HostearHeladera hostearHeladera = new HostearHeladera();
         hostearHeladera.setHeladera(heladera);
@@ -177,7 +178,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setNombre("");
-        colaboracion.setTipo("DISTRIBUIR_TARJETAS");
+        colaboracion.setTipo("ENTREGA_TARJETAS");
         colaboracion.setDescripcion("");
         colaboracion.setFechaColaboracion(LocalDate.now());
         colaboracion.setTransaccion(transaccion);

@@ -162,9 +162,9 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
 
         colaborador.setPuntaje(0);
         colaborador.setUsuario(usuario);
-        // Persistir Colaborador
+
         personaRepositorio.persistir(colaborador);
-        // Redireccionar a la página de login
+
         context.status(HttpStatus.CREATED).redirect("/login");
     }
     public void checkUsername(Context ctx) {

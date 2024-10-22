@@ -13,10 +13,11 @@ public class FallasTecnicasController implements WithSimplePersistenceUnit {
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
+        if(tipoRol!=null){
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
-
-        context.render("/fallasTecnicas/falla_tecnicas.hbs", model);
+        context.render("/fallasTecnicas/falla_tecnicas.hbs", model);}
+        else context.redirect("/login");
     }
 
     public void formularioFallaTecnica(Context context){

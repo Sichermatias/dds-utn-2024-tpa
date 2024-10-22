@@ -31,7 +31,7 @@ public class FallosHeladeraController implements ICrudViewsHandler, WithSimplePe
             model.put("fallosPorHeladeras", fallosPorHeladeras);
             context.render("/reportes/fallos_heladera.hbs", model);
         }
-        else context.render("/login", model);
+        else context.redirect("/login");
     }
 
     @Override

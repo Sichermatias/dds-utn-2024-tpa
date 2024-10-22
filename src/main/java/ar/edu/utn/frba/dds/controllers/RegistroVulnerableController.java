@@ -35,8 +35,8 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
         if (tipoRol != null) {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
-        }
-        context.render("/registro/Registro-Vulnerable.hbs", model);
+        context.render("/registro/Registro-Vulnerable.hbs", model);}
+        else context.redirect("/login");
     }
     public void registroVulnerable(Context context){
 
@@ -63,8 +63,6 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
         personaVulnerable.setFechaNacimiento(LocalDate.parse(fechaNacimiento));
 
         personaVulnerable.setCantUsosMaximosPorDia(Integer.valueOf(cantUsosMaximosPorDia));
-        //persisto persona vulnerable
-        personaVulnerableRepositorio.persistir(personaVulnerable);
 
         // Agregar personas a cargo
         for (int i = 0; i < nombrePersonaACargo.size(); i++) {
@@ -75,14 +73,10 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
             personaVulnerableACargo.setNroDocumento(nroDocumentoACargo.get(i));
             personaVulnerableACargo.setFechaNacimiento(LocalDate.parse(fechaNacimientoACargo.get(i)));
 
-            //persisto hijo como persona vulnerable
-            personaVulnerableRepositorio.persistir(personaVulnerableACargo);
-            //Agrego relacion de padre-hijo
             personaVulnerable.agregarPersonasVulnerablesACargo(personaVulnerableACargo);
 
         }
 
-        //persisto persona vulnerable
         personaVulnerableRepositorio.persistir(personaVulnerable);
 
         /*TODO: CREAR Y PERSISTIR COLABORACION*/
@@ -90,8 +84,7 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
 
         //context.render("/");
         // Redireccionar a la página de login
-        context.status(HttpStatus.CREATED).redirect("/login");
-
+        context.redirect("/");
     }
 
 

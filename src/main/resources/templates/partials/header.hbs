@@ -7,22 +7,27 @@
         <nav class="header-nav ms-auto">
             <ul class="navbar-nav d-flex flex-row">
                 {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
+
+                    <li class="nav-item me-3">
                         <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
                     </li>
+
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
                     </li>
+
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/heladeras">Heladeras</a>
                     </li>
+
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/perfil">Mi cuenta</a>
                     </li>
+
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/logout">Cerrar Sesión</a>
                     </li>
                 {{else if (eq tipo_rol "COLABORADOR_JURIDICO")}}
-
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
                     </li>

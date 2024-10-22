@@ -24,6 +24,7 @@
                         <th>Capacidad Máxima</th>
                         <th>Viandas Actuales</th>
                         <th>Desperfecto</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,9 @@
                             <td>{{this.cantMaxViandas}}</td>
                             <td>{{this.cantViandasActuales}}</td>
                             <td>{{#if this.desperfecto}} Sí {{else}} No {{/if}}</td>
+                            <td>
+                                <a href="/heladeras/{{this.id}}" class="btn btn-primary">Ver detalles</a> <!-- Botón -->
+                            </td>
                         </tr>
                     {{/each}}
                     </tbody>

@@ -26,9 +26,9 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
         if (tipoRol != null) {
             model.put("usuario_id", usuarioId);
             model.put("tipo_rol", tipoRol);
-        }
-        model.put("puntaje", colaborador.getPuntaje());
-        context.render("Puntos-Humano.hbs", model);
+            model.put("puntaje", colaborador.getPuntaje());
+            context.render("Puntos-Humano.hbs", model);
+        }else context.redirect("/login");
     }
 
     @Override

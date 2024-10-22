@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Heladera</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+{{>templates/partials/header}}
+<body>
+<main class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">{{heladera.nombre}}</h1>
+
+                <p><strong>Ubicación:</strong> {{heladera.ubicacion.direccion}}</p>
+                <p><strong>Capacidad Máxima:</strong> {{heladera.cantMaxViandas}}</p>
+                <p><strong>Viandas Actuales:</strong> {{heladera.cantViandasActuales}}</p>
+                <p><strong>Desperfecto:</strong> {{#if heladera.desperfecto}} Sí {{else}} No {{/if}}</p>
+
+                <!-- Mapa para mostrar la ubicación -->
+                <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+
+                <!-- Botón para reportar falla -->
+                <div class="text-center mt-4">
+                    <a href="/heladeras/{{heladera.id}}/incidente" class="btn btn-outline-danger">Reportar Falla Técnica</a>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="/heladeras" class="btn btn-outline-primary">Volver a la Lista</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Leaflet JS para el mapa -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    // Este código se ejecutará cuando la página se haya cargado completamente
+    document.addEventListener('DOMContentLoaded', function() {
+        // Las coordenadas de la heladera, que deberías pasar desde el backend
+        var lat = {{heladera.ubicacion.latitud}};
+        var lng = {{heladera.ubicacion.longitud}};
+
+        // Inicialización del mapa
+        var map = L.map('map').setView([lat, lng], 18);
+
+        // Añadir el mapa base de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var customIcon = L.icon({
+            iconUrl: '/assets/img/icon.png',  // Ruta al archivo PNG
+            iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
+            iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
+            popupAnchor: [0, -50] // Punto desde donde se muestra el popup
+        });
+
+        // Añadir un marcador en la ubicación de la heladera
+         L.marker([lat, lng], {icon: customIcon}).addTo(map)
+            .bindPopup('{{heladera.nombre}}')
+            .openPopup();
+    });
+</script>
+</body>
+</html>

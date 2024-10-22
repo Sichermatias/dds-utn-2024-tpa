@@ -40,8 +40,11 @@
                                 {{#ifCond this.tipo '==' 'REDISTRIBUCION_VIANDAS'}}
                                     Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}
                                 {{/ifCond}}
+                                {{#ifCond this.tipo '==' 'ENTREGA_TARJETAS'}}
+                                    Nombre: {{this.personaVulnerable.nombre}} <br> Apellido: {{this.personaVulnerable.apellido}} <br> Personas a cargo: {{this.personaVulenarble.personasVulnACargo.size}}
+                                {{/ifCond}}
                                 {{#ifCond this.tipo '==' 'HOSTEAR_HELADERA'}}
-                                    Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}
+                                    Heladera: {{this.heladera.nombre}} <br> Ubicacion: {{this.heladera.ubicacion.direccion}} <br> Capacidad: {{this.heladera.cantMaxViandas}}
                                 {{/ifCond}}
                             </td>
                         </tr>

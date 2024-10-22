@@ -37,6 +37,9 @@ public class Router {
         app.get("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionHeladera);
 
         app.get("/heladeras", ((HeladerasController) FactoryController.controller("Heladeras"))::index);
+        app.get("/heladeras/{id}", ((HeladerasController) FactoryController.controller("Heladeras"))::indexInd);
+        app.get("/heladeras/{id}/incidente", ((HeladerasController) FactoryController.controller("Heladeras"))::indexFalla);
+        app.post("/heladeras/{id}/incidente", ((HeladerasController) FactoryController.controller("Heladeras"))::formularioIncidente);
 
         // Lógica de usuarios (CRUD)
         app.get("/perfil", ((UsuariosController) FactoryController.controller("Usuarios"))::indexPerfil);
