@@ -56,5 +56,8 @@ public class Router {
         //Fallas tecnicas
         app.get("/reporte/falla_tecnicas", ((FallasTecnicasController) FactoryController.controller("Fallas"))::indexFormularioFallaTecnica);
         app.post("/reporte/falla_tecnicas", ((FallasTecnicasController) FactoryController.controller("Fallas"))::formularioFallaTecnica);
+
+        //Reportes
+        app.get("/reportes/fallosPorHeladera", ((FallosHeladeraController) FactoryController.controller("FallosHeladera"))::index);
     }
 }
