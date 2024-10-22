@@ -37,7 +37,7 @@ public class RegistroVulnerableController implements WithSimplePersistenceUnit {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
         }
-        context.render("Registro-Vulnerable.hbs", model);
+        context.render("/registro/Registro-Vulnerable.hbs", model);
     }
     public void registroVulnerable(Context context){
 
@@ -64,9 +64,8 @@ public class RegistroVulnerableController implements WithSimplePersistenceUnit {
         personaVulnerable.setFechaNacimiento(LocalDate.parse(fechaNacimiento));
 
         personaVulnerable.setCantUsosMaximosPorDia(Integer.valueOf(cantUsosMaximosPorDia));
-        //persisto persona vulnerable
-        personaVulnerableRepositorio.persistir(personaVulnerable);
 
+        System.out.println("el size es"+nombrePersonaACargo.size());
         // Agregar personas a cargo
         for (int i = 0; i < nombrePersonaACargo.size(); i++) {
             PersonaVulnerable personaVulnerableACargo = new PersonaVulnerable();
@@ -80,13 +79,17 @@ public class RegistroVulnerableController implements WithSimplePersistenceUnit {
             personaVulnerableRepositorio.persistir(personaVulnerableACargo);
             //Agrego relacion de padre-hijo
             personaVulnerable.agregarPersonasVulnerablesACargo(personaVulnerableACargo);
+
         }
+
+        //persisto persona vulnerable
+        personaVulnerableRepositorio.persistir(personaVulnerable);
 
         /*TODO: CREAR Y PERSISTIR COLABORACION*/
 
 
         // Redireccionar a la página de login
-        context.status(HttpStatus.CREATED).redirect("/login");
+        context.status(HttpStatus.CREATED).redirect("/");
 
     }
 

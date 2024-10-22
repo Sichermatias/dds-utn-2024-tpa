@@ -11,7 +11,7 @@ public class FallasTecnicasController implements WithSimplePersistenceUnit {
 
     public void indexFormularioFallaTecnica(Context context) {
         Map<String, Object> model = new HashMap<>();
-        context.render("/reporte/falla_tecnicas.hbs", model);
+        context.render("/fallasTecnicas/falla_tecnicas.hbs", model);
     }
 
     public void formularioFallaTecnica(Context context){
