@@ -2,10 +2,14 @@ package ar.edu.utn.frba.dds.dominio.colaboracion;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "transaccion")
 public class Transaccion extends Persistente {
@@ -17,5 +21,5 @@ public class Transaccion extends Persistente {
     private Colaborador colaborador;
 
     //se va por persistente?
-    private LocalDateTime fechaHora;
+    //private LocalDateTime fechaHora;
 }

@@ -3,7 +3,9 @@ package ar.edu.utn.frba.dds.config;
 
 import ar.edu.utn.frba.dds.controllers.ColaboracionController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.TransaccionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
 
 import java.util.HashMap;

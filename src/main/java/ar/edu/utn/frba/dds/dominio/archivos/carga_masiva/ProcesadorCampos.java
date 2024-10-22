@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
             }
 
             if (ValidadorCampos.validarFecha(fecha)) {
-                colaboracion.setFechaColaboracion(fecha);
+                colaboracion.setFechaColaboracion(LocalDate.parse(fecha));
             } else {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }

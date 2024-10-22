@@ -40,6 +40,9 @@
                                 {{#ifCond this.tipo '==' 'REDISTRIBUCION_VIANDAS'}}
                                     Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}
                                 {{/ifCond}}
+                                {{#ifCond this.tipo '==' 'HOSTEAR_HELADERA'}}
+                                    Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}
+                                {{/ifCond}}
                             </td>
                         </tr>
                     {{/each}}

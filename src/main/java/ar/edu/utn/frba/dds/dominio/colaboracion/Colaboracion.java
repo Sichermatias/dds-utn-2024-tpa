@@ -9,14 +9,16 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "colaboracion")
+
 public class Colaboracion extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 
     @Column(name = "tipo", columnDefinition = "VARCHAR(50)")
-    @Setter @Getter
     private String tipo;
 
     @Column(name = "descripcion", columnDefinition = "TEXT")
@@ -25,19 +27,13 @@ public class Colaboracion extends Persistente {
     @Column(name = "fechaColaboracion", columnDefinition = "DATE")
     public LocalDate fechaColaboracion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "transaccion_id")
     private Transaccion transaccion;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaborador_id")
-    @Setter @Getter
     private Colaborador colaborador;
-
-
-    public void setFechaColaboracion(String fecha){
-        fechaColaboracion=LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    }
 
     //TODO adaptar el puntaje a la composicion ya no hay tipoColaboracion
     public Double puntaje() {

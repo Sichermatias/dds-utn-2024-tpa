@@ -1,18 +1,29 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
+import ar.edu.utn.frba.dds.dominio.colaboracion.HostearHeladera;
+import ar.edu.utn.frba.dds.dominio.colaboracion.Transaccion;
+import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.factories.GenericFactory;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.TransaccionRepositorio;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ColaboracionController implements ICrudViewsHandler, WithSimplePersistenceUnit {
+    ColaboracionRepositorio colaboracionRepositorio = ColaboracionRepositorio.getInstancia();
+    ColaboradorRepositorio colaboradorRepositorio = ColaboradorRepositorio.getInstancia();
+    TransaccionRepositorio transaccionRepositorio = TransaccionRepositorio.getInstancia();
 
     @Override
     public void index(Context context) {
@@ -65,6 +76,119 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         } else {
             context.status(404).result("Colaborador no encontrado");
         }
+    }
+
+    public void ColaboracionDinero (Context context){
+        Transaccion transaccion = new Transaccion();
+
+        Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
+
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setNombre("");
+        colaboracion.setTipo("DINERO");
+        colaboracion.setDescripcion("");
+        colaboracion.setFechaColaboracion(LocalDate.now());
+        colaboracion.setTransaccion(transaccion);
+        colaboracion.setColaborador(colaborador);
+
+
+        colaboracionRepositorio.persistir(colaboracion);
+
+
+        context.redirect("/colaboraciones");
+    }
+
+    public void ColaboracionVianda (Context context){
+        Transaccion transaccion = new Transaccion();
+
+        Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
+
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setNombre("");
+        colaboracion.setTipo("DINERO");
+        colaboracion.setDescripcion("");
+        colaboracion.setFechaColaboracion(LocalDate.now());
+        colaboracion.setTransaccion(transaccion);
+        colaboracion.setColaborador(colaborador);
+
+
+        colaboracionRepositorio.persistir(colaboracion);
+
+
+        context.redirect("/colaboraciones");
+    }
+
+    public void ColaboracionDistribucion (Context context){
+        Transaccion transaccion = new Transaccion();
+
+        Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
+
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setNombre("");
+        colaboracion.setTipo("DINERO");
+        colaboracion.setDescripcion("");
+        colaboracion.setFechaColaboracion(LocalDate.now());
+        colaboracion.setTransaccion(transaccion);
+        colaboracion.setColaborador(colaborador);
+
+
+        colaboracionRepositorio.persistir(colaboracion);
+
+
+        context.redirect("/colaboraciones");
+    }
+
+    public void ColaboracionHeladera (Context context){
+        Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
+
+
+        System.out.println("HOLAA");
+
+
+        Transaccion transaccion = new Transaccion();
+        transaccion.setMontoPuntaje(50.0);
+        transaccion.setColaborador(colaborador);
+
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setNombre("");
+        colaboracion.setTipo("");
+        colaboracion.setDescripcion("");
+        colaboracion.setFechaColaboracion(LocalDate.now());
+        colaboracion.setTransaccion(transaccion);
+        colaboracion.setColaborador(colaborador);
+
+        Heladera heladera = GenericFactory.createInstance(Heladera.class);
+
+        HostearHeladera hostearHeladera = new HostearHeladera();
+        hostearHeladera.setHeladera(heladera);
+        hostearHeladera.setColaboracion(colaboracion);
+        hostearHeladera.setEnVigencia(true);
+
+        transaccionRepositorio.persistir(hostearHeladera);
+
+        System.out.println("Colaboracion Heladera");
+
+        //context.redirect("/colaboraciones");
+    }
+
+    public void PersonaVulnerable (Context context){
+        Transaccion transaccion = new Transaccion();
+
+        Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
+
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setNombre("");
+        colaboracion.setTipo("DISTRIBUIR_TARJETAS");
+        colaboracion.setDescripcion("");
+        colaboracion.setFechaColaboracion(LocalDate.now());
+        colaboracion.setTransaccion(transaccion);
+        colaboracion.setColaborador(colaborador);
+
+
+        colaboracionRepositorio.persistir(colaboracion);
+
+
+        context.redirect("/colaboraciones");
     }
 
     @Override
