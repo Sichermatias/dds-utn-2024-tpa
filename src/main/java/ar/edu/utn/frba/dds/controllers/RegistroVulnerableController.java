@@ -32,8 +32,6 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
-        System.out.print(tipoRol);
-        System.out.print(usuarioId);
         if (tipoRol != null) {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);

@@ -28,7 +28,6 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
             model.put("tipo_rol", tipoRol);
         }
         model.put("puntaje", colaborador.getPuntaje());
-        model.put("tipo_rol", tipoRol);
         context.render("Puntos-Humano.hbs", model);
     }
 

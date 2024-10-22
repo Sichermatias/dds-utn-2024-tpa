@@ -40,8 +40,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
-        System.out.print(tipoRol);
-        System.out.print(usuarioId);
+        model.put("tipo_rol", tipoRol);
+        model.put("usuario_id", usuarioId);
             switch (tipoRol) {
             case "COLABORADOR_JURIDICO":
                 context.render("colaboraciones/colaboraciones_persona_juridica.hbs", model);
@@ -62,16 +62,15 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId = context.sessionAttribute("usuario_id");
+        model.put("tipo_rol", tipoRol);
+        model.put("usuario_id", usuarioId);
+
 
         Colaborador colaborador = repositorioColaborador.obtenerColaboradorPorUsuarioId(usuarioId);
 
         if (colaborador != null) {
             List<Colaboracion> colaboracionesHistoricas = repositorioColaboracion.obtenerColaboracionesPorColaboradorId(colaborador.getId());
-
-            model.put("colaborador", colaborador);
             model.put("colaboraciones", colaboracionesHistoricas);
-            model.put("tipo_rol", tipoRol);
-
             context.render("/colaboraciones/colaboraciones_historico.hbs", model);
         } else {
             context.status(404).result("Colaborador no encontrado");

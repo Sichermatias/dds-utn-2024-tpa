@@ -17,13 +17,13 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
+        model.put("tipo_rol", tipoRol);
+        model.put("usuario_id", usuarioId);
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
         List<Heladera> heladeras = repositorio.buscarTodas();
 
         if (tipoRol != null) {
-            model.put("tipo_rol", tipoRol);
-            model.put("usuario_id", usuarioId);
             model.put("heladeras", heladeras);
             context.render("/heladeras/heladeras.hbs", model);
         }

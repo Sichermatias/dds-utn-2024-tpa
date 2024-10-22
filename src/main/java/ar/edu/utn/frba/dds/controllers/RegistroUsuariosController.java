@@ -28,18 +28,15 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
     }
 
     public void elegirTipo(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        context.render("/registro/Registro.hbs", model);
+        context.render("/registro/Registro.hbs");
     }
 
     public void formularioJuridica(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        context.render("/registro/Registro-Juridica.hbs", model);
+        context.render("/registro/Registro-Juridica.hbs");
     }
 
     public void formularioHumana(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        context.render("/registro/Registro-Humana.hbs", model);
+        context.render("/registro/Registro-Humana.hbs");
     }
 
     public void registrarJuridica(Context context) {

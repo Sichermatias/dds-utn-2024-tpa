@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Denegado</title>
-    <link rel="stylesheet" href="/css/StyleLandingPage.css">
-
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-</head>
-<body>
-<div class="container">
+{{#partial "contenido"}}
     <h1>Acceso Denegado</h1>
     <p>Por acá no máquina, primero logueate</p>
     <a href="/login" class="btn">Iniciar Sesión</a>
     <a href="/" class="btn">Volver a Inicio</a>
 </div>
-</body>
-</html>
+{{/partial}}
+{{> templates/base title="No autorizado"}}<div class="container">

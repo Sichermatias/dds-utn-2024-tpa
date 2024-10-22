@@ -21,13 +21,13 @@ public class FallosHeladeraController implements ICrudViewsHandler, WithSimplePe
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
+        model.put("tipo_rol", tipoRol);
+        model.put("usuario_id", usuarioId);
 
         FallosHeladeraRepositorio repositorio = FallosHeladeraRepositorio.getInstancia();
         List<FallosPorHeladera> fallosPorHeladeras = repositorio.buscarTodas();
 
         if (tipoRol != null) {
-            model.put("tipo_rol", tipoRol);
-            model.put("usuario_id", usuarioId);
             model.put("fallosPorHeladeras", fallosPorHeladeras);
             context.render("/reportes/fallos_heladera.hbs", model);
         }
