@@ -22,9 +22,8 @@ public class Router {
         app.post("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarJuridica);
         app.post("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarHumana);
         app.get("/check-username", ((RegistroUsuariosController) FactoryController.controller("Registro"))::checkUsername);
-
-        app.get("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerable"))::indexRegistroVulnerable);
-        app.post("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerable"))::registroVulnerable);
+        app.get("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerables"))::indexRegistroVulnerable);
+        app.post("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerables"))::registroVulnerable);
 
         app.get("/cargamasiva", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::index);
         app.post("/cargar-csv", ((CargaMasivaController) FactoryController.controller("CargaMasiva"))::cargarCSV);
@@ -32,6 +31,10 @@ public class Router {
         app.get("/colaboraciones", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
         app.get("/colaboraciones/nueva", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexNueva);
         app.get("/colaboraciones/historico", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexHistorico);
+        app.post("/colaboraciones/dinero", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionDinero);
+        app.post("/colaboraciones/vianda", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionVianda);
+        app.post("/colaboraciones/distribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionDistribucion);
+        app.get("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionHeladera);
 
         app.get("/heladeras", ((HeladerasController) FactoryController.controller("Heladeras"))::index);
 
@@ -52,9 +55,5 @@ public class Router {
 
         //Puntos y canje de premios
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
-
-        //Fallas tecnicas
-        app.get("/reporte/falla_tecnicas", ((FallasTecnicasController) FactoryController.controller("Fallas"))::indexFormularioFallaTecnica);
-        app.post("/reporte/falla_tecnicas", ((FallasTecnicasController) FactoryController.controller("Fallas"))::formularioFallaTecnica);
     }
 }

@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Table(name = "hostearHeladera")
 @Getter @Setter
 public class HostearHeladera extends Persistente {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
 
