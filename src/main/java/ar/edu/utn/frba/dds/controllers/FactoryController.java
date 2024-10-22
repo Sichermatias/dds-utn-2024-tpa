@@ -1,9 +1,6 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.PersonaVulnerableRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.*;
 
 public class FactoryController {
 
@@ -19,6 +16,7 @@ public class FactoryController {
             case "Heladeras" -> new HeladerasController();
             case "Vulnerables" -> new RegistroVulnerableController(new PersonaVulnerableRepositorio());
             case "Fallas" -> new FallasTecnicasController();
+            case "FallosHeladera" -> new FallosHeladeraController(new FallosHeladeraRepositorio());
             default -> null;
         };
     }

@@ -55,5 +55,8 @@ public class Router {
 
         //Puntos y canje de premios
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
+
+        //Reportes
+        app.get("/reportes/fallos_heladera", ((FallosHeladeraController) FactoryController.controller("FallosHeladera"))::index);
     }
 }

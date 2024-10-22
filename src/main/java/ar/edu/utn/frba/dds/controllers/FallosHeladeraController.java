@@ -29,7 +29,7 @@ public class FallosHeladeraController implements ICrudViewsHandler, WithSimplePe
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
             model.put("fallosPorHeladeras", fallosPorHeladeras);
-            context.render("/reportes/fallosPorHeladera.hbs", model);
+            context.render("/reportes/fallos_heladera.hbs", model);
         }
         else context.render("/login", model);
     }
