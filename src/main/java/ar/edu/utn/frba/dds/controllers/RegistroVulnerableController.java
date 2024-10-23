@@ -79,13 +79,12 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
 
         personaVulnerableRepositorio.persistir(personaVulnerable);
 
-        /*TODO: CREAR Y PERSISTIR COLABORACION*/
+        ColaboracionController colaboracionController=new ColaboracionController();
+        colaboracionController.colaboracionTarjetas(context,personaVulnerable);
 
-
-        //context.render("/");
-        // Redireccionar a la página de login
         context.redirect("/");
     }
+
 
 
     @Override

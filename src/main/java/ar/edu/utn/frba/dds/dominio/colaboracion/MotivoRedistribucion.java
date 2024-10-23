@@ -12,4 +12,8 @@ public class MotivoRedistribucion {
 
     @Column(name = "descripcion", columnDefinition = "VARCHAR(255)")
     private String descripcion;
+
+    public MotivoRedistribucion(String motivoRedistribucion){
+        this.descripcion=motivoRedistribucion;
+    }
 }

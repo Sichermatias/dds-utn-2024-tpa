@@ -13,8 +13,8 @@ public class DonacionDinero extends Persistente{
     @Column(name = "monto")
     private Double monto;
 
-    @ManyToOne
-    @JoinColumn(name = "frecuencia_id", referencedColumnName = "id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "frecuencia")
     private Frecuencia frecuencia;
 
     @OneToOne(cascade = CascadeType.PERSIST)
@@ -23,5 +23,8 @@ public class DonacionDinero extends Persistente{
 
     public DonacionDinero() {
         this.colaboracion = new Colaboracion();
+    }
+    public Double puntaje(){
+        return this.monto*0.5;
     }
 }

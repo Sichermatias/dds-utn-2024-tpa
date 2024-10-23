@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "hostearHeladera")
@@ -24,5 +26,12 @@ public class HostearHeladera extends Persistente {
 
     public HostearHeladera() {
         this.colaboracion = new Colaboracion();
+    }
+    public Double puntaje() {
+        LocalDate fechaActual = LocalDate.now();
+
+        long mesesActiva = ChronoUnit.MONTHS.between(this.heladera.getFechaPuestaEnMarcha(), fechaActual);
+
+        return mesesActiva * 5.0;
     }
 }

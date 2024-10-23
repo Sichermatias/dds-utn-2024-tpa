@@ -34,7 +34,6 @@ public class Server {
             AppHandlers.applyHandlers(app);
             Router.init(app);
 
-
             app.exception(AccessDeniedException.class, (e, ctx) -> {
                 ctx.status(403);
                 ctx.render("Prohibido.hbs");
@@ -43,6 +42,7 @@ public class Server {
             Initializer.init();
         }
     }
+
     private static Consumer<JavalinConfig> config() {
         return config -> {
             config.staticFiles.add(staticFiles -> {
@@ -52,6 +52,8 @@ public class Server {
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 Handlebars handlebars = new Handlebars();
+
+                // Helper para comparar igualdad
                 handlebars.registerHelper("eq", new Helper<Object>() {
                     @Override
                     public Object apply(Object context, Options options) {
@@ -62,17 +64,32 @@ public class Server {
                     }
                 });
 
+                // Helper para condiciones
                 handlebars.registerHelper("ifCond", new Helper<Object>() {
                     @Override
                     public Object apply(Object context, Options options) throws IOException {
-                        // Verifica si el context o los parámetros son nulos
                         if (context == null || options.params.length < 1) {
-                            return options.inverse(null); // Renderiza la parte "else" si context es null
+                            return options.inverse(null);
                         }
 
-                        String tipo = (String) options.param(0);
-                        // Comparación asegurando que ambos no sean nulos
-                        return context.equals(tipo) ? options.fn(context) : options.inverse(context);
+                        // Obtener valores para comparar
+                        String contextStr = context.toString().trim();
+                        String tipo = options.param(0).toString().trim();
+
+
+                        if (contextStr.equalsIgnoreCase(tipo)) {
+                            return options.fn(options.context); // Usa options.data para pasar el contexto original
+                        }
+
+                        return options.inverse(context);
+                    }
+                });
+
+                handlebars.registerHelper("debug", new Helper<Object>() {
+                    @Override
+                    public Object apply(Object context, Options options) {
+                        System.out.println("Debugging: " + context);
+                        return "";
                     }
                 });
 

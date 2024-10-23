@@ -51,4 +51,7 @@ public class RedistribucionViandas extends Persistente {
     public RedistribucionViandas() {
         this.colaboracion = new Colaboracion();
     }
+    public Double puntaje(){
+        return (double) (this.cantidadViandas*1);
+    }
 }

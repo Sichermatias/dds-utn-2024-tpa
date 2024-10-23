@@ -34,9 +34,4 @@ public class Colaboracion extends Persistente {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaborador_id")
     private Colaborador colaborador;
-
-    //TODO adaptar el puntaje a la composicion ya no hay tipoColaboracion
-    public Double puntaje() {
-        return 0.0; //tipoColaboracion.puntaje();
-    }
 }

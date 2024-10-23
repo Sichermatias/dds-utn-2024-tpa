@@ -28,12 +28,11 @@ public class Router {
         app.get("/colaboraciones", ((ColaboracionController) FactoryController.controller("Colaboracion"))::index);
         app.get("/colaboraciones/nueva", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexNueva);
         app.get("/colaboraciones/historico", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexHistorico);
-        app.post("/colaboraciones/dinero", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionDinero);
-        app.post("/colaboraciones/vianda", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionVianda);
-        app.post("/colaboraciones/distribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionDistribucion);
-        //app.post("/colaboraciones/tarjeta", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionTarjeta);
-        app.post("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionHeladera);
-        app.post("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionPremio);
+        app.post("/colaboraciones/dinero", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDinero);
+        app.post("/colaboraciones/vianda", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionVianda);
+        app.post("/colaboraciones/distribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDistribucion);
+        app.post("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionHeladera);
+        app.post("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionPremio);
 
         app.get("/heladeras", ((HeladerasController) FactoryController.controller("Heladeras"))::index);
         app.get("/heladeras/{id}", ((HeladerasController) FactoryController.controller("Heladeras"))::indexInd);

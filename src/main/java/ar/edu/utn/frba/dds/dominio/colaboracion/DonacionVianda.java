@@ -4,10 +4,7 @@ import ar.edu.utn.frba.dds.dominio.Persistente;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -16,6 +13,7 @@ public class DonacionVianda extends Persistente {
     //TODO: tal vez deberia ser una lista
     @OneToOne
     @JoinColumn(name = "vianda_id", referencedColumnName = "id")
+    @Setter@Getter
     private Vianda vianda;
 
     @OneToOne
@@ -26,8 +24,13 @@ public class DonacionVianda extends Persistente {
     @OneToOne
     @JoinColumn(name = "pedidoDeApertura_id", referencedColumnName = "id")
     private PedidoDeApertura pedidoDeApertura;
+    @Column(name = "cantViandas")
+    private Double cantViandas;
 
     public DonacionVianda() {
         this.colaboracion = new Colaboracion();
+    }
+    public Double puntaje(){
+        return this.cantViandas*1.5;
     }
 }

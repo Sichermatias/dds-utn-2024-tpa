@@ -8,12 +8,15 @@
             <label for="monto">Monto</label>
             <input type="number" class="form-control" id="monto" name="monto" placeholder="Monto en dinero">
         </div>
-        <div class="form-group mb-3 col-4">
+        <div class="form-group mb-3">
             <label for="frecuencia">Frecuencia</label>
-            <select class="form-control" id="frecuencia" name="frecuencia" placeholder="Frecuencia de donación">
-                {{#each frecuencias}}
-                    <option value="{{this.id}}">{{this.nombre}}</option>
-                {{/each}}
+            <select class="form-control" id="frecuencia" name="frecuencia" required>
+                <option value="">Seleccionar</option>
+                <option value="SEMANAL">Semanal</option>
+                <option value="MENSUAL">Mensual</option>
+                <option value="TRIMESTRAL">Trimestral</option>
+                <option value="SEMESTRAL">Semestral</option>
+                <option value="ANUAL">Anual</option>
             </select>
         </div>
     </div>

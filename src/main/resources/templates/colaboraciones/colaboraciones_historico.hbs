@@ -28,22 +28,22 @@
                     <tbody>
                     {{#each colaboraciones}}
                         <tr>
-                            <td>{{this.fecha}}</td>
-                            <td>{{this.tipo}}</td>
+                            <td>{{this.colaboracion.fechaColaboracion}}</td>
+                            <td>{{this.colaboracion.tipo}}</td>
                             <td>
-                                {{#ifCond this.tipo '==' 'DINERO'}}
+                                {{#ifCond this.colaboracion.tipo 'DINERO'}}
                                     Monto: ${{this.monto}} <br> Frecuencia: {{this.frecuencia}}
                                 {{/ifCond}}
-                                {{#ifCond this.tipo '==' 'DONACION_VIANDAS'}}
+                                {{#ifCond this.colaboracion.tipo 'DONACION_VIANDAS'}}
                                     Comida: {{this.nombreComida}} <br> Calorías: {{this.calorias}} <br> Peso: {{this.peso}} kg
                                 {{/ifCond}}
-                                {{#ifCond this.tipo '==' 'REDISTRIBUCION_VIANDAS'}}
+                                {{#ifCond this.colaboracion.tipo 'REDISTRIBUCION_VIANDAS'}}
                                     Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}
                                 {{/ifCond}}
-                                {{#ifCond this.tipo '==' 'ENTREGA_TARJETAS'}}
+                                {{#ifCond this.colaboracion.tipo 'ENTREGA_TARJETAS'}}
                                     Nombre: {{this.personaVulnerable.nombre}} <br> Apellido: {{this.personaVulnerable.apellido}} <br> Personas a cargo: {{this.personaVulenarble.personasVulnACargo.size}}
                                 {{/ifCond}}
-                                {{#ifCond this.tipo '==' 'HOSTEAR_HELADERA'}}
+                                {{#ifCond this.colaboracion.tipo 'HOSTEAR_HELADERA'}}
                                     Heladera: {{this.heladera.nombre}} <br> Ubicacion: {{this.heladera.ubicacion.direccion}} <br> Capacidad: {{this.heladera.cantMaxViandas}}
                                 {{/ifCond}}
                             </td>

@@ -20,9 +20,13 @@ public class RegistrarPersonasVulnerables extends Persistente {
 
     @OneToOne
     @JoinColumn(name = "personaVulnerable_id", referencedColumnName = "id")
+    @Setter@Getter
     private PersonaVulnerable personaVulnerable;
 
     public RegistrarPersonasVulnerables() {
         this.colaboracion = new Colaboracion();
+    }
+    public Double puntaje(){
+        return 2.0;
     }
 }

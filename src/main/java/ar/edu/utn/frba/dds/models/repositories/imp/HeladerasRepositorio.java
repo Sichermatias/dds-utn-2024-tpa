@@ -6,7 +6,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class HeladerasRepositorio  extends BaseRepositorio implements WithSimplePersistenceUnit{
+public class HeladerasRepositorio  extends BaseRepositorio<Heladera> implements WithSimplePersistenceUnit{
 
     private static HeladerasRepositorio instancia;
     public static HeladerasRepositorio getInstancia(){

@@ -10,6 +10,16 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "vianda")
 public class Vianda extends Persistente {
+
+    public Vianda(String nombreComida, LocalDate fechaCaducidad, LocalDate fechaDonacion, Heladera heladeraAsignada, Double calorias, Double peso, Boolean fueEntregado) {
+        this.nombreComida = nombreComida;
+        this.fechaCaducidad = fechaCaducidad;
+        this.fechaDonacion = fechaDonacion;
+        this.heladeraAsignada = heladeraAsignada;
+        this.calorias = calorias;
+        this.peso = peso;
+        this.fueEntregado = fueEntregado;
+    }
     @Column(name = "nombreComida", columnDefinition = "VARCHAR(100)")
     private String nombreComida;
 
