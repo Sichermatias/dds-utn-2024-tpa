@@ -27,9 +27,7 @@ public class FallosPorHeladera {
     @Column(name = "cantFallosHeladera", columnDefinition = "INTEGER")
     private int cantFallosHeladera;
 
-    public FallosPorHeladera(Heladera heladera, LocalDate fechaDeReporteSemanal) {
-        this.heladera = heladera;
-        this.fechaDeReporteSemanal = fechaDeReporteSemanal;
+    public FallosPorHeladera() {
     }
     public void setFechaReporte(String fecha){
         fechaDeReporteSemanal=LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -37,6 +35,7 @@ public class FallosPorHeladera {
     public String getFechaDeReporteSemanalFormatted() {
         return fechaDeReporteSemanal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
+
     public void fallosSemanalesHeladera() {
         this.cantFallosHeladera = this.heladera.getCantSemanalIncidentes();
     }
