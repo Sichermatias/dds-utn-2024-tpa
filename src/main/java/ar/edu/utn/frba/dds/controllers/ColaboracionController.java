@@ -113,6 +113,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         colaboracion.setDescripcion(descripcion);
         colaboracion.setFechaColaboracion(LocalDate.now());
         colaboracion.setColaborador(colaborador);
+        colaboracion.setFechaHoraAlta(LocalDateTime.now());
         return colaboracion;
     }
 
@@ -126,6 +127,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         DonacionDinero donacionDinero = new DonacionDinero();
         donacionDinero.setMonto(monto);
         donacionDinero.setFrecuencia(frecuencia);
+        donacionDinero.setFechaHoraAlta(LocalDateTime.now());
         Transaccion transaccion = crearTransaccion(colaborador, donacionDinero.puntaje());
         colaboracion.setTransaccion(transaccion);
         donacionDinero.setColaboracion(colaboracion);
@@ -149,6 +151,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         DonacionVianda donacionVianda = new DonacionVianda();
         donacionVianda.setActivo(true);
         donacionVianda.setVianda(nuevaVianda);
+        donacionVianda.setFechaHoraAlta(LocalDateTime.now());
 
         Transaccion transaccion = crearTransaccion(colaborador, donacionVianda.puntaje());
         colaboracion.setTransaccion(transaccion);
@@ -174,6 +177,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         redistribucionViandas.setHeladeraDestino(heladeraDestino);
         redistribucionViandas.setCantidadViandas(cantidadViandas);
         redistribucionViandas.setMotivoRedistribucion(motivo);
+        redistribucionViandas.setFechaHoraAlta(LocalDateTime.now());
 
         Transaccion transaccion = crearTransaccion(colaborador, redistribucionViandas.puntaje());
         colaboracion.setTransaccion(transaccion);
@@ -234,6 +238,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         HostearHeladera hostearHeladera = new HostearHeladera();
         hostearHeladera.setHeladera(heladera);
         hostearHeladera.setEnVigencia(true);
+        hostearHeladera.setFechaHoraAlta(LocalDateTime.now());
 
         Transaccion transaccion = crearTransaccion(colaborador, hostearHeladera.puntaje());
         colaboracion.setTransaccion(transaccion);
