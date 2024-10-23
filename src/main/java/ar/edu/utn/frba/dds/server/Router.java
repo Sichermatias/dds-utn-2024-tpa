@@ -31,7 +31,9 @@ public class Router {
         app.post("/colaboraciones/dinero", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionDinero);
         app.post("/colaboraciones/vianda", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionVianda);
         app.post("/colaboraciones/distribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionDistribucion);
-        app.get("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionHeladera);
+        //app.post("/colaboraciones/tarjeta", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionTarjeta);
+        app.post("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionHeladera);
+        app.post("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::ColaboracionPremio);
 
         app.get("/heladeras", ((HeladerasController) FactoryController.controller("Heladeras"))::index);
         app.get("/heladeras/{id}", ((HeladerasController) FactoryController.controller("Heladeras"))::indexInd);

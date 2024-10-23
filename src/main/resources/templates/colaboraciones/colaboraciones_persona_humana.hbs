@@ -17,82 +17,16 @@
                 </div>
 
                 <!-- Dinero Form -->
-                <form id="dineroForm" action="/registro/colaboracion/dinero" method="POST" style="display:none;">
-                    <div class="row">
-                        <div class="form-group mb-3 col-4">
-                            <label for="fecha">Monto</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" placeholder="Fecha de donación">
-                        </div>
-                        <div class="form-group mb-3 col-4">
-                            <label for="monto">Monto</label>
-                            <input type="number" class="form-control" id="monto" name="monto" placeholder="Monto en dinero">
-                        </div>
-                        <div class="form-group mb-3 col-4">
-                            <label for="frecuencia">Frecuencia</label>
-                            <select class="form-control" id="frecuencia" name="frecuencia" placeholder="Frecuencia de donación">
-                                <option value="MENSUAL">Mensual</option>
-                                <option value="TRIMESTRAL">Trimestral</option>
-                                <option value="SEMESTRAL">Semestral</option>
-                                <option value="ANUAL">Anual</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Donar Dinero</button>
-                </form>
+                {{> templates/colaboraciones/formularios/colaboracion_dinero frecuencias=frecuencias}}
 
                 <!-- Donación Viandas Form -->
-                <form id="donacionViandasForm" action="/registro/colaboracion/vianda" method="POST" style="display:none;">
-                    <div class="row">
-                        <div class="form-group mb-3 col-3">
-                            <label for="nombreComida">Nombre de la Comida</label>
-                            <input type="text" class="form-control" id="nombreComida" name="nombreComida" placeholder="Nombre de la comida">
-                        </div>
-                        <div class="form-group mb-3 col-3">
-                            <label for="fechaCaducidad">Fecha de Caducidad</label>
-                            <input type="date" class="form-control" id="fechaCaducidad" name="fechaCaducidad">
-                        </div>
-                        <div class="form-group mb-3 col-3">
-                            <label for="fechaDonacion">Fecha de Donación</label>
-                            <input type="date" class="form-control" id="fechaDonacion" name="fechaDonacion">
-                        </div>
-                        <div class="form-group mb-3 col-3">
-                            <label for="calorias">Calorías</label>
-                            <input type="number" class="form-control" id="calorias" name="calorias" placeholder="Calorías">
-                        </div>
-                        <div class="form-group mb-3 col-3">
-                            <label for="peso">Peso (kg)</label>
-                            <input type="number" class="form-control" id="peso" name="peso" placeholder="Peso en kg">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Donar Vianda</button>
-                </form>
+                {{> templates/colaboraciones/formularios/colaboracion_vianda }}
 
                 <!-- Redistribución Viandas Form -->
-                <form id="redistribucionViandasForm" action="/registro/colaboracion/redistribucion" method="POST" style="display:none;">
-                    <div class="form-group mb-3">
-                        <label for="heladeraOrigen">Heladera Origen</label>
-                        <input type="text" class="form-control" id="heladeraOrigen" name="heladeraOrigen" placeholder="Heladera de origen">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="heladeraDestino">Heladera Destino</label>
-                        <input type="text" class="form-control" id="heladeraDestino" name="heladeraDestino" placeholder="Heladera de destino">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="cantidadViandas">Cantidad de Viandas</label>
-                        <input type="number" class="form-control" id="cantidadViandas" name="cantidadViandas" placeholder="Cantidad de viandas">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="motivoRedistribucion">Motivo de Redistribución</label>
-                        <input type="text" class="form-control" id="motivoRedistribucion" name="motivoRedistribucion" placeholder="Motivo de redistribución">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Distribuir Viandas</button>
-                </form>
+                {{> templates/colaboraciones/formularios/colaboracion_distribucion }}
 
                 <!-- Entrega Tarjetas Form -->
-                <form id="entregaTarjetasForm" action="/registro/colaboracion" method="POST" style="display:none;">
-                    <p>Serás redirigido a /registro/vulnerable</p>
-                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
-                </form>
+                {{> templates/colaboraciones/formularios/colaboracion_tarjeta }}
             </div>
         </div>
     </div>

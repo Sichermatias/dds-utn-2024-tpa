@@ -1,15 +1,11 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
-import ar.edu.utn.frba.dds.dominio.colaboracion.HostearHeladera;
-import ar.edu.utn.frba.dds.dominio.colaboracion.Transaccion;
+import ar.edu.utn.frba.dds.dominio.colaboracion.*;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.factories.GenericFactory;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.TransaccionRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -23,6 +19,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     ColaboracionRepositorio colaboracionRepositorio = ColaboracionRepositorio.getInstancia();
     ColaboradorRepositorio colaboradorRepositorio = ColaboradorRepositorio.getInstancia();
     TransaccionRepositorio transaccionRepositorio = TransaccionRepositorio.getInstancia();
+    FrecuenciaRepositorio frecuenciaRepositorio = FrecuenciaRepositorio.getInstancia();
+    DonacionDineroRepositorio donacionDineroRepositorio = DonacionDineroRepositorio.getInstancia();
 
     @Override
     public void index(Context context) {
@@ -35,12 +33,18 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             context.render("/colaboraciones/colaboraciones.hbs", model);
         }else context.redirect("/login");
     }
+
     public void indexNueva(Context context){
         Map<String, Object> model = new HashMap<>();
+
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
+        List<Frecuencia> frecuencias = frecuenciaRepositorio.buscarTodos(Frecuencia.class);
+
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
+        model.put("frecuencias", frecuencias);
+
             switch (tipoRol) {
             case "COLABORADOR_JURIDICO":
                 context.render("colaboraciones/colaboraciones_persona_juridica.hbs", model);
@@ -77,21 +81,37 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     }
 
     public void ColaboracionDinero (Context context){
-        Transaccion transaccion = new Transaccion();
+        //Buscar la frecuencia
+        Frecuencia frecuencia = (Frecuencia) frecuenciaRepositorio.buscarPorId(Frecuencia.class, Long.parseLong(context.formParam("frecuencia")));
 
+        //Buscar el colaborador
         Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
 
+        //Crear la Transaccion
+        Transaccion transaccion = new Transaccion();
+        transaccion.setColaborador(colaborador);
+        double monto = Long.parseLong(context.formParam("monto"));
+        transaccion.setMontoPuntaje(monto * 0.5);
+
+        //Crear la Colaboracion
         Colaboracion colaboracion = new Colaboracion();
-        colaboracion.setNombre("");
-        colaboracion.setTipo("DINERO");
-        colaboracion.setDescripcion("");
+        colaboracion.setNombre("Nombre Colaboracion");
+        colaboracion.setTipo(context.formParam("tipoColaboracion"));
+        colaboracion.setDescripcion("Descripcion Colaboracion");
         colaboracion.setFechaColaboracion(LocalDate.now());
         colaboracion.setTransaccion(transaccion);
         colaboracion.setColaborador(colaborador);
 
+        //Crear la DonacionDinero
+        DonacionDinero donacionDinero = new DonacionDinero();
+        donacionDinero.setMonto(monto);
+        donacionDinero.setFrecuencia(frecuencia);
+        donacionDinero.setColaboracion(colaboracion);
 
-        colaboracionRepositorio.persistir(colaboracion);
+        //Persistir
+        donacionDineroRepositorio.persistir(donacionDinero);
 
+        //TODO: guardar la fecha en la que se va a realizar la donacion
 
         context.redirect("/colaboraciones");
     }
@@ -165,6 +185,26 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     }
 
     public void PersonaVulnerable (Context context){
+        Transaccion transaccion = new Transaccion();
+
+        Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));
+
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setNombre("");
+        colaboracion.setTipo("ENTREGA_TARJETAS");
+        colaboracion.setDescripcion("");
+        colaboracion.setFechaColaboracion(LocalDate.now());
+        colaboracion.setTransaccion(transaccion);
+        colaboracion.setColaborador(colaborador);
+
+
+        colaboracionRepositorio.persistir(colaboracion);
+
+
+        context.redirect("/colaboraciones");
+    }
+
+    public void ColaboracionPremio (Context context){
         Transaccion transaccion = new Transaccion();
 
         Colaborador colaborador = colaboradorRepositorio.buscarPorIdUsuario(context.sessionAttribute("usuario_id"));

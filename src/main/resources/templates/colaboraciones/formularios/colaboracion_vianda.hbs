@@ -1,0 +1,25 @@
+<form id="donacionViandasForm" action="/colaboraciones/vianda" method="POST" style="display:none;">
+    <div class="row">
+        <div class="form-group mb-3 col-3">
+            <label for="nombreComida">Nombre de la Comida</label>
+            <input type="text" class="form-control" id="nombreComida" name="nombreComida" placeholder="Nombre de la comida">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="fechaCaducidad">Fecha de Caducidad</label>
+            <input type="date" class="form-control" id="fechaCaducidad" name="fechaCaducidad">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="fechaDonacion">Fecha de Donación</label>
+            <input type="date" class="form-control" id="fechaDonacion" name="fechaDonacion">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="calorias">Calorías</label>
+            <input type="number" class="form-control" id="calorias" name="calorias" placeholder="Calorías">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" class="form-control" id="peso" name="peso" placeholder="Peso en kg">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Donar Vianda</button>
+</form>

@@ -10,75 +10,19 @@
                     <select class="form-control" id="tipoColaboracion" name="tipoColaboracion" required>
                         <option value="">Seleccionar</option>
                         <option value="DINERO">Dinero</option>
-                        <option value="DONACION_VIANDAS">Donación de Viandas</option>
-                        <option value="REDISTRIBUCION_VIANDAS">Redistribución de Viandas</option>
-                        <option value="ENTREGA_TARJETAS">Entrega de Tarjetas</option>
+                        <option value="HOSTEAR_HELADERA">Hostear Heladera</option>
+                        <option value="OFRECER_PREMIOS">Entrega de Tarjetas</option>
                     </select>
                 </div>
 
                 <!-- Dinero Form -->
-                <form id="dineroForm" action="/registro/colaboracion" method="POST" style="display:none;">
-                    <div class="form-group mb-3">
-                        <label for="monto">Monto</label>
-                        <input type="number" class="form-control" id="monto" name="monto" placeholder="Monto en dinero">
-                    </div>
-                    <div class="form-group mb-3">
-                        <select class="form-control" id="frecuencia" name="frecuencia" placeholder="Frecuencia de donación">
-                            <option value="MENSUAL">Mensual</option>
-                            <option value="TRIMESTRAL">Trimestral</option>
-                            <option value="ANUAL">Anual</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
-                </form>
+                {{> templates/colaboraciones/formularios/colaboracion_dinero frecuencias=frecuencias}}
 
-                <!-- Donación Viandas Form -->
-                <form id="donacionViandasForm" action="/registro/colaboracion" method="POST" style="display:none;">
-                    <div class="form-group mb-3">
-                        <label for="nombreComida">Nombre de la Comida</label>
-                        <input type="text" class="form-control" id="nombreComida" name="nombreComida" placeholder="Nombre de la comida">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="fechaCaducidad">Fecha de Caducidad</label>
-                        <input type="date" class="form-control" id="fechaCaducidad" name="fechaCaducidad">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="calorias">Calorías</label>
-                        <input type="number" class="form-control" id="calorias" name="calorias" placeholder="Calorías">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="peso">Peso (kg)</label>
-                        <input type="number" class="form-control" id="peso" name="peso" placeholder="Peso en kg">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
-                </form>
+                <!-- Entrega Hostear Heladera Form -->
+                {{> templates/colaboraciones/formularios/colaboracion_heladera }}
 
-                <!-- Redistribución Viandas Form -->
-                <form id="redistribucionViandasForm" action="/registro/colaboracion" method="POST" style="display:none;">
-                    <div class="form-group mb-3">
-                        <label for="heladeraOrigen">Heladera Origen</label>
-                        <input type="text" class="form-control" id="heladeraOrigen" name="heladeraOrigen" placeholder="Heladera de origen">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="heladeraDestino">Heladera Destino</label>
-                        <input type="text" class="form-control" id="heladeraDestino" name="heladeraDestino" placeholder="Heladera de destino">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="cantidadViandas">Cantidad de Viandas</label>
-                        <input type="number" class="form-control" id="cantidadViandas" name="cantidadViandas" placeholder="Cantidad de viandas">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="motivoRedistribucion">Motivo de Redistribución</label>
-                        <input type="text" class="form-control" id="motivoRedistribucion" name="motivoRedistribucion" placeholder="Motivo de redistribución">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
-                </form>
-
-                <!-- Entrega Tarjetas Form -->
-                <form id="entregaTarjetasForm" action="/registro/colaboracion" method="POST" style="display:none;">
-                    <p>Serás redirigido a /registro/vulnerable</p>
-                    <button type="submit" class="btn btn-primary btn-block">Registrar Colaboración</button>
-                </form>
+                <!-- Ofrecer Premio Form -->
+                {{> templates/colaboraciones/formularios/colaboracion_ofrecer_premio }}
             </div>
         </div>
     </div>
@@ -88,9 +32,8 @@
             const tipoColaboracion = document.getElementById('tipoColaboracion');
             const forms = {
                 DINERO: document.getElementById('dineroForm'),
-                DONACION_VIANDAS: document.getElementById('donacionViandasForm'),
-                REDISTRIBUCION_VIANDAS: document.getElementById('redistribucionViandasForm'),
-                ENTREGA_TARJETAS: document.getElementById('entregaTarjetasForm')
+                HOSTEAR_HELADERA: document.getElementById('hostearHeladeraForm'),
+                OFRECER_PREMIOS: document.getElementById('ofrecerPremioForm')
             };
 
             tipoColaboracion.addEventListener('change', function () {
