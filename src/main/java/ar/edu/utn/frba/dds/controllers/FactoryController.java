@@ -17,6 +17,8 @@ public class FactoryController {
             case "Vulnerables" -> new RegistroVulnerableController(new PersonaVulnerableRepositorio());
             case "Fallas" -> new FallasTecnicasController();
             case "FallosHeladera" -> new FallosHeladeraController(new FallosHeladeraRepositorio());
+            case "viandasHeladeraReporte" -> new ReporteViandasHeladeraController();
+            case "viandasDonadasColaborador" -> new ViandasDonadasColaboradorController(new ViandasDonadasColaboradorRepositorio());
             default -> null;
         };
     }

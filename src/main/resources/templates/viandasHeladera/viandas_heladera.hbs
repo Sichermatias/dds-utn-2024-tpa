@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes de Viandas por Heladera</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+</head>
+{{>templates/partials/header}}
+<body>
+<main class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Reportes de Viandas por Heladera</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Heladera</th>
+                        <th>Ubicacion Heladera</th>
+                        <th>Fecha de Reporte Semanal</th>
+                        <th>Cantidad de Viandas Colocadas</th>
+                        <th>Cantidad de Viandas Retiradas</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each viandasPorHeladera}}
+                        <tr>
+                            <td>{{this.heladera.nombre}}</td>
+                            <td>{{this.heladera.ubicacion.direccion}}</td>
+                            <td>{{this.fechaDeReporteSemanal}}</td>
+                            <td>{{this.cantViandasColocadas}}</td>
+                            <td>{{this.cantViandasRetiradas}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-outline-primary">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

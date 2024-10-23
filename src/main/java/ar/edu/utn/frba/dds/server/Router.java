@@ -50,5 +50,7 @@ public class Router {
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
 
         app.get("/reportes/fallos_heladera", ((FallosHeladeraController) FactoryController.controller("FallosHeladera"))::index);
+        app.get("/reportes/viandas_heladera", ((ReporteViandasHeladeraController) FactoryController.controller("ViandasHeladera"))::index);
+        app.get("/reportes/viandas_donadas_colaborador", ((ViandasDonadasColaboradorController) FactoryController.controller("ViandasDonadas"))::index);
     }
 }
