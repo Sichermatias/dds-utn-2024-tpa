@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class OfrecerPremio extends Persistente {
     @ManyToOne
     @JoinColumn(name = "premioCatalogo_id")
-    private PremioCatalogo premioCatalogo;
+    private Premio premio;
 
     @OneToOne
     @JoinColumn(name = "colaboracion_id")

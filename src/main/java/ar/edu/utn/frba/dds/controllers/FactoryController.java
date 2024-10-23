@@ -10,7 +10,7 @@ public class FactoryController {
             case "Registro" -> new RegistroUsuariosController(new ColaboradorRepositorio());
             case "Usuarios" -> new UsuariosController(new UsuarioRepositorio());
             case "LandingPage" -> new LandingPageController();
-            case "Premios" -> new PremiosController(new ColaboradorRepositorio());
+            case "Premios" -> new PremiosController(new ColaboradorRepositorio(), new PremioRepositorio());
             case "CargaMasiva" -> new CargaMasivaController();
             case "Colaboracion" -> new ColaboracionController();
             case "Heladeras" -> new HeladerasController();

@@ -1,12 +1,15 @@
 package ar.edu.utn.frba.dds.dominio.colaboracion;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "premioCatalogo")
-public class PremioCatalogo extends Persistente {
+@Table(name = "premio")
+@Getter @Setter
+public class Premio extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 

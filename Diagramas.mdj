@@ -2481,7 +2481,7 @@
 													"top": 1013,
 													"width": 689.67919921875,
 													"height": 13,
-													"text": "+puedeCanjear(premio: PremioParticular)",
+													"text": "+puedeCanjear(premio: CanjePremio)",
 													"horizontalAlignment": 0
 												},
 												{
@@ -15480,7 +15480,7 @@
 													"top": 455,
 													"width": 209.93603515625,
 													"height": 13,
-													"text": "PremioParticular"
+													"text": "CanjePremio"
 												},
 												{
 													"_type": "LabelView",
@@ -15569,7 +15569,7 @@
 													"top": 493,
 													"width": 209.93603515625,
 													"height": 13,
-													"text": "-premioCatalogo: PremioCatalogo",
+													"text": "-premio: Premio",
 													"horizontalAlignment": 0
 												},
 												{
@@ -15978,7 +15978,7 @@
 													"top": 438,
 													"width": 161.87158203125,
 													"height": 13,
-													"text": "-premio: PremioCatalogo",
+													"text": "-premio: Premio",
 													"horizontalAlignment": 0
 												},
 												{
@@ -18713,7 +18713,7 @@
 													"top": 135,
 													"width": 206.67333984375,
 													"height": 13,
-													"text": "PremioCatalogo"
+													"text": "Premio"
 												},
 												{
 													"_type": "LabelView",
@@ -31962,7 +31962,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGQQ1TLmfNPDRM="
 							},
-							"name": "PremioCatalogo",
+							"name": "Premio",
 							"ownedElements": [
 								{
 									"_type": "UMLAssociation",
@@ -58296,7 +58296,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 							},
-							"name": "PremioParticular",
+							"name": "CanjePremio",
 							"ownedElements": [
 								{
 									"_type": "UMLAssociation",
@@ -58402,7 +58402,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGPkvESw9gZRUo="
 									},
-									"name": "premioCatalogo",
+									"name": "premio",
 									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAGQUhWvaZjoCvQ="

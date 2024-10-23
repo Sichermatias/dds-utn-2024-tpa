@@ -25,126 +25,117 @@
 </head>
 
 <body>
-{{>templates/partials/header}}
+    {{>templates/partials/header}}
 
-<main>
-    <div class="container">
-        <section class="section min-vh-100 d-flex flex-column align-items-center justify-content-center py-6">
-            <div class="container">
-                <div class="row justify-content-center">
+    <main>
+        <div class="container principal">
+            <section class="section d-flex flex-column align-items-center justify-content-center py-6">
+                <div class="container">
+                    <div class="row justify-content-center">
 
-                    <!-- Columna principal para los puntos y premios -->
-                    <div class="col-lg-10 col-md-12 d-flex flex-column align-items-center">
+                        <!-- Columna principal para los puntos y premios -->
+                        <div class="col-lg-10 col-md-12 d-flex flex-column align-items-center">
 
-                        <!-- Encabezado con puntos y título -->
-                        <div class="d-flex justify-content-between align-items-center w-100 mb-4">
-                            <h2 class="card-title text-left fs-2">Beneficios</h2>
-                            <div class="d-flex align-items-center">
-                                <div class="card-icon rounded-circle d-flex justify-content-center">
-                                    <i class="bi bi-gift-fill" style="font-size: 1.8em;"></i>
+                            <!-- Encabezado con puntos y título -->
+                            <div class="d-flex justify-content-between align-items-center w-100 mb-4">
+                                <h2 class="card-title text-left fs-2">Beneficios</h2>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex justify-content-center">
+                                        <i class="bi bi-gift-fill" style="font-size: 1.8em;"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6 style="font-size: 1.5em; color: green; font-weight: bold;">{{puntaje}}</h6>
+                                        <span style="font-size: 1.1em;">Puntos acumulados</span>
+                                    </div>
                                 </div>
-                                <div class="ps-3">
-                                    <h6 style="font-size: 1.5em; color: green; font-weight: bold;">{{puntaje}}</h6>
-                                    <span style="font-size: 1.1em;">Puntos acumulados</span>
+                            </div>
+
+                            <!-- Sección para donar premios, ocupa el ancho total -->
+                            {{#if (eq tipo_rol "COLABORADOR_JURIDICO")}}
+                                <div class="col-12 mb-4">
+                                    <div class="card mb-3 shadow-sm">
+                                        <div class="card-body py-3">
+                                            <div class="text-center">
+                                                <h6 class="card-title fs-5 mb-2">¿Desea donar premios?</h6>
+                                                <p class="mb-3" style="font-size: 0.9em;">¡Contribuí a la causa completando nuestro formulario y doná tus premios!</p>
+                                            </div>
+                                            <div class="d-grid gap-2 col-6 mx-auto">
+                                                <a href="formulario.html" class="btn btn-primary btn-sm">Donar premio</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            {{/if}}
+
+                            <!-- Selección de rubro/categoría -->
+                            <div class="col-md-6 mb-4">
+                                <label for="inputState" class="form-label fs-5">Seleccionar rubro del premio</label>
+                                <select id="inputState" class="form-select" onchange="filterProducts()">
+                                    <option selected value="all">Elegir rubro...</option>
+                                    {{#each rubros}}
+                                        <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <!-- Lista de productos en formato de cards tipo e-commerce -->
+                            <div>
+                                {{#if premios.length}}
+                                    {{#each premios}}
+                                        <div class="row row-cols-1 row-cols-md-3 g-4" id="products-container">
+                                            <div class="col product-card" data-category="{{rubro.nombreRubro}}">
+                                                <div class="card h-100">
+                                                    <img src="{{imagenPremio}}" class="card-img-top" alt="{{nombre}}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{nombre}}</h5>
+                                                        <p class="card-text">Puntos necesarios: {{cantidadPuntosNecesarios}}</p>
+                                                        <div class="d-grid">
+                                                            <button class="btn btn-primary">Canjear</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{/each}}
+                                {{else}}
+                                    <div class="text-center my-4">
+                                        <p>No hay ningun premio disponible por el momento :(</p>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
-
-                        <!-- Sección para donar premios, ocupa el ancho total -->
-                        {{#if (eq tipo_rol "COLABORADOR_JURIDICO")}}
-                            <div class="col-12 mb-4">
-                                <div class="card mb-3 shadow-sm">
-                                    <div class="card-body py-3">
-                                        <div class="text-center">
-                                            <h6 class="card-title fs-5 mb-2">¿Desea donar premios?</h6>
-                                            <p class="mb-3" style="font-size: 0.9em;">¡Contribuí a la causa completando nuestro formulario y doná tus premios!</p>
-                                        </div>
-                                        <div class="d-grid gap-2 col-6 mx-auto">
-                                            <a href="formulario.html" class="btn btn-primary btn-sm">Donar premio</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {{/if}}
-
-                        <!-- Selección de rubro/categoría -->
-                        <div class="col-md-6 mb-4">
-                            <label for="inputState" class="form-label fs-5">Seleccionar rubro del premio</label>
-                            <select id="inputState" class="form-select">
-                                <option selected>Elegir rubro...</option>
-                                <option value="viaje">VIAJE</option>
-                                <option value="sarten">SARTEN</option>
-                                <option value="otro">OTRO</option>
-                            </select>
-                        </div>
-
-                        <!-- Lista de productos en formato de cards tipo e-commerce -->
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <!-- Card 1 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="assets/img/producto1.jpg" class="card-img-top" alt="Premio 1">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Premio 1</h5>
-                                        <p class="card-text">Descripción breve del premio.</p>
-                                        <div class="d-grid">
-                                            <button class="btn btn-primary">Canjear</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Card 2 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="assets/img/producto2.jpg" class="card-img-top" alt="Premio 2">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Premio 2</h5>
-                                        <p class="card-text">Descripción breve del premio.</p>
-                                        <div class="d-grid">
-                                            <button class="btn btn-primary">Canjear</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Card 3 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="assets/img/producto3.jpg" class="card-img-top" alt="Premio 3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Premio 3</h5>
-                                        <p class="card-text">Descripción breve del premio.</p>
-                                        <div class="d-grid">
-                                            <button class="btn btn-primary">Canjear</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Agregar más cards de productos según sea necesario -->
-                        </div>
-
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
-</main><!-- End #main -->
+            </section>
+        </div>
+    </main><!-- End #main -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-</a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
 
-<!-- Vendor JS Files -->
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+    <script src="js/puntos-y-premios.js"></script>
+
+    <style>
+        .principal {
+            min-height: calc(100vh - 130px); /* Ajusta 327px según la altura aproximada del header y footer */
+        }
+    </style>
+
+    {{>templates/partials/footer}}
 
 </body>
 

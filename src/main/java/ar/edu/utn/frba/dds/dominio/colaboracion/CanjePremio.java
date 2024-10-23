@@ -6,15 +6,15 @@ import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "premioParticular")
-public class PremioParticular extends Persistente {
+@Table(name = "canje_premio")
+public class CanjePremio extends Persistente {
     @OneToOne()
     @JoinColumn(name = "transaccion_id", referencedColumnName = "id")
     private Transaccion transaccion;
 
     @ManyToOne
     @JoinColumn(name = "premioCatalogo_id", referencedColumnName = "id")
-    private PremioCatalogo premioCatalogo;
+    private Premio premio;
 
     @ManyToOne
     @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
