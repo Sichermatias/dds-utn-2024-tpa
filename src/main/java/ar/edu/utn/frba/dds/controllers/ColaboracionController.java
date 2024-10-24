@@ -85,6 +85,30 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             context.redirect("/login");
         }
     }
+
+    public void indexColaboracionHeladera(Context context) {
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        if (tipoRol != null) {
+            model.put("tipo_rol", tipoRol);
+            model.put("usuario_id", usuarioId);
+            context.render("/colaboraciones/formularios/colaboracion_heladera.hbs", model);
+        }else context.redirect("/login");
+    }
+
+    public void indexColaboracionPremio(Context context) {
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        if (tipoRol != null) {
+            model.put("tipo_rol", tipoRol);
+            model.put("usuario_id", usuarioId);
+            context.render("/colaboraciones/formularios/colaboracion_premio.hbs", model);
+        }else context.redirect("/login");
+    }
+
+
     private Colaborador obtenerColaboradorDeSesion(Context context) {
         Long usuarioId = context.sessionAttribute("usuario_id");
         return colaboradorRepositorio.buscarPorIdUsuario(usuarioId);
@@ -158,7 +182,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         donacionVianda.setColaboracion(colaboracion);
 
-        colaboracionRepositorio.persist(donacionVianda);
+        colaboracionRepositorio.persistir(donacionVianda);
 
         context.redirect("/colaboraciones");
     }
@@ -184,7 +208,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         redistribucionViandas.setColaboracion(colaboracion);
 
-        colaboracionRepositorio.persist(redistribucionViandas);
+        colaboracionRepositorio.persistir(redistribucionViandas);
 
         context.redirect("/colaboraciones");
     }
@@ -203,7 +227,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         registrarPersonasVulnerables.setColaboracion(colaboracion);
 
 
-        colaboracionRepositorio.persist(registrarPersonasVulnerables);
+        colaboracionRepositorio.persistir(registrarPersonasVulnerables);
 
         context.redirect("/colaboraciones");
     }
@@ -212,10 +236,12 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         String nombreHeladera = context.formParam("nombreHeladera");
         Integer cantMaxViandas = Integer.parseInt(context.formParam("cantMaxViandas"));
-        String latitud = context.formParam("latitud");
-        String longitud =context.formParam("longitud");
+        String latitud = context.formParam("lat");
+        String longitud =context.formParam("lng");
         String direccion =context.formParam("direccion");
         String modelo =context.formParam("modeloHeladera");
+        Double tempMax = Double.parseDouble(context.formParam("tempMax"));
+        Double tempMin = Double.parseDouble(context.formParam("tempMin"));
 
         Colaboracion colaboracion = crearColaboracion("Hostear Heladera", "HOSTEAR_HELADERA", "Colaboración para hostear heladera", colaborador);
 
@@ -229,8 +255,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         heladera.setUbicacion(ubicacion);
         Modelo modeloHeladera=new Modelo();
         modeloHeladera.setNombre(modelo);
-        modeloHeladera.setTempMaxAceptable(10.0);
-        modeloHeladera.setTempMinAceptable(0.0);
+        modeloHeladera.setTempMaxAceptable(tempMax);
+        modeloHeladera.setTempMinAceptable(tempMin);
         heladera.setModelo(modeloHeladera);
         heladera.setFechaPuestaEnMarcha(LocalDate.now());
         heladera.setUltimaFechaContadaParaPuntaje(LocalDate.now());
@@ -239,12 +265,11 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         hostearHeladera.setHeladera(heladera);
         hostearHeladera.setEnVigencia(true);
         hostearHeladera.setFechaHoraAlta(LocalDateTime.now());
-
         Transaccion transaccion = crearTransaccion(colaborador, hostearHeladera.puntaje());
         colaboracion.setTransaccion(transaccion);
         hostearHeladera.setColaboracion(colaboracion);
 
-        colaboracionRepositorio.persist(hostearHeladera);
+        colaboracionRepositorio.persistir(hostearHeladera);
 
         context.redirect("/colaboraciones");
     }

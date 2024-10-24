@@ -1,4 +1,13 @@
-<form id="hostearHeladeraForm" action="/colaboraciones/hostear" method="POST">
+{{#partial "contenido"}}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/css/style.css" rel="stylesheet">
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+
+<form id="hostearHeladeraForm" action="/colaboraciones/heladera" method="POST">
     <div class="form-group mb-3">
         <label for="nombreHeladera">Nombre de la Heladera</label>
         <input type="text" class="form-control" id="nombreHeladera" name="nombreHeladera" placeholder="Nombre de la heladera" required>
@@ -12,43 +21,36 @@
         <label for="modeloHeladera">Modelo de la heladera</label>
         <input type="text" class="form-control" id="modeloHeladera" name="modeloHeladera" placeholder="Modelo de la heladera" required>
     </div>
+    <div class="form-group mb-3">
+        <label for="tempMax">Temperatura Máxima Aceptable</label>
+        <input type="number" step="0.1" class="form-control" id="tempMax" name="tempMax" placeholder="Temperatura máxima (°C)" required>
+    </div>
+    <div class="form-group mb-3">
+        <label for="tempMin">Temperatura Mínima Aceptable</label>
+        <input type="number" step="0.1" class="form-control" id="tempMin" name="tempMin" placeholder="Temperatura mínima (°C)" required>
+    </div>
 
     <div class="form-group mb-3">
         <label for="ubicacion">Ubicación de la Heladera</label>
         <!-- Mapa Leaflet para selección de ubicación -->
         <div id="map" style="height: 300px; border: 1px solid #ccc; border-radius: 4px;"></div>
-        <input type="hidden" id="latitud" name="latitud">
-        <input type="hidden" id="longitud" name="longitud">
-        <input type="text" class="form-control mt-2" id="direccion" name="direccion" placeholder="Dirección" readonly>
+        <input type="hidden" id="lat" name="lat">
+        <input type="hidden" id="lng" name="lng">
+        <input type="hidden" id="direccion" name="direccion">
     </div>
-
     <button type="submit" class="btn btn-primary btn-block">Hostear Heladera</button>
 </form>
+<div class="col-md-6">
+    <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+</div>
+</div>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="/js/MapaRegistro.js"></script>
 
-<script>
-    // Inicializar el mapa Leaflet
-    var map = L.map('map').setView([-34.6037, -58.3816], 13); // Inicializa en Buenos Aires
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19
-    }).addTo(map);
-
-    // Manejar selección de ubicación
-    map.on('click', function(e) {
-        var lat = e.latlng.lat;
-        var lng = e.latlng.lng;
-        document.getElementById('latitud').value = lat;
-        document.getElementById('longitud').value = lng;
-
-        // Realizar geocodificación inversa usando Nominatim
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
-            .then(response => response.json())
-            .then(data => {
-                var address = data.display_name; // La dirección completa
-                document.getElementById('direccion').value = address; // Establecer el campo de dirección
-            })
-            .catch(error => {
-                console.error('Error al obtener la dirección:', error);
-                document.getElementById('direccion').value = "No se pudo obtener la dirección";
-            });
-    });
-</script>
+{{/partial}}
+{{> templates/base title="Hostear una heladera"}}

@@ -71,9 +71,8 @@ public class Colaborador extends Persistente {
     @Column(name = "puntaje", columnDefinition = "INTEGER(9)")
     private Integer puntaje;
 
-    //TODO: preguntar si es necesario la bidireccionalidad
-    @OneToMany
-    private List<Suscripcion>suscripciones;
+    @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Suscripcion> suscripciones = new ArrayList<>();
 
     @Column(name = "cantSemanalViandasDonadas", columnDefinition = "INTEGER(6)")
     private int cantSemanalViandasDonadas; // TODO 2024-07-03: cuando el colaborador dona una vianda, hay que sumarle al contador.
@@ -132,6 +131,18 @@ public class Colaborador extends Persistente {
     }
     public void agregarMediosDeContacto(ArrayList<MedioDeContacto> mediosDeContacto) {
         this.mediosDeContacto.addAll(mediosDeContacto);
+    }
+    public boolean estaSuscrito(Heladera heladera){
+        for (Suscripcion suscripcion:this.suscripciones){
+            if (suscripcion.getColaborador()==this) return true;
+        }
+        return false;
+    }
+    public Suscripcion queSuscripcion(Heladera heladera){
+        for (Suscripcion suscripcion:this.suscripciones){
+            if (suscripcion.getColaborador()==this) return suscripcion;
+        }
+        return null;
     }
     public void agregarMedioDeContacto(MedioDeContacto medioDeContacto){
         mediosDeContacto.add(medioDeContacto);

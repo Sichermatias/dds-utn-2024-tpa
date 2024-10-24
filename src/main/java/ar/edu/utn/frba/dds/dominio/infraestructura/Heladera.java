@@ -40,11 +40,10 @@ public class Heladera extends Persistente {
     @Column(name = "desperfecto", columnDefinition = "BIT(1)")
     public Boolean desperfecto;
 
-    //TODO: cómo se mapea esto?
-    @Transient
+    @OneToMany(mappedBy = "heladera", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Suscripcion> suscripciones;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "modelo_id", referencedColumnName = "id")
     private Modelo modelo;
 

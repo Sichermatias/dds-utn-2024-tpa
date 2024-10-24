@@ -29,9 +29,12 @@
                 <div class="text-center mt-4">
                     <a href="/heladeras/{{heladera.id}}/incidente" class="btn btn-outline-danger">Reportar falla técnica</a>
                 </div>
-
                 <div class="text-center mt-4">
-                    <a href="/heladeras/{{heladera.id}}/suscripcion" class="btn btn-outline-danger">Suscribirse a la heladera</a>
+                    {{#if yaSuscrito}}
+                        <a href="/heladeras/{{heladera.id}}/misuscripcion" class="btn btn-outline-danger">Mi suscripción</a>
+                    {{else}}
+                        <a href="/heladeras/{{heladera.id}}/suscripcion" class="btn btn-outline-danger">Suscribirse a la heladera</a>
+                    {{/if}}
                 </div>
 
                 <div class="text-center mt-4">

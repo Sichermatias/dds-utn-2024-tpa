@@ -26,7 +26,6 @@
                 {{> templates/colaboraciones/formularios/colaboracion_distribucion }}
 
                 <!-- Entrega Tarjetas Form -->
-                {{> templates/colaboraciones/formularios/colaboracion_tarjeta }}
             </div>
         </div>
     </div>
@@ -38,8 +37,14 @@
                 DINERO: document.getElementById('dineroForm'),
                 DONACION_VIANDAS: document.getElementById('donacionViandasForm'),
                 REDISTRIBUCION_VIANDAS: document.getElementById('redistribucionViandasForm'),
-                ENTREGA_TARJETAS: document.getElementById('entregaTarjetasForm')
+                ENTREGA_TARJETAS: null
             };
+
+             if (this.value === 'HOSTEAR_HELADERA') {
+                window.location.href = "/registro/vulnerable";
+            } else if (this.value && forms[this.value]) {
+                forms[this.value].style.display = 'block';
+            }
 
             tipoColaboracion.addEventListener('change', function () {
                 Object.values(forms).forEach(form => form.style.display = 'none');

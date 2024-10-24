@@ -10,6 +10,9 @@ public class FiltroSuscripcion {
     Integer minViandas=null;
     Boolean desperfecto=null;
 
+    public FiltroSuscripcion() {
+    }
+
     public FiltroSuscripcion(Integer viandasParaLlenar, Integer minViandas, Boolean desperfecto) {
         this.viandasParaLlenar = viandasParaLlenar;
         this.minViandas = minViandas;

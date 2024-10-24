@@ -10,39 +10,47 @@
                     <select class="form-control" id="tipoColaboracion" name="tipoColaboracion" required>
                         <option value="">Seleccionar</option>
                         <option value="DINERO">Donar Dinero</option>
-                        <option value="HOSTEAR_HELADERA">Hostear Heladera</option>
                         <option value="OFRECER_PREMIOS">Ofrecer Premios</option>
+                        <option value="HOSTEAR_HELADERA">Hostear Heladera</option>
                     </select>
                 </div>
 
                 <!-- Dinero Form -->
                 {{> templates/colaboraciones/formularios/colaboracion_dinero frecuencias=frecuencias}}
 
-                <!-- Entrega Hostear Heladera Form -->
-                {{> templates/colaboraciones/formularios/colaboracion_heladera }}
 
-                <!-- Ofrecer Premio Form -->
-                {{> templates/colaboraciones/formularios/colaboracion_ofrecer_premio }}
             </div>
         </div>
-    </div>
+    </div><script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tipoColaboracion = document.getElementById('tipoColaboracion');
+        const forms = {
+            DINERO: document.getElementById('dineroForm'),
+            OFRECER_PREMIOS: null,
+            HOSTEAR_HELADERA: null
+        };
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tipoColaboracion = document.getElementById('tipoColaboracion');
-            const forms = {
-                DINERO: document.getElementById('dineroForm'),
-                HOSTEAR_HELADERA: document.getElementById('hostearHeladeraForm'),
-                OFRECER_PREMIOS: document.getElementById('ofrecerPremioForm')
-            };
-
-            tipoColaboracion.addEventListener('change', function () {
-                Object.values(forms).forEach(form => form.style.display = 'none');
-                if (this.value) {
-                    forms[this.value].style.display = 'block';
-                }
+        tipoColaboracion.addEventListener('change', function () {
+            // Ocultar todos los formularios
+            Object.values(forms).forEach(form => {
+                if (form) form.style.display = 'none';
             });
+
+            // Redireccionar si la opción seleccionada es "Hostear Heladera"
+            if (this.value === 'HOSTEAR_HELADERA') {
+                window.location.href = "/colaboraciones/heladera";
+            } else if (this.value && forms[this.value]) {
+                forms[this.value].style.display = 'block';
+            }
+             if (this.value === 'OFRECER_PREMIO') {
+                window.location.href = "/colaboraciones/premio";
+            } else if (this.value && forms[this.value]) {
+                forms[this.value].style.display = 'block';
+            }
+
         });
-    </script>
+    });
+</script>
+
 {{/partial}}
 {{> templates/base title="Registrar Colaboración"}}

@@ -37,7 +37,6 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
         List<Heladera> heladeras = repositorio.buscarTodas();
-
         if (tipoRol != null) {
             model.put("heladeras", heladeras);
             context.render("/heladeras/heladeras.hbs", model);
@@ -170,8 +169,9 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
         Heladera heladera = (Heladera) repositorio.buscarPorId(Heladera.class, heladeraId);
-
+        Colaborador colaborador= colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
         if (tipoRol != null) {
+            model.put("colaborador", colaborador);
             model.put("heladera", heladera);
             context.render("/heladeras/heladera_suscripcion.hbs", model);
         }
@@ -217,12 +217,78 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
         Heladera heladera = (Heladera) repositorio.buscarPorId(Heladera.class, heladeraId);
-
+        Colaborador colaborador=colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
+        if (colaborador.estaSuscrito(heladera)){
+            model.put("yaSuscrito", true);
+        }
         if (tipoRol != null) {
             model.put("heladera", heladera);
             context.render("/heladeras/heladera_ind.hbs", model);
         }
         else context.redirect("/login");
+    }
+
+
+    public void indexMiSuscripcionHeladera(Context context){
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        Long heladeraId= Long.valueOf(context.pathParam("id"));
+        model.put("tipo_rol", tipoRol);
+        model.put("usuario_id", usuarioId);
+
+        HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
+        Heladera heladera = (Heladera) repositorio.buscarPorId(Heladera.class, heladeraId);
+        Colaborador colaborador= colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
+        Suscripcion suscripcion=colaborador.queSuscripcion(heladera);
+        if (tipoRol != null) {
+            model.put("suscripcion", suscripcion);
+            model.put("heladera", heladera);
+            context.render("/heladeras/heladera_misuscripcion.hbs", model);
+        }
+        else context.redirect("/login");
+    }
+
+    public void miSuscripcionHeladera(Context context){
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        Long heladeraId = Long.valueOf(context.pathParam("id"));
+
+        HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
+        Heladera heladera = (Heladera) repositorio.buscarPorId(Heladera.class, heladeraId);
+
+        ColaboradorRepositorio colaboradorRepositorio=ColaboradorRepositorio.getInstancia();
+        Colaborador colaborador = colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
+        Integer viandasParaLlenar = context.formParamAsClass("viandasParaLlenar", Integer.class).getOrDefault(null);
+        Integer minViandas = context.formParamAsClass("minViandas", Integer.class).getOrDefault(null);
+        Boolean desperfecto = context.formParamAsClass("desperfecto", Boolean.class).getOrDefault(null);
+        String contacto = context.formParam("contacto");
+
+        FiltroSuscripcion filtro = new FiltroSuscripcion(viandasParaLlenar, minViandas, desperfecto);
+
+        Mensajero mensajero =new Mensajero(new EstrategiaMail());
+
+        Suscripcion nuevaSuscripcion = colaborador.suscribirseHeladera(heladera,filtro,mensajero,contacto);
+
+        heladera.agregarSuscripcion(nuevaSuscripcion);
+
+        repositorio.persist(nuevaSuscripcion);
+        repositorio.actualizar(heladera);
+        colaboradorRepositorio.actualizar(colaborador);
+
+        context.redirect("/heladeras/" + heladeraId);
+    }
+
+    public void darDeBajaSuscripcion(Context context) {
+        Long usuarioId = context.sessionAttribute("usuario_id");
+        Long heladeraId = Long.valueOf(context.pathParam("id"));
+        if(usuarioId!=null){
+        HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
+        Heladera heladera =repositorio.buscarPorId(Heladera.class, heladeraId);
+        Colaborador colaborador = colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
+        colaborador.cancelarSuscripcion(heladera);
+        colaboradorRepositorio.actualizar(colaborador);
+        }
+        context.redirect("/heladeras");
     }
 
 

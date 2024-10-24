@@ -1,0 +1,61 @@
+{{#partial "contenido"}}
+    <main class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-container bg-white p-4 rounded shadow">
+                    <h2 class="text-center text-primary">Mi Suscripción a {{heladera.nombre}}</h2>
+
+                    <!-- Formulario de suscripción -->
+                    <form action="/heladeras/{{heladera.id}}/misuscripcion" method="post">
+                        <!-- Cantidad de viandas para llenado -->
+                        <div class="form-group">
+                            <label for="viandasParaLlenar">Notificar cuando queden menos de para llenarse:</label>
+                            <input type="number" class="form-control" id="viandasParaLlenar" name="viandasParaLlenar"
+                                   value="{{suscripcion.viandasParaLlenar}}" placeholder="Cantidad de viandas">
+                        </div>
+
+                        <!-- Mínimo de viandas -->
+                        <div class="form-group">
+                            <label for="minViandas">Notificar cuando se vacíe hasta:</label>
+                            <input type="number" class="form-control" id="minViandas" name="minViandas"
+                                   value="{{suscripcion.minViandas}}" placeholder="Mínimo de viandas">
+                        </div>
+
+                        <!-- Notificación por desperfecto -->
+                        <div class="form-group">
+                            <label for="desperfecto">¿Notificar en caso de desperfecto?</label>
+                            <select class="form-control" id="desperfecto" name="desperfecto">
+                                <option value="true" {{#if suscripcion.desperfecto}}selected{{/if}}>Sí</option>
+                                <option value="false" {{#unless suscripcion.desperfecto}}selected{{/unless}}>No</option>
+                            </select>
+                        </div>
+
+                        <!-- Método de contacto -->
+                        <div class="form-group">
+                            <label for="contacto">Contacto para notificaciones:</label>
+                            <input type="text" class="form-control" id="contacto" name="contacto"
+                                   value="{{suscripcion.contacto}}" placeholder="Email o teléfono">
+                        </div>
+
+                        <!-- Botón de enviar -->
+                        <button type="submit" class="btn btn-primary btn-block">Actualizar Suscripción</button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a href="/heladeras/{{heladera.id}}/bajasuscripcion" class="btn btn-outline-primary">Dar de baja la Suscripcion</a>
+                    </div>
+
+                    <!-- Botón para regresar -->
+                    <div class="text-center mt-4">
+                        <a href="/heladeras" class="btn btn-outline-primary">Volver a la lista de heladeras</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{/partial}}
+{{> templates/base title="Mi Suscripción a Heladera"}}

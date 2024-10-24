@@ -31,8 +31,12 @@ public class Router {
         app.post("/colaboraciones/dinero", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDinero);
         app.post("/colaboraciones/vianda", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionVianda);
         app.post("/colaboraciones/distribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDistribucion);
+        app.get("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexColaboracionHeladera);
         app.post("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionHeladera);
         app.post("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionPremio);
+        app.get("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexColaboracionPremio);
+
+
 
         app.get("/heladeras", ((HeladerasController) FactoryController.controller("Heladeras"))::index);
         app.get("/heladeras/{id}", ((HeladerasController) FactoryController.controller("Heladeras"))::indexInd);
@@ -40,6 +44,9 @@ public class Router {
         app.post("/heladeras/{id}/incidente", ((HeladerasController) FactoryController.controller("Heladeras"))::formularioIncidente);
         app.get("/heladeras/{id}/suscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::indexSuscripcionHeladera);
         app.post("/heladeras/{id}/suscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::suscripcionHeladera);
+        app.get("/heladeras/{id}/misuscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::indexMiSuscripcionHeladera);
+        app.post("/heladeras/{id}/misuscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::miSuscripcionHeladera);
+        app.get("/heladeras/{id}/bajasuscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::darDeBajaSuscripcion);
 
         app.get("/perfil", ((UsuariosController) FactoryController.controller("Usuarios"))::indexPerfil);
         app.get("/editar/humana", ((UsuariosController) FactoryController.controller("Usuarios"))::indexEditHumana);
@@ -50,7 +57,7 @@ public class Router {
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
 
         app.get("/reportes/fallos_heladera", ((FallosHeladeraController) FactoryController.controller("FallosHeladera"))::index);
-        app.get("/reportes/viandas_heladera", ((ReporteViandasHeladeraController) FactoryController.controller("ViandasHeladera"))::index);
-        app.get("/reportes/viandas_donadas_colaborador", ((ViandasDonadasColaboradorController) FactoryController.controller("ViandasDonadas"))::index);
+        app.get("/reportes/viandas_heladera", ((ReporteViandasHeladeraController) FactoryController.controller("ViandasHeladeraReporte"))::index);
+        app.get("/reportes/viandas_donadas_colaborador", ((ViandasDonadasColaboradorController) FactoryController.controller("ViandasDonadasColaborador"))::index);
     }
 }

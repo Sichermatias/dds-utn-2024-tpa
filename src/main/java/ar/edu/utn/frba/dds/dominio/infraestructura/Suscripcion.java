@@ -9,30 +9,33 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Suscripcion")
+@Table(name = "suscripcion")
+@Setter @Getter
 public class Suscripcion {
+
+    public Suscripcion(){}
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id", nullable = false)
     private Colaborador colaborador;
 
-    @Transient
-    @Getter@Setter
+    @ManyToOne
+    @JoinColumn(name = "heladera_id", nullable = false)
     private Heladera heladera;
 
-    @Transient
-    @Getter@Setter
+    @Embedded
     private FiltroSuscripcion filtro;
 
     @Transient
-    @Getter@Setter
     private Mensajero mensajero;
 
     @Column(name = "contacto", columnDefinition = "VARCHAR(100)")
     @Getter@Setter
     private String contacto;
+
     public Suscripcion(Colaborador colaborador, Heladera heladera, FiltroSuscripcion filtro, Mensajero mensajero, String contacto) {
         this.colaborador = colaborador;
         this.heladera = heladera;
