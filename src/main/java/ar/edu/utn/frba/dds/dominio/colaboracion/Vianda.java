@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "vianda")
 public class Vianda extends Persistente {
-
+    public Vianda(){}
     public Vianda(String nombreComida, LocalDate fechaCaducidad, LocalDate fechaDonacion, Heladera heladeraAsignada, Double calorias, Double peso, Boolean fueEntregado) {
         this.nombreComida = nombreComida;
         this.fechaCaducidad = fechaCaducidad;

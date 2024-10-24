@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "pedidoDeApertura")
 public class PedidoDeApertura extends Persistente {
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
@@ -26,7 +27,7 @@ public class PedidoDeApertura extends Persistente {
     private LocalDateTime fechaHoraRealizada;
 
     @Column(name = "valido", columnDefinition = "BIT(1)")
-    private Boolean valido;
+    private Boolean valido=true;
 
     @Column(name = "motivo", columnDefinition = "TEXT")
     private String motivo;

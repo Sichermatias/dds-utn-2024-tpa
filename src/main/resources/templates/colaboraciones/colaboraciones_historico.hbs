@@ -35,7 +35,7 @@
                                     Monto: ${{this.monto}} <br> Frecuencia: {{this.frecuencia}}
                                 {{/ifCond}}
                                 {{#ifCond this.colaboracion.tipo 'DONACION_VIANDAS'}}
-                                    Comida: {{this.nombreComida}} <br> Calorías: {{this.calorias}} <br> Peso: {{this.peso}} kg
+                                    Comida: {{this.vianda.nombreComida}} <br> Calorías: {{this.vianda.calorias}} <br> Peso: {{this.vianda.peso}} kg
                                 {{/ifCond}}
                                 {{#ifCond this.colaboracion.tipo 'REDISTRIBUCION_VIANDAS'}}
                                     Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}

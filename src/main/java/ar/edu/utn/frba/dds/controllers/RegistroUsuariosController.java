@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.dominio.persona.*;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PersonaVulnerableRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
@@ -127,6 +128,11 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         ubicacion.setLatitud(latitud);
         ubicacion.setLongitud(longitud);
 
+        Tarjeta tarjeta=new Tarjeta();
+        tarjeta.setActivo(true);
+        tarjeta.setFechaHoraAlta(LocalDateTime.now());
+        tarjeta.setCodigo(nroDocumento+fechaNacimiento);
+
         // Crear el objeto Colaborador
         Colaborador colaborador = new Colaborador();
         colaborador.setTipoPersona(TipoPersona.HUMANA);
@@ -136,6 +142,7 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         colaborador.setNroDocumento(nroDocumento);
         colaborador.setFechaNacimiento(LocalDate.parse(fechaNacimiento));
         colaborador.setUbicacion(ubicacion);
+        colaborador.getTarjetas().add(tarjeta);
 
         // Agregar medios de contacto
         for (int i = 0; i < nombresContacto.size(); i++) {

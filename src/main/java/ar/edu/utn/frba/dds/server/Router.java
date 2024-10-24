@@ -36,8 +36,6 @@ public class Router {
         app.post("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionPremio);
         app.get("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexColaboracionPremio);
 
-
-
         app.get("/heladeras", ((HeladerasController) FactoryController.controller("Heladeras"))::index);
         app.get("/heladeras/{id}", ((HeladerasController) FactoryController.controller("Heladeras"))::indexInd);
         app.get("/heladeras/{id}/incidente", ((HeladerasController) FactoryController.controller("Heladeras"))::indexFalla);

@@ -10,21 +10,23 @@ import javax.persistence.*;
 @Entity
 @Table(name = "donacionVianda")
 public class DonacionVianda extends Persistente {
-    //TODO: tal vez deberia ser una lista
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "vianda_id", referencedColumnName = "id")
     @Setter@Getter
     private Vianda vianda;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaboracion_id", referencedColumnName = "id")
     @Setter @Getter
     private Colaboracion colaboracion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pedidoDeApertura_id", referencedColumnName = "id")
+    @Setter@Getter
     private PedidoDeApertura pedidoDeApertura;
+
     @Column(name = "cantViandas")
+    @Getter@Setter
     private Double cantViandas;
 
     public DonacionVianda() {

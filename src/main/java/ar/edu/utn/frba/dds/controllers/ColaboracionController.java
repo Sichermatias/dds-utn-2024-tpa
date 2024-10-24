@@ -43,7 +43,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
-
+        List<Heladera> heladeras = heladeraRepositorio.buscarTodas();
+        model.put("heladeras", heladeras);
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
         if (tipoRol!=null){
@@ -144,6 +145,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     public void colaboracionDinero(Context context) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         double monto = Double.parseDouble(context.formParam("monto"));
+        LocalDateTime fecha= LocalDateTime.parse(context.formParam("fecha"));
         Frecuencia frecuencia= Frecuencia.valueOf(context.formParam("frecuencia"));
 
         Colaboracion colaboracion = crearColaboracion("Donación de Dinero "+ colaborador.getUsuario().getNombreUsuario(), "DINERO", "Descripción donación dinero", colaborador);
@@ -151,7 +153,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         DonacionDinero donacionDinero = new DonacionDinero();
         donacionDinero.setMonto(monto);
         donacionDinero.setFrecuencia(frecuencia);
-        donacionDinero.setFechaHoraAlta(LocalDateTime.now());
+        donacionDinero.setFechaHoraAlta(fecha);
         Transaccion transaccion = crearTransaccion(colaborador, donacionDinero.puntaje());
         colaboracion.setTransaccion(transaccion);
         donacionDinero.setColaboracion(colaboracion);
@@ -159,28 +161,38 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         context.redirect("/colaboraciones");
         }
-
     public void colaboracionVianda(Context context) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         Colaboracion colaboracion = crearColaboracion("Donación de Vianda "+ colaborador.getUsuario().getNombreUsuario(), "DONACION_VIANDAS", "Descripción viandas", colaborador);
 
         String nombreComida = context.formParam("nombreComida");
         LocalDate fechaCaducidad = LocalDate.parse(context.formParam("fechaCaducidad"));
-        Heladera heladeraAsignada = heladeraRepositorio.buscarPorId(Heladera.class, Long.parseLong(context.formParam("heladeraAsignada")));
+        Heladera heladeraAsignada = heladeraRepositorio.buscarPorId(Heladera.class, Long.parseLong(context.formParam("heladera")));
         Double calorias = Double.parseDouble(context.formParam("calorias"));
         Double peso = Double.parseDouble(context.formParam("peso"));
+        Double cantidadViandas = Double.parseDouble(context.formParam("cantidad"));
 
         Vianda nuevaVianda = crearVianda(nombreComida,fechaCaducidad,heladeraAsignada,calorias,peso);
+
+        PedidoDeApertura pedidoDeApertura= new PedidoDeApertura();
+        pedidoDeApertura.setHeladera(heladeraAsignada);
+        pedidoDeApertura.setMotivo("Donacion de viandas");
+        pedidoDeApertura.setTarjeta(colaborador.getTarjetas().get(0));
+        pedidoDeApertura.setFechaHoraRealizada(LocalDateTime.now());
+        pedidoDeApertura.setFechaHoraAlta(LocalDateTime.now());
 
         DonacionVianda donacionVianda = new DonacionVianda();
         donacionVianda.setActivo(true);
         donacionVianda.setVianda(nuevaVianda);
         donacionVianda.setFechaHoraAlta(LocalDateTime.now());
+        donacionVianda.setCantViandas(cantidadViandas);
+        donacionVianda.setPedidoDeApertura(pedidoDeApertura);
 
         Transaccion transaccion = crearTransaccion(colaborador, donacionVianda.puntaje());
         colaboracion.setTransaccion(transaccion);
-
         donacionVianda.setColaboracion(colaboracion);
+
+        heladeraAsignada.recibirDonacionVianda(donacionVianda);
 
         colaboracionRepositorio.persistir(donacionVianda);
 
@@ -192,8 +204,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         RedistribucionViandas redistribucionViandas = new RedistribucionViandas();
 
-        Heladera heladeraOrigen =   heladeraRepositorio.buscarPorId(Heladera.class , Long.parseLong(context.formParam("heladeraOrigenId")));
-        Heladera heladeraDestino = heladeraRepositorio.buscarPorId(Heladera.class, Long.parseLong(context.formParam("heladeraDestinoId")));
+        Heladera heladeraOrigen =   heladeraRepositorio.buscarPorId(Heladera.class , Long.parseLong(context.formParam("heladeraOrigen")));
+        Heladera heladeraDestino = heladeraRepositorio.buscarPorId(Heladera.class, Long.parseLong(context.formParam("heladeraDestino")));
         Integer cantidadViandas = Integer.parseInt(context.formParam("cantidadViandas"));
         MotivoRedistribucion motivo = new MotivoRedistribucion(context.formParam("motivoRedistribucion"));
 
