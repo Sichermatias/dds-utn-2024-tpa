@@ -12,6 +12,19 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
     <link href="/assets/css/style.css" rel="stylesheet">
+
+    {{#block "links"}}
+    {{/block}}
+
+    {{#block "styles"}}
+    {{/block}}
+
+    <style>
+        .principal {
+            min-height: calc(100vh - 226px); /* Ajusta 226px según la altura aproximada del header y footer,
+                                                y del margen vertical del main*/
+        }
+    </style>
 </head>
 <body>
 
@@ -19,7 +32,7 @@
     {{>templates/partials/header}}
 
     <!-- Main Content -->
-    <main class="container my-5">
+    <main class="container my-5 principal">
         {{#block "contenido"}}
         {{/block}}
     </main>
@@ -44,6 +57,9 @@
 
     <!-- Template Main JS File -->
     <script src="/assets/js/main.js"></script>
+
+    {{#block "scripts"}}
+    {{/block}}
 
 </body>
 </html>
