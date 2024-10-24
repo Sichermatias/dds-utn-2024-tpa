@@ -17,42 +17,39 @@
                 </div>
 
                 <!-- Dinero Form -->
-                {{> templates/colaboraciones/formularios/colaboracion_dinero frecuencias=frecuencias}}
+                    {{> templates/colaboraciones/formularios/colaboracion_dinero}}
 
                 <!-- Donación Viandas Form -->
-                {{> templates/colaboraciones/formularios/colaboracion_vianda }}
+                    {{> templates/colaboraciones/formularios/colaboracion_vianda}}
 
                 <!-- Redistribución Viandas Form -->
-                {{> templates/colaboraciones/formularios/colaboracion_distribucion }}
+                    {{> templates/colaboraciones/formularios/colaboracion_distribucion}}
 
-                <!-- Entrega Tarjetas Form -->
+                </div>
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const tipoColaboracion = document.getElementById('tipoColaboracion');
-            const forms = {
+        const tipoColaboracion = document.getElementById('tipoColaboracion');
+        const forms = {
                 DINERO: document.getElementById('dineroForm'),
                 DONACION_VIANDAS: document.getElementById('donacionViandasForm'),
                 REDISTRIBUCION_VIANDAS: document.getElementById('redistribucionViandasForm'),
                 ENTREGA_TARJETAS: null
-            };
+        };
+        tipoColaboracion.addEventListener('change', function () {
+            Object.values(forms).forEach(form => {
+                if (form) form.style.display = 'none';
+            });
 
-             if (this.value === 'HOSTEAR_HELADERA') {
+              if (this.value === 'ENTREGA_TARJETAS') {
                 window.location.href = "/registro/vulnerable";
-            } else if (this.value && forms[this.value]) {
+            }else if (this.value && forms[this.value]) {
                 forms[this.value].style.display = 'block';
             }
-
-            tipoColaboracion.addEventListener('change', function () {
-                Object.values(forms).forEach(form => form.style.display = 'none');
-                if (this.value) {
-                    forms[this.value].style.display = 'block';
-                }
-            });
         });
+    });
     </script>
 {{/partial}}
 {{> templates/base title="Registrar Colaboración"}}

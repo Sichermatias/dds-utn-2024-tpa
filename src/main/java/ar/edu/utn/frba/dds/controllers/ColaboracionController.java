@@ -104,7 +104,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         if (tipoRol != null) {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
-            context.render("/colaboraciones/formularios/colaboracion_premio.hbs", model);
+            context.render("/colaboraciones/formularios/colaboracion_ofrecer_premio.hbs", model);
         }else context.redirect("/login");
     }
 

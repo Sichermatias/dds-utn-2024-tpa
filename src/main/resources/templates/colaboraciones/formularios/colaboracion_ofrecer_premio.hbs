@@ -1,4 +1,5 @@
-<form id="ofrecerPremioForm" action="/colaboraciones/redistribucion" method="POST" style="display:none;">
+{{#partial "contenido"}}
+    <form id="ofrecerPremioForm" action="/colaboraciones/redistribucion" method="POST" style="display;">
     <div class="form-group mb-3">
         <label for="heladeraOrigen">Heladera Origen</label>
         <input type="text" class="form-control" id="heladeraOrigen" name="heladeraOrigen" placeholder="Heladera de origen">
@@ -17,3 +18,5 @@
     </div>
     <button type="submit" class="btn btn-primary btn-block">Distribuir Viandas</button>
 </form>
+{{/partial}}
+{{> templates/base title="Registrar Colaboración"}}

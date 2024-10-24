@@ -16,8 +16,7 @@
                 </div>
 
                 <!-- Dinero Form -->
-                {{> templates/colaboraciones/formularios/colaboracion_dinero frecuencias=frecuencias}}
-
+                {{> templates/colaboraciones/formularios/colaboracion_dinero}}
 
             </div>
         </div>
@@ -39,15 +38,12 @@
             // Redireccionar si la opción seleccionada es "Hostear Heladera"
             if (this.value === 'HOSTEAR_HELADERA') {
                 window.location.href = "/colaboraciones/heladera";
-            } else if (this.value && forms[this.value]) {
-                forms[this.value].style.display = 'block';
-            }
-             if (this.value === 'OFRECER_PREMIO') {
+            }else  if (this.value === 'OFRECER_PREMIOS') {
                 window.location.href = "/colaboraciones/premio";
-            } else if (this.value && forms[this.value]) {
+            }
+             else if (this.value && forms[this.value]) {
                 forms[this.value].style.display = 'block';
             }
-
         });
     });
 </script>
