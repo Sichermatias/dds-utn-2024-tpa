@@ -1,0 +1,72 @@
+{{#partial "links"}}
+    <link href="assets/img/icon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="css/StylePuntosYPremios.css" rel="stylesheet">
+{{/partial}}
+
+{{#partial "contenido"}}
+    <section class="container my-5">
+        <!-- Título y puntos -->
+        <div class="row mb-4 align-items-center justify-content-between">
+            <h2 class="col fs-2">Beneficios</h2>
+            <div class="col-auto d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex justify-content-center">
+                    <i class="bi bi-gift-fill" style="font-size: 1.8em;"></i>
+                </div>
+                <div class="ps-3">
+                    <h6 style="font-size: 1.5em; color: green; font-weight: bold;">{{puntaje}}</h6>
+                    <span style="font-size: 1.1em;">Puntos acumulados</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenedor de premios en cards -->
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="premios-container">
+            {{#if premios.length}}
+                {{#each premios}}
+                    <div class="col-3">
+                        <div class="card h-100">
+                            <div class="card-img-container">
+                                {{#if imagenPremio}}
+                                    <img src="{{imagenPremio}}" class="card-img-top" alt="{{nombre}}">
+                                {{else}}
+                                    <div class="placeholder-icon"><i class="bi bi-image"></i></div>
+                                {{/if}}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{nombre}}</h5>
+                                <p class="card-text">Puntos necesarios: {{cantidadPuntosNecesarios}}</p>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary">Canjear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="col-12 text-center">
+                    <p>No hay ningún premio disponible por el momento :(</p>
+                </div>
+            {{/if}}
+        </div>
+    </section>
+{{/partial}}
+
+{{#partial "scripts"}}
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <script src="js/puntos-y-premios.js"></script>
+{{/partial}}
+
+{{> templates/base title="Puntos y premios - MAACVS"}}

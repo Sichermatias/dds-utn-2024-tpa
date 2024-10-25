@@ -48,7 +48,7 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
             model.put("premios", premios);
             List<String> rubros = this.premioRepositorio.buscarTodosLosRubros();
             model.put("rubros", rubros);
-            context.render("Puntos-Humano.hbs", model);
+            context.render("puntos_y_premios.hbs", model);
         }else context.redirect("/login");
     }
     public Integer calcularPuntaje(Colaborador colaborador) {
