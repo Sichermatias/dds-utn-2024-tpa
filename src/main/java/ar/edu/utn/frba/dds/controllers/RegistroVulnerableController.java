@@ -1,21 +1,11 @@
 package ar.edu.utn.frba.dds.controllers;
-import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
-import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
-import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.persona.*;
-import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
-import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
-import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PersonaVulnerableRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +14,11 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
 
     private final PersonaVulnerableRepositorio personaVulnerableRepositorio;
 
-    public RegistroVulnerableController(PersonaVulnerableRepositorio personaVulnerableRepositorio) {
+    private final ColaboracionController colaboracionController;
+
+    public RegistroVulnerableController(PersonaVulnerableRepositorio personaVulnerableRepositorio, ColaboracionController colaboracionController) {
         this.personaVulnerableRepositorio = personaVulnerableRepositorio;
+        this.colaboracionController = colaboracionController;
     }
 
     public void indexRegistroVulnerable(Context context){
@@ -79,8 +72,7 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
 
         personaVulnerableRepositorio.persistir(personaVulnerable);
 
-        ColaboracionController colaboracionController=new ColaboracionController();
-        colaboracionController.colaboracionTarjetas(context,personaVulnerable);
+        this.colaboracionController.colaboracionTarjetas(context,personaVulnerable);
 
         context.redirect("/");
     }

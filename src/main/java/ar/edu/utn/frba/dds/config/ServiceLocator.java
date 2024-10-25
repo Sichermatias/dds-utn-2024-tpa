@@ -3,10 +3,7 @@ package ar.edu.utn.frba.dds.config;
 
 import ar.edu.utn.frba.dds.controllers.ColaboracionController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.TransaccionRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +26,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
             if(componentName.equals(ColaboracionController.class.getName())) {
-                ColaboracionController instance = new ColaboracionController();
+                ColaboracionController instance = new ColaboracionController(new ColaboracionRepositorio(), new ColaboradorRepositorio(), new TransaccionRepositorio(), new HeladerasRepositorio(), new DonacionDineroRepositorio(), new PremioRepositorio());
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(ColaboradorRepositorio.class.getName())) {

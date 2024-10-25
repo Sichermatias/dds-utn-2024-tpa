@@ -13,7 +13,7 @@ public class Premio extends Persistente {
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "rubro_id", referencedColumnName = "id")
     private RubroPremio rubro;
 

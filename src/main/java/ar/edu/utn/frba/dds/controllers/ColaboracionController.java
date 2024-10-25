@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Modelo;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
-import ar.edu.utn.frba.dds.factories.GenericFactory;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -20,11 +19,28 @@ import java.util.List;
 import java.util.Map;
 
 public class ColaboracionController implements ICrudViewsHandler, WithSimplePersistenceUnit {
-    ColaboracionRepositorio colaboracionRepositorio = ColaboracionRepositorio.getInstancia();
-    ColaboradorRepositorio colaboradorRepositorio = ColaboradorRepositorio.getInstancia();
-    TransaccionRepositorio transaccionRepositorio = TransaccionRepositorio.getInstancia();
-    HeladerasRepositorio heladeraRepositorio= HeladerasRepositorio.getInstancia();
-    DonacionDineroRepositorio donacionDineroRepositorio = DonacionDineroRepositorio.getInstancia();
+    private final ColaboracionRepositorio colaboracionRepositorio;
+    private final ColaboradorRepositorio colaboradorRepositorio;
+    private final TransaccionRepositorio transaccionRepositorio;
+    private final HeladerasRepositorio heladeraRepositorio;
+    private final DonacionDineroRepositorio donacionDineroRepositorio;
+
+    private final PremioRepositorio premioRepositorio;
+
+    public ColaboracionController(
+            ColaboracionRepositorio colaboracionRepositorio,
+            ColaboradorRepositorio colaboradorRepositorio,
+            TransaccionRepositorio transaccionRepositorio,
+            HeladerasRepositorio heladeraRepositorio,
+            DonacionDineroRepositorio donacionDineroRepositorio, PremioRepositorio premioRepositorio)
+    {
+        this.colaboracionRepositorio = colaboracionRepositorio;
+        this.colaboradorRepositorio = colaboradorRepositorio;
+        this.transaccionRepositorio = transaccionRepositorio;
+        this.heladeraRepositorio = heladeraRepositorio;
+        this.donacionDineroRepositorio = donacionDineroRepositorio;
+        this.premioRepositorio = premioRepositorio;
+    }
 
     @Override
     public void index(Context context) {
@@ -105,6 +121,13 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         if (tipoRol != null) {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
+
+            List<String> rubros = this.premioRepositorio.buscarTodosLosRubros();
+            model.put("rubros", rubros);
+
+            boolean enviado = Boolean.parseBoolean(context.queryParam("enviado"));
+            model.put("enviado", enviado);
+
             context.render("/colaboraciones/formularios/colaboracion_ofrecer_premio.hbs", model);
         }else context.redirect("/login");
     }

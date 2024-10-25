@@ -1,17 +1,20 @@
 package ar.edu.utn.frba.dds.dominio.colaboracion;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ofrecerPremio")
+@Setter @Getter
 public class OfrecerPremio extends Persistente {
-    @ManyToOne
-    @JoinColumn(name = "premioCatalogo_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "premio_id")
     private Premio premio;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
 

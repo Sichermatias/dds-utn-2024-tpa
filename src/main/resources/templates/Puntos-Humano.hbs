@@ -44,7 +44,7 @@
                                         <p class="mb-3" style="font-size: 0.9em;">¡Contribuí a la causa completando nuestro formulario y doná tus premios!</p>
                                     </div>
                                     <div class="d-grid gap-2 col-6 mx-auto">
-                                        <a href="formulario.html" class="btn btn-primary btn-sm">Donar premio</a>
+                                        <a href="/colaboraciones/premio" class="btn btn-primary btn-sm">Donar premio</a>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                         {{#if premios.length}}
                             {{#each premios}}
                                 <div class="row row-cols-1 row-cols-md-3 g-4" id="products-container">
-                                    <div class="col product-card" data-category="{{rubro.nombreRubro}}">
+                                    <div class="col product-card" data-category="{{rubro.nombre}}">
                                         <div class="card h-100">
                                             <img src="{{imagenPremio}}" class="card-img-top" alt="{{nombre}}">
                                             <div class="card-body">

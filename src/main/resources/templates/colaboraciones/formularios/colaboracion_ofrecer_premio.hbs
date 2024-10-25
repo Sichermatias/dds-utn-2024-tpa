@@ -1,22 +1,45 @@
 {{#partial "contenido"}}
-    <form id="ofrecerPremioForm" action="/colaboraciones/redistribucion" method="POST" style="display;">
-    <div class="form-group mb-3">
-        <label for="heladeraOrigen">Heladera Origen</label>
-        <input type="text" class="form-control" id="heladeraOrigen" name="heladeraOrigen" placeholder="Heladera de origen">
+    <div class="form-container bg-white p-4 rounded shadow">
+        <h1 class="text-center text-primary">Donar premio</h1>
+        <!-- Mensaje de confirmación -->
+        {{#if enviado}}
+            <div class="alert alert-success text-left" role="alert">
+                ¡Donación registrada exitosamente! Para donar más premios, complete nuevamente el formulario.
+            </div>
+        {{/if}}
+
+        <form id="ofrecerPremioForm" action="/colaboraciones/premio" method="POST" style="display;">
+            <div class="form-group mb-3">
+                <label for="nombre">Nombre del producto</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto">
+            </div>
+            <div class="form-group mb-3">
+                <label for="rubro">Rubro</label>
+                <select class="form-control" id="rubro" name="rubro">
+                    {{#each rubros}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="cantPuntosNecesarios">Cantidad de puntos necesarios</label>
+                <input type="number" class="form-control" id="cantPuntosNecesarios" name="cantPuntosNecesarios" placeholder="Cantidad de puntos necesarios">
+            </div>
+            <div class="form-group mb-3">
+                <label for="imagenPremio" class="form-label">Imagen del premio</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="imagenPremio" name="imagenPremio" accept="image/*">
+                </div>
+                <small class="form-text text-muted">(Formatos: JPG, PNG).</small>
+            </div>
+            <div class="form-group mb-3">
+                <label for="cantDonada">Cantidad de unidades donadas</label>
+                <input type="number" class="form-control" id="cantDonada" name="cantDonada" placeholder="Cantidad de unidades que desea donar">
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary btn-block mb-3">Donar premio</button>
+            </div>
+        </form>
     </div>
-    <div class="form-group mb-3">
-        <label for="heladeraDestino">Heladera Destino</label>
-        <input type="text" class="form-control" id="heladeraDestino" name="heladeraDestino" placeholder="Heladera de destino">
-    </div>
-    <div class="form-group mb-3">
-        <label for="cantidadViandas">Cantidad de Viandas</label>
-        <input type="number" class="form-control" id="cantidadViandas" name="cantidadViandas" placeholder="Cantidad de viandas">
-    </div>
-    <div class="form-group mb-3">
-        <label for="motivoRedistribucion">Motivo de Redistribución</label>
-        <input type="text" class="form-control" id="motivoRedistribucion" name="motivoRedistribucion" placeholder="Motivo de redistribución">
-    </div>
-    <button type="submit" class="btn btn-primary btn-block">Distribuir Viandas</button>
-</form>
 {{/partial}}
 {{> templates/base title="Registrar Colaboración"}}
