@@ -168,7 +168,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     public void colaboracionDinero(Context context) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         double monto = Double.parseDouble(context.formParam("monto"));
-        LocalDateTime fecha= LocalDateTime.parse(context.formParam("fecha"));
+        LocalDate fecha= LocalDate.parse(context.formParam("fecha"));
         Frecuencia frecuencia= Frecuencia.valueOf(context.formParam("frecuencia"));
 
         Colaboracion colaboracion = crearColaboracion("Donación de Dinero "+ colaborador.getUsuario().getNombreUsuario(), "DINERO", "Descripción donación dinero", colaborador);
@@ -176,7 +176,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         DonacionDinero donacionDinero = new DonacionDinero();
         donacionDinero.setMonto(monto);
         donacionDinero.setFrecuencia(frecuencia);
-        donacionDinero.setFechaHoraAlta(fecha);
+        donacionDinero.setFechaHoraAlta(LocalDateTime.now());
         Transaccion transaccion = crearTransaccion(colaborador, donacionDinero.puntaje());
         colaboracion.setTransaccion(transaccion);
         donacionDinero.setColaboracion(colaboracion);

@@ -14,6 +14,7 @@ import io.javalin.http.Context;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,20 +36,36 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
     @Override
     public void index(Context context) {
         Usuario usuario = this.usuarioLogueado(context);
-        Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
         Map<String, Object> model = new HashMap<>();
         Long usuarioId= context.sessionAttribute("usuario_id");
-        String tipoRol = usuario.nombreTipoRol();
-        if (tipoRol != null) {
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        if (usuarioId != null) {
+            Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
             model.put("usuario_id", usuarioId);
             model.put("tipo_rol", tipoRol);
-            model.put("puntaje", colaborador.getPuntaje());
+            model.put("puntaje", calcularPuntaje(colaborador));
             List<Premio> premios = this.premioRepositorio.buscarTodos(Premio.class);
             model.put("premios", premios);
             List<String> rubros = this.premioRepositorio.buscarTodosLosRubros();
             model.put("rubros", rubros);
             context.render("Puntos-Humano.hbs", model);
         }else context.redirect("/login");
+    }
+    public Integer calcularPuntaje(Colaborador colaborador) {
+        List<Colaboracion> colaboraciones = ColaboracionRepositorio.getInstancia().obtenerColaboracionesPorColaboradorId(colaborador.getId());
+        int acumulador = 0;
+
+        for (Colaboracion colaboracion : colaboraciones) {
+            if ("HOSTEAR_HELADERA".equals(colaboracion.getTipo())) {
+                LocalDate fechaActual = LocalDate.now();
+                long mesesActiva = ChronoUnit.MONTHS.between(colaboracion.getFechaColaboracion(), fechaActual);
+                acumulador += mesesActiva * 5;
+            }
+
+            acumulador += colaboracion.getTransaccion().getMontoPuntaje();
+        }
+        colaborador.setPuntaje(acumulador);
+        return acumulador;
     }
 
     @Override

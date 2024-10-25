@@ -13,12 +13,15 @@ import ar.edu.utn.frba.dds.dominio.formulario.FormularioRespondido;
 import ar.edu.utn.frba.dds.dominio.infraestructura.FiltroSuscripcion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,4 +154,5 @@ public class Colaborador extends Persistente {
     public String getNroDocumento() {
         return nroDocumento;
     }
+
 }
