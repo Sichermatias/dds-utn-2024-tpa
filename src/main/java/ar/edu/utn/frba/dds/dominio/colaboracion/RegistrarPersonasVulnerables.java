@@ -5,20 +5,17 @@ import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "registrarPersonasVulnerables")
 public class RegistrarPersonasVulnerables extends Persistente {
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaboracion_id")
     @Setter @Getter
     private Colaboracion colaboracion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "personaVulnerable_id", referencedColumnName = "id")
     @Setter@Getter
     private PersonaVulnerable personaVulnerable;

@@ -7,6 +7,8 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.Modelo;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
+import ar.edu.utn.frba.dds.services.ColaboracionService;
+import ar.edu.utn.frba.dds.services.TransaccionService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -27,12 +29,16 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
     private final PremioRepositorio premioRepositorio;
 
+    private final ColaboracionService colaboracionService;
+    private final TransaccionService transaccionService;
+
     public ColaboracionController(
             ColaboracionRepositorio colaboracionRepositorio,
             ColaboradorRepositorio colaboradorRepositorio,
             TransaccionRepositorio transaccionRepositorio,
             HeladerasRepositorio heladeraRepositorio,
-            DonacionDineroRepositorio donacionDineroRepositorio, PremioRepositorio premioRepositorio)
+            DonacionDineroRepositorio donacionDineroRepositorio, PremioRepositorio premioRepositorio, ColaboracionService colaboracionService, TransaccionService transaccionService)
+
     {
         this.colaboracionRepositorio = colaboracionRepositorio;
         this.colaboradorRepositorio = colaboradorRepositorio;
@@ -40,6 +46,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         this.heladeraRepositorio = heladeraRepositorio;
         this.donacionDineroRepositorio = donacionDineroRepositorio;
         this.premioRepositorio = premioRepositorio;
+        this.colaboracionService = colaboracionService;
+        this.transaccionService = transaccionService;
     }
 
     @Override
@@ -138,55 +146,22 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         return colaboradorRepositorio.buscarPorIdUsuario(usuarioId);
     }
 
-    private Vianda crearVianda(String nombreComida, LocalDate fechaCaducidad, Heladera heladeraAsignada, Double calorias, Double peso) {
-        LocalDate fechaDonacion = LocalDate.now();
-        Boolean fueEntregado = false;
-
-        Vianda nuevaVianda = new Vianda(nombreComida, fechaCaducidad, fechaDonacion, heladeraAsignada, calorias, peso, fueEntregado);
-
-        return nuevaVianda;
-    }
-
-    private Transaccion crearTransaccion(Colaborador colaborador, double puntaje) {
-        Transaccion transaccion = new Transaccion();
-        transaccion.setColaborador(colaborador);
-        transaccion.setMontoPuntaje(puntaje);
-        return transaccion;
-    }
-
-    private Colaboracion crearColaboracion(String nombre, String tipo, String descripcion, Colaborador colaborador) {
-        Colaboracion colaboracion = new Colaboracion();
-        colaboracion.setNombre(nombre);
-        colaboracion.setTipo(tipo);
-        colaboracion.setDescripcion(descripcion);
-        colaboracion.setFechaColaboracion(LocalDate.now());
-        colaboracion.setColaborador(colaborador);
-        colaboracion.setFechaHoraAlta(LocalDateTime.now());
-        return colaboracion;
-    }
 
     public void colaboracionDinero(Context context) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         double monto = Double.parseDouble(context.formParam("monto"));
-        LocalDate fecha= LocalDate.parse(context.formParam("fecha"));
         Frecuencia frecuencia= Frecuencia.valueOf(context.formParam("frecuencia"));
 
-        Colaboracion colaboracion = crearColaboracion("Donación de Dinero "+ colaborador.getUsuario().getNombreUsuario(), "DINERO", "Descripción donación dinero", colaborador);
-
-        DonacionDinero donacionDinero = new DonacionDinero();
-        donacionDinero.setMonto(monto);
-        donacionDinero.setFrecuencia(frecuencia);
-        donacionDinero.setFechaHoraAlta(LocalDateTime.now());
-        Transaccion transaccion = crearTransaccion(colaborador, donacionDinero.puntaje());
-        colaboracion.setTransaccion(transaccion);
-        donacionDinero.setColaboracion(colaboracion);
-        donacionDineroRepositorio.persistir(donacionDinero);
+        Colaboracion colaboracion = colaboracionService.crearColaboracion("Donación de Dinero", "DINERO", "Descripción donación dinero", colaborador);
+        colaboracionService.crearDonacionDinero(colaboracion, monto, frecuencia);
 
         context.redirect("/colaboraciones");
-        }
+    }
+
     public void colaboracionVianda(Context context) {
+
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
-        Colaboracion colaboracion = crearColaboracion("Donación de Vianda "+ colaborador.getUsuario().getNombreUsuario(), "DONACION_VIANDAS", "Descripción viandas", colaborador);
+        Colaboracion colaboracion = colaboracionService.crearColaboracion("Donación de Vianda", "DONACION_VIANDAS", "Descripción viandas", colaborador);
 
         String nombreComida = context.formParam("nombreComida");
         LocalDate fechaCaducidad = LocalDate.parse(context.formParam("fechaCaducidad"));
@@ -195,141 +170,54 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Double peso = Double.parseDouble(context.formParam("peso"));
         Double cantidadViandas = Double.parseDouble(context.formParam("cantidad"));
 
-        Vianda nuevaVianda = crearVianda(nombreComida,fechaCaducidad,heladeraAsignada,calorias,peso);
-        nuevaVianda.setFechaHoraAlta(LocalDateTime.now());
-
-        PedidoDeApertura pedidoDeApertura= new PedidoDeApertura();
-        pedidoDeApertura.setHeladera(heladeraAsignada);
-        pedidoDeApertura.setMotivo("Donacion de viandas");
-        pedidoDeApertura.setTarjeta(colaborador.getTarjetas().get(0));
-        pedidoDeApertura.setFechaHoraRealizada(LocalDateTime.now());
-        pedidoDeApertura.setFechaHoraAlta(LocalDateTime.now());
-
-        DonacionVianda donacionVianda = new DonacionVianda();
-        donacionVianda.setActivo(true);
-        donacionVianda.setVianda(nuevaVianda);
-        donacionVianda.setFechaHoraAlta(LocalDateTime.now());
-        donacionVianda.setCantViandas(cantidadViandas);
-        donacionVianda.setPedidoDeApertura(pedidoDeApertura);
-
-        Transaccion transaccion = crearTransaccion(colaborador, donacionVianda.puntaje());
-        colaboracion.setTransaccion(transaccion);
-        donacionVianda.setColaboracion(colaboracion);
-
-        heladeraAsignada.recibirDonacionVianda(donacionVianda);
-
-        colaboracionRepositorio.persistir(donacionVianda);
+        Vianda vianda=colaboracionService.crearVianda(nombreComida,fechaCaducidad,heladeraAsignada,calorias,peso);
+        colaboracionService.crearDonacionVianda(colaboracion, vianda, heladeraAsignada, cantidadViandas);
 
         context.redirect("/colaboraciones");
     }
     public void colaboracionDistribucion(Context context) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
-        Colaboracion colaboracion = crearColaboracion("Redistribución de Viandas","REDISTRIBUCION_VIANDAS","Descripción redistribución",colaborador);
-
-        RedistribucionViandas redistribucionViandas = new RedistribucionViandas();
+        Colaboracion colaboracion = colaboracionService.crearColaboracion("Redistribución de Viandas", "REDISTRIBUCION_VIANDAS", "Descripción redistribución", colaborador);
 
         Heladera heladeraOrigen =   heladeraRepositorio.buscarPorId(Heladera.class , Long.parseLong(context.formParam("heladeraOrigen")));
         Heladera heladeraDestino = heladeraRepositorio.buscarPorId(Heladera.class, Long.parseLong(context.formParam("heladeraDestino")));
         Integer cantidadViandas = Integer.parseInt(context.formParam("cantidadViandas"));
         MotivoRedistribucion motivo = new MotivoRedistribucion(context.formParam("motivoRedistribucion"));
 
-        heladeraOrigen.setCantViandasActuales(heladeraOrigen.getCantViandasActuales()-cantidadViandas);
-        heladeraDestino.setCantViandasActuales(heladeraDestino.getCantViandasActuales()+cantidadViandas);
-
-        redistribucionViandas.setHeladeraOrigen(heladeraOrigen);
-        redistribucionViandas.setHeladeraDestino(heladeraDestino);
-        redistribucionViandas.setCantidadViandas(cantidadViandas);
-        redistribucionViandas.setMotivoRedistribucion(motivo);
-        redistribucionViandas.setFechaHoraAlta(LocalDateTime.now());
-
-        PedidoDeApertura pedidoOrigen=new PedidoDeApertura();
-        PedidoDeApertura pedidoDestino=new PedidoDeApertura();
-
-        pedidoOrigen.setFechaHoraAlta(LocalDateTime.now());
-        pedidoOrigen.setMotivo("Redistribucion"+motivo.getDescripcion());
-        pedidoOrigen.setHeladera(heladeraOrigen);
-        pedidoOrigen.setValido(true);
-        pedidoOrigen.setTarjeta(colaborador.getTarjetas().get(0));
-
-        pedidoDestino.setFechaHoraAlta(LocalDateTime.now());
-        pedidoDestino.setMotivo("Redistribucion"+motivo.getDescripcion());
-        pedidoDestino.setHeladera(heladeraDestino);
-        pedidoDestino.setValido(true);
-        pedidoDestino.setTarjeta(colaborador.getTarjetas().get(0));
-
-        redistribucionViandas.setPedidoDeAperturaEnDestino(pedidoDestino);
-        redistribucionViandas.setPedidoDeAperturaEnOrigen(pedidoOrigen);
-
-        Transaccion transaccion = crearTransaccion(colaborador, redistribucionViandas.puntaje());
-        colaboracion.setTransaccion(transaccion);
-
-        redistribucionViandas.setColaboracion(colaboracion);
-
-        colaboracionRepositorio.persistir(redistribucionViandas);
+        colaboracionService.crearRedistribucionViandas(colaboracion, heladeraOrigen, heladeraDestino, cantidadViandas,motivo);
 
         context.redirect("/colaboraciones");
     }
+
     public void colaboracionTarjetas(Context context, PersonaVulnerable personaVulnerable) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
-
-        Colaboracion colaboracion = crearColaboracion("Entrega de Tarjetas","ENTREGA_TARJETAS","Descripción entrega tarjetas",colaborador);
-
-        RegistrarPersonasVulnerables registrarPersonasVulnerables = new RegistrarPersonasVulnerables();
-        registrarPersonasVulnerables.setPersonaVulnerable(personaVulnerable);
-        registrarPersonasVulnerables.setFechaHoraAlta(LocalDateTime.now());
-
-        Transaccion transaccion = crearTransaccion(colaborador, registrarPersonasVulnerables.puntaje());
-        colaboracion.setTransaccion(transaccion);
-
-        registrarPersonasVulnerables.setColaboracion(colaboracion);
-
-
-        colaboracionRepositorio.persistir(registrarPersonasVulnerables);
+        Colaboracion colaboracion = colaboracionService.crearColaboracion("Entrega de Tarjetas","ENTREGA_TARJETAS","Descripción entrega tarjetas",colaborador);
+        colaboracionService.crearColaboracionTarjetas(colaboracion, personaVulnerable);
 
         context.redirect("/colaboraciones");
     }
     public void colaboracionHeladera(Context context) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
+        Colaboracion colaboracion = colaboracionService.crearColaboracion("Hostear Heladera", "HOSTEAR_HELADERA", "Descripción hosteo heladera", colaborador);
 
         String nombreHeladera = context.formParam("nombreHeladera");
         Integer cantMaxViandas = Integer.parseInt(context.formParam("cantMaxViandas"));
         String latitud = context.formParam("lat");
         String longitud =context.formParam("lng");
         String direccion =context.formParam("direccion");
-        String modelo =context.formParam("modeloHeladera");
+        String nombreModelo =context.formParam("modeloHeladera");
         Double tempMax = Double.parseDouble(context.formParam("tempMax"));
         Double tempMin = Double.parseDouble(context.formParam("tempMin"));
 
-        Colaboracion colaboracion = crearColaboracion("Hostear Heladera", "HOSTEAR_HELADERA", "Colaboración para hostear heladera", colaborador);
+        Ubicacion ubicacion= colaboracionService.crearUbicacion(direccion,longitud,latitud);
+        Modelo modelo= colaboracionService.crearModelo(nombreModelo, tempMax,tempMin);
+        Heladera heladera = colaboracionService.crearHeladera(nombreHeladera, cantMaxViandas, ubicacion, modelo);
 
-        Heladera heladera = new Heladera();
-        heladera.setNombre(nombreHeladera);
-        heladera.setCantMaxViandas(cantMaxViandas);
-        Ubicacion ubicacion=new Ubicacion();
-        ubicacion.setDireccion(direccion);
-        ubicacion.setLongitud(longitud);
-        ubicacion.setLatitud(latitud);
-        heladera.setUbicacion(ubicacion);
-        Modelo modeloHeladera=new Modelo();
-        modeloHeladera.setNombre(modelo);
-        modeloHeladera.setTempMaxAceptable(tempMax);
-        modeloHeladera.setTempMinAceptable(tempMin);
-        heladera.setModelo(modeloHeladera);
-        heladera.setFechaPuestaEnMarcha(LocalDate.now());
-        heladera.setUltimaFechaContadaParaPuntaje(LocalDate.now());
-
-        HostearHeladera hostearHeladera = new HostearHeladera();
-        hostearHeladera.setHeladera(heladera);
-        hostearHeladera.setEnVigencia(true);
-        hostearHeladera.setFechaHoraAlta(LocalDateTime.now());
-        Transaccion transaccion = crearTransaccion(colaborador, hostearHeladera.puntaje());
-        colaboracion.setTransaccion(transaccion);
-        hostearHeladera.setColaboracion(colaboracion);
-
-        colaboracionRepositorio.persistir(hostearHeladera);
+        colaboracionService.crearHostearHeladera(colaboracion, heladera);
 
         context.redirect("/colaboraciones");
     }
+
     public void colaboracionPremio(Context context){
     }
     @Override

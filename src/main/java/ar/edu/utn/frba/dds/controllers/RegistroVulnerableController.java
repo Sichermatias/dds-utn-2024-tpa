@@ -67,11 +67,7 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
             personaVulnerableACargo.setFechaNacimiento(LocalDate.parse(fechaNacimientoACargo.get(i)));
 
             personaVulnerable.agregarPersonasVulnerablesACargo(personaVulnerableACargo);
-
         }
-
-        personaVulnerableRepositorio.persistir(personaVulnerable);
-
         this.colaboracionController.colaboracionTarjetas(context,personaVulnerable);
 
         context.redirect("/");
