@@ -1,0 +1,75 @@
+{{#partial "contenido"}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Recomendador de Puntos para Donar</h1>
+
+                <form id="recomendacionPuntosDonacion" action="/recomendaciones/puntos-donacion" method="POST">
+                    <div class="mb-3 col-6">
+                        <label for="latitud" class="form-label">Latitud</label>
+                        <input type="text" class="form-control" id="latitud" name="latitud" value="-34.66291992043316" required>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="longitud" class="form-label">Longitud</label>
+                        <input type="text" class="form-control" id="longitud" name="longitud" value="-58.46732181710551" required>
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="radio" class="form-label">Radio</label>
+                        <input type="number" class="form-control" id="radio" name="radio" value="5">
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="horarioBuscado" class="form-label">Horario Buscado</label>
+                        <input type="time" class="form-control" id="horarioBuscado" name="horarioBuscado" value="17:30:00">
+                    </div>
+                    <div class="mb-3 col-4">
+                        <label for="diasBuscados" class="form-label">Días Buscados</label>
+                        <input type="text" class="form-control" id="diasBuscados" name="diasBuscados" value="lunes, martes, sabado">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Consultar Puntos</button>
+                </form>
+
+                <table class="table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Latitud</th>
+                            <th>Longitud</th>
+                            <th>Hora Apertura</th>
+                            <th>Hora Cierre</th>
+                            <th>Días Abierto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each puntosRecomendados}}
+                        <tr>
+                            <td>{{nombre}}</td>
+                            <td>{{latitud}}</td>
+                            <td>{{longitud}}</td>
+                            <td>{{horaApertura}}</td>
+                            <td>{{horaCierre}}</td>
+                            <td>{{diasAbierto}}</td>
+                        </tr>
+                        {{/each}}
+                        <tr>
+                            <td>UTN Medrano</td>
+                            <td>-34.598245638673</td>
+                            <td>-58.420012658665</td>
+                            <td>10:00</td>
+                            <td>18:00</td>
+                            <td>MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY</td>
+                        </tr>
+                        <tr>
+                            <td>UTN Pacheco</td>
+                            <td>-34.455130586427</td>
+                            <td>-58.624240247031</td>
+                            <td>00:00</td>
+                            <td>23:59</td>
+                            <td>SATURDAY, SUNDAY</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/base title="Consultar Puntos de Donacion"}}
