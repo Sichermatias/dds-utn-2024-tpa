@@ -28,7 +28,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
             if(componentName.equals(ColaboracionController.class.getName())) {
-                ColaboracionController instance = new ColaboracionController(new ColaboracionRepositorio(), new ColaboradorRepositorio(), new TransaccionRepositorio(), new HeladerasRepositorio(), new DonacionDineroRepositorio(), new PremioRepositorio(), new ColaboracionService(new ColaboracionRepositorio(), new DonacionDineroRepositorio(), new TransaccionService()), new TransaccionService());
+                ColaboracionController instance = new ColaboracionController(new ColaboradorRepositorio(), new HeladerasRepositorio(), new PremioRepositorio(), new ColaboracionService(new ColaboracionRepositorio(), new DonacionDineroRepositorio(), new TransaccionService()));
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(ColaboradorRepositorio.class.getName())) {

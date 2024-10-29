@@ -8,48 +8,34 @@ import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
-import ar.edu.utn.frba.dds.services.TransaccionService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ColaboracionController implements ICrudViewsHandler, WithSimplePersistenceUnit {
-    private final ColaboracionRepositorio colaboracionRepositorio;
     private final ColaboradorRepositorio colaboradorRepositorio;
-    private final TransaccionRepositorio transaccionRepositorio;
     private final HeladerasRepositorio heladeraRepositorio;
-    private final DonacionDineroRepositorio donacionDineroRepositorio;
 
     private final PremioRepositorio premioRepositorio;
 
     private final ColaboracionService colaboracionService;
-    private final TransaccionService transaccionService;
 
     public ColaboracionController(
-            ColaboracionRepositorio colaboracionRepositorio,
             ColaboradorRepositorio colaboradorRepositorio,
-            TransaccionRepositorio transaccionRepositorio,
             HeladerasRepositorio heladeraRepositorio,
-            DonacionDineroRepositorio donacionDineroRepositorio, PremioRepositorio premioRepositorio, ColaboracionService colaboracionService, TransaccionService transaccionService)
-
-    {
-        this.colaboracionRepositorio = colaboracionRepositorio;
+            PremioRepositorio premioRepositorio,
+            ColaboracionService colaboracionService) {
         this.colaboradorRepositorio = colaboradorRepositorio;
-        this.transaccionRepositorio = transaccionRepositorio;
         this.heladeraRepositorio = heladeraRepositorio;
-        this.donacionDineroRepositorio = donacionDineroRepositorio;
         this.premioRepositorio = premioRepositorio;
         this.colaboracionService = colaboracionService;
-        this.transaccionService = transaccionService;
     }
-
     @Override
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
@@ -73,16 +59,11 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         model.put("usuario_id", usuarioId);
         if (tipoRol!=null){
             switch (tipoRol) {
-                case "COLABORADOR_JURIDICO":
-                    context.render("colaboraciones/colaboraciones_persona_juridica.hbs", model);
-                    break;
-                case "COLABORADOR_HUMANO":
-                    context.render("colaboraciones/colaboraciones_persona_humana.hbs", model);
-                    break;
-                default:
-                    context.redirect("/login");
-                    break;
-        }
+                case "COLABORADOR_JURIDICO" ->
+                        context.render("colaboraciones/colaboraciones_persona_juridica.hbs", model);
+                case "COLABORADOR_HUMANO" -> context.render("colaboraciones/colaboraciones_persona_humana.hbs", model);
+                default -> context.redirect("/login");
+            }
         }else context.redirect("/login");
     }
 
@@ -145,8 +126,6 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Long usuarioId = context.sessionAttribute("usuario_id");
         return colaboradorRepositorio.buscarPorIdUsuario(usuarioId);
     }
-
-
     public void colaboracionDinero(Context context) {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         double monto = Double.parseDouble(context.formParam("monto"));
