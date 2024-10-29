@@ -2,6 +2,8 @@ package ar.edu.utn.frba.dds.dominio.colaboracion;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "vianda")
+@Setter@Getter
 public class Vianda extends Persistente {
     public Vianda(){}
     public Vianda(String nombreComida, LocalDate fechaCaducidad, LocalDate fechaDonacion, Heladera heladeraAsignada, Double calorias, Double peso, Boolean fueEntregado) {

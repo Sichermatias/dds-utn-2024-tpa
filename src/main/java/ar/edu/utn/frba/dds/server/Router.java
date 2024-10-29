@@ -30,7 +30,7 @@ public class Router {
         app.get("/colaboraciones/historico", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexHistorico);
         app.post("/colaboraciones/dinero", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDinero);
         app.post("/colaboraciones/vianda", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionVianda);
-        app.post("/colaboraciones/distribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDistribucion);
+        app.post("/colaboraciones/redistribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDistribucion);
         app.get("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexColaboracionHeladera);
         app.post("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionHeladera);
         app.post("/colaboraciones/premio", ((PremiosController) FactoryController.controller("Premios"))::save);

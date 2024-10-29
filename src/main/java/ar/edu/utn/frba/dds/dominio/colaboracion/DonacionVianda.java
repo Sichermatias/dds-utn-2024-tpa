@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "donacionVianda")
 public class DonacionVianda extends Persistente {
+
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "vianda_id", referencedColumnName = "id")
     @Setter@Getter

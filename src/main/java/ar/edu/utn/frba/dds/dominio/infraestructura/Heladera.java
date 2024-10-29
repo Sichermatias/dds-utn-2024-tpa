@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.dominio.infraestructura;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
 import ar.edu.utn.frba.dds.dominio.colaboracion.DonacionVianda;
+import ar.edu.utn.frba.dds.dominio.colaboracion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 
 
@@ -80,6 +81,8 @@ public class Heladera extends Persistente {
     public void recibirDonacionVianda(DonacionVianda donacion){
         this.cantViandasActuales= (int) (this.cantViandasActuales + donacion.getCantViandas());
     }
+
+
     public Integer getViandasParaLlenar(){
         return cantMaxViandas - cantViandasActuales;
     }

@@ -35,10 +35,14 @@
                                     Monto: ${{this.monto}} <br> Frecuencia: {{this.frecuencia}}
                                 {{/ifCond}}
                                 {{#ifCond this.colaboracion.tipo 'DONACION_VIANDAS'}}
-                                    Comida: {{this.vianda.nombreComida}} <br> Calorías: {{this.vianda.calorias}} <br> Peso: {{this.vianda.peso}} kg
+                                    {{debug this.colaboracion.tipo}}
+                                    Heladera: {{this.vianda.heladeraAsignada.nombre}} <br>
+                                    Comida: {{this.vianda.nombreComida}} <br>
+                                    Calorías: {{this.vianda.calorias}} <br>
+                                    Peso: {{this.vianda.peso}} kg
                                 {{/ifCond}}
                                 {{#ifCond this.colaboracion.tipo 'REDISTRIBUCION_VIANDAS'}}
-                                    Origen: {{this.heladeraOrigen}} <br> Destino: {{this.heladeraDestino}} <br> Cantidad: {{this.cantidadViandas}}
+                                    Origen: {{this.heladeraOrigen.nombre}} <br> Destino: {{this.heladeraDestino.nombre}} <br> Cantidad: {{this.cantidadViandas}}
                                 {{/ifCond}}
                                 {{#ifCond this.colaboracion.tipo 'ENTREGA_TARJETAS'}}
                                     Nombre: {{this.personaVulnerable.nombre}} <br> Apellido: {{this.personaVulnerable.apellido}} <br> Personas a cargo: {{this.personaVulenarble.personasVulnACargo.size}}

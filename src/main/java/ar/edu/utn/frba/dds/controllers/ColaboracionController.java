@@ -196,6 +196,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Double cantidadViandas = Double.parseDouble(context.formParam("cantidad"));
 
         Vianda nuevaVianda = crearVianda(nombreComida,fechaCaducidad,heladeraAsignada,calorias,peso);
+        nuevaVianda.setFechaHoraAlta(LocalDateTime.now());
 
         PedidoDeApertura pedidoDeApertura= new PedidoDeApertura();
         pedidoDeApertura.setHeladera(heladeraAsignada);
@@ -232,11 +233,32 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Integer cantidadViandas = Integer.parseInt(context.formParam("cantidadViandas"));
         MotivoRedistribucion motivo = new MotivoRedistribucion(context.formParam("motivoRedistribucion"));
 
+        heladeraOrigen.setCantViandasActuales(heladeraOrigen.getCantViandasActuales()-cantidadViandas);
+        heladeraDestino.setCantViandasActuales(heladeraDestino.getCantViandasActuales()+cantidadViandas);
+
         redistribucionViandas.setHeladeraOrigen(heladeraOrigen);
         redistribucionViandas.setHeladeraDestino(heladeraDestino);
         redistribucionViandas.setCantidadViandas(cantidadViandas);
         redistribucionViandas.setMotivoRedistribucion(motivo);
         redistribucionViandas.setFechaHoraAlta(LocalDateTime.now());
+
+        PedidoDeApertura pedidoOrigen=new PedidoDeApertura();
+        PedidoDeApertura pedidoDestino=new PedidoDeApertura();
+
+        pedidoOrigen.setFechaHoraAlta(LocalDateTime.now());
+        pedidoOrigen.setMotivo("Redistribucion"+motivo.getDescripcion());
+        pedidoOrigen.setHeladera(heladeraOrigen);
+        pedidoOrigen.setValido(true);
+        pedidoOrigen.setTarjeta(colaborador.getTarjetas().get(0));
+
+        pedidoDestino.setFechaHoraAlta(LocalDateTime.now());
+        pedidoDestino.setMotivo("Redistribucion"+motivo.getDescripcion());
+        pedidoDestino.setHeladera(heladeraDestino);
+        pedidoDestino.setValido(true);
+        pedidoDestino.setTarjeta(colaborador.getTarjetas().get(0));
+
+        redistribucionViandas.setPedidoDeAperturaEnDestino(pedidoDestino);
+        redistribucionViandas.setPedidoDeAperturaEnOrigen(pedidoOrigen);
 
         Transaccion transaccion = crearTransaccion(colaborador, redistribucionViandas.puntaje());
         colaboracion.setTransaccion(transaccion);

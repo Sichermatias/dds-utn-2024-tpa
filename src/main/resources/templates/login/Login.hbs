@@ -1,31 +1,33 @@
 {{#partial "contenido"}}
-<main class="container mt-5 pt-5">
-    <div class="hero-section text-center mb-4">
-        <h1>INGRESAR</h1>
-    </div>
+    <main class="container d-flex justify-content-center align-items-center" style="min-height: 80vh; margin-top: 5vh;">
+        <div class="col-md-6 col-lg-4">
+            <div class="form-container bg-light p-5 rounded-4 shadow">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">INGRESAR</h2>
+                </div>
 
-    <div class="form-container">
-        <form action="/login" method="POST">
-            <div class="mb-3">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+
+                    <p class="mt-3 text-center">¿No tenés cuenta? <a href="/registro">Creá una</a></p>
+                </form>
+
+                {{#if error}}
+                    <div class="text-danger text-center mt-2">
+                        {{error}}
+                    </div>
+                {{/if}}
             </div>
-
-            <div class="mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-
-            <p class="mt-3">¿No tienes una cuenta? <a href="/registro">Regístrate ahora</a></p>
-        </form>
-
-        {{#if error}}
-            <div style="color: red;">
-                {{error}}
-            </div>
-        {{/if}}
-    </div>
-</main>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </main>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 {{/partial}}
 {{> templates/base title="Login"}}

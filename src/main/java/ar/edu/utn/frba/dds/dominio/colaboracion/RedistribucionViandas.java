@@ -13,26 +13,26 @@ import java.util.List;
 @Setter
 @Getter
 public class RedistribucionViandas extends Persistente {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "heladeraOrigen_id", referencedColumnName = "id")
     private Heladera heladeraOrigen;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "heladeraDestino_id", referencedColumnName = "id")
     private Heladera heladeraDestino;
 
     @Column(name = "cantidadViandas", columnDefinition = "INTEGER(6)")
     private Integer cantidadViandas;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "motivoRedistribucion_id", referencedColumnName = "id")
     private MotivoRedistribucion motivoRedistribucion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "vianda_redistribucion",
             joinColumns = @JoinColumn(name = "redistribucion_id", referencedColumnName = "id"),
@@ -40,11 +40,11 @@ public class RedistribucionViandas extends Persistente {
     )
     private List<Vianda> viandas;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pedidoDeAperturaEnOrigen_id", referencedColumnName = "id")
     private PedidoDeApertura pedidoDeAperturaEnOrigen;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pedidoDeAperturaEnDestino_id", referencedColumnName = "id")
     private PedidoDeApertura pedidoDeAperturaEnDestino;
 
