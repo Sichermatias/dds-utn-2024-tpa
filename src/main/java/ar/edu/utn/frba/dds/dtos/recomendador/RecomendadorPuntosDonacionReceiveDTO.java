@@ -2,6 +2,8 @@
 package ar.edu.utn.frba.dds.dtos.recomendador;
 
 import java.util.List;
+
+import ar.edu.utn.frba.dds.dominio.calculadorDePuntos.PuntoRecomendado;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +12,7 @@ import lombok.Setter;
 public class RecomendadorPuntosDonacionReceiveDTO {
     private boolean activo;
     private String nombre;
-    private RecomendadorPuntosDonacionSendDTO puntoGeografico;
+    private PuntoRecomendado puntoGeografico;
     private List<Integer> horaApertura;
     private List<Integer> horaCierre;
     private List<String> diasAbierto;

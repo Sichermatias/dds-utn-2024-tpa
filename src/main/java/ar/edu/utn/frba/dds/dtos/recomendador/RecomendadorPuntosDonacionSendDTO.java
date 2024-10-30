@@ -20,4 +20,18 @@ public class RecomendadorPuntosDonacionSendDTO {
         this.horario = horario;
         this.dias = dias;
     }
+
+    public String toQueryParams() {
+        String queryParams = "?latitud=" + this.latitud + "&longitud=" + this.longitud;
+        if (this.radio != null) {
+            queryParams += "&radio=" + this.radio;
+        }
+        if (this.horario != null) {
+            queryParams += "&horario=" + this.horario;
+        }
+        if (this.dias != null) {
+            queryParams += "&dias=" + this.dias;
+        }
+        return queryParams;
+    }
 }

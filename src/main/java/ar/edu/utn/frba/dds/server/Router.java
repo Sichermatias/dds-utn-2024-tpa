@@ -59,6 +59,6 @@ public class Router {
         app.get("/reportes/viandas_donadas_colaborador", ((ViandasDonadasColaboradorController) FactoryController.controller("ViandasDonadasColaborador"))::index);
 
         app.get("/recomendador_puntos_donacion", ((RecomendadorPuntosDonacionController) FactoryController.controller("RecomendadorPuntosDonacion"))::index);
-        app.post("/recomendar_puntos_donacion", ((RecomendadorPuntosDonacionController) FactoryController.controller("RecomendadorPuntosDonacion"))::recomendarPuntos);
+        app.post("/recomendador_puntos_donacion", ((RecomendadorPuntosDonacionController) FactoryController.controller("RecomendadorPuntosDonacion"))::recomendarPuntos);
     }
 }
