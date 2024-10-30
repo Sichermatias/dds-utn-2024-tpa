@@ -2,7 +2,6 @@
 #premios-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Para mantener las tarjetas alineadas */
 }
 
 /* Tarjeta con tamaño fijo para asegurar proporciones */

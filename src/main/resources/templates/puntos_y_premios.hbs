@@ -14,11 +14,11 @@
 {{/partial}}
 
 {{#partial "contenido"}}
-    <section class="container my-5">
+    <section class="container my-5 col-lg-10 col-md-12 flex-column align-items-center">
         <!-- Título y puntos -->
-        <div class="row mb-4 align-items-center justify-content-between">
-            <h2 class="col fs-2">Beneficios</h2>
-            <div class="col-auto d-flex align-items-center">
+        <div class="d-flex justify-content-between align-items-center w-100 mb-4">
+            <h2 class="card-title text-left fs-2">Beneficios</h2>
+            <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex justify-content-center">
                     <i class="bi bi-gift-fill" style="font-size: 1.8em;"></i>
                 </div>
@@ -29,11 +29,39 @@
             </div>
         </div>
 
+        <!-- Sección para donar premios, ocupa el ancho total -->
+        {{#if (eq tipo_rol "COLABORADOR_JURIDICO")}}
+            <div class="col-12 mb-4">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body py-3">
+                        <div class="text-center">
+                            <h6 class="card-title fs-5 mb-2">¿Desea donar premios?</h6>
+                            <p class="mb-3" style="font-size: 0.9em;">¡Contribuí a la causa completando nuestro formulario y doná tus premios!</p>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <a href="/colaboraciones/premio" class="btn btn-primary btn-sm">Donar premio</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+
+        <!-- Selección de rubro/categoría -->
+        <div class="col-md-6 mb-4">
+            <label for="inputState" class="form-label fs-5">Seleccionar rubro del premio</label>
+            <select id="inputState" class="form-select" onchange="filterProducts()">
+                <option selected value="all">Elegir rubro...</option>
+                {{#each rubros}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+
         <!-- Contenedor de premios en cards -->
         <div class="row row-cols-1 row-cols-md-3 g-4" id="premios-container">
             {{#if premios.length}}
                 {{#each premios}}
-                    <div class="col-3">
+                    <div class="col-3 product-card" data-category="{{rubro.nombre}}">
                         <div class="card h-100">
                             <div class="card-img-container">
                                 {{#if imagenPremio}}

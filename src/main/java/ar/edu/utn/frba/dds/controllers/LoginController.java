@@ -9,7 +9,7 @@ import java.util.*;
 
 public class LoginController implements ICrudViewsHandler{
 
-     private UsuarioRepositorio usuarioRepositorio;
+    private final UsuarioRepositorio usuarioRepositorio;
 
     public LoginController(UsuarioRepositorio usuarioRepositorio) {
            this.usuarioRepositorio = usuarioRepositorio;
@@ -17,9 +17,20 @@ public class LoginController implements ICrudViewsHandler{
 
     @Override
     public void index(Context context) {
+        Map<String, Object> model = new HashMap<>();
+
         String error = context.sessionAttribute("login_error");
         context.sessionAttribute("login_error", null);
-        context.render("/login/Login.hbs", Collections.singletonMap("error", error));
+        model.put("error", error);
+
+        String returnPath = context.queryParam("return");
+
+        if (returnPath != null)
+            model.put("return", "?return=" + returnPath);
+        else
+            model.put("return", "");
+
+        context.render("/login/Login.hbs", model);
     }
     public void logout(Context context){
         context.sessionAttribute("usuario_id", null);
@@ -52,9 +63,14 @@ public class LoginController implements ICrudViewsHandler{
         if (!usuarios.isEmpty()) {
             Usuario usuario = usuarios.get(0);
             if (usuario.getContrasenia().equals(context.formParam("password"))) {
+                String returnPath = context.queryParam("return");
+                System.out.println(returnPath);
                 context.sessionAttribute("usuario_id", usuario.getId());
                 context.sessionAttribute("tipo_rol", usuario.getRol().getTipo().name());
-                context.redirect("/");
+                if(returnPath == null)
+                    context.redirect("/");
+                else
+                    context.redirect("/" + returnPath);
             } else {
                 // Manejar el caso donde la contraseña es incorrecta
                 context.sessionAttribute("login_error", "Credenciales incorrectas");
