@@ -1,15 +1,23 @@
 package ar.edu.utn.frba.dds.services;
 
+import ar.edu.utn.frba.dds.controllers.ReporteViandasHeladeraController;
 import ar.edu.utn.frba.dds.dominio.colaboracion.*;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Modelo;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
+import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
+import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
+import ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks.GenerarReportesSemanales;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.FallosHeladeraRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.ViandasDonadasColaboradorRepositorio;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ColaboracionService {
     private final ColaboracionRepositorio colaboracionRepositorio;
@@ -52,16 +60,19 @@ public class ColaboracionService {
         nuevaVianda.setFechaHoraAlta(fechaAlta);
         return nuevaVianda;
     }
-
     public void crearDonacionVianda(Colaboracion colaboracion, Vianda vianda, Heladera heladeraAsignada, Double cantidadViandas) {
+
+        if (cantidadViandas == null || cantidadViandas <= 0) {
+            throw new IllegalArgumentException("La cantidad de viandas debe ser mayor a cero.");
+        }
         DonacionVianda donacionVianda = new DonacionVianda();
         donacionVianda.setActivo(true);
         donacionVianda.setVianda(vianda);
         donacionVianda.setFechaHoraAlta(LocalDateTime.now());
-
-        PedidoDeApertura pedidoDeApertura= new PedidoDeApertura();
+        donacionVianda.setColaboracion(colaboracion);
+        PedidoDeApertura pedidoDeApertura = new PedidoDeApertura();
         pedidoDeApertura.setHeladera(heladeraAsignada);
-        pedidoDeApertura.setMotivo("Donacion de viandas");
+        pedidoDeApertura.setMotivo("Donación de viandas");
         pedidoDeApertura.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
         pedidoDeApertura.setFechaHoraRealizada(LocalDateTime.now());
         pedidoDeApertura.setFechaHoraAlta(LocalDateTime.now());
@@ -69,13 +80,29 @@ public class ColaboracionService {
         donacionVianda.setCantViandas(cantidadViandas);
         donacionVianda.setPedidoDeApertura(pedidoDeApertura);
 
-        Transaccion transaccion = transaccionService.crearTransaccion(colaboracion.getColaborador(),donacionVianda.puntaje());
-        colaboracion.setTransaccion(transaccion);
-        donacionVianda.setColaboracion(colaboracion);
-
         heladeraAsignada.recibirDonacionVianda(donacionVianda);
+        heladeraAsignada.setCantSemanalViandasColocadas(
+                heladeraAsignada.getCantSemanalViandasColocadas() + cantidadViandas.intValue()
+        );
+        colaboracion.getColaborador().setCantSemanalViandasDonadas(
+                colaboracion.getColaborador().getCantSemanalViandasDonadas() + cantidadViandas.intValue()
+        );
 
         colaboracionRepositorio.persistir(donacionVianda);
+
+        ViandasDonadasColaboradorRepositorio viandasRepo = ViandasDonadasColaboradorRepositorio.getInstancia();
+        List<ViandasDonadasPorColaborador> viandasDonadasList = viandasRepo.buscarPorColaboradorId(
+                ViandasDonadasPorColaborador.class, colaboracion.getColaborador().getId()
+        );
+
+        ViandasDonadasPorColaborador viandasDonadas;
+        if (!viandasDonadasList.isEmpty()) {
+            viandasDonadas = viandasDonadasList.get(0);
+        } else {
+            viandasDonadas = new ViandasDonadasPorColaborador(colaboracion.getColaborador(), LocalDate.now());
+        }
+        viandasDonadas.viandasDonadasSemanal();
+        viandasRepo.persistir(viandasDonadas);
     }
 
     public Ubicacion crearUbicacion(String direccion, String longitud, String latitud){
@@ -121,6 +148,8 @@ public class ColaboracionService {
     public void crearRedistribucionViandas(Colaboracion colaboracion, Heladera heladeraOrigen, Heladera heladeraDestino, int cantidadViandas, MotivoRedistribucion motivo) {
         heladeraOrigen.setCantViandasActuales(heladeraOrigen.getCantViandasActuales()-cantidadViandas);
         heladeraDestino.setCantViandasActuales(heladeraDestino.getCantViandasActuales()+cantidadViandas);
+        heladeraDestino.setCantSemanalViandasColocadas(heladeraDestino.getCantSemanalViandasColocadas()+cantidadViandas);
+        heladeraOrigen.setCantSemanalViandasRetiradas(heladeraOrigen.getCantSemanalViandasRetiradas()+cantidadViandas);
 
         RedistribucionViandas redistribucionViandas=new RedistribucionViandas();
         redistribucionViandas.setHeladeraOrigen(heladeraOrigen);

@@ -7,11 +7,11 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.FiltroSuscripcion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaWhatsapp;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.HeladerasRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -75,11 +76,9 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             return;
         }
 
-        // Obtener los datos del formulario
         String tipoIncidenteStr = context.formParam("tipoIncidente");
         String descripcion = context.formParam("descripcion");
 
-        // Convertir el string de tipo de incidente a un enum de TipoIncidente
         TipoIncidente tipoIncidente;
         try {
             tipoIncidente = TipoIncidente.valueOf(tipoIncidenteStr);
@@ -88,37 +87,46 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             return;
         }
 
-        // Obtener las fotos (si se suben)
         List<UploadedFile> fotosSubidas = context.uploadedFiles("fotos");
         List<String> fotosIncidente = new ArrayList<>();
-
         if (fotosSubidas != null && !fotosSubidas.isEmpty()) {
             for (UploadedFile foto : fotosSubidas) {
-                // Guardar la foto en el sistema de archivos o en la base de datos y agregarla a la lista
-                String fotoPath = guardarFoto(foto); // Método para guardar la foto
+                String fotoPath = guardarFoto(foto);
                 fotosIncidente.add(fotoPath);
             }
         }
+
         ColaboradorRepositorio colaboradorRepositorio=ColaboradorRepositorio.getInstancia();
-
         Colaborador colaborador = colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
-
         if (colaborador == null) {
             context.status(401).result("Debe estar autenticado para reportar un incidente");
             return;
         }
 
         Incidente nuevoIncidente = new Incidente(
-                LocalDateTime.now(),           // Fecha y hora actual
-                heladera,                      // Heladera a la que está asociado el incidente
-                tipoIncidente,                 // Tipo de incidente
-                colaborador,                   // Colaborador que reporta el incidente
-                descripcion,                   // Descripción del incidente
-                fotosIncidente                 // Lista de fotos asociadas
+                LocalDateTime.now(),
+                heladera,
+                tipoIncidente,
+                colaborador,
+                descripcion,
+                fotosIncidente
         );
-
-        repositorio.persist(nuevoIncidente);
-
+        heladera.setCantSemanalIncidentes(heladera.getCantSemanalIncidentes()+1);
+        FallosHeladeraRepositorio fallosRepo=FallosHeladeraRepositorio.getInstancia();
+        List<FallosPorHeladera> fallosPorHeladeras=fallosRepo.buscarPorHeladeraId(FallosPorHeladera.class, heladeraId);
+        FallosPorHeladera fallosPorHeladera=new FallosPorHeladera();
+        if(!fallosPorHeladeras.isEmpty()){
+            fallosPorHeladera=fallosPorHeladeras.get(0);
+            fallosPorHeladera.fallosSemanalesHeladera();
+        }else{
+            fallosPorHeladera=new FallosPorHeladera();
+            fallosPorHeladera.setHeladera(heladera);
+            fallosPorHeladera.setFechaDeReporteSemanal(LocalDate.now());
+            fallosPorHeladera.fallosSemanalesHeladera();
+        }
+        ColaboracionRepositorio repo=ColaboracionRepositorio.getInstancia();
+        repo.persistir(nuevoIncidente);
+        repo.persistir(fallosPorHeladera);
         if (tipoIncidente == TipoIncidente.ALERTA || tipoIncidente == TipoIncidente.FALLA_TECNICA) {
             heladera.setDesperfecto(true);
             repositorio.actualizar(heladera);
@@ -132,25 +140,19 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             // Definir el directorio donde se almacenarán las fotos
             String directorioFotos = "uploads/fotosIncidentes/";
 
-            // Crear el directorio si no existe
             Path directorioPath = Paths.get(directorioFotos);
             if (!Files.exists(directorioPath)) {
                 Files.createDirectories(directorioPath);
             }
 
-            // Obtener el nombre original del archivo
             String nombreOriginal = foto.filename();
 
-            // Generar un nombre único para evitar colisiones (puedes usar un UUID)
             String nombreUnico = UUID.randomUUID().toString() + "_" + nombreOriginal;
 
-            // Crear el path completo donde se guardará el archivo
             Path archivoPath = directorioPath.resolve(nombreUnico);
 
-            // Escribir el archivo en el disco
             Files.write(archivoPath, foto.content().readAllBytes());
 
-            // Devolver la ruta relativa donde se guardó la imagen (para poder usarla en la web)
             return "/" + directorioFotos + nombreUnico;
 
         } catch (IOException e) {

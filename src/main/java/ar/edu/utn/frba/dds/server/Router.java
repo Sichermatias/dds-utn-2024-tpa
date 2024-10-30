@@ -6,7 +6,6 @@ import io.javalin.Javalin;
 public class Router {
     public static void init(Javalin app) {
         app.get("/", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
-        app.get("/mapa", ((LandingPageController) FactoryController.controller("LandingPage"))::index);
         app.get("/nosotros", ((LandingPageController) FactoryController.controller("LandingPage"))::indexNosotros);
 
         app.get("/login", ((LoginController) FactoryController.controller("Login"))::index);
@@ -19,6 +18,7 @@ public class Router {
         app.post("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarJuridica);
         app.post("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarHumana);
         app.get("/check-username", ((RegistroUsuariosController) FactoryController.controller("Registro"))::checkUsername);
+
         app.get("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerables"))::indexRegistroVulnerable);
         app.post("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerables"))::registroVulnerable);
 

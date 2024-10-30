@@ -8,6 +8,8 @@ import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,22 +20,19 @@ public class FallosHeladeraController implements ICrudViewsHandler, WithSimplePe
 
     @Override
     public void index(Context context) {
+        FallosHeladeraRepositorio repo= FallosHeladeraRepositorio.getInstancia();
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
-
-        FallosHeladeraRepositorio repositorio = FallosHeladeraRepositorio.getInstancia();
-        List<FallosPorHeladera> fallosPorHeladeras = repositorio.buscarTodas();
-
-        if (tipoRol != null) {
+        List<FallosPorHeladera> fallosPorHeladeras= repo.buscarTodas();
+        if (usuarioId != null) {
             model.put("fallosPorHeladeras", fallosPorHeladeras);
             context.render("FallosPorHeladera/reportes/fallos_heladera.hbs", model);
         }
         else context.redirect("/login");
     }
-
     @Override
     public void show(Context context) {
 

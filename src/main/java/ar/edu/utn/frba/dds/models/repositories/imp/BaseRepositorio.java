@@ -24,6 +24,30 @@ public abstract class BaseRepositorio<T> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    public List<T> buscarPorHeladeraId(Class<T> claseEntidad, Long heladeraId) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
+        Root<T> root = cq.from(claseEntidad);
+
+        Predicate condicion = cb.equal(root.get("heladera").get("id"), heladeraId);
+        cq.where(condicion);
+        cq.select(root);
+
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    public List<T> buscarPorColaboradorId(Class<T> claseEntidad, Long colaboradorId) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
+        Root<T> root = cq.from(claseEntidad);
+
+        Predicate condicion = cb.equal(root.get("colaborador").get("id"), colaboradorId);
+        cq.where(condicion);
+        cq.select(root);
+
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
     public void persistir(T entidad) {
         EntityTransaction transaction = null;
         try {

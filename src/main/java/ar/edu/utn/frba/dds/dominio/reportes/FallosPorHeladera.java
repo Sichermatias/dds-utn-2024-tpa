@@ -29,9 +29,6 @@ public class FallosPorHeladera {
 
     public FallosPorHeladera() {
     }
-    public void setFechaReporte(String fecha){
-        fechaDeReporteSemanal=LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    }
     public String getFechaDeReporteSemanalFormatted() {
         return fechaDeReporteSemanal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

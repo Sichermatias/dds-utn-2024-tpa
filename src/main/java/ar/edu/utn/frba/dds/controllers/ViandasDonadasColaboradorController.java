@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.reportes.ReporteViandasHeladera;
 import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ViandasDonadasColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ViandasHeladeraReporteRepositorio;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
@@ -20,23 +22,32 @@ public class ViandasDonadasColaboradorController implements ICrudViewsHandler, W
     public void create(Context context) {
 
     }
-    @Override
-    public void index(Context context){
-        Map<String, Object> model = new HashMap<>();
+    private Colaborador obtenerColaboradorDeSesion(Context context) {
+        ColaboradorRepositorio colaboradorRepositorio= ColaboradorRepositorio.getInstancia();
+        Long usuarioId = context.sessionAttribute("usuario_id");
+        return colaboradorRepositorio.buscarPorIdUsuario(usuarioId);
+    }
+
+    public void index(Context context) {
+        Long usuarioId = context.sessionAttribute("usuario_id");
         String tipoRol = context.sessionAttribute("tipo_rol");
-        Long usuarioId= context.sessionAttribute("usuario_id");
-        model.put("tipo_rol", tipoRol);
+        if (usuarioId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        Map<String, Object> model = new HashMap<>();
         model.put("usuario_id", usuarioId);
+        model.put("tipo_rol", tipoRol);
 
         ViandasDonadasColaboradorRepositorio repositorio = ViandasDonadasColaboradorRepositorio.getInstancia();
-        List<ViandasDonadasPorColaborador> viandasDonadasColaborador = repositorio.buscarTodas();
+        List<ViandasDonadasPorColaborador> viandasDonadasPorColaboradorList = repositorio.buscarTodas();
 
-        if (tipoRol != null) {
-            model.put("donadasPorColaborador", viandasDonadasColaborador);
-            context.render("viandasDonadasColaborador/donadas_colaborador.hbs", model);
-        }
-        else context.redirect("/login");
+        model.put("donadasPorColaborador", viandasDonadasPorColaboradorList.isEmpty() ? null : viandasDonadasPorColaboradorList);
+
+        context.render("viandasDonadasColaborador/donadas_colaborador.hbs", model);
     }
+
     @Override
     public void show(Context context){
 

@@ -30,6 +30,9 @@ public class ViandasDonadasPorColaborador {
         this.colaborador = colaborador;
         this.fechaDeReporteSemanal = fechaDeReporteSemanal;
     }
+
+    public ViandasDonadasPorColaborador() {
+        }
     public void setFechaReporte(String fecha){
         fechaDeReporteSemanal=LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

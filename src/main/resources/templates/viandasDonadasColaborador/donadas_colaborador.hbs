@@ -25,7 +25,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{#each donadasPorColaboradores}}
+                    {{#each donadasPorColaborador}}
+                        {{debug this.colaborador.nombre}}
+                        {{debug this.cantViandasDonadas}}
                         <tr>
                             <td>{{this.colaborador.nombre}}</td>
                             <td>{{this.fechaDeReporteSemanal}}</td>

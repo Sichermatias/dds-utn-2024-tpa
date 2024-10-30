@@ -39,6 +39,10 @@ public class ReporteViandasHeladera {
         this.fechaDeReporteSemanal = fechaDeReporteSemanal;
     }
 
+    public ReporteViandasHeladera() {
+       }
+
+
     public void viandasColacadasSemanal() {
         this.cantViandasColocadas = this.heladera.getCantSemanalViandasColocadas();
     }

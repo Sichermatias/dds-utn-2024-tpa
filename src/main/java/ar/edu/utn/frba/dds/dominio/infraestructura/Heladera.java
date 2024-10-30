@@ -62,7 +62,6 @@ public class Heladera extends Persistente {
         this.ultimaFechaContadaParaPuntaje = LocalDate.now();
         this.suscripciones = new ArrayList<>();
     }
-
     public void agregarSuscripcion(Suscripcion suscripcion) {
         suscripciones.add(suscripcion);
     }

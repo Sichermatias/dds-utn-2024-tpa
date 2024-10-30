@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "incidente")
 @Setter @Getter
 public class Incidente extends Persistente {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "heladera_id")
     private Heladera heladeraIncidente;
 
