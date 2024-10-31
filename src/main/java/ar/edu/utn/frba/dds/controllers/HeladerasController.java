@@ -87,7 +87,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             return;
         }
 
-        List<UploadedFile> fotosSubidas = context.uploadedFiles("fotos");
+        List<UploadedFile> fotosSubidas = context.uploadedFiles("imagenPremio");
         List<String> fotosIncidente = new ArrayList<>();
         if (fotosSubidas != null && !fotosSubidas.isEmpty()) {
             for (UploadedFile foto : fotosSubidas) {
@@ -138,7 +138,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
     public String guardarFoto(UploadedFile foto) {
         try {
             // Definir el directorio donde se almacenarán las fotos
-            String directorioFotos = "uploads/fotosIncidentes/";
+            String directorioFotos = "src/main/resources/uploads/incidentes/";
 
             Path directorioPath = Paths.get(directorioFotos);
             if (!Files.exists(directorioPath)) {

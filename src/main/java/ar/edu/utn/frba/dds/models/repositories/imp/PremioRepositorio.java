@@ -20,10 +20,10 @@ public class PremioRepositorio extends BaseRepositorio<Premio> implements WithSi
         return query.getResultList().stream().map(RubroPremio::getNombre).toList();
     }
 
-    public RubroPremio buscarRubroPorNombre(String rubro) {
+    public List<RubroPremio> buscarRubroPorNombre(String rubro) {
         String queryString = "SELECT r FROM RubroPremio r WHERE r.nombre LIKE :rubro and r.activo = true";
         TypedQuery<RubroPremio> query = entityManager().createQuery(queryString, RubroPremio.class);
         query.setParameter("rubro", "%" + rubro + "%"); // Agrega los símbolos % para buscar en cualquier posición de la cadena
-        return query.getResultList().get(0);
+        return query.getResultList();
     }
 }

@@ -45,11 +45,18 @@ public class Server {
 
     private static Consumer<JavalinConfig> config() {
         return config -> {
+            // Configuración para servir archivos estáticos desde /public y /uploads
             config.staticFiles.add(staticFiles -> {
-                staticFiles.hostedPath = "/";
-                staticFiles.directory = "/public";
+                staticFiles.hostedPath = "/";  // Ruta base para /public
+                staticFiles.directory = "/public";  // Directorio de archivos estáticos
+            });
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/uploads";  // Ruta base para /uploads
+                staticFiles.directory = "/uploads";   // Directorio de las imágenes y otros recursos subidos
+                staticFiles.location = io.javalin.http.staticfiles.Location.CLASSPATH;
             });
 
+            // Configuración de renderer de Handlebars
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 Handlebars handlebars = new Handlebars();
 
@@ -76,7 +83,6 @@ public class Server {
                         String contextStr = context.toString().trim();
                         String tipo = options.param(0).toString().trim();
 
-
                         if (contextStr.equalsIgnoreCase(tipo)) {
                             return options.fn(options.context); // Usa options.data para pasar el contexto original
                         }
@@ -85,6 +91,7 @@ public class Server {
                     }
                 });
 
+                // Helper para depuración
                 handlebars.registerHelper("debug", new Helper<Object>() {
                     @Override
                     public Object apply(Object context, Options options) {
@@ -93,6 +100,7 @@ public class Server {
                     }
                 });
 
+                // Compilación y renderización de la plantilla
                 Template template;
                 try {
                     template = handlebars.compile("templates/" + path.replace(".hbs", ""));

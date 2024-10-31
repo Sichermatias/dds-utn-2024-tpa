@@ -1,25 +1,19 @@
 {{#partial "contenido"}}
     <div class="form-container bg-white p-4 rounded shadow">
         <h1 class="text-center text-primary">Donar premio</h1>
-        <!-- Mensaje de confirmación -->
         {{#if enviado}}
             <div class="alert alert-success text-left" role="alert">
                 ¡Donación registrada exitosamente! Para donar más premios, complete nuevamente el formulario.
             </div>
         {{/if}}
-
-        <form id="ofrecerPremioForm" action="/colaboraciones/premio" method="POST" style="display;">
+        <form id="ofrecerPremioForm" action="/colaboraciones/premio" method="POST" enctype="multipart/form-data">
             <div class="form-group mb-3">
                 <label for="nombre">Nombre del producto</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto">
             </div>
             <div class="form-group mb-3">
-                <label for="rubro">Rubro</label>
-                <select class="form-control" id="rubro" name="rubro">
-                    {{#each rubros}}
-                        <option value="{{this}}">{{this}}</option>
-                    {{/each}}
-                </select>
+                <label for="rubroPremio">Rubro del premio</label>
+                <input type="text" class="form-control" id="rubroPremio" name="rubroPremio" placeholder="Rubro del premio">
             </div>
             <div class="form-group mb-3">
                 <label for="cantPuntosNecesarios">Cantidad de puntos necesarios</label>
