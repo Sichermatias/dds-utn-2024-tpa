@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de la Heladera</title>
+{{#partial "links"}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-</head>
-{{>templates/partials/header}}
-<body>
-<main class="container mt-5 pt-5">
+{{/partial}}
+{{#partial "contenido"}}
     <div class="row">
         <div class="col-md-12">
             <div class="form-container bg-white p-4 rounded shadow">
@@ -43,9 +36,9 @@
             </div>
         </div>
     </div>
-</main>
+{{/partial}}
 
-<!-- Leaflet JS para el mapa -->
+{{#partial "scripts"}}
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
     // Este código se ejecutará cuando la página se haya cargado completamente
@@ -75,5 +68,5 @@
             .openPopup();
     });
 </script>
-</body>
-</html>
+{{/partial}}
+{{> templates/base title="DETALLES HELADERA"}}

@@ -16,7 +16,6 @@ public class FactoryController {
             case "Colaboracion" -> ServiceLocator.instanceOf(ColaboracionController.class);
             case "Heladeras" -> new HeladerasController();
             case "Vulnerables" -> new RegistroVulnerableController(new PersonaVulnerableRepositorio(), ServiceLocator.instanceOf(ColaboracionController.class));
-            case "Fallas" -> new FallasTecnicasController();
             case "FallosHeladera" -> new FallosHeladeraController(new FallosHeladeraRepositorio());
             case "ViandasHeladeraReporte" -> new ReporteViandasHeladeraController();
             case "ViandasDonadasColaborador" -> new ViandasDonadasColaboradorController(new ViandasDonadasColaboradorRepositorio());

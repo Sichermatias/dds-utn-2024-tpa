@@ -17,7 +17,6 @@ import java.util.Map;
 public class FallosHeladeraController implements ICrudViewsHandler, WithSimplePersistenceUnit{
     public FallosHeladeraController(FallosHeladeraRepositorio fallosHeladeraRepositorio) {
     }
-
     @Override
     public void index(Context context) {
         FallosHeladeraRepositorio repo= FallosHeladeraRepositorio.getInstancia();

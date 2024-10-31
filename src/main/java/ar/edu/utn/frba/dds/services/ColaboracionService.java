@@ -87,7 +87,8 @@ public class ColaboracionService {
         colaboracion.getColaborador().setCantSemanalViandasDonadas(
                 colaboracion.getColaborador().getCantSemanalViandasDonadas() + cantidadViandas.intValue()
         );
-
+        Transaccion transaccion= transaccionService.crearTransaccion(colaboracion.getColaborador(), donacionVianda.puntaje());
+        colaboracion.setTransaccion(transaccion);
         colaboracionRepositorio.persistir(donacionVianda);
 
         ViandasDonadasColaboradorRepositorio viandasRepo = ViandasDonadasColaboradorRepositorio.getInstancia();

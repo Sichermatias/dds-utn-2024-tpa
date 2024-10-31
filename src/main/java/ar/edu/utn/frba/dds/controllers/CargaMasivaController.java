@@ -85,7 +85,6 @@ public class CargaMasivaController implements ICrudViewsHandler, WithSimplePersi
         }
     }
 
-
     private String guardarArchivoTemporal(UploadedFile file) throws IOException {
         File tempFile = File.createTempFile("cargaMasiva-", ".csv");
         try (InputStream inputStream = file.content();

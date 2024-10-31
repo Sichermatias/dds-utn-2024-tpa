@@ -120,8 +120,6 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             context.render("/colaboraciones/formularios/colaboracion_ofrecer_premio.hbs", model);
         }else context.redirect("/login");
     }
-
-
     private Colaborador obtenerColaboradorDeSesion(Context context) {
         Long usuarioId = context.sessionAttribute("usuario_id");
         return colaboradorRepositorio.buscarPorIdUsuario(usuarioId);
@@ -196,7 +194,6 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         context.redirect("/colaboraciones");
     }
-
     public void colaboracionPremio(Context context){
     }
     @Override

@@ -56,13 +56,12 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
         int acumulador = 0;
 
         for (Colaboracion colaboracion : colaboraciones) {
+            acumulador += colaboracion.getTransaccion().getMontoPuntaje();
             if ("HOSTEAR_HELADERA".equals(colaboracion.getTipo())) {
                 LocalDate fechaActual = LocalDate.now();
                 long mesesActiva = ChronoUnit.MONTHS.between(colaboracion.getFechaColaboracion(), fechaActual);
                 acumulador += mesesActiva * 5;
             }
-
-            acumulador += colaboracion.getTransaccion().getMontoPuntaje();
         }
         colaborador.setPuntaje(acumulador);
         return acumulador;

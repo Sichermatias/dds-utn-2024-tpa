@@ -96,14 +96,11 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         rol.setNombreRol("Usuario");
         usuario.setRol(rol);
 
-        // Persistir Colaborador
-
         colaborador.setPuntaje(0);
         colaborador.setUsuario(usuario);
 
         personaRepositorio.persistir(colaborador);
 
-        // Redireccionar a la página de login
         context.status(HttpStatus.CREATED).redirect("/login");
     }
 
