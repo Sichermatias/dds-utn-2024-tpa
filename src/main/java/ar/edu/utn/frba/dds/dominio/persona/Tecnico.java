@@ -36,6 +36,9 @@ public class Tecnico extends Persistente {
     @Column(name = "nroCuil", columnDefinition = "VARCHAR(50)")
     private Integer Cuil;
 
+    @Column(name = "telegramID", columnDefinition = "VARCHAR(50)")
+    private String telegramID;
+
     @ManyToOne
     @JoinColumn(name = "medioDeContacto")
     private MedioDeContacto medioDeContacto;

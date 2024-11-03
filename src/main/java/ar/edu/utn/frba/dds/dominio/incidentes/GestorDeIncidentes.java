@@ -1,8 +1,9 @@
 package ar.edu.utn.frba.dds.dominio.incidentes;
-
+import ar.edu.utn.frba.dds.dominio.services.messageSender.adapters.TelegramSender;
+import ar.edu.utn.frba.dds.dominio.utils.TextoPlanoConverter;
 import ar.edu.utn.frba.dds.dominio.persona.Tecnico;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
-
+import ar.edu.utn.frba.dds.dominio.services.messageSender.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -36,7 +37,17 @@ public class GestorDeIncidentes {
                 if(heladeraLocalidad == unaLocalidadTecnico){
                     //Si matchea, le asigna el incidente al tecnico
                     tecnico.agregarIncidente(incidenteAAsignar);
-                    //TODO 2024-07-03: notificar a los tecnicos sobre incidente
+
+                    //creo mensaje
+                    String incidenteString = TextoPlanoConverter.convertirAtextoPlano(incidenteAAsignar);
+                    String textoAEnviar = "Hola " + tecnico.getNombre() + "!\n\nSe te ha asignado el incidente: " + incidenteAAsignar.getId() + "\n\nAqui tienes la informacion completa: " + incidenteString;
+
+                    //crear estructura de mensaje
+                    Mensaje mensajeTecnico = new Mensaje(tecnico.getTelegramID(),textoAEnviar);
+
+                    //notificar tecnico
+                    TelegramSender.enviarMensajeTelegram(mensajeTecnico);
+
                     tecnicoDisponible = true;
                     System.out.println("el tecnico asignado para el incidente:"+incidenteAAsignar + " es:" + tecnico.getNombre()+ " " + tecnico.getApellido());
                 }

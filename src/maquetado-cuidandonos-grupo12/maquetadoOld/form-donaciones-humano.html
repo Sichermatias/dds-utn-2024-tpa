@@ -9,22 +9,22 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link href="assets/img/icon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="../assets/img/icon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
 
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -33,7 +33,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/icon.png" alt="">
+        <img src="../assets/img/icon.png" alt="">
         <span class="d-none d-lg-block">Cuidandonos - Grupo 12</span>
       </a>
     </div><!-- End Logo -->
@@ -139,7 +139,7 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
-                  <img src="assets/img/icon.png" alt="">
+                  <img src="../assets/img/icon.png" alt="">
                   <span class="d-none d-lg-block">Contribuciones - Cuidandonos - Grupo 12</span>
                 </a>
               </div><!-- End Logo -->
@@ -173,21 +173,21 @@
                       <div class="form-check">
                         <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" onclick="change_form()">
                         <label class="form-check-label" for="gridRadios2">
-                          Hacerse cargo de una heladera
+                          Viandas
                         </label>
                       </div>
                       <div class="form-check">
                         <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" onclick="change_form()">
-                        <label class="form-check-label" for="gridRadios2">
-                          Ofrecer nuevo Producto / Servicio
+                        <label class="form-check-label" for="gridRadios3">
+                          Distribución de viandas
                         </label>
                       </div>
                     </div>
                     </div>
 
-                    <!--ECONOMICA-->
+                    <!--economica-->
 
-                    <div class="col-12 economico">
+                    <div class="col-12">
                       <label for="inputDate" class="form-label">Fecha*</label>
                         <input type="date" class="form-control">
                     </div>
@@ -208,64 +208,75 @@
                       </select>
                     </div>    
 
-                    <!--HACERSE CARGO DE HELADERA -->
+                    <!--VIANDAS -->
 
-                    <div class="col-12 heladera">
-                      <label for="inputState" class="form-label">Seleccionar heladera*</label>
+                    <div class="col-12 vianda">
+                      <label for="inputDate" class="form-label">Fecha de caducidad*</label>
+                        <input type="date" class="form-control">
+                    </div>
+
+                    <div class="col-12 vianda">
+                      <label for="yourName" class="form-label">Qué comida es?*</label>
+                      <input type="text" name="tipo_comida" class="form-control" id="tipo_comida" required>
+                      <div class="invalid-feedback">Ingresar comida valida</div>
+                    </div>       
+
+                    <div class="col-12 vianda">
+                      <label for="inputState" class="form-label">En qué heladera se encuentra*</label>
                       <select id="inputState" class="form-select">
                         <option selected>Elegir...</option>
                         <option>...</option>
                       </select>
                     </div>
                     
-                    <div class="col-12 heladera">
-                      <label for="yourName" class="form-label">Direccion*</label>
-                      <input type="text" name="address" class="form-control" id="direccion" required>
-                      <div class="invalid-feedback">Ingresar direccion válida</div>
-                    </div>     
-                  
-                    <div class="col-12 heladera">
-                      <label for="yourName" class="form-label">¿Necesitas sugerencias de colocación?</label>
-
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.2187426305522!2d-58.42264122521321!3d-34.59862980722773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb2e1493a6a3%3A0x1862a7c0b8163e5d!2sUTN.BA!5e0!3m2!1ses!2sar!4v1725461529675!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div> 
-
-                    <!--OFRECER PRODUCTO / SERVICIO -->
-                    <div class="col-12 producto_servicio">
-                      <label for="yourName" class="form-label">Nombre*</label>
-                      <input type="text" name="name" class="form-control" id="name" required>
-                      <div class="invalid-feedback">Ingresar nombre válido</div>
+                    <div class="col-12 vianda">
+                      <label for="yourName" class="form-label">Cantidad de calorias</label>
+                      <input type="number" name="calorias" class="form-control" id="calorias" required>
+                      <div class="invalid-feedback">Ingresar monto valido</div>
+                    </div>  
+                    
+                    <div class="col-12 vianda">
+                      <label for="yourName" class="form-label">Peso de la vianda</label>
+                      <input type="number" name="peso" class="form-control" id="peso" required>
+                      <div class="invalid-feedback">Ingresar monto valido</div>
                     </div>  
 
-                    <div class="col-12 producto_servicio">
-                      <label for="yourName" class="form-label">Rubro*</label>
-                      <input type="text" name="rubro" class="form-control" id="rubro" required>
-                      <div class="invalid-feedback">Ingresar rubro válido</div>
-                    </div>  
+                    <!--end viandas-->
+                    <!-- distibucion VIANDAS --->
 
-                    <div class="col-12 producto_servicio">
-                      <label for="yourName" class="form-label">Puntos necesarios*</label>
-                      <input type="number" name="monto" class="form-control" id="monto" required>
-                      <div class="invalid-feedback">Ingresar numero valido</div>
-                    </div>         
+                  <div class="col-12 distibucion">
+                    <label for="inputState" class="form-label">Heladera origen*</label>
+                    <select id="inputState" class="form-select">
+                      <option selected>Elegir...</option>
+                      <option>...</option>
+                    </select>
+                  </div>
 
-                    <div class="col-12 producto_servicio">
-                      <label for="yourName" class="form-label">Cargar imagen</label>
-                      <form id="uploadForm">
-                        <input type="file" id="imagen_producto_servicio" name="imagen_producto_servicio" accept="image/png, image/jpeg" />
-                    </form>
+                  <div class="col-12 distibucion">
+                    <label for="inputState" class="form-label">Heladera destino*</label>
+                    <select id="inputState" class="form-select">
+                      <option selected>Elegir...</option>
+                      <option>...</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12 distibucion">
+                    <label for="yourName" class="form-label">Cantidad de viandas a mover*</label>
+                    <input type="number" name="calorias" class="form-control" id="calorias" required>
+                    <div class="invalid-feedback">Ingresar monto valido</div>
+                  </div>  
+
+                  <div class="col-12 distibucion">
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Motivo" id="floatingTextarea" style="height: 100px;"></textarea>
+                      <label for="floatingTextarea">Motivo de la distibucion</label>
                     </div>
+                  </div>
 
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Enviar</button>
                     </div>
                   
-                    
-
-
-
-
-
                 </div>
               </div>
             </div>
@@ -280,17 +291,17 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../assets/vendor/quill/quill.js"></script>
+  <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="../assets/js/main.js"></script>
 
   <script>
 
@@ -304,19 +315,20 @@
           lista_human[i].style.display="inline-block";
         }
 
-        var lista = document.getElementsByClassName("heladera");
+        var lista = document.getElementsByClassName("vianda");
+        for(var i=0; i<lista.length;i++){
+          lista[i].style.display="none";
+        }
+        
+        var lista = document.getElementsByClassName("distibucion");
         for(var i=0; i<lista.length;i++){
           lista[i].style.display="none";
         }
 
-        var lista = document.getElementsByClassName("producto_servicio");
-        for(var i=0; i<lista.length;i++){
-        lista[i].style.display="none";
-        }
       }
     
-      if(document.getElementById("gridRadios2").checked==true){  //HELADERAS
-        var lista_human = document.getElementsByClassName("heladera");
+      if(document.getElementById("gridRadios2").checked==true){  //VIANDAS
+        var lista_human = document.getElementsByClassName("vianda");
         for(var i=0; i<lista_human.length;i++){
           lista_human[i].style.display="inline-block";
         }
@@ -326,31 +338,30 @@
           lista_human[i].style.display="none";
         }
 
-        var lista = document.getElementsByClassName("producto_servicio");
-        for(var i=0; i<lista.length;i++){
-        lista[i].style.display="none";
+        var lista_human = document.getElementsByClassName("distibucion");
+        for(var i=0; i<lista_human.length;i++){
+          lista_human[i].style.display="none";
         }
-
       }
       
-    if(document.getElementById("gridRadios3").checked==true){ //producto servicio
     
-    var lista_human = document.getElementsByClassName("producto_servicio");
-    for(var i=0; i<lista_human.length;i++){
-      lista_human[i].style.display="inline-block";
-    }
+      if(document.getElementById("gridRadios3").checked==true){   //distibucion VIANDAS
 
-    var lista = document.getElementsByClassName("heladera");
-    for(var i=0; i<lista.length;i++){
-      lista[i].style.display="none";
-    }
+        var lista_human = document.getElementsByClassName("vianda");
+        for(var i=0; i<lista_human.length;i++){
+          lista_human[i].style.display="none";
+        }
 
-    var lista = document.getElementsByClassName("economico");
-    for(var i=0; i<lista.length;i++){
-      lista[i].style.display="none";
-    }
-  } 
+        var lista_human = document.getElementsByClassName("economico");
+        for(var i=0; i<lista_human.length;i++){
+          lista_human[i].style.display="none";
+        }
 
+        var lista_human = document.getElementsByClassName("distibucion");
+        for(var i=0; i<lista_human.length;i++){
+          lista_human[i].style.display="inline-block";
+        }
+      }
     }
   </script>
 
