@@ -12,7 +12,7 @@ public class RecomendadorDePuntos{
     private static final String urlApi = "https://aefbd88d-6d87-465a-83ee-316af948a4c1.mock.pstmn.io/api/";
     private Retrofit retrofit;
 
-    private RecomendadorDePuntos() {
+    public RecomendadorDePuntos() {
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(urlApi)
                 .addConverterFactory(GsonConverterFactory.create())

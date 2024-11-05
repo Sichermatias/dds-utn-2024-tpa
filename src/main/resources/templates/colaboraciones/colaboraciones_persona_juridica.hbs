@@ -18,6 +18,9 @@
                 <!-- Dinero Form -->
                 {{> templates/colaboraciones/formularios/colaboracion_dinero}}
 
+                <!-- Hostear Heladera Form -->
+                {{> templates/colaboraciones/formularios/colaboracion_heladera}}
+
             </div>
         </div>
     </div><script>
@@ -25,9 +28,11 @@
         const tipoColaboracion = document.getElementById('tipoColaboracion');
         const forms = {
             DINERO: document.getElementById('dineroForm'),
-            OFRECER_PREMIOS: null,
-            HOSTEAR_HELADERA: null
+            OFRECER_PREMIOS: document.getElementById('dineroForm'),
+            HOSTEAR_HELADERA: document.getElementById('hostearHeladeraForm')
         };
+
+
 
         tipoColaboracion.addEventListener('change', function () {
             // Ocultar todos los formularios
@@ -36,9 +41,7 @@
             });
 
             // Redireccionar si la opción seleccionada es "Hostear Heladera"
-            if (this.value === 'HOSTEAR_HELADERA') {
-                window.location.href = "/colaboraciones/heladera";
-            }else  if (this.value === 'OFRECER_PREMIOS') {
+            if (this.value === 'OFRECER_PREMIOS') {
                 window.location.href = "/colaboraciones/premio";
             }
              else if (this.value && forms[this.value]) {
