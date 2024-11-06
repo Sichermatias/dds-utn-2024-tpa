@@ -38,7 +38,7 @@ public class Heladera extends Persistente {
     @Column(name = "ultimaFechaContadaParaPuntaje", columnDefinition = "DATE")
     private LocalDate ultimaFechaContadaParaPuntaje;
 
-    @Column(name = "cantMaxViandas", columnDefinition = "INTEGER(5)")
+    @Column(name = "cantDiasSinContarParaPuntaje", columnDefinition = "INTEGER(5)")
     private Integer cantDiasSinContarParaPuntaje;
 
     @Column(name = "desperfecto", columnDefinition = "BIT(1)")

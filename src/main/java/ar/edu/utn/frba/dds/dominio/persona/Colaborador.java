@@ -85,7 +85,7 @@ public class Colaborador extends Persistente {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
 
-    @Column(name = "cantSemanalViandasDonadas", columnDefinition = "INTEGER(5)")
+    @Column(name = "cantHeladerasHosteadasActual", columnDefinition = "INTEGER(5)")
     private Integer cantHeladerasHosteadasActual;
 
     public Colaborador() {
