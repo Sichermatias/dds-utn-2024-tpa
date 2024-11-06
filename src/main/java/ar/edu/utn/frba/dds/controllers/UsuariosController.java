@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class UsuariosController implements ICrudViewsHandler, WithSimplePersistenceUnit {
      private UsuarioRepositorio usuarioRepositorio;
@@ -42,15 +41,9 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
             model.put("colaborador", colaborador);
             model.put("tipo_rol", tipoRol);
             switch (tipoRol) {
-                case "COLABORADOR_HUMANO":
-                    context.render("/perfil/Perfil_Humano.hbs", model);
-                    break;
-                case "COLABORADOR_JURIDICO":
-                    context.render("/perfil/Perfil_Juridico.hbs", model);
-                    break;
-                default:
-                    context.render("LandingPage.hbs",model);
-                    break;
+                case "COLABORADOR_HUMANO" -> context.render("/perfil/Perfil_Humano.hbs", model);
+                case "COLABORADOR_JURIDICO" -> context.render("/perfil/Perfil_Juridico.hbs", model);
+                default -> context.render("LandingPage.hbs", model);
             }
         } else {
             context.redirect("/login");
@@ -193,7 +186,7 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
                 usuario.setContrasenia(password);
                 usuario.setNombreUsuario(nombreUsuario);
 
-                colaborador.setPuntaje(0);
+                colaborador.setPuntaje(0.0);
                 colaborador.setUsuario(usuario);
 
                 repositorioUsuario.persistir(usuario);

@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Setter
 @Getter
@@ -31,7 +30,7 @@ public class Colaboracion extends Persistente {
     @JoinColumn(name = "transaccion_id")
     private Transaccion transaccion;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id")
     private Colaborador colaborador;
 }

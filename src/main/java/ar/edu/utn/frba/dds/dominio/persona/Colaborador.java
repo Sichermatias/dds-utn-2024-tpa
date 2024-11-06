@@ -13,15 +13,12 @@ import ar.edu.utn.frba.dds.dominio.formulario.FormularioRespondido;
 import ar.edu.utn.frba.dds.dominio.infraestructura.FiltroSuscripcion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,10 +69,10 @@ public class Colaborador extends Persistente {
     private Ubicacion ubicacion;
 
     @Column(name = "puntaje", columnDefinition = "INTEGER(9)")
-    private Integer puntaje;
+    private Double puntaje;
 
     @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Suscripcion> suscripciones = new ArrayList<>();
+    private List<Suscripcion> suscripciones;
 
     @Column(name = "cantSemanalViandasDonadas", columnDefinition = "INTEGER(6)")
     private int cantSemanalViandasDonadas;
@@ -87,6 +84,9 @@ public class Colaborador extends Persistente {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
+
+    @Column(name = "cantSemanalViandasDonadas", columnDefinition = "INTEGER(5)")
+    private Integer cantHeladerasHosteadasActual;
 
     public Colaborador() {
         this.suscripciones = new ArrayList<>();

@@ -1,18 +1,14 @@
 package ar.edu.utn.frba.dds.services;
 
-import ar.edu.utn.frba.dds.controllers.ReporteViandasHeladeraController;
 import ar.edu.utn.frba.dds.dominio.colaboracion.*;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Modelo;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
-import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
 import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
-import ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks.GenerarReportesSemanales;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.FallosHeladeraRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ViandasDonadasColaboradorRepositorio;
 
 import java.time.LocalDate;
@@ -138,6 +134,10 @@ public class ColaboracionService {
         hostearHeladera.setFechaHoraAlta(LocalDateTime.now());
         hostearHeladera.setEnVigencia(true);
 
+        Colaborador colaborador = colaboracion.getColaborador();
+        Integer cantHeladerasHosteadas = colaborador.getCantHeladerasHosteadasActual();
+        colaborador.setCantHeladerasHosteadasActual(cantHeladerasHosteadas + 1);
+
         Transaccion transaccion = transaccionService.crearTransaccion(colaboracion.getColaborador(), hostearHeladera.puntaje());
 
         colaboracion.setTransaccion(transaccion);
@@ -196,5 +196,45 @@ public class ColaboracionService {
         registrarPersonasVulnerables.setColaboracion(colaboracion);
 
         colaboracionRepositorio.persistir(registrarPersonasVulnerables);
+    }
+
+    public void actualizarDiasSinAcumularPuntajeHosteoHeladera() {
+        List<HostearHeladera> hosteosHeladera = this.colaboracionRepositorio.buscarHosteosNoContadosParaElPuntajeEnMasDeUnDia();
+        if(hosteosHeladera.isEmpty())
+            return;
+
+        for(HostearHeladera hosteoHeladera: hosteosHeladera) {
+            LocalDate fechaDeHoy = LocalDate.now();
+
+            Heladera heladera = hosteoHeladera.getHeladera();
+            Integer cantDiasSinContarParaPuntaje = heladera.getCantDiasSinContarParaPuntaje();
+            heladera.setCantDiasSinContarParaPuntaje(cantDiasSinContarParaPuntaje + 1);
+
+            heladera.setUltimaFechaContadaParaPuntaje(fechaDeHoy);
+
+            this.colaboracionRepositorio.actualizar(hosteoHeladera);
+        }
+    }
+
+    public void actualizarPuntajeColaboradoresPorHosteoHeladera() {
+        List<HostearHeladera> hosteosHeladera = this.colaboracionRepositorio.buscarHosteosNoContadosParaElPuntajeEn(30);
+        if(hosteosHeladera.isEmpty())
+            return;
+
+        Double puntosHostearHeladera = hosteosHeladera.get(0).puntaje();
+        for(HostearHeladera hosteoHeladera: hosteosHeladera) {
+            Colaborador colaborador = hosteoHeladera.getColaboracion().getColaborador();
+            Double puntajeViejo = colaborador.getPuntaje();
+            Integer cantHeladerasHosteadas = colaborador.getCantHeladerasHosteadasActual();
+
+            colaborador.setPuntaje(puntajeViejo + cantHeladerasHosteadas * puntosHostearHeladera);
+
+            Heladera heladera = hosteoHeladera.getHeladera();
+            heladera.setCantDiasSinContarParaPuntaje(0);
+
+            //TODO: crear transaccion para actualizacion de puntaje
+
+            this.colaboracionRepositorio.actualizar(hosteoHeladera);
+        }
     }
 }

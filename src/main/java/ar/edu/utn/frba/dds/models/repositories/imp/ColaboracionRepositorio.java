@@ -9,6 +9,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class ColaboracionRepositorio extends BaseRepositorio implements WithSimplePersistenceUnit {
@@ -38,22 +40,15 @@ public class ColaboracionRepositorio extends BaseRepositorio implements WithSimp
     public Object obtenerColaboracionPorTipo(Colaboracion colaboracion) {
         String tipoColaboracion = colaboracion.getTipo(); // Suponiendo que hay un método getTipo() en Colaboracion
 
-        switch (tipoColaboracion) {
-            case "DINERO":
-                return buscarColaboracion(DonacionDinero.class, colaboracion);
-            case "DONACION_VIANDAS":
-                return buscarColaboracion(DonacionVianda.class, colaboracion);
-            case "HOSTEAR_HELADERA":
-                return buscarColaboracion(HostearHeladera.class, colaboracion);
-            case "OFRECER_PREMIOS":
-                return buscarColaboracion(OfrecerPremio.class, colaboracion);
-            case "REDISTRIBUCION_VIANDAS":
-                return buscarColaboracion(RedistribucionViandas.class, colaboracion);
-            case "ENTREGA_TARJETAS":
-                return buscarColaboracion(RegistrarPersonasVulnerables.class, colaboracion);
-            default:
-                return null;
-        }
+        return switch (tipoColaboracion) {
+            case "DINERO" -> buscarColaboracion(DonacionDinero.class, colaboracion);
+            case "DONACION_VIANDAS" -> buscarColaboracion(DonacionVianda.class, colaboracion);
+            case "HOSTEAR_HELADERA" -> buscarColaboracion(HostearHeladera.class, colaboracion);
+            case "OFRECER_PREMIOS" -> buscarColaboracion(OfrecerPremio.class, colaboracion);
+            case "REDISTRIBUCION_VIANDAS" -> buscarColaboracion(RedistribucionViandas.class, colaboracion);
+            case "ENTREGA_TARJETAS" -> buscarColaboracion(RegistrarPersonasVulnerables.class, colaboracion);
+            default -> null;
+        };
     }
 
     private <T> T buscarColaboracion(Class<T> tipoClase, Colaboracion colaboracion) {
@@ -65,5 +60,39 @@ public class ColaboracionRepositorio extends BaseRepositorio implements WithSimp
         criteriaQuery.select(root).where(condicion);
 
         return getEntityManager().createQuery(criteriaQuery).getResultStream().findFirst().orElse(null);
+    }
+
+    public List<HostearHeladera> buscarHosteosNoContadosParaElPuntajeEnMasDeUnDia() {
+        // Calculamos la fecha límite
+        LocalDate fechaLimite = LocalDate.now().minus(1, ChronoUnit.DAYS);
+
+        // Creamos la consulta
+        TypedQuery<HostearHeladera> query = this.getEntityManager().createQuery(
+                "SELECT hh FROM HostearHeladera hh " +
+                        "JOIN hh.heladera h " +
+                        "WHERE h.ultimaFechaContadaParaPuntaje <= :fechaLimite" +
+                        "AND h.desperfecto = false" +
+                        "AND hh.enVigencia = true",
+                HostearHeladera.class);
+
+        // Asignamos el parámetro de la fecha límite
+        query.setParameter("fechaLimite", fechaLimite);
+
+        return query.getResultList();
+    }
+
+    public List<HostearHeladera> buscarHosteosNoContadosParaElPuntajeEn(Integer dias) {
+        // Creamos la consulta
+        TypedQuery<HostearHeladera> query = this.getEntityManager().createQuery(
+                "SELECT hh FROM HostearHeladera hh " +
+                        "JOIN hh.heladera h " +
+                        "WHERE h.cantDiasSinContarParaPuntaje >= :dias" +
+                        "AND hh.enVigencia = true",
+                HostearHeladera.class);
+
+        // Asignamos el parámetro de la fecha límite
+        query.setParameter("dias", dias);
+
+        return query.getResultList();
     }
 }

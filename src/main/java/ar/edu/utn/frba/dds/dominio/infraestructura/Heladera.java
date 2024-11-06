@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.dominio.infraestructura;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
 import ar.edu.utn.frba.dds.dominio.colaboracion.DonacionVianda;
-import ar.edu.utn.frba.dds.dominio.colaboracion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 
 
@@ -38,6 +37,9 @@ public class Heladera extends Persistente {
 
     @Column(name = "ultimaFechaContadaParaPuntaje", columnDefinition = "DATE")
     private LocalDate ultimaFechaContadaParaPuntaje;
+
+    @Column(name = "cantMaxViandas", columnDefinition = "INTEGER(5)")
+    private Integer cantDiasSinContarParaPuntaje;
 
     @Column(name = "desperfecto", columnDefinition = "BIT(1)")
     public Boolean desperfecto;

@@ -16,7 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class PremiosController extends Controller implements ICrudViewsHandler {
@@ -42,28 +41,13 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
             Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
             model.put("usuario_id", usuarioId);
             model.put("tipo_rol", tipoRol);
-            model.put("puntaje", calcularPuntaje(colaborador));
+            model.put("puntaje", colaborador.getPuntaje());
             List<Premio> premios = this.premioRepositorio.buscarTodos(Premio.class);
             model.put("premios", premios);
             List<String> rubros = this.premioRepositorio.buscarTodosLosRubros();
             model.put("rubros", rubros);
             context.render("puntos_y_premios.hbs", model);
         }else context.redirect("/login?return=puntos-y-premios");
-    }
-    public Integer calcularPuntaje(Colaborador colaborador) {
-        List<Colaboracion> colaboraciones = ColaboracionRepositorio.getInstancia().obtenerColaboracionesPorColaboradorId(colaborador.getId());
-        int acumulador = 0;
-
-        for (Colaboracion colaboracion : colaboraciones) {
-            acumulador += colaboracion.getTransaccion().getMontoPuntaje();
-            if ("HOSTEAR_HELADERA".equals(colaboracion.getTipo())) {
-                LocalDate fechaActual = LocalDate.now();
-                long mesesActiva = ChronoUnit.MONTHS.between(colaboracion.getFechaColaboracion(), fechaActual);
-                acumulador += mesesActiva * 5;
-            }
-        }
-        colaborador.setPuntaje(acumulador);
-        return acumulador;
     }
 
     @Override

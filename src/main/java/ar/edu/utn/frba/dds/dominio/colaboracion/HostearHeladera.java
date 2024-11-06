@@ -13,11 +13,11 @@ import java.time.temporal.ChronoUnit;
 @Table(name = "hostearHeladera")
 @Getter @Setter
 public class HostearHeladera extends Persistente {
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaboracion_id")
     private Colaboracion colaboracion;
 
