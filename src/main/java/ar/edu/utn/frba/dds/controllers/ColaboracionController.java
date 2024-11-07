@@ -98,17 +98,6 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         }
     }
 
-    public void indexColaboracionHeladera(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        String tipoRol = context.sessionAttribute("tipo_rol");
-        Long usuarioId= context.sessionAttribute("usuario_id");
-        if (tipoRol != null) {
-            model.put("tipo_rol", tipoRol);
-            model.put("usuario_id", usuarioId);
-            context.render("/colaboraciones/formularios/colaboracion_heladera.hbs", model);
-        }else context.redirect("/login");
-    }
-
     public void indexColaboracionPremio(Context context) {
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");

@@ -1,3 +1,9 @@
+{{#partial "links"}}
+    <!-- Leaflet & Maps CSS Files -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+{{/partial}}
 {{#partial "contenido"}}
     <div class="row">
         <div class="col-md-12">
@@ -50,6 +56,11 @@
         });
     });
 </script>
-
+{{/partial}}
+{{#partial "scripts"}}
+    <!-- Leaflet & Maps JS Files -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="/js/MapaHostearHeladera.js"></script>
 {{/partial}}
 {{> templates/base title="Registrar Colaboración"}}

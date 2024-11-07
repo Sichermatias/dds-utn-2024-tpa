@@ -20,6 +20,7 @@ public class FactoryController {
             case "ViandasHeladeraReporte" -> new ReporteViandasHeladeraController();
             case "ViandasDonadasColaborador" -> new ViandasDonadasColaboradorController(new ViandasDonadasColaboradorRepositorio());
             case "RecomendadorPuntosDonacion" -> new RecomendadorPuntosDonacionController();
+            case "RecomendadorPuntos" -> new RecomendadorPuntosController();
             default -> null;
         };
     }

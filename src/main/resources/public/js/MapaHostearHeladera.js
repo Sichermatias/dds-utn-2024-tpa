@@ -66,7 +66,7 @@ map.on('click', function (e) {
     document.getElementById('lng').value = lng;
 
     reverseGeocode(lat, lng, function(address) {
-        var popupContent = '<p>' + address + '</p>';
+        var popupContent = '<p>' + address + '</p><a href="#" class="btn btn-sm btn-primary" onclick="obtenerPuntosRecomendados()">Obtener Recomendaciones</a>';
 
         document.getElementById('direccion').value = address;
 
@@ -76,3 +76,41 @@ map.on('click', function (e) {
             .openOn(map);
     });
 });
+
+
+
+function obtenerPuntosRecomendados () {
+
+    // Obtener los valores de los inputs del formulario
+    var latitud = $('#lat').val();
+    var longitud = $('#lng').val();
+    var radio = 5; // $('#radio').val();
+
+    // Realizar la solicitud AJAX con los parámetros necesarios
+    $.ajax({
+        url: '/recomendacion-puntos-heladera',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            latitud: latitud,
+            longitud: longitud,
+            radio: radio
+        }),
+        success: function (data) {
+            // data debe ser un array de puntos con formato [{lat: 10, long: 20}, {lat: 30, long: 40}]
+            if (Array.isArray(data.puntosRecomendados)) {
+                data.puntosRecomendados.forEach(function (punto) {
+                    // Agregar un marcador por cada punto
+                    L.marker([punto.latitud, punto.longitud]).addTo(map)
+                        .bindPopup('Recomendación en este punto')
+                        .openPopup();
+                });
+            } else {
+                console.error('Formato de datos incorrecto');
+            }
+        },
+        error: function (error) {
+            console.error('Error al obtener recomendaciones', error);
+        }
+    });
+}

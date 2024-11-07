@@ -31,7 +31,6 @@ public class Router {
         app.post("/colaboraciones/dinero", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDinero);
         app.post("/colaboraciones/vianda", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionVianda);
         app.post("/colaboraciones/redistribucion", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionDistribucion);
-        app.get("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexColaboracionHeladera);
         app.post("/colaboraciones/heladera", ((ColaboracionController) FactoryController.controller("Colaboracion"))::colaboracionHeladera);
         app.post("/colaboraciones/premio", ((PremiosController) FactoryController.controller("Premios"))::save);
         app.get("/colaboraciones/premio", ((ColaboracionController) FactoryController.controller("Colaboracion"))::indexColaboracionPremio);
@@ -58,6 +57,10 @@ public class Router {
         app.get("/reportes/viandas_heladera", ((ReporteViandasHeladeraController) FactoryController.controller("ViandasHeladeraReporte"))::index);
         app.get("/reportes/viandas_donadas_colaborador", ((ViandasDonadasColaboradorController) FactoryController.controller("ViandasDonadasColaborador"))::index);
 
+        //Recomendacion de Puntos de Colocacion de Heladeras
+        app.post("/recomendacion-puntos-heladera", ((RecomendadorPuntosController) FactoryController.controller("RecomendadorPuntos"))::obtenerPuntosRecomendados);
+
+        //Integracion con Servicio Externo
         app.get("/recomendador_puntos_donacion", ((RecomendadorPuntosDonacionController) FactoryController.controller("RecomendadorPuntosDonacion"))::index);
         app.post("/recomendador_puntos_donacion", ((RecomendadorPuntosDonacionController) FactoryController.controller("RecomendadorPuntosDonacion"))::recomendarPuntos);
     }
