@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.persona.*;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
-import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
@@ -87,10 +86,8 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         usuario.setContrasenia(password);
         usuario.setNombreUsuario(nombreUsuario);
 
-        Rol rol = new Rol();
-        rol.setTipo(TipoRol.COLABORADOR_JURIDICO);
-        rol.setNombreRol("Usuario");
-        usuario.setRol(rol);
+        List<Rol> rol = personaRepositorio.buscarPorRol(Rol.class,"PersonaJuridica");
+        usuario.setRol(rol.get(0));
 
         colaborador.setPuntaje(0.0);
         colaborador.setUsuario(usuario);
@@ -155,10 +152,8 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         usuario.setContrasenia(password);
         usuario.setNombreUsuario(nombreUsuario);
 
-        Rol rol = new Rol();
-        rol.setTipo(TipoRol.COLABORADOR_HUMANO);
-        rol.setNombreRol("Usuario");
-        usuario.setRol(rol);
+        List<Rol> rol = personaRepositorio.buscarPorRol(Rol.class,"PersonaHumana");
+        usuario.setRol(rol.get(0));
 
         colaborador.setPuntaje(0.0);
         colaborador.setUsuario(usuario);

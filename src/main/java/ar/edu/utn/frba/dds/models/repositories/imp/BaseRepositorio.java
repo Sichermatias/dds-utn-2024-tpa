@@ -116,6 +116,17 @@ public abstract class BaseRepositorio<T> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    public List<T> buscarPorRol(Class<T> claseEntidad, String nombre) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
+        Root<T> root = cq.from(claseEntidad);
+
+        Predicate condicion = cb.equal(root.get("nombreRol"), nombre);
+        cq.where(condicion);
+        cq.select(root);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
     public List<T> buscarPorDNI(Class<T> claseEntidad, String dni) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
