@@ -35,6 +35,9 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         context.render("/registro/Registro-Humana.hbs");
     }
 
+    public void formularioTecnico(Context context) {context.render("/registro/Registro-Tecnico.hbs");
+    }
+
     public void registrarJuridica(Context context) {
         String razonSocial = context.formParam("razonSocial");
         String tipoPersonaJuridica = context.formParam("tipoPersonaJuridica");

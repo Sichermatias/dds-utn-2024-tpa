@@ -6,7 +6,7 @@
         </a>
         <nav class="header-nav ms-auto">
             <ul class="navbar-nav d-flex flex-row">
-                {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
+                    {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
 
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
@@ -95,7 +95,7 @@
                     </li>
 
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/">CRUD USUARIOS</a>
+                        <a class="nav-link" href="/tecnico">Técnicos</a>
                     </li>
 
                     <li class="nav-item me-3">
@@ -120,6 +120,18 @@
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/logout">Cerrar Sesión</a>
                     </li>
+                    {{else if (eq tipo_rol "TECNICO")}}
+                                <li class="nav-item me-3">
+                                    <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
+                                </li>
+
+                                <li class="nav-item me-3">
+                                    <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
+                                </li>
+
+                                <li class="nav-item me-3">
+                                    <a class="nav-link" href="/heladeras">Heladeras</a>
+                                </li>
                     {{else}}
 
                     <li class="nav-item me-3">
@@ -131,7 +143,7 @@
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/registro">Registro</a>
                     </li>
-                {{/if}}
+                        {{/if}}
             </ul>
         </nav>
     </div>
