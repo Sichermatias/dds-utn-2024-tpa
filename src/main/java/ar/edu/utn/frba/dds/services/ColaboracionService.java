@@ -224,10 +224,9 @@ public class ColaboracionService {
         Double puntosHostearHeladera = hosteosHeladera.get(0).puntaje();
         for(HostearHeladera hosteoHeladera: hosteosHeladera) {
             Colaborador colaborador = hosteoHeladera.getColaboracion().getColaborador();
-            Double puntajeViejo = colaborador.getPuntaje();
             Integer cantHeladerasHosteadas = colaborador.getCantHeladerasHosteadasActual();
 
-            colaborador.setPuntaje(puntajeViejo + cantHeladerasHosteadas * puntosHostearHeladera);
+            colaborador.actualizarPuntajeSumandole(cantHeladerasHosteadas * puntosHostearHeladera);
 
             Heladera heladera = hosteoHeladera.getHeladera();
             heladera.setCantDiasSinContarParaPuntaje(0);

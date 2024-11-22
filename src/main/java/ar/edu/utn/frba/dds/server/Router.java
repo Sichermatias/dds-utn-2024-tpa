@@ -15,6 +15,8 @@ public class Router {
         app.get("/registro", ((RegistroUsuariosController) FactoryController.controller("Registro"))::elegirTipo);
         app.get("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioJuridica);
         app.get("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioHumana);
+        app.get("/tecnico", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioTecnico);
+        app.post("/tecnico", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarTecnico);
         app.post("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarJuridica);
         app.post("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarHumana);
         app.get("/check-username", ((RegistroUsuariosController) FactoryController.controller("Registro"))::checkUsername);
@@ -52,6 +54,8 @@ public class Router {
         app.post("/editar/juridica",((UsuariosController) FactoryController.controller("Usuarios"))::editJuridica);
 
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
+
+        app.post("/premio-canje", ((PremioCanjesController) FactoryController.controller("PremioCanjes"))::save);
 
         app.get("/reportes/fallos_heladera", ((FallosHeladeraController) FactoryController.controller("FallosHeladera"))::index);
         app.get("/reportes/viandas_heladera", ((ReporteViandasHeladeraController) FactoryController.controller("ViandasHeladeraReporte"))::index);

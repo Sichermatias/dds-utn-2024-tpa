@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -19,7 +18,4 @@ public class Transaccion extends Persistente {
     @ManyToOne
     @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private Colaborador colaborador;
-
-    //se va por persistente?
-    //private LocalDateTime fechaHora;
 }

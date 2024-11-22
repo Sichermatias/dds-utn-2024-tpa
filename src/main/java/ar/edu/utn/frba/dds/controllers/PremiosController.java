@@ -35,19 +35,33 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
     public void index(Context context) {
         Usuario usuario = this.usuarioLogueado(context);
         Map<String, Object> model = new HashMap<>();
-        Long usuarioId= context.sessionAttribute("usuario_id");
+        Long usuarioId = context.sessionAttribute("usuario_id");
         String tipoRol = context.sessionAttribute("tipo_rol");
         if (usuarioId != null) {
+            Boolean canjeado = Boolean.valueOf(context.queryParam("canjeado"));
+            Boolean faltaDeStock = Boolean.valueOf(context.queryParam("falta-de-stock"));
+            Boolean puntosInsuficientes = Boolean.valueOf(context.queryParam("puntos-insuficientes"));
+            Boolean error = Boolean.valueOf(context.queryParam("error"));
+
             Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
             model.put("usuario_id", usuarioId);
             model.put("tipo_rol", tipoRol);
             model.put("puntaje", colaborador.getPuntaje());
+
             List<Premio> premios = this.premioRepositorio.buscarTodos(Premio.class);
             model.put("premios", premios);
+
             List<String> rubros = this.premioRepositorio.buscarTodosLosRubros();
             model.put("rubros", rubros);
+
+            model.put("canjeado", canjeado);
+            model.put("faltaDeStock", faltaDeStock);
+            model.put("puntosInsuficientes", puntosInsuficientes);
+            model.put("error", error);
+
             context.render("puntos_y_premios.hbs", model);
-        }else context.redirect("/login?return=puntos-y-premios");
+        } else
+            context.redirect("/login?return=puntos-y-premios");
     }
 
     @Override
@@ -65,7 +79,7 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
         String nombre = context.formParam("nombre");
         List<RubroPremio> rubroPremio = this.premioRepositorio
                 .buscarRubroPorNombre(context.formParam("rubro"));
-        Integer cantidadPuntosNecesarios = Integer.valueOf(Objects.requireNonNull(context.formParam("cantPuntosNecesarios")));
+        Double cantidadPuntosNecesarios = Double.valueOf(Objects.requireNonNull(context.formParam("cantPuntosNecesarios")));
         Integer cantidadDonada = Integer.valueOf(Objects.requireNonNull(context.formParam("cantDonada")));
         LocalDateTime fechaHoraActual = LocalDateTime.now();
 
