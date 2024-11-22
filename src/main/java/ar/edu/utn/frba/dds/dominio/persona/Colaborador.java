@@ -155,4 +155,8 @@ public class Colaborador extends Persistente {
         return nroDocumento;
     }
 
+    public void actualizarPuntajeSumandole(Double monto) {
+        this.puntaje += monto;
+    }
+
 }

@@ -1,0 +1,103 @@
+package ar.edu.utn.frba.dds.controllers;
+
+import ar.edu.utn.frba.dds.dominio.colaboracion.Premio;
+import ar.edu.utn.frba.dds.dominio.colaboracion.PremioCanje;
+import ar.edu.utn.frba.dds.dominio.colaboracion.Transaccion;
+import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.PremioCanjeRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.PremioRepositorio;
+import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
+import io.javalin.http.Context;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+public class PremioCanjesController extends Controller implements ICrudViewsHandler {
+    private final ColaboradorRepositorio colaboradorRepositorio;
+    private final PremioRepositorio premioRepositorio;
+    private final PremioCanjeRepositorio premioCanjeRepositorio;
+
+    public PremioCanjesController(ColaboradorRepositorio colaboradorRepositorio, PremioRepositorio premioRepositorio, PremioCanjeRepositorio premioCanjeRepositorio) {
+        this.colaboradorRepositorio = colaboradorRepositorio;
+        this.premioRepositorio = premioRepositorio;
+        this.premioCanjeRepositorio = premioCanjeRepositorio;
+    }
+
+    @Override
+    public void index(Context context) {
+
+    }
+
+    @Override
+    public void show(Context context) {
+
+    }
+
+    @Override
+    public void create(Context context) {
+
+    }
+
+    @Override
+    public void save(Context context) throws IOException {
+        try {
+            Usuario usuario = this.usuarioLogueado(context);
+            if (usuario != null) {
+                LocalDateTime fechaHoraActual = LocalDateTime.now();
+
+                Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
+
+                long premioId = Long.parseLong(Objects.requireNonNull(context.formParam("premioId")));
+                System.out.println(premioId);
+                Premio premio = this.premioRepositorio.buscarPorId(Premio.class, premioId);
+
+                if(premio.getCantidadDisponible() <= 0)
+                    throw new RuntimeException();
+
+                premio.restarleAlStock(1);
+
+                Double valorTransaccion = premio.getCantidadPuntosNecesarios() * -1;
+
+                Transaccion transaccion = new Transaccion();
+                transaccion.setFechaHoraAlta(fechaHoraActual);
+                transaccion.setColaborador(colaborador);
+                transaccion.setMontoPuntaje(valorTransaccion);
+
+                colaborador.actualizarPuntajeSumandole(valorTransaccion);
+
+                PremioCanje premioCanje = new PremioCanje();
+                premioCanje.setFechaHoraAlta(fechaHoraActual);
+                premioCanje.setPremio(premio);
+                premioCanje.setTransaccion(transaccion);
+                premioCanje.setColaborador(colaborador);
+
+                this.premioCanjeRepositorio.persistir(premioCanje);
+
+                context.redirect("/puntos-y-premios?canjeado=" + true);
+            } else
+                context.redirect("/login?return=puntos-y-premios");
+        } catch (Exception e) {
+            context.redirect("/puntos-y-premios?error=" + true);
+        }
+
+
+    }
+
+    @Override
+    public void edit(Context context) {
+
+    }
+
+    @Override
+    public void update(Context context) {
+
+    }
+
+    @Override
+    public void delete(Context context) {
+
+    }
+}

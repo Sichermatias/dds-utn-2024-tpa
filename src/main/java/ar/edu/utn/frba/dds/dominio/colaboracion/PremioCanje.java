@@ -2,13 +2,16 @@ package ar.edu.utn.frba.dds.dominio.colaboracion;
 
 import ar.edu.utn.frba.dds.dominio.Persistente;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "canje_premio")
-public class CanjePremio extends Persistente {
-    @OneToOne()
+@Getter @Setter
+public class PremioCanje extends Persistente {
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "transaccion_id", referencedColumnName = "id")
     private Transaccion transaccion;
 

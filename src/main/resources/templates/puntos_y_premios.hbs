@@ -56,6 +56,18 @@
             </select>
         </div>
 
+        {{#if canjeado}}
+            <div class="alert alert-success text-left" role="alert">
+                ¡Premio canjeado! Para ver sus premios, dirígase a <a href="/mis-premios" class="alert-link">mis premios</a>.
+            </div>
+        {{/if}}
+
+        {{#if error}}
+            <div class="alert alert-danger text-left" role="alert">
+                Lo sentimos, algo ha salido mal. Por favor, intente nuevamente.
+            </div>
+        {{/if}}
+
         <!-- Contenedor de premios en cards -->
         <div class="row row-cols-1 row-cols-md-3 g-4" id="premios-container">
             {{#if premios.length}}
@@ -73,7 +85,10 @@
                                 <h5 class="card-title">{{nombre}}</h5>
                                 <p class="card-text">Puntos necesarios: {{cantidadPuntosNecesarios}}</p>
                                 <div class="d-grid">
-                                    <button class="btn btn-primary">Canjear</button>
+                                    <form action="/premio-canje" method="POST">
+                                        <input type="hidden" name="premioId" value="{{id}}">
+                                        <button type="submit" class="btn btn-primary">Canjear</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

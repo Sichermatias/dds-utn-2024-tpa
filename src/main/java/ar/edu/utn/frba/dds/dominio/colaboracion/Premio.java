@@ -21,8 +21,12 @@ public class Premio extends Persistente {
     private String imagenPremio;
 
     @Column(name = "cantidadPuntosNecesarios")
-    private Integer cantidadPuntosNecesarios;
+    private Double cantidadPuntosNecesarios;
 
     @Column(name = "cantidadDisponible")
     private Integer cantidadDisponible;
+
+    public void restarleAlStock(int cantidad) {
+        this.cantidadDisponible -= cantidad;
+    }
 }

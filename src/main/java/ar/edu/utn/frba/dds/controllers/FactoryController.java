@@ -12,6 +12,7 @@ public class FactoryController {
             case "Usuarios" -> new UsuariosController(new UsuarioRepositorio());
             case "LandingPage" -> new LandingPageController();
             case "Premios" -> new PremiosController(new ColaboradorRepositorio(), new PremioRepositorio(), new ColaboracionRepositorio());
+            case "PremioCanjes" -> new PremioCanjesController(new ColaboradorRepositorio(), new PremioRepositorio(), new PremioCanjeRepositorio());
             case "CargaMasiva" -> new CargaMasivaController();
             case "Colaboracion" -> ServiceLocator.instanceOf(ColaboracionController.class);
             case "Heladeras" -> new HeladerasController();
