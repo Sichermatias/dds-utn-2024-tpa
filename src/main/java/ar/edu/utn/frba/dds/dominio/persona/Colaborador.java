@@ -86,7 +86,7 @@ public class Colaborador extends Persistente {
     private Usuario usuario;
 
     @Column(name = "cantHeladerasHosteadasActual", columnDefinition = "INTEGER(5)")
-    private Integer cantHeladerasHosteadasActual;
+    private Integer cantHeladerasHosteadasActual = 0;
 
     public Colaborador() {
         this.suscripciones = new ArrayList<>();
