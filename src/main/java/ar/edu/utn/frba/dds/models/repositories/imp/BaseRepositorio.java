@@ -11,7 +11,6 @@ import java.util.List;
 public abstract class BaseRepositorio<T> {
     protected abstract EntityManager getEntityManager();
 
-
     public List<T> buscarPorUsuarioId(Class<T> claseEntidad, Long usuarioId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(claseEntidad);

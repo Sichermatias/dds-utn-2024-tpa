@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.VisitaIncidente;
+import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,10 +32,10 @@ public class Tecnico extends Persistente {
     private TipoDocumento tipoDocumento;
 
     @Column(name = "nroDocumento", columnDefinition = "INTEGER(11)")
-    private Integer nroDocumento;
+    private String nroDocumento;
 
     @Column(name = "nroCuil", columnDefinition = "VARCHAR(50)")
-    private Integer Cuil;
+    private String Cuil;
 
     @Column(name = "telegramID", columnDefinition = "VARCHAR(50)")
     private String telegramID;
@@ -52,8 +53,15 @@ public class Tecnico extends Persistente {
     @JoinColumn(name = "tecnico_id")
     private List<Incidente> incidentesAsignados;
 
-    public Tecnico(String nombre, String apellido, Integer cuil, TipoDocumento tipoDocumento,
-                   Integer nroDocumento, MedioDeContacto medioDeContacto, List<Localidad> localidades,List<Incidente> incidentesAsignados) {
+
+    //TODO HACERLO EN DIAGRAMA
+    @Setter@Getter
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private Usuario usuario;
+
+    public Tecnico(String nombre, String apellido, String cuil, TipoDocumento tipoDocumento,
+                   String nroDocumento, MedioDeContacto medioDeContacto, List<Localidad> localidades,List<Incidente> incidentesAsignados) {
         this.nombre = nombre;
         this.apellido = apellido;
         Cuil = cuil;
@@ -64,9 +72,16 @@ public class Tecnico extends Persistente {
         this.incidentesAsignados = incidentesAsignados;
     }
 
+    public Tecnico() {
+
+    }
+
     public void agregarIncidente(Incidente incidente){
         //agrega incidente asignado a la lista
         incidentesAsignados.add(incidente);
+    }
+    public void agregarLocalidadServicio(Localidad localidad){
+        localidadesDeServicio.add(localidad);
     }
 
     public boolean resolverIncidente(Incidente incidenteAResolver){
@@ -90,4 +105,5 @@ public class Tecnico extends Persistente {
 
         return resolucion;
     }
+
 }

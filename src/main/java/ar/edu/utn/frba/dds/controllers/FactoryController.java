@@ -8,7 +8,7 @@ public class FactoryController {
     public static Object controller(String nombre) {
         return switch (nombre) {
             case "Login" -> new LoginController(new UsuarioRepositorio());
-            case "Registro" -> new RegistroUsuariosController(new ColaboradorRepositorio());
+            case "Registro" -> new RegistroUsuariosController(new ColaboradorRepositorio(),new LocalidadRepositorio());
             case "Usuarios" -> new UsuariosController(new UsuarioRepositorio());
             case "LandingPage" -> new LandingPageController();
             case "Premios" -> new PremiosController(new ColaboradorRepositorio(), new PremioRepositorio(), new ColaboracionRepositorio());
