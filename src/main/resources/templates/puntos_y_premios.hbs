@@ -62,6 +62,18 @@
             </div>
         {{/if}}
 
+        {{#if faltaDeStock}}
+            <div class="alert alert-danger text-left" role="alert">
+                Lo sentimos, ese premio ya no se encuentra disponible :(
+            </div>
+        {{/if}}
+
+        {{#if puntosInsuficientes}}
+            <div class="alert alert-danger text-left" role="alert">
+                No se pudo completar la transacción por falta de puntos. Reúna más puntos e intente nuevamente.
+            </div>
+        {{/if}}
+
         {{#if error}}
             <div class="alert alert-danger text-left" role="alert">
                 Lo sentimos, algo ha salido mal. Por favor, intente nuevamente.

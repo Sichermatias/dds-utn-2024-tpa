@@ -39,6 +39,8 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
         String tipoRol = context.sessionAttribute("tipo_rol");
         if (usuarioId != null) {
             Boolean canjeado = Boolean.valueOf(context.queryParam("canjeado"));
+            Boolean faltaDeStock = Boolean.valueOf(context.queryParam("falta-de-stock"));
+            Boolean puntosInsuficientes = Boolean.valueOf(context.queryParam("puntos-insuficientes"));
             Boolean error = Boolean.valueOf(context.queryParam("error"));
 
             Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
@@ -53,6 +55,8 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
             model.put("rubros", rubros);
 
             model.put("canjeado", canjeado);
+            model.put("faltaDeStock", faltaDeStock);
+            model.put("puntosInsuficientes", puntosInsuficientes);
             model.put("error", error);
 
             context.render("puntos_y_premios.hbs", model);

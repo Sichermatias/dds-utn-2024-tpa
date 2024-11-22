@@ -8,6 +8,8 @@ import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PremioCanjeRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PremioRepositorio;
+import ar.edu.utn.frba.dds.server.exceptions.FaltaDeStockException;
+import ar.edu.utn.frba.dds.server.exceptions.PuntosInsuficientesException;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 
@@ -55,11 +57,14 @@ public class PremioCanjesController extends Controller implements ICrudViewsHand
                 Premio premio = this.premioRepositorio.buscarPorId(Premio.class, premioId);
 
                 if(premio.getCantidadDisponible() <= 0)
-                    throw new RuntimeException();
+                    throw new FaltaDeStockException();
 
-                premio.restarleAlStock(1);
+                if(colaborador.getPuntaje() < premio.getCantidadPuntosNecesarios())
+                    throw new PuntosInsuficientesException();
 
                 Double valorTransaccion = premio.getCantidadPuntosNecesarios() * -1;
+
+                premio.restarleAlStock(1);
 
                 Transaccion transaccion = new Transaccion();
                 transaccion.setFechaHoraAlta(fechaHoraActual);
@@ -79,6 +84,10 @@ public class PremioCanjesController extends Controller implements ICrudViewsHand
                 context.redirect("/puntos-y-premios?canjeado=" + true);
             } else
                 context.redirect("/login?return=puntos-y-premios");
+        } catch (PuntosInsuficientesException e) {
+            context.redirect("/puntos-y-premios?puntos-insuficientes=" + true);
+        } catch (FaltaDeStockException e) {
+            context.redirect("/puntos-y-premios?falta-de-stock=" + true);
         } catch (Exception e) {
             context.redirect("/puntos-y-premios?error=" + true);
         }
