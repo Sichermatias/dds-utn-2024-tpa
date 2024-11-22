@@ -33,6 +33,11 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
 
     @Override
     public void index(Context context) {
+        // Encabezados para evitar caché
+        context.header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+        context.header("Pragma", "no-cache");
+        context.header("Expires", "0");
+
         Usuario usuario = this.usuarioLogueado(context);
         Map<String, Object> model = new HashMap<>();
         Long usuarioId = context.sessionAttribute("usuario_id");
@@ -44,8 +49,10 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
             Boolean error = Boolean.valueOf(context.queryParam("error"));
 
             Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
+            this.colaboracionRepositorio.actualizar(colaborador);
             model.put("usuario_id", usuarioId);
             model.put("tipo_rol", tipoRol);
+            System.out.println("El puntaje es de " + colaborador.getPuntaje());
             model.put("puntaje", colaborador.getPuntaje());
 
             List<Premio> premios = this.premioRepositorio.buscarTodos(Premio.class);
