@@ -16,6 +16,7 @@ public class Router {
         app.get("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioJuridica);
         app.get("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioHumana);
         app.get("/tecnico", ((RegistroUsuariosController) FactoryController.controller("Registro"))::formularioTecnico);
+        app.post("/tecnico", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarTecnico);
         app.post("/registro/juridica", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarJuridica);
         app.post("/registro/humana", ((RegistroUsuariosController) FactoryController.controller("Registro"))::registrarHumana);
         app.get("/check-username", ((RegistroUsuariosController) FactoryController.controller("Registro"))::checkUsername);

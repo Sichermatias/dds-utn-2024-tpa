@@ -1,11 +1,13 @@
 package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
+import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.persona.*;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.LocalidadRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -17,10 +19,11 @@ import java.util.List;
 
 public class RegistroUsuariosController implements WithSimplePersistenceUnit {
     private final ColaboradorRepositorio personaRepositorio;
+    private final LocalidadRepositorio localidadRepositorio;
 
-    public RegistroUsuariosController(ColaboradorRepositorio personaRepositorio) {
+    public RegistroUsuariosController(ColaboradorRepositorio personaRepositorio, LocalidadRepositorio localidadRepositorio) {
         this.personaRepositorio = personaRepositorio;
-
+        this.localidadRepositorio= localidadRepositorio;
     }
 
     public void elegirTipo(Context context) {
@@ -36,6 +39,64 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
     }
 
     public void formularioTecnico(Context context) {context.render("/registro/Registro-Tecnico.hbs");
+    }
+
+    public void registrarTecnico(Context context) {
+        String nombre = context.formParam("nombre");
+        String apellido = context.formParam("apellido");
+        String tipoDocumento = context.formParam("tipoDocumento");
+        String nroDocumento = context.formParam("nroDocumento");
+        String cuil = context.formParam("cuil");
+        String telegramID = context.formParam("telegramID");
+
+        List<String> mediosDeContacto = context.formParams("medioDeContacto[]");
+        List<String> datosDeContacto = context.formParams("datoContacto[]");
+
+        List<String> localidadesDeServicio = context.formParams("localidadesDeServicio");
+
+        Tecnico tecnico = new Tecnico();
+        tecnico.setNombre(nombre);
+        tecnico.setApellido(apellido);
+        tecnico.setTipoDocumento(TipoDocumento.valueOf(tipoDocumento));
+        tecnico.setNroDocumento(nroDocumento);
+        tecnico.setCuil(cuil);
+        tecnico.setTelegramID(telegramID);
+
+        // Fecha de alta del técnico
+        tecnico.setFechaHoraAlta(LocalDateTime.now());
+
+            NombreDeMedioDeContacto nombreMedio = new NombreDeMedioDeContacto(mediosDeContacto.get(0));
+            MedioDeContacto medioDeContacto = new MedioDeContacto(nombreMedio, datosDeContacto.get(0));
+            tecnico.setMedioDeContacto(medioDeContacto);
+
+        // Asociar las localidades de servicio
+        for (String localidad : localidadesDeServicio) {
+            Localidad localidadServicio = localidadRepositorio.buscarPorNombre(Localidad.class, localidad).get(0);
+            if (localidadServicio != null) {
+                tecnico.agregarLocalidadServicio(localidadServicio);
+            }
+        }
+
+        // Crear y asociar el usuario
+        String nombreUsuario = context.formParam(nombre+apellido);
+        String password = context.formParam(cuil);
+
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario(nombreUsuario);
+        usuario.setContrasenia(password);
+
+        List<Rol> roles = personaRepositorio.buscarPorRol(Rol.class, "Tecnico");
+        if (!roles.isEmpty()) {
+            usuario.setRol(roles.get(0));
+        }
+
+        tecnico.setUsuario(usuario);
+
+        // Persistir el técnico
+        personaRepositorio.persistir(tecnico);
+
+        // Redirigir al login tras el registro exitoso
+        context.status(HttpStatus.CREATED).redirect("/login");
     }
 
     public void registrarJuridica(Context context) {
@@ -99,7 +160,6 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
 
         context.status(HttpStatus.CREATED).redirect("/login");
     }
-
 
     public void registrarHumana(Context context) {
 

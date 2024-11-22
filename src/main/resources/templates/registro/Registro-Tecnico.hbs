@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="col-md-6">
             <div class="form-container bg-white p-4 rounded shadow">
-                <form id="registroTecnicoForm" action="/registro/tecnico" method="POST">
+                <form id="registroTecnicoForm" action="/tecnico" method="POST">
                     <h1 class="text-center text-primary">Registrar Técnico</h1>
 
                     <!-- Nombre y Apellido -->
@@ -42,17 +42,18 @@
 
                     <!-- Medio de Contacto -->
                     <div id="contact-fields">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <select class="form-control" id="medioDeContacto" name="medioDeContacto[]" required>
+                        <!-- Conjunto inicial -->
+                        <div class="form-row align-items-center contact-row">
+                            <div class="form-group col-md-5">
+                                <select class="form-control" name="medioDeContacto[]" required>
                                     <option value="" disabled selected>Selecciona Medio de Contacto</option>
                                     <option value="E-MAIL">E-MAIL</option>
                                     <option value="WHATSAPP">WHATSAPP</option>
                                     <option value="TELEFONO LINEA">TELEFONO LINEA</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" id="datoContacto" name="datoContacto[]" placeholder="Dato de Contacto" required>
+                            <div class="form-group col-md-5">
+                                <input type="text" class="form-control" name="datoContacto[]" placeholder="Dato de Contacto" required>
                             </div>
                         </div>
                     </div>
@@ -83,12 +84,13 @@
         const addContactButton = document.querySelector('.add-contact');
         const contactFieldsContainer = document.getElementById('contact-fields');
 
+        // Agregar nuevo conjunto de campos de contacto
         addContactButton.addEventListener('click', () => {
             const contactRow = document.createElement('div');
-            contactRow.className = 'form-row mt-2';
+            contactRow.className = 'form-row align-items-center contact-row mt-2';
 
             contactRow.innerHTML = `
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-5">
                     <select class="form-control" name="medioDeContacto[]" required>
                         <option value="" disabled selected>Selecciona Medio de Contacto</option>
                         <option value="E-MAIL">E-MAIL</option>
@@ -96,11 +98,22 @@
                         <option value="TELEFONO LINEA">TELEFONO LINEA</option>
                     </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-5">
                     <input type="text" class="form-control" name="datoContacto[]" placeholder="Dato de Contacto" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger btn-sm remove-contact">Eliminar</button>
                 </div>
             `;
             contactFieldsContainer.appendChild(contactRow);
+        });
+
+        // Delegar evento para eliminar un conjunto de campos de contacto
+        contactFieldsContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-contact')) {
+                const contactRow = event.target.closest('.contact-row');
+                contactFieldsContainer.removeChild(contactRow);
+            }
         });
     });
 </script>
