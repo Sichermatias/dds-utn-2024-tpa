@@ -5,7 +5,7 @@
 }
 
 /* Tarjeta con tamaño fijo para asegurar proporciones */
-.card {
+.card-premio {
     max-width: 300px; /* Ajusta según prefieras */
     height: 420px; /* Altura fija para mantener consistencia */
 }

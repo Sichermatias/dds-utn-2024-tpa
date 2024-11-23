@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <!-- Sección para donar premios, ocupa el ancho total -->
+        <!-- Sección para donar premios, ocupa el mismo espacio que las cards -->
         {{#if (eq tipo_rol "COLABORADOR_JURIDICO")}}
             <div class="col-12 mb-4">
                 <div class="card mb-3 shadow-sm">
@@ -74,7 +74,7 @@
             {{#if premios.length}}
                 {{#each premios}}
                     <div class="col-3 product-card" data-category="{{rubro.nombre}}">
-                        <div class="card h-100">
+                        <div class="card card-premio h-100">
                             <div class="card-img-container">
                                 {{#if imagenPremio}}
                                     <img src="{{imagenPremio}}" class="card-img-top" alt="{{nombre}}">
