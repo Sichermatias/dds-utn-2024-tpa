@@ -50,7 +50,7 @@ public class PremioCanjesController extends Controller implements ICrudViewsHand
 
             context.render("puntosYPremios/mis_premios.hbs", model);
         } else
-            context.redirect("/login?return=mis-premios");
+            context.redirect("/login?return=puntos-y-premios/mis-premios");
     }
 
     @Override

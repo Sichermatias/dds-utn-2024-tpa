@@ -1,149 +1,149 @@
 <header id="header" class="header d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
+        <!-- Logo -->
         <a href="/" class="logo d-flex align-items-center">
-            <img src="/assets/img/icon.png" alt="" class="me-2">
+            <img src="/assets/img/icon.png" alt="Logo" class="me-2">
             <span>SISTEMA MAACVS</span>
         </a>
+
+        <!-- Navigation -->
         <nav class="header-nav ms-auto">
-            <ul class="navbar-nav d-flex flex-row">
-                    {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
-
+            <ul class="navbar-nav d-flex flex-row align-items-center">
+                {{#if (eq tipo_rol "COLABORADOR_HUMANO")}}
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
+                        <a class="nav-link" href="/colaboraciones"><i class="bi bi-people"></i> Colaboraciones</a>
                     </li>
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
-                    </li>
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/heladeras">Heladeras</a>
-                    </li>
-
                     <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">Reportes</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="puntosPremiosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-trophy"></i> Puntos y premios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="puntosPremiosDropdown">
+                            <li><a class="dropdown-item" href="/puntos-y-premios"><i class="bi bi-arrow-left-right"></i> Canjear puntos por premios</a></li>
+                            <li><a class="dropdown-item" href="/puntos-y-premios/mis-premios"><i class="bi bi-gift"></i> Mis premios</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/heladeras"><i class="bi bi-thermometer-snow"></i> Heladeras</a>
+                    </li>
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bar-chart-line"></i> Reportes
+                        </a>
                         <ul class="dropdown-menu" aria-labelledby="reportesDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/reportes/fallos_heladera">Fallos de Heladeras</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/reportes/viandas_heladera">Viandas Por Heladeras</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/reportes/viandas_donadas_colaborador">Viandas Donadas Por Colaborador</a>
-                            </li>
+                            <li><a class="dropdown-item" href="/reportes/fallos_heladera"><i class="bi bi-exclamation-triangle"></i> Fallos de Heladeras</a></li>
+                            <li><a class="dropdown-item" href="/reportes/viandas_heladera"><i class="bi bi-box"></i> Viandas Por Heladeras</a></li>
+                            <li><a class="dropdown-item" href="/reportes/viandas_donadas_colaborador"><i class="bi bi-people"></i> Viandas Donadas Por Colaborador</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">Alertas</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="alertasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bell"></i> Alertas
+                        </a>
                         <ul class="dropdown-menu" aria-labelledby="alertasDropdown">
-
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle"></i> Sin alertas</a></li>
                         </ul>
                     </li>
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/perfil">Mi cuenta</a>
-                    </li>
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="miCuentaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> Mi cuenta
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="miCuentaDropdown">
+                            <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person"></i> Ver perfil</a></li>
+                            <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
+                        </ul>
                     </li>
                 {{else if (eq tipo_rol "COLABORADOR_JURIDICO")}}
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
+                        <a class="nav-link" href="/colaboraciones"><i class="bi bi-people"></i> Colaboraciones</a>
                     </li>
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
-                    </li>
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/heladeras">Heladeras</a>
-                    </li>
-
                     <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">Reportes</a>
-                        <ul class="dropdown-menu" aria-labelledby="reportesDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/reportes/fallos_heladera">Fallos de Heladeras</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/reportes/viandas_heladera">Viandas Por Heladeras</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/reportes/viandas_donadas_colaborador">Viandas Donadas Por Colaborador</a>
-                            </li>
+                        <a class="nav-link dropdown-toggle" href="#" id="puntosPremiosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-trophy"></i> Puntos y premios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="puntosPremiosDropdown">
+                            <li><a class="dropdown-item" href="/puntos-y-premios"><i class="bi bi-arrow-left-right"></i> Canjear puntos por premios</a></li>
+                            <li><a class="dropdown-item" href="/puntos-y-premios/mis-premios"><i class="bi bi-gift"></i> Mis premios</a></li>
+                            <li><a class="dropdown-item" href="/colaboraciones/premio"><i class="bi bi-bag-heart"></i> Donar premio</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/perfil">Mi cuenta</a>
+                        <a class="nav-link" href="/heladeras"><i class="bi bi-thermometer-snow"></i> Heladeras</a>
                     </li>
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bar-chart-line"></i> Reportes
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reportesDropdown">
+                            <li><a class="dropdown-item" href="/reportes/fallos_heladera"><i class="bi bi-exclamation-triangle"></i> Fallos de Heladeras</a></li>
+                            <li><a class="dropdown-item" href="/reportes/viandas_heladera"><i class="bi bi-box"></i> Viandas Por Heladeras</a></li>
+                            <li><a class="dropdown-item" href="/reportes/viandas_donadas_colaborador"><i class="bi bi-people"></i> Viandas Donadas Por Colaborador</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="miCuentaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> Mi cuenta
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="miCuentaDropdown">
+                            <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person"></i> Ver perfil</a></li>
+                            <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
+                        </ul>
                     </li>
                 {{else if (eq tipo_rol "ADMIN")}}
-
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
+                        <a class="nav-link" href="/colaboraciones"><i class="bi bi-people"></i> Colaboraciones</a>
                     </li>
-
-
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/cargamasiva">Carga masiva</a>
+                        <a class="nav-link" href="/cargamasiva"><i class="bi bi-upload"></i> Carga masiva</a>
                     </li>
-
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/tecnico">Técnicos</a>
+                        <a class="nav-link" href="/tecnico"><i class="bi bi-tools"></i> Técnicos</a>
                     </li>
-
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/heladeras">Heladeras</a>
+                        <a class="nav-link" href="/heladeras"><i class="bi bi-thermometer-snow"></i> Heladeras</a>
                     </li>
-
                     <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">Reportes</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bar-chart-line"></i> Reportes
+                        </a>
                         <ul class="dropdown-menu" aria-labelledby="reportesDropdown">
-                            <li>
-                                <a class="dropdown-item" href="reportes/fallos_heladera">Fallos de Heladeras</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="reportes/viandas_heladera">Viandas Por Heladeras</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="reportes/viandas_donadas_colaborador">Viandas Donadas Por Colaborador</a>
-                            </li>
+                            <li><a class="dropdown-item" href="/reportes/fallos_heladera"><i class="bi bi-exclamation-triangle"></i> Fallos de Heladeras</a></li>
+                            <li><a class="dropdown-item" href="/reportes/viandas_heladera"><i class="bi bi-box"></i> Viandas Por Heladeras</a></li>
+                            <li><a class="dropdown-item" href="/reportes/viandas_donadas_colaborador"><i class="bi bi-people"></i> Viandas Donadas Por Colaborador</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                        <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
                     </li>
-                    {{else if (eq tipo_rol "TECNICO")}}
-                                <li class="nav-item me-3">
-                                    <a class="nav-link" href="/colaboraciones">Colaboraciones</a>
-                                </li>
-
-                                <li class="nav-item me-3">
-                                    <a class="nav-link" href="/puntos-y-premios">Puntos y premios</a>
-                                </li>
-
-                                <li class="nav-item me-3">
-                                    <a class="nav-link" href="/heladeras">Heladeras</a>
-                                </li>
-                    {{else}}
-
+                {{else if (eq tipo_rol "TECNICO")}}
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/nosotros">Acerca de Nosotros</a>
+                        <a class="nav-link" href="/colaboraciones"><i class="bi bi-people"></i> Colaboraciones</a>
                     </li>
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/login">Ingreso</a>
+                        <a class="nav-link" href="/puntos-y-premios"><i class="bi bi-trophy"></i> Puntos y premios</a>
                     </li>
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="/registro">Registro</a>
+                        <a class="nav-link" href="/heladeras"><i class="bi bi-thermometer-snow"></i> Heladeras</a>
                     </li>
-                        {{/if}}
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="miCuentaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> Mi cuenta
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="miCuentaDropdown">
+                            <li><a class="dropdown-item" href="/perfil"><i class="bi bi-person"></i> Ver perfil</a></li>
+                            <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                {{else}}
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/nosotros"><i class="bi bi-info-circle"></i> Acerca de Nosotros</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/login"><i class="bi bi-box-arrow-in-right"></i> Ingreso</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="/registro"><i class="bi bi-person-plus"></i> Registro</a>
+                    </li>
+                {{/if}}
             </ul>
         </nav>
     </div>
