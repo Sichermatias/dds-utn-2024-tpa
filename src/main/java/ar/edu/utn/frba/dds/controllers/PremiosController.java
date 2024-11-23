@@ -49,10 +49,9 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
             Boolean error = Boolean.valueOf(context.queryParam("error"));
 
             Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
-            this.colaboracionRepositorio.actualizar(colaborador);
+            this.colaboradorRepositorio.actualizar(colaborador);
             model.put("usuario_id", usuarioId);
             model.put("tipo_rol", tipoRol);
-            System.out.println("El puntaje es de " + colaborador.getPuntaje());
             model.put("puntaje", colaborador.getPuntaje());
 
             List<Premio> premios = this.premioRepositorio.buscarTodos(Premio.class);
@@ -66,7 +65,7 @@ public class PremiosController extends Controller implements ICrudViewsHandler {
             model.put("puntosInsuficientes", puntosInsuficientes);
             model.put("error", error);
 
-            context.render("puntos_y_premios.hbs", model);
+            context.render("puntosYPremios/puntos_y_premios.hbs", model);
         } else
             context.redirect("/login?return=puntos-y-premios");
     }

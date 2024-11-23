@@ -15,6 +15,9 @@ import io.javalin.http.Context;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class PremioCanjesController extends Controller implements ICrudViewsHandler {
@@ -30,7 +33,24 @@ public class PremioCanjesController extends Controller implements ICrudViewsHand
 
     @Override
     public void index(Context context) {
+        Usuario usuario = this.usuarioLogueado(context);
+        Map<String, Object> model = new HashMap<>();
+        Long usuarioId = context.sessionAttribute("usuario_id");
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        if (usuarioId != null) {
+            Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
 
+            model.put("usuario_id", usuarioId);
+            model.put("tipo_rol", tipoRol);
+
+            model.put("puntaje", colaborador.getPuntaje());
+
+            List<PremioCanje> premioCanjes = this.premioCanjeRepositorio.buscarTodos(PremioCanje.class);
+            model.put("premioCanjes", premioCanjes);
+
+            context.render("puntosYPremios/mis_premios.hbs", model);
+        } else
+            context.redirect("/login?return=mis-premios");
     }
 
     @Override
