@@ -21,10 +21,6 @@ public class ColaboracionRepositorio extends BaseRepositorio implements WithSimp
             }
             return instancia;
         }
-        @Override
-        protected EntityManager getEntityManager() {
-        return entityManager();
-    }
 
     public List<Colaboracion> obtenerColaboracionesPorColaboradorId(Long colaboradorId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -94,5 +90,10 @@ public class ColaboracionRepositorio extends BaseRepositorio implements WithSimp
         query.setParameter("dias", dias);
 
         return query.getResultList();
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return entityManager();
     }
 }
