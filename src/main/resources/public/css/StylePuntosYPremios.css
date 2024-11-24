@@ -46,3 +46,8 @@
 .row {
     margin-bottom: 1.5rem; /* Espacio inferior entre filas de tarjetas */
 }
+
+/* Sombra para la seccion puntos y premios */
+.suggestion-shadow {
+    box-shadow: 0px 4px 12px 4px rgba(0, 0, 0, 0.15);
+}
