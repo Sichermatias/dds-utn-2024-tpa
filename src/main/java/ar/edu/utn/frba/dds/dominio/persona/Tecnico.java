@@ -50,7 +50,7 @@ public class Tecnico extends Persistente {
     @JoinColumn(name = "localidad_id")
     private List<Localidad> localidadesDeServicio=new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST) //debería tener una lista de visitaIncidente?
+    @OneToMany//debería tener una lista de visitaIncidente?
     @JoinColumn(name = "tecnico_id")
     private List<Incidente> incidentesAsignados=new ArrayList<>();
 
