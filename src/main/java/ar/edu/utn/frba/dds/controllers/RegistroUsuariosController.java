@@ -78,19 +78,16 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         }
 
         // Crear y asociar el usuario
-        String nombreUsuario = context.formParam(nombre+apellido);
-        String password = context.formParam(cuil);
 
         Usuario usuario = new Usuario();
-        usuario.setNombreUsuario(nombreUsuario);
-        usuario.setContrasenia(password);
 
         List<Rol> roles = personaRepositorio.buscarPorRol(Rol.class, "Tecnico");
-        if (!roles.isEmpty()) {
-            usuario.setRol(roles.get(0));
-        }
+        usuario.setRol(roles.get(0));
 
         tecnico.setUsuario(usuario);
+
+        usuario.setNombreUsuario(nombre+apellido);
+        usuario.setContrasenia(cuil );
 
         // Persistir el técnico
         personaRepositorio.persistir(tecnico);

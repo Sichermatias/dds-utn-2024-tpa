@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,18 +41,18 @@ public class Tecnico extends Persistente {
     @Column(name = "telegramID", columnDefinition = "VARCHAR(50)")
     private String telegramID;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "medioDeContacto")
     private MedioDeContacto medioDeContacto;
 
     @ElementCollection
-    @CollectionTable(name = "Localidad_id", joinColumns = @JoinColumn(name = "tecnico_id"))
+    @CollectionTable(name = "Localidad_tecnico", joinColumns = @JoinColumn(name = "tecnico_id"))
     @JoinColumn(name = "localidad_id")
-    private List<Localidad> localidadesDeServicio;
+    private List<Localidad> localidadesDeServicio=new ArrayList<>();
 
-    @OneToMany //debería tener una lista de visitaIncidente?
+    @OneToMany//debería tener una lista de visitaIncidente?
     @JoinColumn(name = "tecnico_id")
-    private List<Incidente> incidentesAsignados;
+    private List<Incidente> incidentesAsignados=new ArrayList<>();
 
 
     //TODO HACERLO EN DIAGRAMA
