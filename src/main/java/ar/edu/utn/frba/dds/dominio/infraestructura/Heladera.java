@@ -42,7 +42,7 @@ public class Heladera extends Persistente {
     private Integer cantDiasSinContarParaPuntaje;
 
     @Column(name = "desperfecto", columnDefinition = "BIT(1)")
-    public Boolean desperfecto;
+    public Boolean desperfecto = false;
 
     @OneToMany(mappedBy = "heladera", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Suscripcion> suscripciones;

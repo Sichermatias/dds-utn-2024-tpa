@@ -1,17 +1,21 @@
 {{#partial "links"}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 {{/partial}}
+
 {{#partial "contenido"}}
     <div class="row">
-         <div class="col-md-12">
+        <div class="col-md-12">
             <div class="form-container bg-white p-4 rounded shadow">
-                <h1 class="text-center text-primary">Heladeras instaladas</h1>
+                <h1 class="text-center text-primary">Heladeras Instaladas</h1>
 
+                <!-- Mapa para mostrar todas las heladeras -->
                 <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
 
-                <table class="table table-striped">
+                <!-- Tabla de heladeras -->
+                <table class="table table-striped mt-4">
                     <thead>
                     <tr>
                         <th>Nombre</th>
@@ -31,7 +35,7 @@
                             <td>{{this.cantViandasActuales}}</td>
                             <td>{{#if this.desperfecto}} Sí {{else}} No {{/if}}</td>
                             <td>
-                                <a href="/heladeras/{{this.id}}" class="btn btn-primary">Ver detalles</a> <!-- Botón -->
+                                <a href="/heladeras/{{this.id}}" class="btn btn-primary">Ver detalles</a>
                             </td>
                         </tr>
                     {{/each}}
@@ -45,46 +49,46 @@
         </div>
     </div>
 {{/partial}}
+
 {{#partial "scripts"}}
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-        const heladeras = {{heladeras}};
-
-        // Inicialización del mapa
-        var map = L.map('map').setView([heladeras[0].ubicacion.latitud, heladeras[0]ubicacion.longitud], 18);
+    <script>
+        // Inicializa el mapa una sola vez, centrado en la primera heladera o en un valor por defecto
+        var map = L.map('map').setView([{{heladeras.[0].ubicacion.latitud}}, {{heladeras.[0].ubicacion.longitud}}], 12);
 
         // Añadir el mapa base de OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var IconActiva = L.icon({
-                iconUrl: '/assets/img/icon.png',  // Ruta al archivo PNG
-                iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
-                iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
-                popupAnchor: [0, -50] // Punto desde donde se muestra el popup
+        // Iconos para las heladeras activas e inactivas
+        var iconActiva = L.icon({
+            iconUrl: '/assets/img/icon.png',  // Ruta al archivo PNG
+            iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
+            iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
+            popupAnchor: [0, -50] // Punto desde donde se muestra el popup
         });
 
-        var IconInactiva = L.icon({
-                iconUrl: '/assets/img/InactiveIcon.png',  // Ruta al archivo PNG
-                iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
-                iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
-                popupAnchor: [0, -50] // Punto desde donde se muestra el popup
+        var iconInactiva = L.icon({
+            iconUrl: '/assets/img/InactiveIcon.png',  // Ruta al archivo PNG
+            iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
+            iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
+            popupAnchor: [0, -50] // Punto desde donde se muestra el popup
         });
 
-        heladeras.forEach(heladera => {
-            const icon = heladera.activo ? iconActiva : iconInactiva;
-            L.marker([heladera.lat, heladera.lng], { icon })
-                .addTo(map)
-                .bindPopup(`${heladera.nombre} - Estado: ${heladera.activo ? 'Activa' : 'Inactiva'}`)
+        // Añadir un marcador por cada heladera con el icono adecuado
+        {{#each heladeras}}
+            var lat = {{this.ubicacion.latitud}};
+            var lng = {{this.ubicacion.longitud}};
+            var icon = {{#if this.desperfecto}} iconInactiva {{else}} iconActiva {{/if}};
+            L.marker([lat, lng], {icon: icon}).addTo(map)
+                .bindPopup('{{this.nombre}}')
                 .openPopup();
-        });
-    });
-    initMap();
-</script>
+        {{/each}}
+    </script>
 {{/partial}}
-{{> templates/base title="HELADERAS INSTALADAS"}}
+
+{{> templates/base title="HELADERAS INSTALADAS"}}

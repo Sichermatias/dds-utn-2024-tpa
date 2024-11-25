@@ -55,15 +55,24 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var customIcon = L.icon({
+        // Iconos para las heladeras activas e inactivas
+        var iconActiva = L.icon({
             iconUrl: '/assets/img/icon.png',  // Ruta al archivo PNG
             iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
             iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
             popupAnchor: [0, -50] // Punto desde donde se muestra el popup
         });
 
+        var iconInactiva = L.icon({
+            iconUrl: '/assets/img/InactiveIcon.png',  // Ruta al archivo PNG
+            iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
+            iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
+            popupAnchor: [0, -50] // Punto desde donde se muestra el popup
+        });
+
         // Añadir un marcador en la ubicación de la heladera
-         L.marker([lat, lng], {icon: customIcon}).addTo(map)
+        var icon = {{#if heladera.desperfecto}} iconInactiva {{else}} iconActiva {{/if}};
+         L.marker([lat, lng], {icon: icon}).addTo(map)
             .bindPopup('{{heladera.nombre}}')
             .openPopup();
     });
