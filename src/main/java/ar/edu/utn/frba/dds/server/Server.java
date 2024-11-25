@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.utils.Initializer;
 import ar.edu.utn.frba.dds.utils.JavalinRenderer;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
@@ -14,6 +13,8 @@ import ar.edu.utn.frba.dds.server.handlers.*;
 import ar.edu.utn.frba.dds.middlewares.AuthMiddleware;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
 public class Server {
@@ -61,43 +62,46 @@ public class Server {
                 Handlebars handlebars = new Handlebars();
 
                 // Helper para comparar igualdad
-                handlebars.registerHelper("eq", new Helper<Object>() {
-                    @Override
-                    public Object apply(Object context, Options options) {
-                        if (context == null || options.params.length < 1) {
-                            return false;
-                        }
-                        return context.equals(options.params[0]);
+                handlebars.registerHelper("eq", (context14, options) -> {
+                    if (context14 == null || options.params.length < 1 || options.params[0] == null) {
+                        return false;
                     }
+                    // Convertimos ambos valores a String para evitar problemas de tipo
+                    String value1 = context14.toString().trim();
+                    String value2 = options.params[0].toString().trim();
+                    return value1.equals(value2);
+                });
+
+                handlebars.registerHelper("formatDateTime", (Helper<LocalDateTime>) (context1, options) -> {
+                    if (context1 == null) {
+                        return "Fecha no disponible";
+                    }
+                    // Define el formato que desees para mostrar la fecha y hora
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    return context1.format(formatter);
                 });
 
                 // Helper para condiciones
-                handlebars.registerHelper("ifCond", new Helper<Object>() {
-                    @Override
-                    public Object apply(Object context, Options options) throws IOException {
-                        if (context == null || options.params.length < 1) {
-                            return options.inverse(null);
-                        }
-
-                        // Obtener valores para comparar
-                        String contextStr = context.toString().trim();
-                        String tipo = options.param(0).toString().trim();
-
-                        if (contextStr.equalsIgnoreCase(tipo)) {
-                            return options.fn(options.context); // Usa options.data para pasar el contexto original
-                        }
-
-                        return options.inverse(context);
+                handlebars.registerHelper("ifCond", (context12, options) -> {
+                    if (context12 == null || options.params.length < 1) {
+                        return options.inverse(null);
                     }
+
+                    // Obtener valores para comparar
+                    String contextStr = context12.toString().trim();
+                    String tipo = options.param(0).toString().trim();
+
+                    if (contextStr.equalsIgnoreCase(tipo)) {
+                        return options.fn(options.context); // Usa options.data para pasar el contexto original
+                    }
+
+                    return options.inverse(context12);
                 });
 
                 // Helper para depuración
-                handlebars.registerHelper("debug", new Helper<Object>() {
-                    @Override
-                    public Object apply(Object context, Options options) {
-                        System.out.println("Debugging: " + context);
-                        return "";
-                    }
+                handlebars.registerHelper("debug", (context13, options) -> {
+                    System.out.println("Debugging: " + context13);
+                    return "";
                 });
 
                 // Compilación y renderización de la plantilla

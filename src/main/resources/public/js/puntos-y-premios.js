@@ -16,6 +16,7 @@ function filterProducts() {
 document.addEventListener('DOMContentLoaded', () => {
     const confirmModal = document.getElementById('canjearPremioModal');
     const puntajeDestacado = confirmModal.querySelector('#puntaje-destacado');
+    let currentForm = null; // Variable para almacenar el formulario actual
 
     confirmModal.addEventListener('show.bs.modal', (event) => {
         // Botón que activó la modal
@@ -26,5 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Actualiza el contenido del marcador con estilos
         puntajeDestacado.textContent = puntos;
+
+        // Encuentra el formulario asociado al botón
+        currentForm = button.closest('form');
     });
+
+    // Enviar el formulario al confirmar
+    document.getElementById('confirmButton').onclick = function () {
+        if (currentForm) {
+            currentForm.submit(); // Envía el formulario relacionado
+        }
+    };
 });

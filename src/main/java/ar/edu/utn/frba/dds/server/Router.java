@@ -55,8 +55,9 @@ public class Router {
 
         app.get("/puntos-y-premios", ((PremiosController) FactoryController.controller("Premios"))::index);
 
-        app.get("/puntos-y-premios/mis-premios", ((PremioCanjesController) FactoryController.controller("PremioCanjes"))::index);
-        app.post("/puntos-y-premios/mis-premios", ((PremioCanjesController) FactoryController.controller("PremioCanjes"))::save);
+        app.get("/puntos-y-premios/premios-canjeados", ((PremioCanjesController) FactoryController.controller("PremioCanjes"))::index);
+        app.post("/puntos-y-premios/premios-canjeados", ((PremioCanjesController) FactoryController.controller("PremioCanjes"))::save);
+        app.post("/puntos-y-premios/premios-canjeados/{premioCanjeID}", ((PremioCanjesController) FactoryController.controller("PremioCanjes"))::update);
 
         app.get("/reportes/fallos_heladera", ((FallosHeladeraController) FactoryController.controller("FallosHeladera"))::index);
         app.get("/reportes/viandas_heladera", ((ReporteViandasHeladeraController) FactoryController.controller("ViandasHeladeraReporte"))::index);

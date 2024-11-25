@@ -50,7 +50,7 @@
         <!-- Mensajes de estado -->
         {{#if canjeado}}
             <div class="alert alert-success text-left shadow-sm" role="alert">
-                ¡Premio canjeado! Para ver sus premios, dirígase a <a href="/puntos-y-premios/mis-premios" class="alert-link">mis premios</a>.
+                ¡Premio canjeado! Para ver sus premios, dirígase a <a href="/puntos-y-premios/premios-canjeados" class="alert-link">mis premios</a>.
             </div>
         {{/if}}
 
@@ -89,7 +89,7 @@
                                 <h5 class="card-title text-primary">{{nombre}}</h5>
                                 <p class="card-text">Puntos necesarios: {{cantidadPuntosNecesarios}}</p>
                                 <div class="d-grid">
-                                    <form action="/puntos-y-premios/mis-premios" method="POST">
+                                    <form action="/puntos-y-premios/premios-canjeados" method="POST">
                                         <input type="hidden" name="premioId" value="{{id}}">
                                         <button type="button"
                                                 class="btn btn-primary shadow-sm"

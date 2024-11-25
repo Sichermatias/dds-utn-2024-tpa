@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PremioCanjeRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PremioRepositorio;
+import ar.edu.utn.frba.dds.server.exceptions.AccessDeniedException;
 import ar.edu.utn.frba.dds.server.exceptions.FaltaDeStockException;
 import ar.edu.utn.frba.dds.server.exceptions.PuntosInsuficientesException;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
@@ -37,20 +38,23 @@ public class PremioCanjesController extends Controller implements ICrudViewsHand
         Map<String, Object> model = new HashMap<>();
         Long usuarioId = context.sessionAttribute("usuario_id");
         String tipoRol = context.sessionAttribute("tipo_rol");
-        if (usuarioId != null) {
-            Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
-
+        if (usuarioId != null && tipoRol != null) {
+            List<PremioCanje> premioCanjes;
+            if(tipoRol.equals("ADMIN")) {
+                premioCanjes = this.premioCanjeRepositorio.buscarTodos(PremioCanje.class);
+            } else if(tipoRol.equals("COLABORADOR_HUMANO") || tipoRol.equals("COLABORADOR_JURIDICO")){
+                Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
+                premioCanjes = this.premioCanjeRepositorio.buscarPorColaboradorId(PremioCanje.class, colaborador.getId());
+            } else {
+                throw new AccessDeniedException();
+            }
             model.put("usuario_id", usuarioId);
             model.put("tipo_rol", tipoRol);
-
-            model.put("puntaje", colaborador.getPuntaje());
-
-            List<PremioCanje> premioCanjes = this.premioCanjeRepositorio.buscarTodos(PremioCanje.class);
             model.put("premioCanjes", premioCanjes);
 
             context.render("puntosYPremios/mis_premios.hbs", model);
         } else
-            context.redirect("/login?return=puntos-y-premios/mis-premios");
+            context.redirect("/login?return=puntos-y-premios/premios-canjeados");
     }
 
     @Override
@@ -122,7 +126,15 @@ public class PremioCanjesController extends Controller implements ICrudViewsHand
 
     @Override
     public void update(Context context) {
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        if(tipoRol == null || !tipoRol.equals("ADMIN"))
+            throw new AccessDeniedException();
 
+        long premioCanjeID = Long.parseLong(context.pathParam("premioCanjeID"));
+        PremioCanje premioCanje = this.premioCanjeRepositorio.buscarPorId(PremioCanje.class, premioCanjeID);
+        premioCanje.setEntregado(true);
+        this.premioCanjeRepositorio.actualizar(premioCanje);
+        context.redirect("/puntos-y-premios/premios-canjeados");
     }
 
     @Override

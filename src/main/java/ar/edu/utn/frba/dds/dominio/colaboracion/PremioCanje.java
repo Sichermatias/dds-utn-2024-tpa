@@ -22,4 +22,7 @@ public class PremioCanje extends Persistente {
     @ManyToOne
     @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private Colaborador colaborador;
+
+    @Column(name = "entregado", columnDefinition = "BIT(1)")
+    private Boolean entregado;
 }

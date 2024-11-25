@@ -9,8 +9,13 @@
                     <tr>
                         <th>ID del canje</th>
                         <th>Premio</th>
-                        <th>Cantidad de puntos gastados</th>
-                        <th>Fecha y hora</th>
+                        <th>Puntos gastados</th>
+                        <th>Fecha y hora canje</th>
+                        {{#if (eq tipo_rol "ADMIN")}}
+                            <th>Colaborador</th>
+                            <th>Entregado</th>
+                            <th>Acciones</th>
+                        {{/if}}
                     </tr>
                     </thead>
                     <tbody>
@@ -21,7 +26,20 @@
                                 <a href="/premio/{{this.premio.id}}">{{this.premio.nombre}}</a>
                             </td>
                             <td>{{this.premio.cantidadPuntosNecesarios}}</td>
-                            <td>{{this.fechaHoraAlta}}</td>
+                            <td>{{formatDateTime this.fechaHoraAlta}}</td>
+                            {{#if (eq tipo_rol "ADMIN")}}
+                                {{#if (eq this.colaborador.tipoPersona "HUMANA")}}
+                                    <td>{{this.colaborador.nombre}} {{this.colaborador.apellido}}</td>
+                                {{else}}
+                                    <td>{{this.colaborador.razonSocial}}</td>
+                                {{/if}}
+                                <td>{{#if this.entregado}} Sí {{else}} No {{/if}}</td>
+                                <td>
+                                    <form action="/puntos-y-premios/premios-canjeados/{{this.id}}" method="POST">
+                                        <button type="submit" class="btn btn-primary">Marcar como entregado</button>
+                                    </form>
+                                </td>
+                            {{/if}}
                         </tr>
                     {{/each}}
                     </tbody>
