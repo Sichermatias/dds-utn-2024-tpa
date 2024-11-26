@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
 import ar.edu.utn.frba.dds.dominio.infraestructura.FiltroSuscripcion;
@@ -10,7 +9,6 @@ import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
-import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaWhatsapp;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -111,6 +109,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
                 descripcion,
                 fotosIncidente
         );
+        nuevoIncidente.setAsignado(false);
         heladera.setCantSemanalIncidentes(heladera.getCantSemanalIncidentes()+1);
         FallosHeladeraRepositorio fallosRepo=FallosHeladeraRepositorio.getInstancia();
         List<FallosPorHeladera> fallosPorHeladeras=fallosRepo.buscarPorHeladeraId(FallosPorHeladera.class, heladeraId);
@@ -127,7 +126,10 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
         ColaboracionRepositorio repo=ColaboracionRepositorio.getInstancia();
         repo.persistir(nuevoIncidente);
         repo.persistir(fallosPorHeladera);
-        if (tipoIncidente == TipoIncidente.ALERTA || tipoIncidente == TipoIncidente.FALLA_TECNICA) {
+        if (tipoIncidente == TipoIncidente.ALERTA_FALLA_CONEXION ||
+                tipoIncidente == TipoIncidente.ALERTA_FRAUDE ||
+                tipoIncidente == TipoIncidente.ALERTA_TEMPERATURA ||
+                tipoIncidente == TipoIncidente.FALLA_TECNICA) {
             heladera.setDesperfecto(true);
             repositorio.actualizar(heladera);
         }

@@ -36,6 +36,9 @@ public class Incidente extends Persistente {
     @Column(name = "foto")
     private List<String> fotosIncidente;
 
+    @Column(name = "asignado", columnDefinition = "BIT(1)")
+    private Boolean asignado;
+
     public Incidente(LocalDateTime fechaIncidente, Heladera heladeraIncidente, TipoIncidente tipoIncidente, Colaborador colaboradorIncidente, String descripcionIncidente, List<String> fotosIncidente) {
         this.fechaHoraAlta = fechaIncidente;
         this.heladeraIncidente = heladeraIncidente;
