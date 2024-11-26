@@ -1,12 +1,16 @@
 package ar.edu.utn.frba.dds.services;
 
 import ar.edu.utn.frba.dds.dominio.colaboracion.*;
+import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
+import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Provincia;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Modelo;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
 import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
+import ar.edu.utn.frba.dds.dtos.georef.ProvinciaMunicipioGeorefDTO;
+import ar.edu.utn.frba.dds.dtos.georef.PuntoGeorefDTO;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ViandasDonadasColaboradorRepositorio;
@@ -107,6 +111,21 @@ public class ColaboracionService {
         ubicacion.setDireccion(direccion);
         ubicacion.setLongitud(longitud);
         ubicacion.setLatitud(latitud);
+
+        //Traer la localidad y la provincia con georef
+        Localidad localidad = null;
+        try {
+            ProvinciaMunicipioGeorefDTO provinciaMunicipio = GeorefService.getProvinciaMunicipio(new PuntoGeorefDTO(latitud, longitud));
+
+            LocalidadService localidadService = new LocalidadService();
+            localidad = localidadService.getLocalidad(provinciaMunicipio);
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        ubicacion.setLocalidad(localidad);
+
         return ubicacion;
     }
     public Modelo crearModelo(String modelo, Double tempMax, Double tempMin){
@@ -125,6 +144,7 @@ public class ColaboracionService {
         heladera.setModelo(modeloHeladera);
         heladera.setFechaPuestaEnMarcha(LocalDate.now());
         heladera.setUltimaFechaContadaParaPuntaje(LocalDate.now());
+        heladera.setFechaHoraAlta(LocalDateTime.now());
         return heladera;
     }
 

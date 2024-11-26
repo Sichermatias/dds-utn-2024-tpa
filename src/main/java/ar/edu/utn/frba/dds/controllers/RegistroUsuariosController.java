@@ -2,13 +2,19 @@ package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
+import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Provincia;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.persona.*;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
+import ar.edu.utn.frba.dds.dtos.georef.ProvinciaMunicipioGeorefDTO;
+import ar.edu.utn.frba.dds.dtos.georef.PuntoGeorefDTO;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.LocalidadRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
+import ar.edu.utn.frba.dds.services.GeorefService;
+import ar.edu.utn.frba.dds.services.LocalidadService;
+import ar.edu.utn.frba.dds.services.ProvinciaService;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -49,11 +55,24 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         List<String> nombresContacto = context.formParams("nombreContacto[]");
         List<String> datosContacto = context.formParams("contacto[]");
 
+        //Traer la localidad y la provincia con georef
+        Localidad localidad = null;
+        try {
+            ProvinciaMunicipioGeorefDTO provinciaMunicipio = GeorefService.getProvinciaMunicipio(new PuntoGeorefDTO(latitud, longitud));
+
+            LocalidadService localidadService = new LocalidadService();
+            localidad = localidadService.getLocalidad(provinciaMunicipio);
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
         // Crear objeto de ubicación
         Ubicacion ubicacion = new Ubicacion();
         ubicacion.setDireccion(direccion);
         ubicacion.setLatitud(latitud);
         ubicacion.setLongitud(longitud);
+        ubicacion.setLocalidad(localidad);
 
         // Crear el objeto Colaborador
         Colaborador colaborador = new Colaborador();
@@ -114,11 +133,24 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         List<String> nombresContacto = context.formParams("nombreContacto[]");
         List<String> datosContacto = context.formParams("contacto[]");
 
+        //Traer la localidad y la provincia con georef
+        Localidad localidad = null;
+        try {
+            ProvinciaMunicipioGeorefDTO provinciaMunicipio = GeorefService.getProvinciaMunicipio(new PuntoGeorefDTO(latitud, longitud));
+
+            LocalidadService localidadService = new LocalidadService();
+            localidad = localidadService.getLocalidad(provinciaMunicipio);
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
         // Crear objeto de ubicación
         Ubicacion ubicacion = new Ubicacion();
         ubicacion.setDireccion(direccion);
         ubicacion.setLatitud(latitud);
         ubicacion.setLongitud(longitud);
+        ubicacion.setLocalidad(localidad);
 
         Tarjeta tarjeta=new Tarjeta();
         tarjeta.setActivo(true);
