@@ -38,9 +38,20 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         this.personaRepositorio = personaRepositorio;
         this.localidadRepositorio = localidadRepositorio;
     }
-    public void formularioTecnico(Context context) {context.render("/registro/Registro-Tecnico.hbs");
-    }
+    public void formularioTecnico(Context context) {
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        model.put("tipo_rol", tipoRol);
+        model.put("usuario_id", usuarioId);
 
+        List<Localidad> localidades= localidadRepositorio.buscarTodos(Localidad.class);
+        if(tipoRol!= null){
+            model.put("localidades", localidades);
+            context.render("/registro/Registro-Tecnico.hbs");
+        }
+        else context.redirect("/login");
+    }
     public void registrarTecnico(Context context) {
         String nombre = context.formParam("nombre");
         String apellido = context.formParam("apellido");
@@ -76,8 +87,6 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
                 tecnico.agregarLocalidadServicio(localidadServicio);
             }
         }
-
-        // Crear y asociar el usuario
 
         Usuario usuario = new Usuario();
 
