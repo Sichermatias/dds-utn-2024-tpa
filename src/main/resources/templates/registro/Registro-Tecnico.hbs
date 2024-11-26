@@ -64,7 +64,7 @@
                         <label for="localidadesDeServicio">Localidades de Servicio</label>
                         <select class="form-control" id="localidadesDeServicio" name="localidadesDeServicio" multiple required>
                             {{#each localidades}}
-                            <option value="{{this.nombre}}">{{this.nombre}}</option>
+                                <option value="{{this.nombreLocalidad}}">{{this.nombreLocalidad}}</option>
                             {{/each}}
                         </select>
                         <small class="form-text text-muted">Mantén presionada la tecla Ctrl (o Cmd en Mac) para seleccionar varias localidades.</small>

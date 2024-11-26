@@ -48,7 +48,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         List<Localidad> localidades= localidadRepositorio.buscarTodos(Localidad.class);
         if(tipoRol!= null){
             model.put("localidades", localidades);
-            context.render("/registro/Registro-Tecnico.hbs");
+            context.render("/registro/Registro-Tecnico.hbs", model);
         }
         else context.redirect("/login");
     }
@@ -114,24 +114,24 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
 
+        if(tipoRol==null){context.redirect("/login");};
+
         Tecnico tecnico=obtenerTecnicoPorUsuarioId(usuarioId);
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
         List<Heladera> heladeras = repositorio.buscarTodas();
 
         List<Heladera> heladerasFiltradas = heladeras.stream()
-                .filter(heladera -> heladera.getDesperfecto()
-                        && tecnico.getLocalidadesDeServicio().contains(heladera.getUbicacion().getLocalidad()))
-                .collect(Collectors.toList());
-
-        model.put("heladeras", heladerasFiltradas);
+                .filter(heladera -> heladera.getDesperfecto()==true
+                        && tecnico.getLocalidadesDeServicio().contains(heladera.getUbicacion().getLocalidad())).toList();
 
         if (tipoRol != null) {
-            model.put("heladeras", heladeras);
-            context.render("/tecnicos/incidentes.hbs");
+            model.put("heladeras", heladerasFiltradas);
+            context.render("/tecnicos/incidentes.hbs", model);
         }
         else context.redirect("/login");
     }
+
     public void indexIncidente(Context context){
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
@@ -141,8 +141,8 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         model.put("usuario_id", usuarioId);
 
         IncidenteRepositorio incidenteRepositorio = IncidenteRepositorio.getInstancia();
-        List<Incidente> incidentesHeladera = incidenteRepositorio.buscarPorHeladeraId(Incidente.class, heladeraId);
-        List<Incidente> incidentesFiltrados=  incidentesHeladera.stream().filter(incidente->incidente.getResuelto()).toList();
+        List<Incidente> incidentesHeladera = incidenteRepositorio.buscarIncidentePorHeladeraId(Incidente.class, heladeraId);
+        List<Incidente> incidentesFiltrados=  incidentesHeladera.stream().filter(incidente->incidente.getResuelto()==false).toList();
         Incidente incidente=incidentesFiltrados.get(0);
 
 
@@ -151,7 +151,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
             if (tipoRol != null) {
                 model.put("heladera", heladera);
                 model.put("incidente", incidente);
-                context.render("/tecnico/incidente_heladera.hbs", model);
+                context.render("/tecnicos/incidente_heladera.hbs", model);
             }
             else context.redirect("/login");
     }

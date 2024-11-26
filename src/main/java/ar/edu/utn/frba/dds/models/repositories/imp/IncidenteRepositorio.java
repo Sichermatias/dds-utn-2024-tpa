@@ -14,6 +14,7 @@ public class IncidenteRepositorio extends BaseRepositorio<Incidente> implements 
         }
         return instancia;
     }
+
     @Override
     protected EntityManager getEntityManager() {
         return entityManager();
