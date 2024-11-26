@@ -72,6 +72,8 @@ public abstract class BaseRepositorio<T> {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
+            e.printStackTrace();
+            System.out.println(e.getMessage());
             throw e;
         }
     }
@@ -87,6 +89,8 @@ public abstract class BaseRepositorio<T> {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
+            e.printStackTrace();
+            System.out.println(e.getMessage());
             throw e;
         }
     }

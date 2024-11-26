@@ -10,7 +10,7 @@ import java.util.List;
 public class SensoresTemperaturaRepository extends BaseRepositorio<SensorDeTemperatura> implements ISensoresTemperaturaRepository, WithSimplePersistenceUnit {
     @Override
     public SensorDeTemperatura buscarPorIdHeladera(Long idHeladera) {
-        return (SensorDeTemperatura) super.buscarPorHeladeraId(SensorDeTemperatura.class, idHeladera);
+        return super.buscarPorHeladeraId(SensorDeTemperatura.class, idHeladera).get(0);
     }
 
     @Override

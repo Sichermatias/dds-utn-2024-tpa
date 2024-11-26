@@ -1,15 +1,13 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.dominio.infraestructura.*;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorMovDTO;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorTempDTO;
 import ar.edu.utn.frba.dds.models.repositories.IIncidentesRepository;
+import ar.edu.utn.frba.dds.models.repositories.IRegistrosSensoresRepository;
 import ar.edu.utn.frba.dds.models.repositories.ISensoresMovimientoRepository;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
-import ar.edu.utn.frba.dds.dominio.infraestructura.EvaluadorTemperatura;
-import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
-import ar.edu.utn.frba.dds.dominio.infraestructura.SensorDeMovimiento;
-import ar.edu.utn.frba.dds.dominio.infraestructura.SensorDeTemperatura;
 import ar.edu.utn.frba.dds.models.repositories.ISensoresTemperaturaRepository;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -20,15 +18,17 @@ public class SensoresController implements IMqttMessageListener {
     private final ISensoresTemperaturaRepository sensoresTemperaturaRepository;
     private final ISensoresMovimientoRepository sensoresMovimientoRepository;
     private final IIncidentesRepository incidentesRepository;
+    private final IRegistrosSensoresRepository registrosSensoresRepository;
 
     public SensoresController(
             ISensoresTemperaturaRepository sensoresTemperaturaRepository,
             ISensoresMovimientoRepository sensoresMovimientoRepository,
-            IIncidentesRepository incidentesRepository
-    ) {
+            IIncidentesRepository incidentesRepository,
+            IRegistrosSensoresRepository registrosSensoresRepository) {
         this.sensoresTemperaturaRepository = sensoresTemperaturaRepository;
         this.sensoresMovimientoRepository = sensoresMovimientoRepository;
         this.incidentesRepository = incidentesRepository;
+        this.registrosSensoresRepository = registrosSensoresRepository;
     }
 
     @Override
@@ -51,7 +51,8 @@ public class SensoresController implements IMqttMessageListener {
                 this.sensoresMovimientoRepository.buscarPorIdHeladera(registroSensorMovDTO.getIdHeladera());
 
         LocalDateTime fechaHoraActual = LocalDateTime.now();
-        sensorDeMovimiento.agregarRegistro(fechaHoraActual);
+        RegistroSensor registroSensor = SensorDeMovimiento.crearRegistro(fechaHoraActual);
+        sensorDeMovimiento.agregarRegistro(registroSensor);
 
         Heladera heladeraDelSensor = sensorDeMovimiento.getHeladera();
         Incidente incidente = this.crearIncidente(
@@ -61,19 +62,22 @@ public class SensoresController implements IMqttMessageListener {
                 this.descripcionAlertasMov(fechaHoraActual, heladeraDelSensor)
         );
 
+        this.registrosSensoresRepository.persistir(registroSensor);
+
         this.incidentesRepository.agregar(incidente);
 
         this.sensoresMovimientoRepository.actualizarEstadoSensor(sensorDeMovimiento);
     }
 
     private void recibirDatoTemperatura(RegistroSensorTempDTO registroSensorTempDTO) {
-        Long heladeraID = Long.valueOf(registroSensorTempDTO.getIdHeladera());
-        SensorDeTemperatura sensorTemperatura =
-                this.sensoresTemperaturaRepository.buscarPorIdHeladera(heladeraID);
+        Long heladeraID = registroSensorTempDTO.getIdHeladera();
+        SensorDeTemperatura sensorTemperatura = this.sensoresTemperaturaRepository.buscarPorIdHeladera(heladeraID);
 
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         Double temperaturaCaptada = registroSensorTempDTO.getTemperatura();
-        sensorTemperatura.agregarRegistro(temperaturaCaptada, fechaHoraActual);
+        RegistroSensor registroSensor = SensorDeTemperatura.crearRegistro(temperaturaCaptada, fechaHoraActual);
+        sensorTemperatura.agregarRegistro(registroSensor);
+        this.registrosSensoresRepository.persistir(registroSensor);
 
         Heladera heladeraDelSensor = sensorTemperatura.getHeladera();
         EvaluadorTemperatura evaluadorTemperatura = sensorTemperatura.getEvaluadorTemperatura();

@@ -1,16 +1,12 @@
 package ar.edu.utn.frba.dds.dominio.services.broker;
 
 import ar.edu.utn.frba.dds.dominio.utils.ConfigReader;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import java.util.Properties;
-import static java.lang.Thread.sleep;
 
 public class BrokerHandler {
-    private ConfigReader config;
+    private final ConfigReader config;
     final String configPath = "brokerconfig.properties";
 
     public BrokerHandler(){
@@ -49,25 +45,22 @@ public class BrokerHandler {
         }
     }
 
-    public boolean suscribir(MqttClient client, String topic, BrokerReceptorMensajes receptor){
+    public void suscribir(MqttClient client, String topic, IMqttMessageListener receptor){
 
         try {
             client.subscribe(topic, receptor);
-            return true;
         } catch(Exception e) {
             System.out.println("Error al suscribirse al topic. Error: " + e);
-            return false;
         }
 
     }
 
-    public boolean publicar(MqttClient cliente, String topico, String mensaje){
+    public void publicar(MqttClient cliente, String topico, String mensaje){
 
         MqttMessage message = this.crearMensaje(mensaje);
 
         try {
             cliente.publish(topico, message);
-            return true;
         } catch(MqttException me) {
             System.out.println("reason " + me.getReasonCode());
             System.out.println("msg " + me.getMessage());
@@ -75,7 +68,6 @@ public class BrokerHandler {
             System.out.println("cause " + me.getCause());
             System.out.println("excep " + me);
             me.printStackTrace();
-            return false;
         }
     }
 

@@ -9,8 +9,8 @@ import javax.persistence.EntityManager;
 public class SensoresMovimientoRepository extends BaseRepositorio<SensorDeMovimiento> implements ISensoresMovimientoRepository, WithSimplePersistenceUnit {
 
     @Override
-    public SensorDeMovimiento buscarPorIdHeladera(String idHeladera) {
-        return null;
+    public SensorDeMovimiento buscarPorIdHeladera(Long idHeladera) {
+        return super.buscarPorHeladeraId(SensorDeMovimiento.class, idHeladera).get(0);
     }
 
     @Override

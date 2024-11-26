@@ -18,7 +18,7 @@ public class SensorDeMovimiento {
     @Column(name = "codigo", columnDefinition = "VARCHAR(50)")
     private String codigo;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name = "sensorMovimiento_id", referencedColumnName = "id")
     private List<RegistroSensor> registros;
 
@@ -30,10 +30,14 @@ public class SensorDeMovimiento {
     @Transient
     private static int valorPredeterminadoMovimiento;
 
-    public void agregarRegistro(LocalDateTime fechaHora) {
+    public static RegistroSensor crearRegistro(LocalDateTime fechaHora) {
         RegistroSensor registroSensor = new RegistroSensor();
         registroSensor.setFechaHoraRegistro(fechaHora);
         registroSensor.setValor(valorPredeterminadoMovimiento);
+        return registroSensor;
+    }
+
+    public void agregarRegistro(RegistroSensor registroSensor) {
         this.registros.add(registroSensor);
     }
 }

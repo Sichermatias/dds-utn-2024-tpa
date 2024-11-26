@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.server;
 
+import ar.edu.utn.frba.dds.dominio.services.broker.BrokerInit;
 import ar.edu.utn.frba.dds.utils.Initializer;
 import ar.edu.utn.frba.dds.utils.JavalinRenderer;
 import com.github.jknack.handlebars.Handlebars;
@@ -41,6 +42,8 @@ public class Server {
             });
 
             Initializer.init();
+
+            BrokerInit.init();
         }
     }
 

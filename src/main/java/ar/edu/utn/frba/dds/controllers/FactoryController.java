@@ -27,7 +27,7 @@ public class FactoryController {
             case "RecomendadorPuntosDonacion" -> new RecomendadorPuntosDonacionController();
             case "RecomendadorPuntos" -> new RecomendadorPuntosController();
 
-            case "Sensores" -> new SensoresController(new SensoresTemperaturaRepository(), new SensoresMovimientoRepository(), new IncidentesRepository());
+            case "Sensores" -> new SensoresController(new SensoresTemperaturaRepository(), new SensoresMovimientoRepository(), new IncidentesRepository(), new RegistrosSensoresRepository());
             default -> null;
         };
     }

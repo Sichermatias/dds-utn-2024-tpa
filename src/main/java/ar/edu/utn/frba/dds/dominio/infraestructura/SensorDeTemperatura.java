@@ -42,11 +42,14 @@ public class SensorDeTemperatura {
         return null;
     }
 
-    public void agregarRegistro(Double temperatura, LocalDateTime fechaHoraRegistro) {
+    public static RegistroSensor crearRegistro(Double temperatura, LocalDateTime fechaHoraRegistro) {
         RegistroSensor registroSensor = new RegistroSensor();
         registroSensor.setFechaHoraRegistro(fechaHoraRegistro);
         registroSensor.setValor(temperatura.intValue());
+        return registroSensor;
+    }
 
+    public void agregarRegistro(RegistroSensor registroSensor) {
         this.registros.add(registroSensor);
     }
 
