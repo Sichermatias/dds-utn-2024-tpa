@@ -38,6 +38,7 @@ public class Incidente extends Persistente {
 
     @Column(name = "asignado", columnDefinition = "BIT(1)")
     private Boolean asignado=false;
+    //TODO A DIAGRAMA
     @Column(name="resuelto", columnDefinition ="BIT(1)")
     private Boolean resuelto=false;
 
