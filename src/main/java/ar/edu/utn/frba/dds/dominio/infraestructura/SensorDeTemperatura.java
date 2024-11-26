@@ -23,7 +23,7 @@ public class SensorDeTemperatura {
     @JoinColumn(name = "sensorTemperatura_id", referencedColumnName = "id")
     private List<RegistroSensor> registros;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
@@ -32,6 +32,7 @@ public class SensorDeTemperatura {
 
     public SensorDeTemperatura() {
         this.registros = new ArrayList<>();
+        this.evaluadorTemperatura = new EvaluadorTemperatura();
     }
 
     public RegistroSensor ultimoRegistro() {

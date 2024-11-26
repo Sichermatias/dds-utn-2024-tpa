@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.dominio.contacto.ubicacion;
 
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ public class Provincia {
     @GeneratedValue
     private Long id;
     @Setter
+    @Getter
     @Column(name = "nombreProvincia", columnDefinition = "VARCHAR(100)")
     private String nombreProvincia;
 }

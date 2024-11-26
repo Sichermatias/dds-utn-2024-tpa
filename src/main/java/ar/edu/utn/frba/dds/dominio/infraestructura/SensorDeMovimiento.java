@@ -22,7 +22,7 @@ public class SensorDeMovimiento {
     @JoinColumn(name = "sensorMovimiento_id", referencedColumnName = "id")
     private List<RegistroSensor> registros;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 

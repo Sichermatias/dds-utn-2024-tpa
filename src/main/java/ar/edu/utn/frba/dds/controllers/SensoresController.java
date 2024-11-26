@@ -3,28 +3,31 @@ package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorMovDTO;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorTempDTO;
 import ar.edu.utn.frba.dds.models.repositories.IIncidentesRepository;
-import ar.edu.utn.frba.dds.models.repositories.ISensoresRepository;
-import ar.edu.utn.frba.dds.dominio.incidentes.GestorDeIncidentes;
+import ar.edu.utn.frba.dds.models.repositories.ISensoresMovimientoRepository;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
 import ar.edu.utn.frba.dds.dominio.infraestructura.EvaluadorTemperatura;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.SensorDeMovimiento;
 import ar.edu.utn.frba.dds.dominio.infraestructura.SensorDeTemperatura;
+import ar.edu.utn.frba.dds.models.repositories.ISensoresTemperaturaRepository;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.time.LocalDateTime;
 
 public class SensoresController implements IMqttMessageListener {
-    private final ISensoresRepository sensoresRepository;
+    private final ISensoresTemperaturaRepository sensoresTemperaturaRepository;
+    private final ISensoresMovimientoRepository sensoresMovimientoRepository;
     private final IIncidentesRepository incidentesRepository;
 
     public SensoresController(
-            ISensoresRepository sensoresRepository,
+            ISensoresTemperaturaRepository sensoresTemperaturaRepository,
+            ISensoresMovimientoRepository sensoresMovimientoRepository,
             IIncidentesRepository incidentesRepository
     ) {
-        this.sensoresRepository = sensoresRepository;
+        this.sensoresTemperaturaRepository = sensoresTemperaturaRepository;
+        this.sensoresMovimientoRepository = sensoresMovimientoRepository;
         this.incidentesRepository = incidentesRepository;
     }
 
@@ -45,21 +48,28 @@ public class SensoresController implements IMqttMessageListener {
 
     private void recibirDatoMovimiento(RegistroSensorMovDTO registroSensorMovDTO) {
         SensorDeMovimiento sensorDeMovimiento =
-                this.sensoresRepository.buscarSensorMovimientoPorIdHeladera(registroSensorMovDTO.getIdHeladera());
+                this.sensoresMovimientoRepository.buscarPorIdHeladera(registroSensorMovDTO.getIdHeladera());
 
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         sensorDeMovimiento.agregarRegistro(fechaHoraActual);
 
         Heladera heladeraDelSensor = sensorDeMovimiento.getHeladera();
-        this.crearIncidente(fechaHoraActual, heladeraDelSensor,
-                this.descripcionAlertasMov(fechaHoraActual, heladeraDelSensor));
+        Incidente incidente = this.crearIncidente(
+                fechaHoraActual,
+                heladeraDelSensor,
+                TipoIncidente.ALERTA_FRAUDE,
+                this.descripcionAlertasMov(fechaHoraActual, heladeraDelSensor)
+        );
 
-        this.sensoresRepository.modificarSensorMovimiento(sensorDeMovimiento);
+        this.incidentesRepository.agregar(incidente);
+
+        this.sensoresMovimientoRepository.actualizarEstadoSensor(sensorDeMovimiento);
     }
 
     private void recibirDatoTemperatura(RegistroSensorTempDTO registroSensorTempDTO) {
+        Long heladeraID = Long.valueOf(registroSensorTempDTO.getIdHeladera());
         SensorDeTemperatura sensorTemperatura =
-                this.sensoresRepository.buscarSensorTemperaturaPorIdHeladera(registroSensorTempDTO.getIdHeladera());
+                this.sensoresTemperaturaRepository.buscarPorIdHeladera(heladeraID);
 
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         Double temperaturaCaptada = registroSensorTempDTO.getTemperatura();
@@ -68,11 +78,17 @@ public class SensoresController implements IMqttMessageListener {
         Heladera heladeraDelSensor = sensorTemperatura.getHeladera();
         EvaluadorTemperatura evaluadorTemperatura = sensorTemperatura.getEvaluadorTemperatura();
         if(evaluadorTemperatura.hayAlerta(temperaturaCaptada, heladeraDelSensor)) {
-            this.crearIncidente(fechaHoraActual, heladeraDelSensor,
-                    this.descripcionAlertasTemp(temperaturaCaptada, fechaHoraActual, heladeraDelSensor));
+            Incidente incidente = this.crearIncidente(
+                    fechaHoraActual,
+                    heladeraDelSensor,
+                    TipoIncidente.ALERTA_TEMPERATURA,
+                    this.descripcionAlertasTemp(temperaturaCaptada, fechaHoraActual, heladeraDelSensor)
+            );
+
+            this.incidentesRepository.agregar(incidente);
         }
 
-        this.sensoresRepository.modificarSensorTemperatura(sensorTemperatura); //TODO 2024-07-03: averiguar si persiste en cascada. Sino, modificar agregarIncidenteAHeladera
+        this.sensoresTemperaturaRepository.actualizar(sensorTemperatura);
     }
 
     private String descripcionAlertasMov(LocalDateTime fechaHoraActual, Heladera heladeraDelSensor) {
@@ -85,24 +101,17 @@ public class SensoresController implements IMqttMessageListener {
                 heladeraDelSensor.getId() + "\" con fecha y hora " + fechaHoraActual.toString();
     }
 
-    public void crearIncidente(LocalDateTime fechaHora, Heladera heladeraDelSensor, String descripcion) {
+    public Incidente crearIncidente(LocalDateTime fechaHora, Heladera heladeraDelSensor, TipoIncidente tipoIncidente, String descripcion) {
         Incidente incidente = new Incidente();
-        incidente.setTipoIncidente(TipoIncidente.ALERTA);
+        incidente.setTipoIncidente(tipoIncidente);
         incidente.setDescripcionIncidente(descripcion);
         incidente.setFechaHoraAlta(fechaHora);
         incidente.setHeladeraIncidente(heladeraDelSensor);
+        incidente.setAsignado(false);
 
-        this.agregarIncidenteAHeladera(heladeraDelSensor);
+        heladeraDelSensor.sumarCantIncidentes(1);
+        heladeraDelSensor.setDesperfecto(true);
 
-        //TODO 2024-07-03: Persistir de alguna manera el tecnico asignado
-        GestorDeIncidentes.getInstanciaGestor().gestionarIncidente(incidente);
-
-        this.incidentesRepository.agregar(incidente);
-    }
-
-    private void agregarIncidenteAHeladera(Heladera heladeraDelSensor) {
-        int cantSemanalIncidentes = heladeraDelSensor.getCantSemanalIncidentes();
-        cantSemanalIncidentes++;
-        heladeraDelSensor.setCantSemanalIncidentes(cantSemanalIncidentes);
+        return incidente;
     }
 }

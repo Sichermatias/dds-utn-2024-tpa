@@ -77,9 +77,13 @@ public class Tecnico extends Persistente {
 
     }
 
+    public List<Localidad> getLocalidadesDeServicio(){
+        return this.localidadesDeServicio;
+    }
     public void agregarIncidente(Incidente incidente){
         //agrega incidente asignado a la lista
         incidentesAsignados.add(incidente);
+        incidente.setAsignado(true);
     }
     public void agregarLocalidadServicio(Localidad localidad){
         localidadesDeServicio.add(localidad);
@@ -106,5 +110,6 @@ public class Tecnico extends Persistente {
 
         return resolucion;
     }
+
 
 }

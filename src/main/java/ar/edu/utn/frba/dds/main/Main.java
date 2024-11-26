@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.main;
 
 import ar.edu.utn.frba.dds.dominio.services.broker.BrokerHandler;
 import ar.edu.utn.frba.dds.dominio.services.broker.BrokerReceptorMensajes;
-import ar.edu.utn.frba.dds.dominio.services.cronjobs.QuartzSchedulerSemanal;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 
 
@@ -15,13 +14,8 @@ public class Main {
 
         brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/temperatura", receptor);
 
-        brokerHandler.publicar(cliente, "dds2024/g12/heladeras/temperatura", "{idHeladera:1, temperatura:20.0}");
-
         /*QuartzScheduler scheduler = new QuartzScheduler();
         scheduler.start();*/
-
-        QuartzSchedulerSemanal schedulerSemanal = new QuartzSchedulerSemanal();
-        schedulerSemanal.start();
     }
 }
 

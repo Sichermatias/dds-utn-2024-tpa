@@ -26,7 +26,7 @@ public class GeorefService {
             } catch (Exception e) {
 
                 e.printStackTrace();
-                throw new Exception("Hubo un error al hacer la consulta"); // Retorna una lista vacía en caso de error
+                throw new Exception("Hubo un error al hacer la consulta a GEOREF"); // Retorna una lista vacía en caso de error
             }
         }
 

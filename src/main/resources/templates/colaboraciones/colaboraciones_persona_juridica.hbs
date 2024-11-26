@@ -38,8 +38,6 @@
             HOSTEAR_HELADERA: document.getElementById('hostearHeladeraForm')
         };
 
-
-
         tipoColaboracion.addEventListener('change', function () {
             // Ocultar todos los formularios
             Object.values(forms).forEach(form => {
@@ -53,6 +51,7 @@
              else if (this.value && forms[this.value]) {
                 forms[this.value].style.display = 'block';
             }
+            map._onResize();
         });
     });
 </script>

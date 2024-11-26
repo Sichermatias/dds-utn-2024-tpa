@@ -87,4 +87,8 @@ public class Heladera extends Persistente {
     public Integer getViandasParaLlenar(){
         return cantMaxViandas - cantViandasActuales;
     }
+
+    public void sumarCantIncidentes(int cantidadASumar) {
+        this.cantSemanalIncidentes += cantidadASumar;
+    }
 }

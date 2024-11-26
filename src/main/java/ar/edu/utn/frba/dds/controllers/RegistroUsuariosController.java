@@ -2,13 +2,19 @@ package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
+import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Provincia;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.persona.*;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
+import ar.edu.utn.frba.dds.dtos.georef.ProvinciaMunicipioGeorefDTO;
+import ar.edu.utn.frba.dds.dtos.georef.PuntoGeorefDTO;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.LocalidadRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.UsuarioRepositorio;
+import ar.edu.utn.frba.dds.services.GeorefService;
+import ar.edu.utn.frba.dds.services.LocalidadService;
+import ar.edu.utn.frba.dds.services.ProvinciaService;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -38,64 +44,6 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         context.render("/registro/Registro-Humana.hbs");
     }
 
-    public void formularioTecnico(Context context) {context.render("/registro/Registro-Tecnico.hbs");
-    }
-
-    public void registrarTecnico(Context context) {
-        String nombre = context.formParam("nombre");
-        String apellido = context.formParam("apellido");
-        String tipoDocumento = context.formParam("tipoDocumento");
-        String nroDocumento = context.formParam("nroDocumento");
-        String cuil = context.formParam("cuil");
-        String telegramID = context.formParam("telegramID");
-
-        List<String> mediosDeContacto = context.formParams("medioDeContacto[]");
-        List<String> datosDeContacto = context.formParams("datoContacto[]");
-
-        List<String> localidadesDeServicio = context.formParams("localidadesDeServicio");
-
-        Tecnico tecnico = new Tecnico();
-        tecnico.setNombre(nombre);
-        tecnico.setApellido(apellido);
-        tecnico.setTipoDocumento(TipoDocumento.valueOf(tipoDocumento));
-        tecnico.setNroDocumento(nroDocumento);
-        tecnico.setCuil(cuil);
-        tecnico.setTelegramID(telegramID);
-
-        // Fecha de alta del técnico
-        tecnico.setFechaHoraAlta(LocalDateTime.now());
-
-            NombreDeMedioDeContacto nombreMedio = new NombreDeMedioDeContacto(mediosDeContacto.get(0));
-            MedioDeContacto medioDeContacto = new MedioDeContacto(nombreMedio, datosDeContacto.get(0));
-            tecnico.setMedioDeContacto(medioDeContacto);
-
-        // Asociar las localidades de servicio
-        for (String localidad : localidadesDeServicio) {
-            Localidad localidadServicio = localidadRepositorio.buscarPorNombre(Localidad.class, localidad).get(0);
-            if (localidadServicio != null) {
-                tecnico.agregarLocalidadServicio(localidadServicio);
-            }
-        }
-
-        // Crear y asociar el usuario
-
-        Usuario usuario = new Usuario();
-
-        List<Rol> roles = personaRepositorio.buscarPorRol(Rol.class, "Tecnico");
-        usuario.setRol(roles.get(0));
-
-        tecnico.setUsuario(usuario);
-
-        usuario.setNombreUsuario(nombre+apellido);
-        usuario.setContrasenia(cuil );
-
-        // Persistir el técnico
-        personaRepositorio.persistir(tecnico);
-
-        // Redirigir al login tras el registro exitoso
-        context.status(HttpStatus.CREATED).redirect("/login");
-    }
-
     public void registrarJuridica(Context context) {
         String razonSocial = context.formParam("razonSocial");
         String tipoPersonaJuridica = context.formParam("tipoPersonaJuridica");
@@ -107,11 +55,24 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         List<String> nombresContacto = context.formParams("nombreContacto[]");
         List<String> datosContacto = context.formParams("contacto[]");
 
+        //Traer la localidad y la provincia con georef
+        Localidad localidad = null;
+        try {
+            ProvinciaMunicipioGeorefDTO provinciaMunicipio = GeorefService.getProvinciaMunicipio(new PuntoGeorefDTO(latitud, longitud));
+
+            LocalidadService localidadService = new LocalidadService();
+            localidad = localidadService.getLocalidad(provinciaMunicipio);
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
         // Crear objeto de ubicación
         Ubicacion ubicacion = new Ubicacion();
         ubicacion.setDireccion(direccion);
         ubicacion.setLatitud(latitud);
         ubicacion.setLongitud(longitud);
+        ubicacion.setLocalidad(localidad);
 
         // Crear el objeto Colaborador
         Colaborador colaborador = new Colaborador();
@@ -172,11 +133,24 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
         List<String> nombresContacto = context.formParams("nombreContacto[]");
         List<String> datosContacto = context.formParams("contacto[]");
 
+        //Traer la localidad y la provincia con georef
+        Localidad localidad = null;
+        try {
+            ProvinciaMunicipioGeorefDTO provinciaMunicipio = GeorefService.getProvinciaMunicipio(new PuntoGeorefDTO(latitud, longitud));
+
+            LocalidadService localidadService = new LocalidadService();
+            localidad = localidadService.getLocalidad(provinciaMunicipio);
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
         // Crear objeto de ubicación
         Ubicacion ubicacion = new Ubicacion();
         ubicacion.setDireccion(direccion);
         ubicacion.setLatitud(latitud);
         ubicacion.setLongitud(longitud);
+        ubicacion.setLocalidad(localidad);
 
         Tarjeta tarjeta=new Tarjeta();
         tarjeta.setActivo(true);

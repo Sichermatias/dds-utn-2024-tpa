@@ -35,6 +35,20 @@ public abstract class BaseRepositorio<T> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    public List<T> buscarIncidentePorHeladeraId(Class<T> claseEntidad, Long heladeraId) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
+        Root<T> root = cq.from(claseEntidad);
+
+        Predicate condicion = cb.equal(root.get("heladeraIncidente").get("id"), heladeraId);
+
+        cq.where(condicion);
+        cq.select(root);
+
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+
     public List<T> buscarPorColaboradorId(Class<T> claseEntidad, Long colaboradorId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
