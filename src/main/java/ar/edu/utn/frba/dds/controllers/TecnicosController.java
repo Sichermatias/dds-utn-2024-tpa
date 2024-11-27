@@ -131,11 +131,11 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
 
-        IncidenteRepositorio incidenteRepositorio = IncidenteRepositorio.getInstancia();
-        List<Incidente> incidentesHeladera = incidenteRepositorio.buscarIncidentePorHeladeraId(Incidente.class, heladeraId);
-        List<Incidente> incidentesFiltrados=  incidentesHeladera.stream().filter(incidente->incidente.getResuelto()==false).toList();
+        Tecnico tecnico = obtenerTecnicoPorUsuarioId(usuarioId);
+        List<Incidente> incidentesAsignados=tecnico.getIncidentesAsignados();
+        List<Incidente> incidentesFiltrados= incidentesAsignados.stream().filter(incidente -> incidente.getHeladeraIncidente().getId()==heladeraId
+        && !incidente.getResuelto()).toList();
         Incidente incidente=incidentesFiltrados.get(0);
-
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
             Heladera heladera = repositorio.buscarPorId(Heladera.class, heladeraId);
@@ -184,7 +184,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         );
         visitaIncidente.setFechaHoraAlta(LocalDateTime.now());
         visitaIncidente.agregarFotos(fotosIncidente);
-
+        visitaIncidente.getTecnicoAsignado().removerIncidente(incidente);
         visitaTecnicaRepositorio.persistir(visitaIncidente);
 
         context.redirect("/");

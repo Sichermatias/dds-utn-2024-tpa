@@ -85,6 +85,9 @@ public class Tecnico extends Persistente {
         incidentesAsignados.add(incidente);
         incidente.setAsignado(true);
     }
+    public void removerIncidente(Incidente incidente){
+        incidentesAsignados.remove(incidente);
+    }
     public void agregarLocalidadServicio(Localidad localidad){
         localidadesDeServicio.add(localidad);
     }
