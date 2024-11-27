@@ -85,6 +85,9 @@ public class Tecnico extends Persistente {
         incidentesAsignados.add(incidente);
         incidente.setAsignado(true);
     }
+    public void removerIncidente(Incidente incidente){
+        incidentesAsignados.remove(incidente);
+    }
     public void agregarLocalidadServicio(Localidad localidad){
         localidadesDeServicio.add(localidad);
     }
@@ -106,7 +109,7 @@ public class Tecnico extends Persistente {
             // incidenteAResolver.getHeladeraIncidente().setActivo(true);
         }
 
-        new VisitaIncidente(this,incidenteAResolver,LocalDateTime.now(),fotoVisita,resolucion);
+        new VisitaIncidente(this,incidenteAResolver,LocalDateTime.now(),resolucion);
 
         return resolucion;
     }

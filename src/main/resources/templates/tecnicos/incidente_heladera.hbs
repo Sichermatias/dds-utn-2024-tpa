@@ -5,6 +5,10 @@
                 <form id="cerrarIncidenteForm" action="/incidentes/{{heladera.id}}" method="POST" enctype="multipart/form-data">
 
                     <h1 class="text-center text-primary">Cerrar Incidente</h1>
+
+                    <!-- Campo oculto para el ID del incidente -->
+                    <input type="hidden" name="incidenteId" value="{{incidente.id}}">
+
                     <!-- Fecha de la visita -->
                     <div class="form-row">
                         <div class="form-group col-md-12">
@@ -18,8 +22,8 @@
                         <div class="form-group col-md-12">
                             <label for="incidenteResuelto">Estado del Incidente</label>
                             <select class="form-control" id="incidenteResuelto" name="incidenteResuelto" required>
-                                <option value="true">Resuelto</option>
-                                <option value="false">No Resuelto</option>
+                                <option value="1">Resuelto</option>
+                                <option value="0">No Resuelto</option>
                             </select>
                         </div>
                     </div>
