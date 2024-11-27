@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.services;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
+import ar.edu.utn.frba.dds.dominio.services.messageSender.adapters.MailSender;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.adapters.TelegramSender;
 import ar.edu.utn.frba.dds.dominio.utils.TextoPlanoConverter;
 import ar.edu.utn.frba.dds.dominio.persona.Tecnico;
@@ -9,7 +10,6 @@ import java.util.List;
 
 import ar.edu.utn.frba.dds.models.repositories.imp.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.TecnicoRepositorio;
-import ar.edu.utn.frba.dds.models.repositories.imp.TecnicosRepository;
 import lombok.Getter;
 import lombok.Setter;
 @Setter @Getter
@@ -17,10 +17,12 @@ public class GestorDeIncidentesService {
 
     private final IncidenteRepositorio incidentesRepositorio;
     private final TecnicoRepositorio tecnicoRepositorio;
+    private final MailSender mailSender;
 
-    public GestorDeIncidentesService(IncidenteRepositorio incidentesRepositorio, TecnicoRepositorio tecnicoRepositorio) {
+    public GestorDeIncidentesService(IncidenteRepositorio incidentesRepositorio, TecnicoRepositorio tecnicoRepositorio, MailSender mailSender) {
         this.incidentesRepositorio = incidentesRepositorio;
         this.tecnicoRepositorio = tecnicoRepositorio;
+        this.mailSender = mailSender;
     }
 
     public void gestionarIncidentes() {
@@ -48,10 +50,13 @@ public class GestorDeIncidentesService {
                     String textoAEnviar = "Hola " + tecnico.getNombre() + "!\n\nSe te ha asignado el incidente: " + incidenteAAsignar.getId() + "\n\nAqui tienes la informacion completa: " + incidenteString;
 
                     //crear estructura de mensaje
-                    Mensaje mensajeTecnico = new Mensaje(tecnico.getTelegramID(),textoAEnviar);
+                    Mensaje mensajeATelegramTecnico = new Mensaje(tecnico.getTelegramID(),textoAEnviar);
 
                     //notificar tecnico
-                    TelegramSender.enviarMensajeTelegram(mensajeTecnico);
+                    TelegramSender.enviarMensajeTelegram(mensajeATelegramTecnico);
+
+                    Mensaje mensajeAMailTecnico = new Mensaje(tecnico.getMedioDeContacto("E-MAIL").getValor(), textoAEnviar);
+                    this.mailSender.enviarMail(mensajeAMailTecnico);
 
                     tecnicoDisponible = true;
                     System.out.println("el tecnico asignado para el incidente:"+incidenteAAsignar + " es:" + tecnico.getNombre()+ " " + tecnico.getApellido());

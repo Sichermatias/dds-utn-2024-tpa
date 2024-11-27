@@ -1,13 +1,12 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.config.ServiceLocator;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
 import ar.edu.utn.frba.dds.dominio.infraestructura.FiltroSuscripcion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
-import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
-import ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks.AsignarIncidentesATecnicos;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
@@ -121,9 +120,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             heladera.setDesperfecto(true);
             repositorio.actualizar(heladera);
         }
-        TecnicoRepositorio tecnicoRepositorio=new TecnicoRepositorio();
-        IncidenteRepositorio incidenteRepositorio=new IncidenteRepositorio();
-        GestorDeIncidentesService gestorDeIncidentesService=new GestorDeIncidentesService(incidenteRepositorio, tecnicoRepositorio);
+        GestorDeIncidentesService gestorDeIncidentesService = ServiceLocator.instanceOf(GestorDeIncidentesService.class);
         gestorDeIncidentesService.gestionarIncidente(nuevoIncidente);
 
         context.redirect("/heladeras/" + heladeraId);

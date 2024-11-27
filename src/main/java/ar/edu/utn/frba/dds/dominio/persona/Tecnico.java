@@ -41,9 +41,9 @@ public class Tecnico extends Persistente {
     @Column(name = "telegramID", columnDefinition = "VARCHAR(50)")
     private String telegramID;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "medioDeContacto")
-    private MedioDeContacto medioDeContacto;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "tecnico_id", referencedColumnName = "id")
+    private List<MedioDeContacto> mediosDeContacto;
 
     @ElementCollection
     @CollectionTable(name = "Localidad_tecnico", joinColumns = @JoinColumn(name = "tecnico_id"))
@@ -62,13 +62,13 @@ public class Tecnico extends Persistente {
     private Usuario usuario;
 
     public Tecnico(String nombre, String apellido, String cuil, TipoDocumento tipoDocumento,
-                   String nroDocumento, MedioDeContacto medioDeContacto, List<Localidad> localidades,List<Incidente> incidentesAsignados) {
+                   String nroDocumento, List<Localidad> localidades,List<Incidente> incidentesAsignados) {
         this.nombre = nombre;
         this.apellido = apellido;
         Cuil = cuil;
         this.tipoDocumento = tipoDocumento;
         this.nroDocumento = nroDocumento;
-        this.medioDeContacto = medioDeContacto;
+        this.mediosDeContacto = new ArrayList<>();
         this.localidadesDeServicio = localidades;
         this.incidentesAsignados = incidentesAsignados;
     }
@@ -115,4 +115,13 @@ public class Tecnico extends Persistente {
     }
 
 
+    public void agregarMedioDeContacto(MedioDeContacto medioDeContacto) {
+        this.mediosDeContacto.add(medioDeContacto);
+    }
+
+    public MedioDeContacto getMedioDeContacto(String nombreMedio) {
+        return this.getMediosDeContacto().stream()
+                .filter(m -> m.getNombreDeMedioDeContacto().getNombre().equals(nombreMedio))
+                .findAny().orElse(null);
+    }
 }

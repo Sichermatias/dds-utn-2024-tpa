@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.dominio.services.cronjobs;
 import ar.edu.utn.frba.dds.controllers.FactoryController;
 import ar.edu.utn.frba.dds.controllers.SensoresController;
 import ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks.*;
+import ar.edu.utn.frba.dds.dominio.services.messageSender.adapters.MailSender;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
 import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
@@ -68,8 +69,9 @@ public class CrontasksScheduler {
                     AsignarIncidentesATecnicos.class,
                     new AsignarIncidentesATecnicos(
                             new GestorDeIncidentesService(
-                                    new IncidentesRepository(),
-                                    new TecnicosRepository()
+                                    new IncidenteRepositorio(),
+                                    new TecnicoRepositorio(),
+                                    new MailSender()
                             )
                     )
             );
@@ -123,7 +125,7 @@ public class CrontasksScheduler {
             // Descomentar solo lo que queremos que ejecute, con precaucion (?
 
             //scheduler.scheduleJob(verificarTempHeladeras, triggerMinutoVerificarTempHeladeras);
-            //scheduler.scheduleJob(asignarIncidentesATecnicos, triggerMinutoAsignarIncidentesATecnicos);
+            scheduler.scheduleJob(asignarIncidentesATecnicos, triggerMinutoAsignarIncidentesATecnicos);
             //scheduler.scheduleJob(actualizarDiasHeladeras, triggerDiario3amActualizarDiasHeladeras);
             //scheduler.scheduleJob(actualizarPuntajeHosteoHeladeras, triggerDiario3amActualizarPuntajeHosteoHeladeras);
             //scheduler.scheduleJob(generarReportes, triggerSemanal);

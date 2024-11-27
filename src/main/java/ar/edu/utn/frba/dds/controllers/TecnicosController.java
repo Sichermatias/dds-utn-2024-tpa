@@ -74,7 +74,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
 
         NombreDeMedioDeContacto nombreMedio = new NombreDeMedioDeContacto(mediosDeContacto.get(0));
         MedioDeContacto medioDeContacto = new MedioDeContacto(nombreMedio, datosDeContacto.get(0));
-        tecnico.setMedioDeContacto(medioDeContacto);
+        tecnico.agregarMedioDeContacto(medioDeContacto);
 
         // Asociar las localidades de servicio
         for (String localidad : localidadesDeServicio) {
