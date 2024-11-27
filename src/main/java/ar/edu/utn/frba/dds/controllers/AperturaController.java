@@ -10,17 +10,21 @@ import ar.edu.utn.frba.dds.models.repositories.imp.HeladerasRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PedidoDeAperturaRepositorio;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-
 import java.time.Duration;
+import ar.edu.utn.frba.dds.dominio.utils.ConfigReader;
 import java.time.LocalDateTime;
+import java.util.Properties;
 
 public class AperturaController  implements IMqttMessageListener {
     private final PedidoDeAperturaRepositorio pedidoDeAperturaRepositorio;
     private final ColaboradorRepositorio colaboradorRepositorio;
+    private final ConfigReader config;
+    final String configPath = "aperturaHeladera.properties";
 
     public AperturaController(PedidoDeAperturaRepositorio pedidoDeAperturaRepositorio, ColaboradorRepositorio colaboradorRepositorio){
         this.pedidoDeAperturaRepositorio = pedidoDeAperturaRepositorio;
         this.colaboradorRepositorio = colaboradorRepositorio;
+        this.config = new ConfigReader(configPath);
     }
 
     @Override
@@ -29,16 +33,23 @@ public class AperturaController  implements IMqttMessageListener {
             case "dds2024/g12/heladeras/apertura" -> {
                 RegistroAperturaDTO registroAperturaDTO = new RegistroAperturaDTO(mqttMessage);
                 this.recibirPedidoApertura(registroAperturaDTO);
-                System.out.println("el registro es: " + registroAperturaDTO.getIdHeladera() + registroAperturaDTO.getIdTarjeta());
             }
             default -> throw new Exception(); //TODO: revisar excepcion de mensaje sensor
     }
 }
 
     private void recibirPedidoApertura(RegistroAperturaDTO registroAperturaDTO) {
+        Properties props;
+        try {
+            props = config.getProperties();
+        } catch(Exception e) {
+            System.out.println("Error al leer archivo de configuracion. Error: " + e);
+            return;
+        }
+
         PedidoDeApertura pedidoDeApertura = this.pedidoDeAperturaRepositorio.buscarPorHeladeraYTarjetaId(registroAperturaDTO.getIdHeladera(),registroAperturaDTO.getIdTarjeta());
         LocalDateTime fechaHoraActual = LocalDateTime.now();
-        int tiempoMaximoEspera = 3; //TODO: Moverlo a un config ya que debe ser un campo variable
+        int tiempoMaximoEspera = Integer.parseInt(props.getProperty("tiempoMaximoEspera"));
         long horasTranscurridas = Duration.between(pedidoDeApertura.getFechaHoraRealizada(), fechaHoraActual).toHours();
         Integer viandasActuales = pedidoDeApertura.getHeladera().getCantViandasActuales();
 
@@ -51,6 +62,7 @@ public class AperturaController  implements IMqttMessageListener {
             Integer colaboradorId = pedidoDeApertura.getTarjeta().getColabodador_id();
             System.out.println("Apertura realizada exitosamente");
         }
-        pedidoDeApertura.setEsValido(false);
+        pedidoDeApertura.setValido(false);
+        pedidoDeApertura.setFechaHoraBaja(fechaHoraActual);
     }
     }

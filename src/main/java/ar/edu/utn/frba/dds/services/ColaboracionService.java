@@ -186,14 +186,14 @@ public class ColaboracionService {
         pedidoOrigen.setFechaHoraAlta(LocalDateTime.now());
         pedidoOrigen.setMotivo("Redistribucion"+motivo.getDescripcion());
         pedidoOrigen.setHeladera(heladeraOrigen);
-        pedidoOrigen.setEsValido(true);
+        pedidoOrigen.setValido(true);
         pedidoOrigen.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
         pedidoOrigen.setCantidadViandas(-cantidadViandas);
 
         pedidoDestino.setFechaHoraAlta(LocalDateTime.now());
         pedidoDestino.setMotivo("Redistribucion"+motivo.getDescripcion());
         pedidoDestino.setHeladera(heladeraDestino);
-        pedidoDestino.setEsValido(true);
+        pedidoDestino.setValido(true);
         pedidoDestino.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
         pedidoDestino.setCantidadViandas(cantidadViandas);
 

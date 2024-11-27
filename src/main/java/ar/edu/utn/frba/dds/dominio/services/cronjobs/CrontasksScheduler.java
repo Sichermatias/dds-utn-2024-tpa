@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.dominio.services.messageSender.adapters.MailSender;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
 import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
+import ar.edu.utn.frba.dds.services.PedidoDeAperturaService;
 import ar.edu.utn.frba.dds.services.TransaccionService;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
@@ -76,6 +77,15 @@ public class CrontasksScheduler {
                     )
             );
 
+            jobFactory.registerJob(
+                    ActualizarPedidosDeApertura.class,
+                    new ActualizarPedidosDeApertura(
+                            new PedidoDeAperturaService(
+                                    new PedidoDeAperturaRepositorio()
+                            )
+                    )
+            );
+
 
             SchedulerFactory schedulerFactory = new StdSchedulerFactory();
             Scheduler scheduler = schedulerFactory.getScheduler();
@@ -84,11 +94,9 @@ public class CrontasksScheduler {
             JobDetail verificarTempHeladeras = JobBuilder.newJob(VerificarUltimaTemperaturaDeHeladeras.class)
                     .withIdentity("verificarTempHeladerasJob", "group1")
                     .build();
-
             JobDetail actualizarDiasHeladeras = JobBuilder.newJob(ActualizarDiasSinContarPuntajeHosteoHeladera.class)
                     .withIdentity("actualizarDiasHeladerasJob", "group1")
                     .build();
-
             JobDetail actualizarPuntajeHosteoHeladeras = JobBuilder.newJob(ActualizarPuntajePorHosteoHeladera.class)
                     .withIdentity("actualizarPuntajeHosteoHeladerasJob", "group1")
                     .build();
@@ -98,6 +106,9 @@ public class CrontasksScheduler {
             JobDetail asignarIncidentesATecnicos = JobBuilder.newJob(AsignarIncidentesATecnicos.class)
                     .withIdentity("asignarIncidentesATecnicos", "group1")
                     .build();
+            JobDetail actualizarPedidosDeApertura = JobBuilder.newJob(ActualizarPedidosDeApertura.class)
+                    .withIdentity("actualizarPedidosDeApertura", "group1")
+                    .build();
 
             Trigger triggerMinutoVerificarTempHeladeras = TriggerBuilder.newTrigger()
                     .withIdentity("triggerMinutoVerificarTempHeladeras", "group1")
@@ -106,6 +117,10 @@ public class CrontasksScheduler {
             Trigger triggerMinutoAsignarIncidentesATecnicos = TriggerBuilder.newTrigger()
                     .withIdentity("triggerMinutoAsignarIncidentesATecnicos", "group1")
                     .withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * * * ?"))
+                    .build();
+            Trigger triggerCincoMinutoVerificarPedidosDeApertura = TriggerBuilder.newTrigger()
+                    .withIdentity("triggerCincoMinutoVerificarPedidosDeApertura", "group1")
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 5 * * * ?"))
                     .build();
             Trigger triggerDiario3amActualizarDiasHeladeras = TriggerBuilder.newTrigger()
                     .withIdentity("triggerDiario3amActualizarDiasHeladeras", "group1")
