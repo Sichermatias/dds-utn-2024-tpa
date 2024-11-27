@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 
 @Entity
 @Table(name = "viandasDonadasPorColaborador")
@@ -26,9 +28,22 @@ public class ViandasDonadasPorColaborador {
     @Column(name = "cantViandasDonadas", columnDefinition = "INTEGER")
     private int cantViandasDonadas;
 
+    @Column(name = "anio", columnDefinition = "INTEGER(4)")
+    private int anio;
+
+    @Column(name = "mes", columnDefinition = "INTEGER(2)")
+    private int mes;
+
+    @Column(name = "semanaDelMes", columnDefinition = "INTEGER(1)")
+    private int semanaDelMes;
+
     public ViandasDonadasPorColaborador(Colaborador colaborador, LocalDate fechaDeReporteSemanal) {
         this.colaborador = colaborador;
         this.fechaDeReporteSemanal = fechaDeReporteSemanal;
+        this.anio = fechaDeReporteSemanal.getYear();
+        this.mes = fechaDeReporteSemanal.getMonthValue();
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        this.semanaDelMes = fechaDeReporteSemanal.get(weekFields.weekOfMonth());
     }
 
     public ViandasDonadasPorColaborador() {

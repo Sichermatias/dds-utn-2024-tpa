@@ -14,7 +14,7 @@ public class Main {
 
         brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/temperatura", receptor);
 
-        /*QuartzScheduler scheduler = new QuartzScheduler();
+        /*CrontasksScheduler scheduler = new CrontasksScheduler();
         scheduler.start();*/
     }
 }

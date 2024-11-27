@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.FiltroSuscripcion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
-import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -111,21 +109,8 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
         );
         nuevoIncidente.setAsignado(false);
         heladera.setCantSemanalIncidentes(heladera.getCantSemanalIncidentes()+1);
-        FallosHeladeraRepositorio fallosRepo=FallosHeladeraRepositorio.getInstancia();
-        List<FallosPorHeladera> fallosPorHeladeras=fallosRepo.buscarPorHeladeraId(FallosPorHeladera.class, heladeraId);
-        FallosPorHeladera fallosPorHeladera=new FallosPorHeladera();
-        if(!fallosPorHeladeras.isEmpty()){
-            fallosPorHeladera=fallosPorHeladeras.get(0);
-            fallosPorHeladera.fallosSemanalesHeladera();
-        }else{
-            fallosPorHeladera=new FallosPorHeladera();
-            fallosPorHeladera.setHeladera(heladera);
-            fallosPorHeladera.setFechaDeReporteSemanal(LocalDate.now());
-            fallosPorHeladera.fallosSemanalesHeladera();
-        }
         ColaboracionRepositorio repo=ColaboracionRepositorio.getInstancia();
         repo.persistir(nuevoIncidente);
-        repo.persistir(fallosPorHeladera);
         if (tipoIncidente == TipoIncidente.ALERTA_FALLA_CONEXION ||
                 tipoIncidente == TipoIncidente.ALERTA_FRAUDE ||
                 tipoIncidente == TipoIncidente.ALERTA_TEMPERATURA ||

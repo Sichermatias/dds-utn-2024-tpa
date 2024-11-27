@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks;
 
-import ar.edu.utn.frba.dds.controllers.FactoryController;
 import ar.edu.utn.frba.dds.controllers.SensoresController;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
@@ -16,9 +15,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class VerificarUltimaTemperaturaDeHeladeras implements Job {
-    ISensoresTemperaturaRepository sensoresTemperaturaRepository;
-    IIncidentesRepository incidentesRepository;
-    SensoresController sensoresController = (SensoresController) FactoryController.controller("Sensores");
+    private final ISensoresTemperaturaRepository sensoresTemperaturaRepository;
+    private final IIncidentesRepository incidentesRepository;
+    private final SensoresController sensoresController;
+
+    public VerificarUltimaTemperaturaDeHeladeras(ISensoresTemperaturaRepository sensoresTemperaturaRepository, IIncidentesRepository incidentesRepository, SensoresController sensoresController) {
+        this.sensoresTemperaturaRepository = sensoresTemperaturaRepository;
+        this.incidentesRepository = incidentesRepository;
+        this.sensoresController = sensoresController;
+    }
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -31,7 +36,7 @@ public class VerificarUltimaTemperaturaDeHeladeras implements Job {
                 Heladera heladeraDelSensor = sensorDeTemperatura.getHeladera();
                 String descripcion = "La heladera no ha enviado datos en los ultimos 5 minutos";
                 Incidente incidente = sensoresController.crearIncidente(fechaHoraActual, heladeraDelSensor, TipoIncidente.ALERTA_FALLA_CONEXION, descripcion);
-                incidente.setAsignado(false);
+                this.sensoresTemperaturaRepository.actualizar(sensorDeTemperatura);
                 this.incidentesRepository.agregar(incidente);
             }
         }
