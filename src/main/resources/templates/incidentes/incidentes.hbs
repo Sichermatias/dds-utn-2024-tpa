@@ -1,0 +1,46 @@
+{{#partial "links"}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+{{/partial}}
+{{#partial "contenido"}}
+<div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Fallos por Heladera</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Fecha de Alta</th>
+                        <th>Descripcion</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each incidentes}}
+                        <tr>
+                            <td>{{this.tipoIncidente}}</td>
+                            <td>{{this.fechaHoraAlta}}</td>
+                            <td>{{this.descripcionIncidente}}</td>
+                            <td>{{this.activo}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-outline-primary">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{{/partial}}
+{{#partial "scripts"}}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{/partial}}
+{{> templates/base title="REPORTE DE FALLOS EN HELADERAS"}}

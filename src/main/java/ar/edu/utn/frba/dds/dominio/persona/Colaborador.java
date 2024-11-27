@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -159,4 +160,7 @@ public class Colaborador extends Persistente {
         this.puntaje += monto;
     }
 
+    public boolean hostea(Heladera heladera) {
+        return Objects.equals(heladera.getColaborador().getId(), getId());
+    }
 }

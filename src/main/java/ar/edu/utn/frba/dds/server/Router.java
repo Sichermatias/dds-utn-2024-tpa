@@ -53,6 +53,9 @@ public class Router {
         app.post("/heladeras/{id}/misuscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::miSuscripcionHeladera);
         app.get("/heladeras/{id}/bajasuscripcion", ((HeladerasController) FactoryController.controller("Heladeras"))::darDeBajaSuscripcion);
 
+        //Ver listado de incidentes de la heladera
+        app.get("/heladeras/{id}/listado-incidentes", ((IncidentesController) FactoryController.controller("Incidentes"))::index);
+
         app.get("/perfil", ((UsuariosController) FactoryController.controller("Usuarios"))::indexPerfil);
         app.get("/editar/humana", ((UsuariosController) FactoryController.controller("Usuarios"))::indexEditHumana);
         app.post("/editar/humana",((UsuariosController) FactoryController.controller("Usuarios"))::editHumana);

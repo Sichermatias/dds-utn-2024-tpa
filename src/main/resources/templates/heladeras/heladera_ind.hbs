@@ -30,6 +30,13 @@
                     {{/if}}
                 </div>
 
+                <!--Boton para ver los incidentes-->
+                {{#if verIncidentes}}
+                    <div class="text-center mt-4">
+                            <a href="/heladeras/{{heladera.id}}/listado-incidentes" class="btn btn-outline-danger">Ver Incidentes</a>
+                    </div>
+                {{/if}}
+
                 <div class="text-center mt-4">
                     <a href="/heladeras" class="btn btn-outline-primary">Volver a la Lista</a>
                 </div>

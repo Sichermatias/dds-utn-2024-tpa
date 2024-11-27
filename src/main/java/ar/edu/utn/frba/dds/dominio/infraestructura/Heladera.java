@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 // TODO: 6/28/2024 EN METODOS QUE MODIFIQUEN EL ESTADO(CANTIDAD DE VIANDAS O SET DESPERFECTO EN TRUE)NOTIFICAR A SUSCRIPTORES
 // TODO 2024-07-03: cuando se colocan o se retiran viandas, hay que sumarle a su respectivo contador
+import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -60,6 +61,11 @@ public class Heladera extends Persistente {
 
     @Column(name = "cantSemanalViandasColocadas", columnDefinition = "INTEGER(5)")
     private int cantSemanalViandasColocadas;
+
+    //TODO: Agregar al diagrama
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
+    private Colaborador colaborador;
 
     public Heladera() {
         this.ultimaFechaContadaParaPuntaje = LocalDate.now();

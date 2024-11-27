@@ -20,6 +20,7 @@ public class FactoryController {
 
             case "Heladeras" -> new HeladerasController();
             case "FallosHeladera" -> new FallosHeladeraController(new FallosHeladeraRepositorio());
+            case "Incidentes" -> new IncidentesController();
 
             case "CargaMasiva" -> new CargaMasivaController();
             case "Vulnerables" -> new RegistroVulnerableController(new PersonaVulnerableRepositorio(), ServiceLocator.instanceOf(ColaboracionController.class));

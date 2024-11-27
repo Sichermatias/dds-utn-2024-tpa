@@ -210,15 +210,26 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
         Heladera heladera = (Heladera) repositorio.buscarPorId(Heladera.class, heladeraId);
-        Colaborador colaborador=colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
-        if (colaborador.estaSuscrito(heladera)){
-            model.put("yaSuscrito", true);
+
+        model.put("verIncidentes", false);
+
+        if (Objects.equals(tipoRol, "ADMIN")){
+            model.put("verIncidentes", true);
+        } else if (Objects.equals(tipoRol, null)) {
+            context.redirect("/login");
+        } else {
+            Colaborador colaborador = colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
+            if (colaborador.estaSuscrito(heladera)){
+                model.put("yaSuscrito", true);
+            }
+            if (colaborador.hostea(heladera)){
+                model.put("verIncidentes", true);
+            }
         }
-        if (tipoRol != null) {
-            model.put("heladera", heladera);
-            context.render("/heladeras/heladera_ind.hbs", model);
-        }
-        else context.redirect("/login");
+
+        model.put("heladera", heladera);
+        context.render("/heladeras/heladera_ind.hbs", model);
+
     }
 
 

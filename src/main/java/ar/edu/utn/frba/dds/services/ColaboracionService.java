@@ -137,7 +137,7 @@ public class ColaboracionService {
         return modeloHeladera;
     }
 
-    public Heladera crearHeladera(String nombreHeladera, Integer cantMaxViandas, Ubicacion ubicacion, Modelo modeloHeladera){
+    public Heladera crearHeladera(String nombreHeladera, Integer cantMaxViandas, Ubicacion ubicacion, Modelo modeloHeladera, Colaborador colaborador){
         Heladera heladera = new Heladera();
         heladera.setNombre(nombreHeladera);
         heladera.setCantMaxViandas(cantMaxViandas);
@@ -146,6 +146,7 @@ public class ColaboracionService {
         heladera.setFechaPuestaEnMarcha(LocalDate.now());
         heladera.setUltimaFechaContadaParaPuntaje(LocalDate.now());
         heladera.setFechaHoraAlta(LocalDateTime.now());
+        heladera.setColaborador(colaborador);
         return heladera;
     }
 

@@ -183,7 +183,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         Ubicacion ubicacion= colaboracionService.crearUbicacion(direccion,longitud,latitud);
         Modelo modelo= colaboracionService.crearModelo(nombreModelo, tempMax,tempMin);
-        Heladera heladera = colaboracionService.crearHeladera(nombreHeladera, cantMaxViandas, ubicacion, modelo);
+        Heladera heladera = colaboracionService.crearHeladera(nombreHeladera, cantMaxViandas, ubicacion, modelo, colaborador);
 
         colaboracionService.crearHostearHeladera(colaboracion, heladera);
 
