@@ -44,7 +44,7 @@ public class Server {
 
             Initializer.init();
 
-            //BrokerInit.init();
+            BrokerInit.init();
 
             CrontasksScheduler scheduler = new CrontasksScheduler();
             scheduler.start();
