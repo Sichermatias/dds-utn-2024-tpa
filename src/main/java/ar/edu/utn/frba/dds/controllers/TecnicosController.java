@@ -117,16 +117,11 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         if(tipoRol==null){context.redirect("/login");};
 
         Tecnico tecnico=obtenerTecnicoPorUsuarioId(usuarioId);
+        List<Incidente> incidentesAsignados = tecnico.getIncidentesAsignados();
 
-        HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
-        List<Heladera> heladeras = repositorio.buscarTodas();
-
-        List<Heladera> heladerasFiltradas = heladeras.stream()
-                .filter(heladera -> heladera.getDesperfecto()==true
-                        && tecnico.getLocalidadesDeServicio().contains(heladera.getUbicacion().getLocalidad())).toList();
 
         if (tipoRol != null) {
-            model.put("heladeras", heladerasFiltradas);
+            model.put("incidentes", incidentesAsignados);
             context.render("/tecnicos/incidentes.hbs", model);
         }
         else context.redirect("/login");

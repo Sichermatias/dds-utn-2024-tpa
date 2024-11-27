@@ -7,9 +7,11 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
+import ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks.AsignarIncidentesATecnicos;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
+import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -133,7 +135,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             heladera.setDesperfecto(true);
             repositorio.actualizar(heladera);
         }
-
+        
         context.redirect("/heladeras/" + heladeraId);
     }
 

@@ -7,23 +7,25 @@ import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
 import ar.edu.utn.frba.dds.dominio.services.messageSender.*;
 import java.util.List;
 
-import ar.edu.utn.frba.dds.models.repositories.IIncidentesRepository;
+import ar.edu.utn.frba.dds.models.repositories.imp.IncidenteRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.TecnicoRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.TecnicosRepository;
 import lombok.Getter;
 import lombok.Setter;
 @Setter @Getter
 public class GestorDeIncidentesService {
 
-    private final IIncidentesRepository incidentesRepository;
-    private final TecnicosRepository tecnicosRepository;
+    private final IncidenteRepositorio incidentesRepositorio;
+    private final TecnicoRepositorio tecnicoRepositorio;
 
-    public GestorDeIncidentesService(IIncidentesRepository incidentesRepository, TecnicosRepository tecnicosRepository) {
-        this.incidentesRepository = incidentesRepository;
-        this.tecnicosRepository = tecnicosRepository;
+    public GestorDeIncidentesService(IncidenteRepositorio incidentesRepositorio, TecnicosRepository tecnicosRepository, TecnicoRepositorio tecnicoRepositorio) {
+        this.incidentesRepositorio = incidentesRepositorio;
+        this.tecnicoRepositorio = tecnicoRepositorio;
     }
 
     public void gestionarIncidentes() {
-        List<Incidente> incidentesSinGestionar = incidentesRepository.buscarIncidentesSinAsignar();
+        List<Incidente> incidentes = incidentesRepositorio.buscarTodos(Incidente.class);
+        List<Incidente> incidentesSinGestionar=incidentes.stream().filter(incidente -> incidente.getAsignado()==false).toList();
         for(Incidente incidente: incidentesSinGestionar)
             gestionarIncidente(incidente);
     }
@@ -32,7 +34,7 @@ public class GestorDeIncidentesService {
 
         var heladeraLocalidad = incidenteAAsignar.getHeladeraIncidente().getUbicacion().getLocalidad();
         boolean tecnicoDisponible = false;
-        List<Tecnico> listaTecnicos = this.tecnicosRepository.buscarTodos(Tecnico.class);
+        List<Tecnico> listaTecnicos = this.tecnicoRepositorio.buscarTodos(Tecnico.class);
         //Comparacion entre listado de Localidades del tecnico disponible y la localida de la heladera en incidente
         for(Tecnico tecnico : listaTecnicos){
             List<Localidad> listaDeLocalidades = tecnico.getLocalidadesDeServicio();
@@ -54,8 +56,8 @@ public class GestorDeIncidentesService {
                     tecnicoDisponible = true;
                     System.out.println("el tecnico asignado para el incidente:"+incidenteAAsignar + " es:" + tecnico.getNombre()+ " " + tecnico.getApellido());
 
-                    this.incidentesRepository.actualizar(incidenteAAsignar);
-                    this.tecnicosRepository.actualizar(tecnico);
+                    this.incidentesRepositorio.actualizar(incidenteAAsignar);
+                    this.tecnicoRepositorio.actualizar(tecnico);
                 }
             }
         }
