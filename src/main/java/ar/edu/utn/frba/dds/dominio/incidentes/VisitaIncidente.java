@@ -13,11 +13,11 @@ import java.util.List;
 @Setter @Getter
 public class VisitaIncidente extends Persistente {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tecnico_id")
     private Tecnico tecnicoAsignado;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "incidente_id")
     private Incidente incidenteAResolver;
 
@@ -32,7 +32,7 @@ public class VisitaIncidente extends Persistente {
     @Column(name = "estado_incidente", columnDefinition = "BINARY")
     private Boolean incidenteResuelto;
 
-    public VisitaIncidente(Tecnico tecnicoAsignado, Incidente incidenteAResolver, LocalDateTime fechaVisita, String fotosVisita, Boolean incidenteResuelto) {
+    public VisitaIncidente(Tecnico tecnicoAsignado, Incidente incidenteAResolver, LocalDateTime fechaVisita, Boolean incidenteResuelto) {
         this.tecnicoAsignado = tecnicoAsignado;
         this.incidenteAResolver = incidenteAResolver;
         this.fechaVisita = fechaVisita;

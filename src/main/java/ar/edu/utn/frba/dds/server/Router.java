@@ -23,6 +23,7 @@ public class Router {
         app.post("/tecnico", ((TecnicosController) FactoryController.controller("Tecnicos"))::registrarTecnico);
         app.get("/incidentes", ((TecnicosController) FactoryController.controller("Tecnicos"))::listarIncidentes);
         app.get("/incidentes/{id}", ((TecnicosController) FactoryController.controller("Tecnicos"))::indexIncidente);
+        app.post("/incidentes/{id}", ((TecnicosController) FactoryController.controller("Tecnicos"))::cerrarIncidente);
 
 
 

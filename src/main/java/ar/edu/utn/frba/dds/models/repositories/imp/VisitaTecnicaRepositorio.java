@@ -1,17 +1,16 @@
 package ar.edu.utn.frba.dds.models.repositories.imp;
 
 import ar.edu.utn.frba.dds.dominio.incidentes.VisitaIncidente;
-import ar.edu.utn.frba.dds.dominio.persona.Tecnico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import javax.persistence.EntityManager;
 
-public class TecnicoRepositorio extends BaseRepositorio<Tecnico> implements WithSimplePersistenceUnit {
+public class VisitaTecnicaRepositorio extends BaseRepositorio<VisitaIncidente> implements WithSimplePersistenceUnit {
 
-    private static TecnicoRepositorio instancia;
-    public static TecnicoRepositorio getInstancia(){
+    private static VisitaTecnicaRepositorio instancia;
+    public static VisitaTecnicaRepositorio getInstancia(){
         if (instancia == null){
-            instancia = new TecnicoRepositorio();
+            instancia = new VisitaTecnicaRepositorio();
         }
         return instancia;
     }

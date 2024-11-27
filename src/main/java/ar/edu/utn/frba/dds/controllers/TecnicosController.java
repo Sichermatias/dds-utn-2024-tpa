@@ -4,30 +4,26 @@ import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
-import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.VisitaIncidente;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
-import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.Tecnico;
 import ar.edu.utn.frba.dds.dominio.persona.TipoDocumento;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
-import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.UploadedFile;
+import net.bytebuddy.asm.Advice;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TecnicosController implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
@@ -150,32 +146,53 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
             }
             else context.redirect("/login");
     }
-    public void solucionarIncidente(Context context) {
-        Long usuarioId = context.sessionAttribute("usuario_id");
-        Long heladeraId = Long.valueOf(context.pathParam("id"));
+    public void cerrarIncidente(Context context){
+        VisitaTecnicaRepositorio visitaTecnicaRepositorio= new VisitaTecnicaRepositorio();
+        IncidenteRepositorio incidenteRepositorio=new IncidenteRepositorio();
 
-        HeladerasRepositorio repositorio = HeladerasRepositorio.getInstancia();
-        Heladera heladera = repositorio.buscarPorId(Heladera.class, heladeraId);
+        Long usuarioId= context.sessionAttribute("usuario_id");
+        Long incidenteId = Long.valueOf(context.formParam("incidenteId"));
 
-        IncidenteRepositorio incidenteRepositorio = IncidenteRepositorio.getInstancia();
-        List<Incidente> incidentesHeladera = incidenteRepositorio.buscarPorHeladeraId(Incidente.class, heladeraId);
-        List<Incidente> incidentesFiltrados=  incidentesHeladera.stream().filter(incidente->incidente.getResuelto()).toList();
-        Incidente incidente=incidentesFiltrados.get(0);
+        Incidente incidente=incidenteRepositorio.buscarPorId(Incidente.class,incidenteId);
 
-        if (incidente == null) {
-            context.status(404).result("Incidente no encontrado");
-            return;
+        String fechaHoraVisitaStr = context.formParam("fechaVisita");
+        LocalDateTime fechaHoraVisita = LocalDateTime.parse(fechaHoraVisitaStr);
+
+        // Recuperar el estado del incidente (si está resuelto o no)
+        Integer resuelto = Integer.valueOf(context.formParam("incidenteResuelto"));
+
+        List<UploadedFile> fotosSubidas = context.uploadedFiles("fotosVisita");
+        ArrayList<String> fotosIncidente = new ArrayList<>();
+        if (fotosSubidas != null && !fotosSubidas.isEmpty()) {
+            for (UploadedFile foto : fotosSubidas) {
+                String fotoPath = guardarFoto(foto);
+                fotosIncidente.add(fotoPath);
+            }
         }
+        Boolean resueltoEnserio=false;
+        if (resuelto==1){
+            resueltoEnserio=true;
+            incidente.getHeladeraIncidente().setDesperfecto(false);
+            incidente.setResuelto(true);
+        }
+        VisitaIncidente visitaIncidente=new VisitaIncidente(
+                obtenerTecnicoPorUsuarioId(usuarioId),
+                incidente,
+                fechaHoraVisita,
+                resueltoEnserio
 
-        //VisitaIncidente visitaIncidente= new VisitaIncidente(obtenerTecnicoPorUsuarioId(usuarioId), incidente, fechaVisita, fotosVisita, true);
+        );
+        visitaIncidente.setFechaHoraAlta(LocalDateTime.now());
+        visitaIncidente.agregarFotos(fotosIncidente);
 
-        context.redirect("/heladeras/" + heladeraId);
+        visitaTecnicaRepositorio.persistir(visitaIncidente);
+
+        context.redirect("/");
     }
-
     public String guardarFoto(UploadedFile foto) {
         try {
             // Definir el directorio donde se almacenarán las fotos
-            String directorioFotos = "src/main/resources/uploads/incidentes/";
+            String directorioFotos = "src/main/resources/uploads/incidentes/tecnico/";
 
             Path directorioPath = Paths.get(directorioFotos);
             if (!Files.exists(directorioPath)) {
@@ -194,7 +211,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error al guardar la foto del incidente.");
+            throw new RuntimeException("Error al guardar la foto del tecnico.");
         }
     }
     @Override

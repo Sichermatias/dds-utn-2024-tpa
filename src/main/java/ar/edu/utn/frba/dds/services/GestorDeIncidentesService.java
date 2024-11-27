@@ -18,7 +18,7 @@ public class GestorDeIncidentesService {
     private final IncidenteRepositorio incidentesRepositorio;
     private final TecnicoRepositorio tecnicoRepositorio;
 
-    public GestorDeIncidentesService(IncidenteRepositorio incidentesRepositorio, TecnicosRepository tecnicosRepository, TecnicoRepositorio tecnicoRepositorio) {
+    public GestorDeIncidentesService(IncidenteRepositorio incidentesRepositorio, TecnicoRepositorio tecnicoRepositorio) {
         this.incidentesRepositorio = incidentesRepositorio;
         this.tecnicoRepositorio = tecnicoRepositorio;
     }

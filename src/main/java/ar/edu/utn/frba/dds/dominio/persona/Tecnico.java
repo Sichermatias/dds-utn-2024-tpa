@@ -106,7 +106,7 @@ public class Tecnico extends Persistente {
             // incidenteAResolver.getHeladeraIncidente().setActivo(true);
         }
 
-        new VisitaIncidente(this,incidenteAResolver,LocalDateTime.now(),fotoVisita,resolucion);
+        new VisitaIncidente(this,incidenteAResolver,LocalDateTime.now(),resolucion);
 
         return resolucion;
     }

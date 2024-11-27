@@ -135,7 +135,11 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             heladera.setDesperfecto(true);
             repositorio.actualizar(heladera);
         }
-        
+        TecnicoRepositorio tecnicoRepositorio=new TecnicoRepositorio();
+        IncidenteRepositorio incidenteRepositorio=new IncidenteRepositorio();
+        GestorDeIncidentesService gestorDeIncidentesService=new GestorDeIncidentesService(incidenteRepositorio, tecnicoRepositorio);
+        gestorDeIncidentesService.gestionarIncidente(nuevoIncidente);
+
         context.redirect("/heladeras/" + heladeraId);
     }
 
