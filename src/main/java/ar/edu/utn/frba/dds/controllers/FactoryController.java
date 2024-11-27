@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.config.ServiceLocator;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
+import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
 
 public class FactoryController {
 
@@ -27,7 +28,7 @@ public class FactoryController {
             case "RecomendadorPuntosDonacion" -> new RecomendadorPuntosDonacionController();
             case "RecomendadorPuntos" -> new RecomendadorPuntosController();
 
-            case "Sensores" -> new SensoresController(new SensoresTemperaturaRepository(), new SensoresMovimientoRepository(), new IncidentesRepository(), new RegistrosSensoresRepository());
+            case "Sensores" -> new SensoresController(new SensoresTemperaturaRepository(), new SensoresMovimientoRepository(), new IncidentesRepository(), new RegistrosSensoresRepository(), ServiceLocator.instanceOf(GestorDeIncidentesService.class));
             case "Apertura" -> new AperturaController(new PedidoDeAperturaRepositorio(), new ColaboradorRepositorio());
             default -> null;
         };

@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.infraestructura.*;
-import ar.edu.utn.frba.dds.dtos.inputs.RegistroAperturaDTO;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorMovDTO;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorTempDTO;
 import ar.edu.utn.frba.dds.models.repositories.IIncidentesRepository;
@@ -10,6 +9,7 @@ import ar.edu.utn.frba.dds.models.repositories.ISensoresMovimientoRepository;
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
 import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
 import ar.edu.utn.frba.dds.models.repositories.ISensoresTemperaturaRepository;
+import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
@@ -20,16 +20,18 @@ public class SensoresController implements IMqttMessageListener {
     private final ISensoresMovimientoRepository sensoresMovimientoRepository;
     private final IIncidentesRepository incidentesRepository;
     private final IRegistrosSensoresRepository registrosSensoresRepository;
+    private final GestorDeIncidentesService gestorDeIncidentesService;
 
     public SensoresController(
             ISensoresTemperaturaRepository sensoresTemperaturaRepository,
             ISensoresMovimientoRepository sensoresMovimientoRepository,
             IIncidentesRepository incidentesRepository,
-            IRegistrosSensoresRepository registrosSensoresRepository) {
+            IRegistrosSensoresRepository registrosSensoresRepository, GestorDeIncidentesService gestorDeIncidentesService) {
         this.sensoresTemperaturaRepository = sensoresTemperaturaRepository;
         this.sensoresMovimientoRepository = sensoresMovimientoRepository;
         this.incidentesRepository = incidentesRepository;
         this.registrosSensoresRepository = registrosSensoresRepository;
+        this.gestorDeIncidentesService = gestorDeIncidentesService;
     }
 
     @Override
@@ -68,6 +70,8 @@ public class SensoresController implements IMqttMessageListener {
         this.incidentesRepository.agregar(incidente);
 
         this.sensoresMovimientoRepository.actualizarEstadoSensor(sensorDeMovimiento);
+
+        this.gestorDeIncidentesService.gestionarIncidente(incidente);
     }
 
     private void recibirDatoTemperatura(RegistroSensorTempDTO registroSensorTempDTO) {
@@ -91,6 +95,8 @@ public class SensoresController implements IMqttMessageListener {
             );
 
             this.incidentesRepository.agregar(incidente);
+
+            this.gestorDeIncidentesService.gestionarIncidente(incidente);
         }
 
         this.sensoresTemperaturaRepository.actualizar(sensorTemperatura);
