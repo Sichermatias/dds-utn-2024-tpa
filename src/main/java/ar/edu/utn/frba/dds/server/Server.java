@@ -43,7 +43,7 @@ public class Server {
 
             Initializer.init();
 
-            //BrokerInit.init();
+            BrokerInit.init();
         }
     }
 

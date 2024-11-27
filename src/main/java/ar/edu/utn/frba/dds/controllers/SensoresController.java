@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.infraestructura.*;
+import ar.edu.utn.frba.dds.dtos.inputs.RegistroAperturaDTO;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorMovDTO;
 import ar.edu.utn.frba.dds.dtos.inputs.RegistroSensorTempDTO;
 import ar.edu.utn.frba.dds.models.repositories.IIncidentesRepository;

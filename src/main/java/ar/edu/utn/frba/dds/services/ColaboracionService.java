@@ -60,7 +60,7 @@ public class ColaboracionService {
         nuevaVianda.setFechaHoraAlta(fechaAlta);
         return nuevaVianda;
     }
-    public void crearDonacionVianda(Colaboracion colaboracion, Vianda vianda, Heladera heladeraAsignada, Double cantidadViandas) {
+    public void crearDonacionVianda(Colaboracion colaboracion, Vianda vianda, Heladera heladeraAsignada, Integer cantidadViandas) {
 
         if (cantidadViandas == null || cantidadViandas <= 0) {
             throw new IllegalArgumentException("La cantidad de viandas debe ser mayor a cero.");
@@ -76,6 +76,7 @@ public class ColaboracionService {
         pedidoDeApertura.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
         pedidoDeApertura.setFechaHoraRealizada(LocalDateTime.now());
         pedidoDeApertura.setFechaHoraAlta(LocalDateTime.now());
+        pedidoDeApertura.setCantidadViandas(donacionVianda.getCantViandas());
 
         donacionVianda.setCantViandas(cantidadViandas);
         donacionVianda.setPedidoDeApertura(pedidoDeApertura);
@@ -185,14 +186,16 @@ public class ColaboracionService {
         pedidoOrigen.setFechaHoraAlta(LocalDateTime.now());
         pedidoOrigen.setMotivo("Redistribucion"+motivo.getDescripcion());
         pedidoOrigen.setHeladera(heladeraOrigen);
-        pedidoOrigen.setValido(true);
+        pedidoOrigen.setEsValido(true);
         pedidoOrigen.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
+        pedidoOrigen.setCantidadViandas(-cantidadViandas);
 
         pedidoDestino.setFechaHoraAlta(LocalDateTime.now());
         pedidoDestino.setMotivo("Redistribucion"+motivo.getDescripcion());
         pedidoDestino.setHeladera(heladeraDestino);
-        pedidoDestino.setValido(true);
+        pedidoDestino.setEsValido(true);
         pedidoDestino.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
+        pedidoDestino.setCantidadViandas(cantidadViandas);
 
         redistribucionViandas.setPedidoDeAperturaEnDestino(pedidoDestino);
         redistribucionViandas.setPedidoDeAperturaEnOrigen(pedidoOrigen);

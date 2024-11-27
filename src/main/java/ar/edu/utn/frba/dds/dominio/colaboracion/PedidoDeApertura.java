@@ -26,11 +26,14 @@ public class PedidoDeApertura extends Persistente {
     @Column(name = "fechaHoraRealizada")
     private LocalDateTime fechaHoraRealizada;
 
-    @Column(name = "valido", columnDefinition = "BIT(1)")
-    private Boolean valido=true;
+    @Column(name = "esValido", columnDefinition = "BIT(1)")
+    private Boolean esValido=true;
 
     @Column(name = "motivo", columnDefinition = "TEXT")
     private String motivo;
+
+    @Column(name = "coloboracionCantidadViandas", columnDefinition = "INTEGER(5)")
+    private Integer cantidadViandas;
 
     public PedidoDeApertura() {
     }
