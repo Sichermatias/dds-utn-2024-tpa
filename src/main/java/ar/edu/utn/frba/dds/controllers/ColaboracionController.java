@@ -140,7 +140,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Heladera heladeraAsignada = heladeraRepositorio.buscarPorId(Heladera.class, Long.parseLong(context.formParam("heladera")));
         Double calorias = Double.parseDouble(context.formParam("calorias"));
         Double peso = Double.parseDouble(context.formParam("peso"));
-        Double cantidadViandas = Double.parseDouble(context.formParam("cantidad"));
+        Integer cantidadViandas = Integer.parseInt(context.formParam("cantidad"));
 
         Vianda vianda=colaboracionService.crearVianda(nombreComida,fechaCaducidad,heladeraAsignada,calorias,peso);
         colaboracionService.crearDonacionVianda(colaboracion, vianda, heladeraAsignada, cantidadViandas);

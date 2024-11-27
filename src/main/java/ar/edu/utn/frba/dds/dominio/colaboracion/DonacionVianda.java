@@ -28,7 +28,7 @@ public class DonacionVianda extends Persistente {
 
     @Column(name = "cantViandas")
     @Getter@Setter
-    private Double cantViandas;
+    private Integer cantViandas;
 
     public DonacionVianda() {
         this.colaboracion = new Colaboracion();

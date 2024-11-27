@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.dominio.services.broker;
 
+import ar.edu.utn.frba.dds.controllers.AperturaController;
 import ar.edu.utn.frba.dds.controllers.FactoryController;
 import ar.edu.utn.frba.dds.controllers.SensoresController;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -11,8 +12,10 @@ public class BrokerInit {
         BrokerHandler brokerHandler = new BrokerHandler();
         MqttClient cliente = brokerHandler.conectar();
         SensoresController sensoresController = (SensoresController) FactoryController.controller("Sensores");
+        AperturaController aperturaController = (AperturaController) FactoryController.controller("Apertura");
 
         brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/temperatura", sensoresController);
         brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/movimiento", sensoresController);
+        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/apertura", aperturaController);
     }
 }
