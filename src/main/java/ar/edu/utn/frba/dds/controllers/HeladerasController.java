@@ -85,13 +85,10 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             return;
         }
 
-        List<UploadedFile> fotosSubidas = context.uploadedFiles("imagenPremio");
-        List<String> fotosIncidente = new ArrayList<>();
-        if (fotosSubidas != null && !fotosSubidas.isEmpty()) {
-            for (UploadedFile foto : fotosSubidas) {
-                String fotoPath = guardarFoto(foto);
-                fotosIncidente.add(fotoPath);
-            }
+        UploadedFile fotoSubida = context.uploadedFile("foto");
+        String fotoIncidente = null;
+        if (fotoSubida != null) {
+            fotoIncidente = guardarFoto(fotoSubida);
         }
 
         ColaboradorRepositorio colaboradorRepositorio=ColaboradorRepositorio.getInstancia();
@@ -107,7 +104,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
                 tipoIncidente,
                 colaborador,
                 descripcion,
-                fotosIncidente
+                fotoIncidente
         );
         nuevoIncidente.setAsignado(false);
         heladera.setCantSemanalIncidentes(heladera.getCantSemanalIncidentes()+1);
@@ -129,9 +126,10 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
     public String guardarFoto(UploadedFile foto) {
         try {
             // Definir el directorio donde se almacenarán las fotos
-            String directorioFotos = "src/main/resources/uploads/incidentes/";
+            String rutaPrincipal = "src/main/resources";
+            String directorioFotos = "/uploads/incidentes/";
 
-            Path directorioPath = Paths.get(directorioFotos);
+            Path directorioPath = Paths.get(rutaPrincipal + directorioFotos);
             if (!Files.exists(directorioPath)) {
                 Files.createDirectories(directorioPath);
             }
@@ -144,7 +142,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
 
             Files.write(archivoPath, foto.content().readAllBytes());
 
-            return "/" + directorioFotos + nombreUnico;
+            return directorioFotos + nombreUnico;
 
         } catch (IOException e) {
             e.printStackTrace();

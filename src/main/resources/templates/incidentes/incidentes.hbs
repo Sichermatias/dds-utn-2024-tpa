@@ -7,7 +7,7 @@
 <div class="row">
         <div class="col-md-12">
             <div class="form-container bg-white p-4 rounded shadow">
-                <h1 class="text-center text-primary">Fallos por Heladera</h1>
+                <h1 class="text-center text-primary">Incidentes de la Heladera: {{heladera.nombre}}</h1>
 
                 <table class="table table-striped">
                     <thead>
@@ -15,7 +15,10 @@
                         <th>Tipo</th>
                         <th>Fecha de Alta</th>
                         <th>Descripcion</th>
+                        <th>Imagen</th>
                         <th>Estado</th>
+                        <th>Fecha Resolucion</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -24,7 +27,10 @@
                             <td>{{this.tipoIncidente}}</td>
                             <td>{{this.fechaHoraAlta}}</td>
                             <td>{{this.descripcionIncidente}}</td>
-                            <td>{{this.activo}}</td>
+                            <td><img src="{{this.fotoIncidente}}" style="height: 60px" alt="Incidente"></td>
+                            <td>{{#if this.resuelto}}Resuelto{{else}}Pendiente{{/if}}</td>
+                            <td>{{this.fechaHoraBaja}}</td>
+                            <td><a class="btn btn-primary" href="visitas/{{this.heladeraIncidente}}" role="button">Ver Visitas</a></td>
                         </tr>
                     {{/each}}
                     </tbody>
