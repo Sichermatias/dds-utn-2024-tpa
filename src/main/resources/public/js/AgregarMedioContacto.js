@@ -9,7 +9,7 @@ document.querySelector('.add-contact').addEventListener('click', function() {
         newContactRow.classList.add('form-row', 'mb-3'); // Agregar clases de Bootstrap
         newContactRow.innerHTML = `
             <div class="form-group col-md-6">
-                <select class="form-control" id="nombreContacto${contactCount}" name="nombreContacto${contactCount}" required>
+                <select class="form-control" id="nombreContacto[]" name="nombreContacto[]" required>
                 <option value="" disabled selected>Selecciona Medio de Contacto</option>
                 <option value="E-MAIL">E-MAIL</option>
                 <option value="WHATSAPP">WHATSAPP</option>
@@ -17,7 +17,7 @@ document.querySelector('.add-contact').addEventListener('click', function() {
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="contacto${contactCount}" name="contacto${contactCount}" placeholder="Dato de Contacto" required>
+                <input type="text" class="form-control" id="contacto[]" name="contacto[]" placeholder="Dato de Contacto" required>
             </div>
             <div class="form-group col-md-6">
                 <button type="button" class="btn btn-outline-danger remove-contact" onclick="removeContact(this)">Eliminar</button>
