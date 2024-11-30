@@ -11,6 +11,8 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,8 +87,9 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
             }
 
             if (ValidadorCampos.validarFecha(fecha)) {
-                colaboracion.setFechaColaboracion(LocalDate.parse(fecha));
-            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                colaboracion.setFechaColaboracion(LocalDate.parse(fecha, formatter));
+                } else {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
         }

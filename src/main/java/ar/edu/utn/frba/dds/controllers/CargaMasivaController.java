@@ -2,7 +2,8 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CampoInvalidoException;
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CargaMasiva;
-import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
+import ar.edu.utn.frba.dds.dominio.colaboracion.*;
+import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
@@ -12,6 +13,10 @@ import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaM
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMensaje;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.TransaccionRepositorio;
+import ar.edu.utn.frba.dds.services.ColaboracionService;
+import ar.edu.utn.frba.dds.services.TransaccionService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -19,6 +24,7 @@ import io.javalin.http.UploadedFile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,13 +55,11 @@ public class CargaMasivaController implements ICrudViewsHandler, WithSimplePersi
                 List<Colaboracion> colaboraciones = cargaMasiva.cargarArchivo(rutaTemporal, ";");            ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia(); // Repositorio usado en varias ocasiones
 
                 for (Colaboracion colaboracion : colaboraciones) {
+
                     Colaborador colaborador = colaboracion.getColaborador();
 
                     List<Colaborador> personaGuardada = repositorio.buscarPorDNI(Colaborador.class, colaborador.getNroDocumento());
-                    if (!personaGuardada.isEmpty()) {
-                        colaboracion.setColaborador(personaGuardada.get(0));
-                        ColaboracionRepositorio.getInstancia().persist(colaboracion);
-                    } else {
+                    if (personaGuardada.isEmpty() || personaGuardada.get(0).getUsuario()==null) {
                         Usuario usuario = new Usuario();
                         usuario.setNombreUsuario(colaborador.getNombre()+colaborador.getApellido());
                         usuario.setContrasenia(colaborador.getNroDocumento());
@@ -67,8 +71,46 @@ public class CargaMasivaController implements ICrudViewsHandler, WithSimplePersi
                         usuario.setRol(rol);
 
                         colaborador.setUsuario(usuario);
+                        colaborador.setFechaHoraAlta(LocalDateTime.now());
 
-                        ColaboracionRepositorio.getInstancia().persistir(colaboracion);
+                    } else {
+                        colaboracion.setColaborador(personaGuardada.get(0));
+                    }
+                    ColaboracionService colaboracionService=new ColaboracionService(ColaboracionRepositorio.getInstancia(), DonacionDineroRepositorio.getInstancia(), new TransaccionService());
+                    switch (colaboracion.getTipo()) {
+                        case "DINERO":
+                            colaboracionService.crearDonacionDinero(colaboracion, 0.0, null);
+                            break;
+                        case "DONACION_VIANDAS":
+                            DonacionVianda donacionVianda = new DonacionVianda();
+                            donacionVianda.setActivo(true);
+                            donacionVianda.setVianda(null);
+                            donacionVianda.setFechaHoraAlta(LocalDateTime.now());
+                            donacionVianda.setColaboracion(colaboracion);
+                            donacionVianda.setCantViandas(0);
+                            donacionVianda.setPedidoDeApertura(null);
+                            Transaccion transaccion=new TransaccionService().crearTransaccion(colaboracion.getColaborador(), donacionVianda.puntaje());
+                            colaboracion.setTransaccion(transaccion);
+                            donacionVianda.setColaboracion(colaboracion);
+                            ColaboracionRepositorio.getInstancia().persistir(donacionVianda);
+                            break;
+                        case "REDISTRIBUCION_VIANDAS":
+                            RedistribucionViandas redistribucionViandas=new RedistribucionViandas();
+                            redistribucionViandas.setHeladeraOrigen(null);
+                            redistribucionViandas.setHeladeraDestino(null);
+                            redistribucionViandas.setCantidadViandas(0);
+                            redistribucionViandas.setMotivoRedistribucion(null);
+                            redistribucionViandas.setFechaHoraAlta(LocalDateTime.now());
+                            redistribucionViandas.setPedidoDeAperturaEnDestino(null);
+                            redistribucionViandas.setPedidoDeAperturaEnOrigen(null);
+                            Transaccion tran = new TransaccionService().crearTransaccion(colaboracion.getColaborador(), redistribucionViandas.puntaje());
+                            colaboracion.setTransaccion(tran);
+                            redistribucionViandas.setColaboracion(colaboracion);
+                            ColaboracionRepositorio.getInstancia().persistir(redistribucionViandas);
+                            break;
+                        case "ENTREGA_TARJETAS":
+                            colaboracionService.crearColaboracionTarjetas(colaboracion, null);
+                            break;
                     }
                 }
                 ctx.redirect("/");

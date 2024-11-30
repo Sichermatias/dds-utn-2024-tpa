@@ -137,7 +137,6 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
                 model.put("tipo_rol", tipoRol);
                 model.put("usuario_id", usuarioId);
                 model.put("usuario", colaborador.getUsuario());
-                model.put("direccion", colaborador.getUbicacion().getDireccion());
                 model.put("mediosContacto", colaborador.getMediosDeContacto());
                 context.render("/perfil/editar_perfil_humana.hbs",model);
             } else {
