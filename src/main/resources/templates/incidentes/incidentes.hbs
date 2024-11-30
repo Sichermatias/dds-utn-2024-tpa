@@ -30,7 +30,7 @@
                             <td><img src="{{this.fotoIncidente}}" style="height: 60px" alt="Incidente"></td>
                             <td>{{#if this.resuelto}}Resuelto{{else}}Pendiente{{/if}}</td>
                             <td>{{this.fechaHoraBaja}}</td>
-                            <td><a class="btn btn-primary" href="visitas/{{this.heladeraIncidente}}" role="button">Ver Visitas</a></td>
+                            <td><a class="btn btn-primary" href="visitas/{{this.heladeraIncidente.id}}" role="button">Ver Visitas</a></td>
                         </tr>
                     {{/each}}
                     </tbody>

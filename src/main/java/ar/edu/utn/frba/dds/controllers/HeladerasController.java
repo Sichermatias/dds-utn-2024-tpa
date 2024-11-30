@@ -217,10 +217,14 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
             context.redirect("/login");
         } else {
             Colaborador colaborador = colaboradorRepositorio.obtenerColaboradorPorUsuarioId(usuarioId);
-            if (colaborador.estaSuscrito(heladera)){
-                model.put("yaSuscrito", true);
-            }
-            if (colaborador.hostea(heladera)){
+            if(colaborador!=null) {
+                if (colaborador.estaSuscrito(heladera)) {
+                    model.put("yaSuscrito", true);
+                }
+                if (colaborador.hostea(heladera)) {
+                    model.put("verIncidentes", true);
+                }
+            }else if (tipoRol.equals("TECNICO") || tipoRol.equals("ADMIN")){
                 model.put("verIncidentes", true);
             }
         }
