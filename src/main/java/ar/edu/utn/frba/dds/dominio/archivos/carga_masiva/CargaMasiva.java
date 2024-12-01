@@ -22,16 +22,14 @@ public class CargaMasiva implements WithSimplePersistenceUnit {
         this.mensajero = mensaje;
     }
 
-    public List<Colaboracion> cargarArchivo(String ruta, String separador) throws CampoInvalidoException {
+    public void cargarArchivo(String ruta, String separador) throws CampoInvalidoException {
         String linea;
         List<Colaboracion> colaboracionesTotales=new ArrayList<>();
         while ((linea = lectorArchivo.traerLinea(ruta)) != null) {
             String[] campos = SplitterLineas.split_linea(linea, separador);
             ProcesadorCampos procesadorCampos=new ProcesadorCampos();
-            List<Colaboracion> colaboraciones = procesadorCampos.procesarCampos(campos);
-            colaboracionesTotales.addAll(colaboraciones);
+            procesadorCampos.procesarCampos(campos);
         }
-        return colaboracionesTotales;
     }
 
     public void cargarPersona(Colaborador colaborador) {

@@ -52,67 +52,7 @@ public class CargaMasivaController implements ICrudViewsHandler, WithSimplePersi
                 CargaMasiva cargaMasiva = new CargaMasiva(mensajero);
 
                 String rutaTemporal = guardarArchivoTemporal(file);
-                List<Colaboracion> colaboraciones = cargaMasiva.cargarArchivo(rutaTemporal, ";");            ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia(); // Repositorio usado en varias ocasiones
-
-                for (Colaboracion colaboracion : colaboraciones) {
-
-                    Colaborador colaborador = colaboracion.getColaborador();
-
-                    List<Colaborador> personaGuardada = repositorio.buscarPorDNI(Colaborador.class, colaborador.getNroDocumento());
-                    if (personaGuardada.isEmpty() || personaGuardada.get(0).getUsuario()==null) {
-                        Usuario usuario = new Usuario();
-                        usuario.setNombreUsuario(colaborador.getNombre()+colaborador.getApellido());
-                        usuario.setContrasenia(colaborador.getNroDocumento());
-
-                        Rol rol = new Rol();
-                        TipoRol tipoRol = TipoRol.COLABORADOR_HUMANO;
-                        rol.setTipo(tipoRol);
-                        rol.setNombreRol("COLABORADOR");
-                        usuario.setRol(rol);
-
-                        colaborador.setUsuario(usuario);
-                        colaborador.setFechaHoraAlta(LocalDateTime.now());
-
-                    } else {
-                        colaboracion.setColaborador(personaGuardada.get(0));
-                    }
-                    ColaboracionService colaboracionService=new ColaboracionService(ColaboracionRepositorio.getInstancia(), DonacionDineroRepositorio.getInstancia(), new TransaccionService());
-                    switch (colaboracion.getTipo()) {
-                        case "DINERO":
-                            colaboracionService.crearDonacionDinero(colaboracion, 0.0, null);
-                            break;
-                        case "DONACION_VIANDAS":
-                            DonacionVianda donacionVianda = new DonacionVianda();
-                            donacionVianda.setActivo(true);
-                            donacionVianda.setVianda(null);
-                            donacionVianda.setFechaHoraAlta(LocalDateTime.now());
-                            donacionVianda.setColaboracion(colaboracion);
-                            donacionVianda.setCantViandas(0);
-                            donacionVianda.setPedidoDeApertura(null);
-                            Transaccion transaccion=new TransaccionService().crearTransaccion(colaboracion.getColaborador(), donacionVianda.puntaje());
-                            colaboracion.setTransaccion(transaccion);
-                            donacionVianda.setColaboracion(colaboracion);
-                            ColaboracionRepositorio.getInstancia().persistir(donacionVianda);
-                            break;
-                        case "REDISTRIBUCION_VIANDAS":
-                            RedistribucionViandas redistribucionViandas=new RedistribucionViandas();
-                            redistribucionViandas.setHeladeraOrigen(null);
-                            redistribucionViandas.setHeladeraDestino(null);
-                            redistribucionViandas.setCantidadViandas(0);
-                            redistribucionViandas.setMotivoRedistribucion(null);
-                            redistribucionViandas.setFechaHoraAlta(LocalDateTime.now());
-                            redistribucionViandas.setPedidoDeAperturaEnDestino(null);
-                            redistribucionViandas.setPedidoDeAperturaEnOrigen(null);
-                            Transaccion tran = new TransaccionService().crearTransaccion(colaboracion.getColaborador(), redistribucionViandas.puntaje());
-                            colaboracion.setTransaccion(tran);
-                            redistribucionViandas.setColaboracion(colaboracion);
-                            ColaboracionRepositorio.getInstancia().persistir(redistribucionViandas);
-                            break;
-                        case "ENTREGA_TARJETAS":
-                            colaboracionService.crearColaboracionTarjetas(colaboracion, null);
-                            break;
-                    }
-                }
+                cargaMasiva.cargarArchivo(rutaTemporal, ";");            ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia(); // Repositorio usado en varias ocasiones
                 ctx.redirect("/");
 
             } catch (CampoInvalidoException e) {
