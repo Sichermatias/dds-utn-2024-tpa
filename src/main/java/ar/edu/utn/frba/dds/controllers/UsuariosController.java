@@ -41,8 +41,8 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
             model.put("colaborador", colaborador);
             model.put("tipo_rol", tipoRol);
             switch (tipoRol) {
-                case "COLABORADOR_HUMANO" -> context.render("/perfil/Perfil_Humano.hbs", model);
-                case "COLABORADOR_JURIDICO" -> context.render("/perfil/Perfil_Juridico.hbs", model);
+                case "COLABORADOR_HUMANO" -> context.render("perfil/Perfil_Humano.hbs", model);
+                case "COLABORADOR_JURIDICO" -> context.render("perfil/Perfil_Juridico.hbs", model);
                 default -> context.render("LandingPage.hbs", model);
             }
         } else {
@@ -64,7 +64,7 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
                 model.put("direccion", colaborador.getUbicacion().getDireccion());
                 model.put("usuario", colaborador.getUsuario());
                 model.put("mediosContacto", colaborador.getMediosDeContacto().get(0));
-                context.render("/perfil/editar_perfil_juridica.hbs", model);
+                context.render("perfil/editar_perfil_juridica.hbs", model);
             } else {
                 context.redirect("/login");
             }
@@ -140,7 +140,7 @@ public class UsuariosController implements ICrudViewsHandler, WithSimplePersiste
                 model.put("usuario_id", usuarioId);
                 model.put("usuario", colaborador.getUsuario());
                 model.put("mediosContacto", colaborador.getMediosDeContacto().get(0));
-                context.render("/perfil/editar_perfil_humana.hbs",model);
+                context.render("perfil/editar_perfil_humana.hbs",model);
             } else {
                 context.redirect("/login");
             }

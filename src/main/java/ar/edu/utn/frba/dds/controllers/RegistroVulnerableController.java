@@ -28,7 +28,7 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
         if (tipoRol != null) {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
-        context.render("/registro/Registro-Vulnerable.hbs", model);}
+        context.render("registro/Registro-Vulnerable.hbs", model);}
         else context.redirect("/login");
     }
     public void registroVulnerable(Context context){

@@ -38,7 +38,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
         List<Heladera> heladeras = repositorio.buscarTodas();
         if (tipoRol != null) {
             model.put("heladeras", heladeras);
-            context.render("/heladeras/heladeras.hbs", model);
+            context.render("heladeras/heladeras.hbs", model);
         }
         else context.redirect("/login");
     }
@@ -56,7 +56,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
 
         if (tipoRol != null) {
             model.put("heladera", heladera);
-            context.render("/heladeras/heladera_falla.hbs", model);
+            context.render("heladeras/heladera_falla.hbs", model);
         }
         else context.redirect("/login");
     }
@@ -164,7 +164,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
         if (tipoRol != null) {
             model.put("colaborador", colaborador);
             model.put("heladera", heladera);
-            context.render("/heladeras/heladera_suscripcion.hbs", model);
+            context.render("heladeras/heladera_suscripcion.hbs", model);
         }
         else context.redirect("/login");
 
@@ -230,7 +230,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
         }
 
         model.put("heladera", heladera);
-        context.render("/heladeras/heladera_ind.hbs", model);
+        context.render("heladeras/heladera_ind.hbs", model);
 
     }
 
@@ -250,7 +250,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
         if (tipoRol != null) {
             model.put("suscripcion", suscripcion);
             model.put("heladera", heladera);
-            context.render("/heladeras/heladera_misuscripcion.hbs", model);
+            context.render("heladeras/heladera_misuscripcion.hbs", model);
         }
         else context.redirect("/login");
     }

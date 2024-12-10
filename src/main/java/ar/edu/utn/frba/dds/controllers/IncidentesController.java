@@ -46,7 +46,7 @@ public class IncidentesController implements ICrudViewsHandler, WithSimplePersis
         if (tipoRol != null) {
             model.put("incidentes", incidentes);
             model.put("heladera", heladera);
-            context.render("/incidentes/incidentes.hbs", model);
+            context.render("incidentes/incidentes.hbs", model);
         }
         else context.redirect("/login");
     }
