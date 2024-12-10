@@ -2,7 +2,8 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CampoInvalidoException;
 import ar.edu.utn.frba.dds.dominio.archivos.carga_masiva.CargaMasiva;
-import ar.edu.utn.frba.dds.dominio.colaboracion.Colaboracion;
+import ar.edu.utn.frba.dds.dominio.colaboracion.*;
+import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
 import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
@@ -12,6 +13,10 @@ import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaM
 import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMensaje;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.TransaccionRepositorio;
+import ar.edu.utn.frba.dds.services.ColaboracionService;
+import ar.edu.utn.frba.dds.services.TransaccionService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -19,6 +24,7 @@ import io.javalin.http.UploadedFile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,31 +52,7 @@ public class CargaMasivaController implements ICrudViewsHandler, WithSimplePersi
                 CargaMasiva cargaMasiva = new CargaMasiva(mensajero);
 
                 String rutaTemporal = guardarArchivoTemporal(file);
-                List<Colaboracion> colaboraciones = cargaMasiva.cargarArchivo(rutaTemporal, ";");            ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia(); // Repositorio usado en varias ocasiones
-
-                for (Colaboracion colaboracion : colaboraciones) {
-                    Colaborador colaborador = colaboracion.getColaborador();
-
-                    List<Colaborador> personaGuardada = repositorio.buscarPorDNI(Colaborador.class, colaborador.getNroDocumento());
-                    if (!personaGuardada.isEmpty()) {
-                        colaboracion.setColaborador(personaGuardada.get(0));
-                        ColaboracionRepositorio.getInstancia().persist(colaboracion);
-                    } else {
-                        Usuario usuario = new Usuario();
-                        usuario.setNombreUsuario(colaborador.getNombre()+colaborador.getApellido());
-                        usuario.setContrasenia(colaborador.getNroDocumento());
-
-                        Rol rol = new Rol();
-                        TipoRol tipoRol = TipoRol.COLABORADOR_HUMANO;
-                        rol.setTipo(tipoRol);
-                        rol.setNombreRol("COLABORADOR");
-                        usuario.setRol(rol);
-
-                        colaborador.setUsuario(usuario);
-
-                        ColaboracionRepositorio.getInstancia().persistir(colaboracion);
-                    }
-                }
+                cargaMasiva.cargarArchivo(rutaTemporal, ";");            ColaboradorRepositorio repositorio = ColaboradorRepositorio.getInstancia(); // Repositorio usado en varias ocasiones
                 ctx.redirect("/");
 
             } catch (CampoInvalidoException e) {

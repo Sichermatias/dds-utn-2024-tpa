@@ -43,7 +43,7 @@ public class Tecnico extends Persistente {
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tecnico_id", referencedColumnName = "id")
-    private List<MedioDeContacto> mediosDeContacto;
+    private List<MedioDeContacto> mediosDeContacto=new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "Localidad_tecnico", joinColumns = @JoinColumn(name = "tecnico_id"))

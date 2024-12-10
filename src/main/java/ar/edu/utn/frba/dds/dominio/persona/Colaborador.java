@@ -82,6 +82,7 @@ public class Colaborador extends Persistente {
     @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private List<Tarjeta> tarjetas;
 
+@Getter
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;

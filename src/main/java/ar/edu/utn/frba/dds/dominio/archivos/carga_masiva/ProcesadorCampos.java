@@ -4,18 +4,26 @@ import ar.edu.utn.frba.dds.dominio.colaboracion.*;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.TipoDocumento;
 import ar.edu.utn.frba.dds.dominio.persona.TipoPersona;
+import ar.edu.utn.frba.dds.dominio.persona.login.Rol;
+import ar.edu.utn.frba.dds.dominio.persona.login.TipoRol;
+import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
+import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
+import ar.edu.utn.frba.dds.services.ColaboracionService;
+import ar.edu.utn.frba.dds.services.TransaccionService;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProcesadorCampos implements WithSimplePersistenceUnit {
-    public static List<Colaboracion> procesarCampos(String[] campos) throws CampoInvalidoException {
+    public static void procesarCampos(String[] campos) throws CampoInvalidoException {
         Colaborador colaborador=new Colaborador();
         String tipoDocumento = campos[0];
         String documento = campos[1];
@@ -60,11 +68,9 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
             throw new CampoInvalidoException("Email inválido: " + email);
         }
 
-        List<Colaboracion> colaboraciones = procesarColaboraciones(colaborador, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
-        return colaboraciones;
+        procesarColaboraciones(colaborador, fechaColaboracion, formaColaboracion, cantidadColaboraciones);
     }
-    public static List<Colaboracion> procesarColaboraciones(Colaborador colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
-        List<Colaboracion> colaboraciones = new ArrayList<>();
+    public static void procesarColaboraciones(Colaborador colaborador, String fecha, String forma, String cantidadStr) throws CampoInvalidoException {
 
         if (!ValidadorCampos.validarCantidad(cantidadStr)) {
             throw new CampoInvalidoException("Cantidad de colaboraciones inválida: " + cantidadStr);
@@ -72,24 +78,73 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
 
         int cantidad = Integer.parseInt(cantidadStr);
 
-        for (int i = 0; i < cantidad; i++) {
-            Colaboracion colaboracion = new Colaboracion();
-            switch (forma) {
-                case "DINERO", "DONACION_VIANDAS", "REDISTRIBUCION_VIANDAS", "ENTREGA_TARJETAS" -> {
-                    colaboracion.setTipo(forma);
-                    colaboracion.setFechaHoraAlta(LocalDateTime.now());
-                    colaboracion.setColaborador(colaborador);
-                    colaboraciones.add(colaboracion);
-                }
-                default -> throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
+        Colaboracion colaboracion = new Colaboracion();
+
+        colaboracion.setTipo(forma);
+        colaboracion.setFechaHoraAlta(LocalDateTime.now());
+        colaboracion.setColaborador(colaborador);
+        ColaboracionService colaboracionService=new ColaboracionService(ColaboracionRepositorio.getInstancia(), DonacionDineroRepositorio.getInstancia(), new TransaccionService());
+        switch (colaboracion.getTipo()) {
+            case "DINERO":
+                colaboracionService.crearDonacionDinero(colaboracion, cantidad, null);
+                break;
+            case "DONACION_VIANDAS":
+                DonacionVianda donacionVianda = new DonacionVianda();
+                donacionVianda.setActivo(true);
+                donacionVianda.setVianda(null);
+                donacionVianda.setFechaHoraAlta(LocalDateTime.now());
+                donacionVianda.setColaboracion(colaboracion);
+                donacionVianda.setCantViandas(cantidad);
+                donacionVianda.setPedidoDeApertura(null);
+                Transaccion transaccion=new TransaccionService().crearTransaccion(colaboracion.getColaborador(), donacionVianda.puntaje());
+                colaboracion.setTransaccion(transaccion);
+                donacionVianda.setColaboracion(colaboracion);
+                ColaboracionRepositorio.getInstancia().persistir(donacionVianda);
+                break;
+            case "REDISTRIBUCION_VIANDAS":
+                RedistribucionViandas redistribucionViandas=new RedistribucionViandas();
+                redistribucionViandas.setHeladeraOrigen(null);
+                redistribucionViandas.setHeladeraDestino(null);
+                redistribucionViandas.setCantidadViandas(cantidad);
+                redistribucionViandas.setMotivoRedistribucion(null);
+                redistribucionViandas.setFechaHoraAlta(LocalDateTime.now());
+                redistribucionViandas.setPedidoDeAperturaEnDestino(null);
+                redistribucionViandas.setPedidoDeAperturaEnOrigen(null);
+                Transaccion tran = new TransaccionService().crearTransaccion(colaboracion.getColaborador(), redistribucionViandas.puntaje());
+                colaboracion.setTransaccion(tran);
+                redistribucionViandas.setColaboracion(colaboracion);
+                ColaboracionRepositorio.getInstancia().persistir(redistribucionViandas);
+                break;
+            case "ENTREGA_TARJETAS":
+                colaboracionService.crearColaboracionTarjetas(colaboracion, null);
+                break;
+            case default: throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
+
             }
 
             if (ValidadorCampos.validarFecha(fecha)) {
-                colaboracion.setFechaColaboracion(LocalDate.parse(fecha));
-            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                colaboracion.setFechaColaboracion(LocalDate.parse(fecha, formatter));
+                } else {
                 throw new CampoInvalidoException("Fecha de colaboración inválida: " + fecha);
             }
-        }
-        return colaboraciones;
+
+            List<Colaborador> personaGuardada = ColaboracionRepositorio.getInstancia().buscarPorDNI(Colaborador.class, colaborador.getNroDocumento());
+            if (personaGuardada.isEmpty() || personaGuardada.get(0).getUsuario()==null) {
+                Usuario usuario = new Usuario();
+                usuario.setNombreUsuario(colaborador.getNombre()+colaborador.getApellido());
+                usuario.setContrasenia(colaborador.getNroDocumento());
+
+                Rol rol = new Rol();
+                TipoRol tipoRol = TipoRol.COLABORADOR_HUMANO;
+                rol.setTipo(tipoRol);
+                rol.setNombreRol("COLABORADOR");
+                usuario.setRol(rol);
+
+                colaborador.setUsuario(usuario);
+                colaborador.setFechaHoraAlta(LocalDateTime.now());
+            } else {
+                colaboracion.setColaborador(personaGuardada.get(0));
+            }
     }
 }
