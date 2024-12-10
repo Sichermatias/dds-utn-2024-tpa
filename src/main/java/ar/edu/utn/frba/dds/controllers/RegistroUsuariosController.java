@@ -33,15 +33,15 @@ public class RegistroUsuariosController implements WithSimplePersistenceUnit {
     }
 
     public void elegirTipo(Context context) {
-        context.render("/registro/Registro.hbs");
+        context.render("registro/Registro.hbs");
     }
 
     public void formularioJuridica(Context context) {
-        context.render("/registro/Registro-Juridica.hbs");
+        context.render("registro/Registro-Juridica.hbs");
     }
 
     public void formularioHumana(Context context) {
-        context.render("/registro/Registro-Humana.hbs");
+        context.render("registro/Registro-Humana.hbs");
     }
 
     public void registrarJuridica(Context context) {

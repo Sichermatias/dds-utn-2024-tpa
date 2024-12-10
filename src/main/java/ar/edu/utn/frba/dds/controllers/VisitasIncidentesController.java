@@ -29,7 +29,7 @@ public class VisitasIncidentesController implements ICrudViewsHandler, WithSimpl
 
         if (tipoRol != null) {
             model.put("incidentes", incidentes);
-            context.render("/incidentes/incidentes.hbs", model);
+            context.render("incidentes/incidentes.hbs", model);
         }
         else context.redirect("/login");
     }

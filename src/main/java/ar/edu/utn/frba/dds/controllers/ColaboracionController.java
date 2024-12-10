@@ -50,7 +50,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         if (tipoRol != null) {
             model.put("tipo_rol", tipoRol);
             model.put("usuario_id", usuarioId);
-            context.render("/colaboraciones/colaboraciones.hbs", model);
+            context.render("colaboraciones/colaboraciones.hbs", model);
         }else context.redirect("/login");
     }
 
@@ -92,7 +92,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
                 colaboraciones.add(repositorioColaboracion.obtenerColaboracionPorTipo(colaboracionesHistorica));
             }
             model.put("colaboraciones", colaboraciones);
-            context.render("/colaboraciones/colaboraciones_historico.hbs", model);
+            context.render("colaboraciones/colaboraciones_historico.hbs", model);
         } else {
             context.redirect("/login");
         }
@@ -112,7 +112,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
             boolean enviado = Boolean.parseBoolean(context.queryParam("enviado"));
             model.put("enviado", enviado);
 
-            context.render("/colaboraciones/formularios/colaboracion_ofrecer_premio.hbs", model);
+            context.render("colaboraciones/formularios/colaboracion_ofrecer_premio.hbs", model);
         }else context.redirect("/login");
     }
     private Colaborador obtenerColaboradorDeSesion(Context context) {

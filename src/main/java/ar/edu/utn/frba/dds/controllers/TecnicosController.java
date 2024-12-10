@@ -44,7 +44,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         List<Localidad> localidades= localidadRepositorio.buscarTodos(Localidad.class);
         if(tipoRol!= null){
             model.put("localidades", localidades);
-            context.render("/registro/Registro-Tecnico.hbs", model);
+            context.render("registro/Registro-Tecnico.hbs", model);
         }
         else context.redirect("/login");
     }
@@ -118,7 +118,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
 
         if (tipoRol != null) {
             model.put("incidentes", incidentesAsignados);
-            context.render("/tecnicos/incidentes.hbs", model);
+            context.render("tecnicos/incidentes.hbs", model);
         }
         else context.redirect("/login");
     }
@@ -142,7 +142,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
             if (tipoRol != null) {
                 model.put("heladera", heladera);
                 model.put("incidente", incidente);
-                context.render("/tecnicos/incidente_heladera.hbs", model);
+                context.render("tecnicos/incidente_heladera.hbs", model);
             }
             else context.redirect("/login");
     }
