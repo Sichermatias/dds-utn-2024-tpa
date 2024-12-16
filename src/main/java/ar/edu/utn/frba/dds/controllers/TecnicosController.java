@@ -16,7 +16,6 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.UploadedFile;
-import net.bytebuddy.asm.Advice;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -174,6 +173,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
             resueltoEnserio=true;
             incidente.getHeladeraIncidente().setDesperfecto(false);
             incidente.setResuelto(true);
+            incidente.setFechaHoraResuelto(fechaHoraVisita);
         }
         VisitaIncidente visitaIncidente=new VisitaIncidente(
                 obtenerTecnicoPorUsuarioId(usuarioId),
@@ -192,7 +192,8 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
     public String guardarFoto(UploadedFile foto) {
         try {
             // Definir el directorio donde se almacenarán las fotos
-            String directorioFotos = "src/main/resources/uploads/incidentes/tecnico/";
+            String directorioFotos = "src/main/resources/public/uploads/incidentes/tecnico/";
+            String directorioParaElTemplate = "uploads/incidentes/tecnico/";
 
             Path directorioPath = Paths.get(directorioFotos);
             if (!Files.exists(directorioPath)) {
@@ -201,13 +202,17 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
 
             String nombreOriginal = foto.filename();
 
-            String nombreUnico = UUID.randomUUID().toString() + "_" + nombreOriginal;
+            // Reemplazar espacios por guiones bajos
+            String nombreSinEspacios = nombreOriginal.replaceAll(" ", "_");
+
+
+            String nombreUnico = UUID.randomUUID().toString() + "_" + nombreSinEspacios;
 
             Path archivoPath = directorioPath.resolve(nombreUnico);
 
             Files.write(archivoPath, foto.content().readAllBytes());
 
-            return "/" + directorioFotos + nombreUnico;
+            return "/" + directorioParaElTemplate + nombreUnico;
 
         } catch (IOException e) {
             e.printStackTrace();

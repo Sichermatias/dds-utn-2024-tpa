@@ -7,7 +7,7 @@
 <div class="row">
         <div class="col-md-12">
             <div class="form-container bg-white p-4 rounded shadow">
-                <h1 class="text-center text-primary">Incidentes de la Heladera: {{heladera.nombre}}</h1>
+                <h1 class="text-center text-primary">Incidentes de la heladera: {{heladera.nombre}}</h1>
 
                 <table class="table table-striped">
                     <thead>
@@ -25,12 +25,12 @@
                     {{#each incidentes}}
                         <tr>
                             <td>{{this.tipoIncidente}}</td>
-                            <td>{{this.fechaHoraAlta}}</td>
+                            <td>{{formatDateTime this.fechaHoraAlta}}</td>
                             <td>{{this.descripcionIncidente}}</td>
                             <td><img src="{{this.fotoIncidente}}" style="height: 60px" alt="Incidente"></td>
                             <td>{{#if this.resuelto}}Resuelto{{else}}Pendiente{{/if}}</td>
-                            <td>{{this.fechaHoraBaja}}</td>
-                            <td><a class="btn btn-primary" href="visitas/{{this.heladeraIncidente.id}}" role="button">Ver Visitas</a></td>
+                            <td>{{formatDateTime this.fechaHoraResuelto}}</td>
+                            <td><a class="btn btn-primary" href="/visitas/{{this.id}}" role="button">Ver Visitas</a></td>
                         </tr>
                     {{/each}}
                     </tbody>

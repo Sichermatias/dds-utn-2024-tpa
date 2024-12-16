@@ -35,7 +35,7 @@ public class LoginController implements ICrudViewsHandler{
     public void logout(Context context){
         context.sessionAttribute("usuario_id", null);
         context.sessionAttribute("tipo_rol", null);
-        context.redirect("");
+        context.redirect("/");
     }
     @Override
     public void show(Context context) {

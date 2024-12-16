@@ -25,7 +25,7 @@ public class VisitaIncidente extends Persistente {
     private LocalDateTime fechaVisita;
 
     @ElementCollection //se mapea como una relación oneToMany, pero con elementos primitivos.
-    @CollectionTable(name = "visita_foto_id", joinColumns = @JoinColumn(name = "visita_Incidente_id"))
+    @CollectionTable(name = "visita_foto_id", joinColumns = @JoinColumn(name = "visita_Incidente_id", referencedColumnName = "id"))
     @Column(name = "foto")
     private List<String> fotosVisita;
 
@@ -38,6 +38,9 @@ public class VisitaIncidente extends Persistente {
         this.fechaVisita = fechaVisita;
         this.fotosVisita = new ArrayList<>();
         this.incidenteResuelto = incidenteResuelto;
+    }
+
+    public VisitaIncidente() {
     }
 
     public void agregarFotos(ArrayList<String> fotos) {

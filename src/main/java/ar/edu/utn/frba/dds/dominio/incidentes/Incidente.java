@@ -5,8 +5,6 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +37,9 @@ public class Incidente extends Persistente {
     //TODO A DIAGRAMA
     @Column(name="resuelto", columnDefinition ="BIT(1)")
     private Boolean resuelto=false;
+
+    @Column(name = "fechaHoraResuelto", columnDefinition = "DATETIME")
+    private LocalDateTime fechaHoraResuelto;
 
     public Incidente(LocalDateTime fechaIncidente, Heladera heladeraIncidente, TipoIncidente tipoIncidente, Colaborador colaboradorIncidente, String descripcionIncidente, String fotoIncidente) {
         this.fechaHoraAlta = fechaIncidente;
