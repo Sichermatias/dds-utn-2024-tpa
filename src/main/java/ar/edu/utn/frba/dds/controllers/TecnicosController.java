@@ -126,20 +126,17 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
-        Long heladeraId= Long.valueOf(context.pathParam("id"));
+        Long incidenteId= Long.valueOf(context.pathParam("id"));
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
 
         Tecnico tecnico = obtenerTecnicoPorUsuarioId(usuarioId);
         List<Incidente> incidentesAsignados=tecnico.getIncidentesAsignados();
-        List<Incidente> incidentesFiltrados= incidentesAsignados.stream().filter(incidente -> incidente.getHeladeraIncidente().getId()==heladeraId
-        && !incidente.getResuelto()).toList();
+        List<Incidente> incidentesFiltrados= incidentesAsignados.stream().filter(incidente -> Objects.equals(incidente.getId(), incidenteId) && !incidente.getResuelto()).toList();
         Incidente incidente=incidentesFiltrados.get(0);
 
         HeladerasRepositorio repositorio= HeladerasRepositorio.getInstancia();
-            Heladera heladera = repositorio.buscarPorId(Heladera.class, heladeraId);
             if (tipoRol != null) {
-                model.put("heladera", heladera);
                 model.put("incidente", incidente);
                 context.render("tecnicos/incidente_heladera.hbs", model);
             }
@@ -150,7 +147,7 @@ public class TecnicosController implements ICrudViewsHandler, WithSimplePersiste
         IncidenteRepositorio incidenteRepositorio=new IncidenteRepositorio();
 
         Long usuarioId= context.sessionAttribute("usuario_id");
-        Long incidenteId = Long.valueOf(context.formParam("incidenteId"));
+        Long incidenteId= Long.valueOf(context.pathParam("id"));
 
         Incidente incidente=incidenteRepositorio.buscarPorId(Incidente.class,incidenteId);
 
