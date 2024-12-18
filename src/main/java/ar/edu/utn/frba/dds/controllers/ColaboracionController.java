@@ -31,16 +31,18 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     private final PremioRepositorio premioRepositorio;
 
     private final ColaboracionService colaboracionService;
+    private final ModeloRepositorio modeloRepositorio;
 
     public ColaboracionController(
             ColaboradorRepositorio colaboradorRepositorio,
             HeladerasRepositorio heladeraRepositorio,
             PremioRepositorio premioRepositorio,
-            ColaboracionService colaboracionService) {
+            ColaboracionService colaboracionService, ModeloRepositorio modeloRepositorio) {
         this.colaboradorRepositorio = colaboradorRepositorio;
         this.heladeraRepositorio = heladeraRepositorio;
         this.premioRepositorio = premioRepositorio;
         this.colaboracionService = colaboracionService;
+        this.modeloRepositorio= modeloRepositorio;
     }
     @Override
     public void index(Context context) {
@@ -60,6 +62,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
         List<Heladera> heladeras = heladeraRepositorio.buscarTodas();
+        List<Modelo> modelos= modeloRepositorio.buscarTodos(Modelo.class);
+        model.put("modelos", modelos);
         model.put("heladeras", heladeras);
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
@@ -181,8 +185,12 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Double tempMax = Double.parseDouble(context.formParam("tempMax"));
         Double tempMin = Double.parseDouble(context.formParam("tempMin"));
 
+        List<Modelo> modeloG=modeloRepositorio.buscarPorNombre(nombreModelo);
         Ubicacion ubicacion= colaboracionService.crearUbicacion(direccion,longitud,latitud);
-        Modelo modelo= colaboracionService.crearModelo(nombreModelo, tempMax,tempMin);
+        Modelo modelo;
+        if(modeloG.isEmpty()){modelo= colaboracionService.crearModelo(nombreModelo, tempMax,tempMin);}
+        else{modelo=modeloG.get(0);
+        }
         Heladera heladera = colaboracionService.crearHeladera(nombreHeladera, cantMaxViandas, ubicacion, modelo, colaborador);
 
         colaboracionService.crearHostearHeladera(colaboracion, heladera);

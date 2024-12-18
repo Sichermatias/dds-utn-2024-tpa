@@ -4,22 +4,36 @@
             <label for="nombreHeladera">Nombre de la Heladera</label>
             <input type="text" class="form-control" id="nombreHeladera" name="nombreHeladera" placeholder="Nombre de la heladera" required>
         </div>
-        <div class="form-group mb-3 col-3">
-            <label for="modeloHeladera">Modelo de la heladera</label>
-            <input type="text" class="form-control" id="modeloHeladera" name="modeloHeladera" placeholder="Modelo de la heladera" required>
+
+        <div class="form-row">
+            <div class="form-group mb-3 col-md-4">
+                <label for="modeloHeladera">Modelo de la Heladera</label>
+                <input list="modelosList" class="form-control" id="modeloHeladera" name="modeloHeladera" placeholder="Selecciona o escribe un modelo" required>
+                <datalist id="modelosList">
+                    {{#each modelos}}
+                        <option value="{{this.nombre}}" data-tempmax="{{this.tempMaxAceptable}}" data-tempmin="{{this.tempMinAceptable}}">
+                            {{this.nombre}} ({{this.tempMinAceptable}} °C - {{this.tempMaxAceptable}} °C)
+                        </option>
+                    {{/each}}
+                </datalist>
+            </div>
+
+            <div class="form-group mb-3 col-md-4">
+                <label for="tempMin">Temperatura Mínima Asignada</label>
+                <input type="number" step="0.1" class="form-control" id="tempMin" name="tempMin" placeholder="Temperatura mínima (°C)" required>
+            </div>
+
+            <div class="form-group mb-3 col-md-4">
+                <label for="tempMax">Temperatura Máxima Asignada</label>
+                <input type="number" step="0.1" class="form-control" id="tempMax" name="tempMax" placeholder="Temperatura máxima (°C)" required>
+            </div>
         </div>
+
         <div class="form-group mb-3 col-3">
             <label for="cantMaxViandas">Capacidad Máxima de Viandas</label>
             <input type="number" class="form-control" id="cantMaxViandas" name="cantMaxViandas" placeholder="Cantidad máxima de viandas" required>
         </div>
-        <div class="form-group mb-3 col-3">
-            <label for="tempMax">Temperatura Máxima Aceptable</label>
-            <input type="number" step="0.1" class="form-control" id="tempMax" name="tempMax" placeholder="Temperatura máxima (°C)" required>
-        </div>
-        <div class="form-group mb-3 col-3">
-            <label for="tempMin">Temperatura Mínima Aceptable</label>
-            <input type="number" step="0.1" class="form-control" id="tempMin" name="tempMin" placeholder="Temperatura mínima (°C)" required>
-        </div>
+
         <div class="form-group mb-3 col-12">
             <label for="ubicacion">Ubicación de la Heladera</label>
             <!-- Mapa Leaflet para selección de ubicación -->
