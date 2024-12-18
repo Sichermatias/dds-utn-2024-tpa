@@ -64,5 +64,7 @@ public class PersonaVulnerable extends Persistente {
     public void agregarPersonasVulnerablesACargo(PersonaVulnerable ... personasVulnerables) {
         Collections.addAll(this.personasVulnACargo, personasVulnerables);
     }
-
+    public void cambiarTarjeta(Tarjeta tarjeta){
+        tarjetas.add(0,tarjeta);
+    }
 }

@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.Modelo;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
+import ar.edu.utn.frba.dds.dominio.persona.Tarjeta;
 import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
 import ar.edu.utn.frba.dds.dtos.georef.ProvinciaMunicipioGeorefDTO;
 import ar.edu.utn.frba.dds.dtos.georef.PuntoGeorefDTO;
@@ -220,6 +221,13 @@ public class ColaboracionService {
         colaboracion.setTransaccion(transaccion);
         registrarPersonasVulnerables.setColaboracion(colaboracion);
 
+        Tarjeta tarjeta= new Tarjeta();
+        tarjeta.setCodigo(personaVulnerable.getNroDocumento()+personaVulnerable.getFechaNacimiento());
+        tarjeta.setActivo(true);
+        tarjeta.setFechaHoraAlta(LocalDateTime.now());
+
+        personaVulnerable.cambiarTarjeta(tarjeta);
+        
         colaboracionRepositorio.persistir(registrarPersonasVulnerables);
     }
 
