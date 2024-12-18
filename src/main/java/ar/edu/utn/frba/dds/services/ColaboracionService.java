@@ -134,6 +134,7 @@ public class ColaboracionService {
         modeloHeladera.setNombre(modelo);
         modeloHeladera.setTempMaxAceptable(tempMax);
         modeloHeladera.setTempMinAceptable(tempMin);
+        modeloHeladera.setFechaHoraAlta(LocalDateTime.now());
         return modeloHeladera;
     }
 
