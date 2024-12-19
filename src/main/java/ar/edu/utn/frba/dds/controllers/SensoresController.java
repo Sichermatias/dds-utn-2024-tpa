@@ -39,6 +39,7 @@ public class SensoresController implements IMqttMessageListener {
         switch (topic) {
             case "dds2024/g12/heladeras/temperatura" -> {
                 RegistroSensorTempDTO registroSensorTempDTO = new RegistroSensorTempDTO(mqttMessage);
+                System.out.println("heladera: " + registroSensorTempDTO.getIdHeladera() + " temperatura: " + registroSensorTempDTO.getTemperatura());
                 this.recibirDatoTemperatura(registroSensorTempDTO);
             }
             case "dds2024/g12/heladeras/movimiento" -> {

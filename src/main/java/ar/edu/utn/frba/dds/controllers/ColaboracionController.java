@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
+import ar.edu.utn.frba.dds.services.SensorService;
 import ar.edu.utn.frba.dds.services.TransaccionService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -32,17 +33,21 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
     private final ColaboracionService colaboracionService;
     private final ModeloRepositorio modeloRepositorio;
+    private final SensorService sensorService;
 
     public ColaboracionController(
             ColaboradorRepositorio colaboradorRepositorio,
             HeladerasRepositorio heladeraRepositorio,
             PremioRepositorio premioRepositorio,
-            ColaboracionService colaboracionService, ModeloRepositorio modeloRepositorio) {
+            ColaboracionService colaboracionService,
+            ModeloRepositorio modeloRepositorio,
+            SensorService sensorService) {
         this.colaboradorRepositorio = colaboradorRepositorio;
         this.heladeraRepositorio = heladeraRepositorio;
         this.premioRepositorio = premioRepositorio;
         this.colaboracionService = colaboracionService;
         this.modeloRepositorio= modeloRepositorio;
+        this.sensorService = sensorService;
     }
     @Override
     public void index(Context context) {
@@ -194,6 +199,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Heladera heladera = colaboracionService.crearHeladera(nombreHeladera, cantMaxViandas, ubicacion, modelo, colaborador);
 
         colaboracionService.crearHostearHeladera(colaboracion, heladera);
+
+        sensorService.crearSensores(heladera);
 
         context.redirect("/colaboraciones");
     }
