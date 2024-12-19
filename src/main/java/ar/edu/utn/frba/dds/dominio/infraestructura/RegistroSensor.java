@@ -14,7 +14,7 @@ public class RegistroSensor extends Persistente {
     @Column(name = "fechaHoraRegistro", columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraRegistro;
 
-    @Column(name = "valor", columnDefinition = "TINYINT")
+    @Column(name = "valor", columnDefinition = "INTEGER(7)")
     private Integer valor;
 
     public boolean seCreoHaceMasDe(int minutos) {

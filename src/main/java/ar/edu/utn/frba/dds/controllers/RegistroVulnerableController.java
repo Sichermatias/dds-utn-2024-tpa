@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class RegistroVulnerableController implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
@@ -57,17 +58,20 @@ public class RegistroVulnerableController implements ICrudViewsHandler, WithSimp
 
         personaVulnerable.setCantUsosMaximosPorDia(Integer.valueOf(cantUsosMaximosPorDia));
 
-        // Agregar personas a cargo
-        for (int i = 0; i < nombrePersonaACargo.size(); i++) {
-            PersonaVulnerable personaVulnerableACargo = new PersonaVulnerable();
-            personaVulnerableACargo.setNombre(nombrePersonaACargo.get(i));
-            personaVulnerableACargo.setApellido(apellidoPersonaACargo.get(i));
-            personaVulnerableACargo.setTipoDocumento(TipoDocumento.valueOf(tipoDocumentoACargo.get(i)));
-            personaVulnerableACargo.setNroDocumento(nroDocumentoACargo.get(i));
-            personaVulnerableACargo.setFechaNacimiento(LocalDate.parse(fechaNacimientoACargo.get(i)));
+        if (!Objects.equals(nombrePersonaACargo.get(0), "")){
+            // Agregar personas a cargo
+            for (int i = 0; i < nombrePersonaACargo.size(); i++) {
+                PersonaVulnerable personaVulnerableACargo = new PersonaVulnerable();
+                personaVulnerableACargo.setNombre(nombrePersonaACargo.get(i));
+                personaVulnerableACargo.setApellido(apellidoPersonaACargo.get(i));
+                personaVulnerableACargo.setTipoDocumento(TipoDocumento.valueOf(tipoDocumentoACargo.get(i)));
+                personaVulnerableACargo.setNroDocumento(nroDocumentoACargo.get(i));
+                personaVulnerableACargo.setFechaNacimiento(LocalDate.parse(fechaNacimientoACargo.get(i)));
 
-            personaVulnerable.agregarPersonasVulnerablesACargo(personaVulnerableACargo);
+                personaVulnerable.agregarPersonasVulnerablesACargo(personaVulnerableACargo);
+            }
         }
+
         this.colaboracionController.colaboracionTarjetas(context,personaVulnerable);
 
         context.redirect("/");

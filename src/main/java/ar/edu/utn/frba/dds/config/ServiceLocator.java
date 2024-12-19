@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.dominio.services.messageSender.adapters.MailSender;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
 import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
+import ar.edu.utn.frba.dds.services.SensorService;
 import ar.edu.utn.frba.dds.services.TransaccionService;
 
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(ColaboracionController.class.getName())) {
-                ColaboracionController instance = new ColaboracionController(new ColaboradorRepositorio(), new HeladerasRepositorio(), new PremioRepositorio(), new ColaboracionService(new ColaboracionRepositorio(), new DonacionDineroRepositorio(), new TransaccionService()), new ModeloRepositorio());
+                ColaboracionController instance = new ColaboracionController(new ColaboradorRepositorio(), new HeladerasRepositorio(), new PremioRepositorio(), new ColaboracionService(new ColaboradorRepositorio(), new ColaboracionRepositorio(), new DonacionDineroRepositorio(), new TransaccionService()), new ModeloRepositorio(), new SensorService());
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(ColaboradorRepositorio.class.getName())) {
@@ -39,6 +40,14 @@ public class ServiceLocator {
             }
             else if (componentName.equals(GestorDeIncidentesService.class.getName())) {
                 GestorDeIncidentesService instance = new GestorDeIncidentesService(new IncidenteRepositorio(), new TecnicoRepositorio(), new MailSender());
+                instances.put(componentName, instance);
+            }
+            else if (componentName.equals(SensoresMovimientoRepository.class.getName())) {
+                SensoresMovimientoRepository instance = new SensoresMovimientoRepository();
+                instances.put(componentName, instance);
+            }
+            else if (componentName.equals(SensoresTemperaturaRepository.class.getName())) {
+                SensoresTemperaturaRepository instance = new SensoresTemperaturaRepository();
                 instances.put(componentName, instance);
             }
         }
