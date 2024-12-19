@@ -97,38 +97,39 @@ function reverseGeocode(lat, lng, callback) {
         });
 }
 
-function obtenerPuntosRecomendados () {
-
+function obtenerPuntosRecomendados() {
     // Obtener los valores de los inputs del formulario
-    var latitud = $('#lat').val();
-    var longitud = $('#lng').val();
-    var radio = 5; // $('#radio').val();
+    var latitud = document.getElementById('lat').value;
+    var longitud = document.getElementById('lng').value;
+    var radio = 5; // Valor fijo para el radio
 
     // Realizar la solicitud AJAX con los parámetros necesarios
-    $.ajax({
-        url: '/recomendacion-puntos-heladera',
+    fetch('/recomendacion-puntos-heladera', {
         method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
             latitud: latitud,
             longitud: longitud,
             radio: radio
-        }),
-        success: function (data) {
-            // data debe ser un array de puntos con formato [{lat: 10, long: 20}, {lat: 30, long: 40}]
-            if (Array.isArray(data.puntosRecomendados)) {
-                data.puntosRecomendados.forEach(function (punto) {
-                    // Agregar un marcador por cada punto
-                    L.marker([punto.latitud, punto.longitud]).addTo(map)
-                        .bindPopup('Recomendación en este punto')
-                        .openPopup();
-                });
-            } else {
-                console.error('Formato de datos incorrecto');
-            }
-        },
-        error: function (error) {
-            console.error('Error al obtener recomendaciones', error);
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // data debe ser un array de puntos con formato [{lat: 10, long: 20}, {lat: 30, long: 40}]
+        if (Array.isArray(data.puntosRecomendados)) {
+            data.puntosRecomendados.forEach(function (punto) {
+                // Agregar un marcador por cada punto
+                L.marker([punto.latitud, punto.longitud]).addTo(map)
+                    .bindPopup('Recomendación en este punto')
+                    .openPopup();
+            });
+        } else {
+            console.error('Formato de datos incorrecto');
         }
+    })
+    .catch(error => {
+        console.error('Error al obtener recomendaciones', error);
     });
 }
