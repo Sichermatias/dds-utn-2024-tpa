@@ -1,33 +1,58 @@
 let cargoCount = 1; // Contador de personas a cargo
 
 document.querySelector('.add-cargo').addEventListener('click', function() {
-    if (cargoCount < 5) { // Puedes cambiar el límite de personas a cargo si es necesario
+    if (cargoCount < 5) { // Límite de 5 personas a cargo (puedes ajustarlo)
         cargoCount++;
 
-        // Crear nuevos campos para la persona vulnerable a cargo
+        // Crear nuevos campos para la persona a cargo
         const newCargoRow = document.createElement('div');
-        newCargoRow.classList.add('row');
+        newCargoRow.classList.add('cargo-row', 'p-3', 'bg-light', 'rounded', 'mb-3', 'shadow-sm');
         newCargoRow.innerHTML = `
-            <input type="text" id="nombrePersonaACargo${cargoCount}" name="nombrePersonaACargo${cargoCount}" placeholder="Nombre Persona a Cargo">
-            <input type="text" id="apellidoPersonaACargo${cargoCount}" name="apellidoPersonaACargo${cargoCount}" placeholder="Apellido Persona a Cargo">
-        <input type="text" list="tipoDocumentoOptions${cargoCount}" id="tipoDocumento${cargoCount}" name="tipoDocumento${cargoCount}" placeholder="Tipo de Documento" required>
-                        <datalist id="tipoDocumentoOptions${cargoCount}">
-                            <option value="DNI">
-                            <option value="LC">
-                            <option value="LE">
-                        </datalist>
-                        <input type="text" id="nroDocumento${cargoCount}" name="nroDocumento${cargoCount}" placeholder="Número de documento" required>
+            <h6 class="text-secondary mb-3">Persona a Cargo ${cargoCount}</h6>
 
-            <button type="button" class="remove-cargo" onclick="removeCargo(this)">Eliminar</button>
+            <!-- Fila: Nombre y Apellido -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="nombrePersonaACargo[]" placeholder="Nombre Persona a Cargo" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="apellidoPersonaACargo[]" placeholder="Apellido Persona a Cargo" required>
+                </div>
+            </div>
+
+            <!-- Fila: Tipo de Documento y Número de Documento -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <select class="form-control" name="tipoDocumento[]" required>
+                        <option value="" disabled selected>Selecciona Tipo de Documento</option>
+                        <option value="DNI">DNI</option>
+                        <option value="LC">LC</option>
+                        <option value="LE">LE</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="nroDocumento[]" placeholder="Número de documento" required>
+                </div>
+            </div>
+
+            <!-- Fila: Fecha de Nacimiento -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="date" class="form-control" name="fechaNacimiento[]" required>
+                </div>
+                <div class="form-group col-md-6 d-flex align-items-end">
+                    <button type="button" class="btn btn-danger remove-cargo">Eliminar</button>
+                </div>
+            </div>
+            <hr>
         `;
 
         document.getElementById('cargo-fields').appendChild(newCargoRow);
+
+        // Agregar evento para eliminar el elemento
+        newCargoRow.querySelector('.remove-cargo').addEventListener('click', function() {
+            newCargoRow.remove();
+            cargoCount--;
+        });
     }
 });
-
-// Función para eliminar una persona a cargo
-function removeCargo(button) {
-    const cargoRow = button.parentElement;
-    cargoRow.remove();
-    cargoCount--;
-}

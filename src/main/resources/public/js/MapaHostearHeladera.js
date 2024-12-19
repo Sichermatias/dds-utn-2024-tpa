@@ -44,40 +44,58 @@ if (navigator.geolocation) {
         map.setView([lat, lng], 13); // Centrar en la ubicación del usuario
     });
 }
+var currentMarker = null;
 
-// Función para obtener la dirección a partir de latitud y longitud
-function reverseGeocode(lat, lng, callback) {
-    geocoder.reverse({lat: lat, lng: lng}, map.options.crs.scale(map.getZoom()), function(results) {
-        var r = results[0];
-        if (r) {
-            callback(r.name);
-        } else {
-            callback('No se encontró la dirección');
-        }
-    });
-}
-
-// Agregar un evento de click al mapa
 map.on('click', function (e) {
     var lat = e.latlng.lat;
     var lng = e.latlng.lng;
 
+    console.log('Click detectado en:', lat, lng);
+
     document.getElementById('lat').value = lat;
     document.getElementById('lng').value = lng;
 
-    reverseGeocode(lat, lng, function(address) {
+    if (currentMarker) {
+        map.removeLayer(currentMarker);
+    }
+
+    reverseGeocode(lat, lng, function (address) {
         var popupContent = '<p>' + address + '</p><a href="#" class="btn btn-sm btn-primary" onclick="obtenerPuntosRecomendados()">Obtener Recomendaciones</a>';
 
+        console.log('Dirección obtenida:', address);
         document.getElementById('direccion').value = address;
+
+        currentMarker = L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup('<p>' + address + '</p>')
+            .openPopup();
 
         L.popup()
             .setLatLng(e.latlng)
             .setContent(popupContent)
             .openOn(map);
+
+        console.log('Marcador añadido en:', lat, lng);
     });
 });
 
+function reverseGeocode(lat, lng, callback) {
+    var url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
 
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.display_name) {
+                callback(data.display_name);
+            } else {
+                callback('Dirección no encontrada');
+            }
+        })
+        .catch(error => {
+            console.error('Error en la geocodificación inversa:', error);
+            callback('Error al obtener la dirección');
+        });
+}
 
 function obtenerPuntosRecomendados () {
 
