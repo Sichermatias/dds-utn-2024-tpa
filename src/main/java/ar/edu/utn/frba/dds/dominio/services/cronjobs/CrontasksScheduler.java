@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.dominio.services.cronjobs;
 
+import ar.edu.utn.frba.dds.config.ServiceLocator;
 import ar.edu.utn.frba.dds.controllers.FactoryController;
 import ar.edu.utn.frba.dds.controllers.SensoresController;
 import ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks.*;
@@ -8,7 +9,6 @@ import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
 import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
 import ar.edu.utn.frba.dds.services.PedidoDeAperturaService;
-import ar.edu.utn.frba.dds.services.TransaccionService;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -36,22 +36,14 @@ public class CrontasksScheduler {
             jobFactory.registerJob(
                     ActualizarDiasSinContarPuntajeHosteoHeladera.class,
                     new ActualizarDiasSinContarPuntajeHosteoHeladera(
-                            new ColaboracionService(
-                                    new ColaboracionRepositorio(),
-                                    new DonacionDineroRepositorio(),
-                                    new TransaccionService()
-                            )
+                            ServiceLocator.instanceOf(ColaboracionService.class)
                     )
             );
 
             jobFactory.registerJob(
                     ActualizarPuntajePorHosteoHeladera.class,
                     new ActualizarPuntajePorHosteoHeladera(
-                            new ColaboracionService(
-                                    new ColaboracionRepositorio(),
-                                    new DonacionDineroRepositorio(),
-                                    new TransaccionService()
-                            )
+                            ServiceLocator.instanceOf(ColaboracionService.class)
                     )
             );
 

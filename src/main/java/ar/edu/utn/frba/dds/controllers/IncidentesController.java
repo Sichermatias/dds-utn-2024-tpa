@@ -13,7 +13,6 @@ import java.util.*;
 
 public class IncidentesController implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private final IncidenteRepositorio incidenteRepositorio;
-    ColaboradorRepositorio colaboradorRepositorio = ColaboradorRepositorio.getInstancia();
 
     public IncidentesController(IncidenteRepositorio incidenteRepositorio) {
         this.incidenteRepositorio = incidenteRepositorio;
@@ -24,7 +23,7 @@ public class IncidentesController implements ICrudViewsHandler, WithSimplePersis
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
-        Long heladera_id = Long.valueOf(context.pathParam("id"));
+        long heladera_id = Long.parseLong(context.pathParam("id"));
 
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
@@ -89,7 +88,6 @@ public class IncidentesController implements ICrudViewsHandler, WithSimplePersis
     private boolean tienePermisoDeVerVisitas(String tipoRol) {
         return tipoRol.equals("ADMIN") ||
                 tipoRol.equals("TECNICO") ||
-                tipoRol.equals("COLABORADOR_JURIDICO") ||
-                tipoRol.equals("COLABORADOR_HUMANO");
+                tipoRol.equals("COLABORADOR_JURIDICO");
     }
 }
