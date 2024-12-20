@@ -30,7 +30,7 @@ public class FactoryController {
             case "RecomendadorPuntos" -> new RecomendadorPuntosController();
 
             case "Sensores" -> new SensoresController(new SensoresTemperaturaRepository(), new SensoresMovimientoRepository(), new IncidentesRepository(), new RegistrosSensoresRepository(), ServiceLocator.instanceOf(GestorDeIncidentesService.class));
-            case "Apertura" -> new AperturaController(new PedidoDeAperturaRepositorio(), new ColaboradorRepositorio());
+            case "Apertura" -> new AperturaController(new PedidoDeAperturaRepositorio(), new ColaboradorRepositorio(), new PersonaVulnerableRepositorio());
             default -> null;
         };
     }
