@@ -1,7 +1,10 @@
 package ar.edu.utn.frba.dds.services;
 
+import ar.edu.utn.frba.dds.config.ServiceLocator;
 import ar.edu.utn.frba.dds.dominio.colaboracion.PedidoDeApertura;
 import ar.edu.utn.frba.dds.dominio.utils.ConfigReader;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.HeladeraRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.PedidoDeAperturaRepositorio;
 
 import java.time.Duration;
@@ -11,12 +14,14 @@ import java.util.Properties;
 
 public class PedidoDeAperturaService {
     private final PedidoDeAperturaRepositorio pedidoDeAperturaRepositorio;
+    private final ColaboracionRepositorio colaboracionRepositorio;
     private final ConfigReader config;
     final String configPath = "aperturaHeladera.properties";
 
 
-    public PedidoDeAperturaService(PedidoDeAperturaRepositorio pedidoDeAperturaRepositorio){
+    public PedidoDeAperturaService(PedidoDeAperturaRepositorio pedidoDeAperturaRepositorio, ColaboracionRepositorio colaboracionRepositorio){
         this.pedidoDeAperturaRepositorio = pedidoDeAperturaRepositorio;
+        this.colaboracionRepositorio = colaboracionRepositorio;
         this.config = new ConfigReader(configPath);
     }
 
@@ -30,7 +35,7 @@ public class PedidoDeAperturaService {
         }
         int tiempoMaximoEspera = Integer.parseInt(props.getProperty("tiempoMaximoEspera"));
 
-        List<PedidoDeApertura> listaPedidosDeApertura = this.pedidoDeAperturaRepositorio.buscarPorEstado(PedidoDeApertura.class, "true");
+        List<PedidoDeApertura> listaPedidosDeApertura = this.pedidoDeAperturaRepositorio.buscarPorEstado(PedidoDeApertura.class, true);
 
         for(PedidoDeApertura pedidoDeApertura : listaPedidosDeApertura){
             LocalDateTime fechaHoraActual = LocalDateTime.now();
@@ -39,6 +44,9 @@ public class PedidoDeAperturaService {
             if(horasTranscurridas >= tiempoMaximoEspera){
                 pedidoDeApertura.setValido(false);
                 pedidoDeApertura.setFechaHoraBaja(fechaHoraActual);
+                Integer cantidadViandasPedido = pedidoDeApertura.getCantidadViandas();
+                pedidoDeApertura.getHeladera().setCantViandasActuales(viandasActuales - cantidadViandasPedido);
+                this.colaboracionRepositorio.obtenerColaboracionPorPedidoApertura(pedidoDeApertura).get(0).setActivo(false);
                 this.pedidoDeAperturaRepositorio.actualizar(pedidoDeApertura);
                 System.out.println("El pedido de apertura: " + pedidoDeApertura.getId() + " fue cancelado" );
             }

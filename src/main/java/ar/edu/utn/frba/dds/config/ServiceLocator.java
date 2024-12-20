@@ -50,6 +50,10 @@ public class ServiceLocator {
                 SensoresTemperaturaRepository instance = new SensoresTemperaturaRepository();
                 instances.put(componentName, instance);
             }
+            else if (componentName.equals(HeladeraRepositorio.class.getName())) {
+                HeladeraRepositorio instance = new HeladeraRepositorio();
+                instances.put(componentName, instance);
+            }
         }
 
         return (T) instances.get(componentName);

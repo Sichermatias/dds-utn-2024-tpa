@@ -73,7 +73,8 @@ public class CrontasksScheduler {
                     ActualizarPedidosDeApertura.class,
                     new ActualizarPedidosDeApertura(
                             new PedidoDeAperturaService(
-                                    new PedidoDeAperturaRepositorio()
+                                    new PedidoDeAperturaRepositorio(),
+                                    new ColaboracionRepositorio()
                             )
                     )
             );
@@ -112,7 +113,7 @@ public class CrontasksScheduler {
                     .build();
             Trigger triggerCincoMinutoVerificarPedidosDeApertura = TriggerBuilder.newTrigger()
                     .withIdentity("triggerCincoMinutoVerificarPedidosDeApertura", "group1")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0 5 * * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * * * ?"))
                     .build();
             Trigger triggerDiario3amActualizarDiasHeladeras = TriggerBuilder.newTrigger()
                     .withIdentity("triggerDiario3amActualizarDiasHeladeras", "group1")
@@ -136,6 +137,7 @@ public class CrontasksScheduler {
             //scheduler.scheduleJob(actualizarDiasHeladeras, triggerDiario3amActualizarDiasHeladeras);
             //scheduler.scheduleJob(actualizarPuntajeHosteoHeladeras, triggerDiario3amActualizarPuntajeHosteoHeladeras);
             //scheduler.scheduleJob(generarReportes, triggerSemanal);
+            scheduler.scheduleJob(actualizarPedidosDeApertura, triggerCincoMinutoVerificarPedidosDeApertura);
 
             // Iniciar el scheduler
             scheduler.start();

@@ -14,6 +14,7 @@
                     <thead>
                     <tr>
                         <th>Fecha</th>
+                        <th>Estado</th>
                         <th>Tipo de Colaboración</th>
                         <th>Detalles</th>
                     </tr>
@@ -22,6 +23,7 @@
                     {{#each colaboraciones}}
                         <tr>
                             <td>{{this.colaboracion.fechaColaboracion}}</td>
+                            <td>{{#if this.colaboracion.activo}}Activa{{else}}Inactiva{{/if}}</td>
                             <td>{{this.colaboracion.tipo}}</td>
                             <td>
                                 {{#ifCond this.colaboracion.tipo 'DINERO'}}

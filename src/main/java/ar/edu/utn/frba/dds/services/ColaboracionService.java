@@ -76,15 +76,15 @@ public class ColaboracionService {
         donacionVianda.setVianda(vianda);
         donacionVianda.setFechaHoraAlta(LocalDateTime.now());
         donacionVianda.setColaboracion(colaboracion);
+        donacionVianda.setCantViandas(cantidadViandas);
         PedidoDeApertura pedidoDeApertura = new PedidoDeApertura();
         pedidoDeApertura.setHeladera(heladeraAsignada);
         pedidoDeApertura.setMotivo("Donación de viandas");
         pedidoDeApertura.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
         pedidoDeApertura.setFechaHoraRealizada(LocalDateTime.now());
         pedidoDeApertura.setFechaHoraAlta(LocalDateTime.now());
-        pedidoDeApertura.setCantidadViandas(donacionVianda.getCantViandas());
+        pedidoDeApertura.setCantidadViandas(cantidadViandas);
 
-        donacionVianda.setCantViandas(cantidadViandas);
         donacionVianda.setPedidoDeApertura(pedidoDeApertura);
 
         heladeraAsignada.recibirDonacionVianda(donacionVianda);
@@ -279,5 +279,9 @@ public class ColaboracionService {
 
             this.colaboracionRepositorio.actualizar(hosteoHeladera);
         }
+    }
+
+    public List<Colaboracion> obtenerColaboracionPorPedidoApertura (PedidoDeApertura pedido){
+        return this.colaboracionRepositorio.obtenerColaboracionPorPedidoApertura(pedido);
     }
 }
