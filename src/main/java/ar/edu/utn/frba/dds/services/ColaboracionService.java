@@ -81,7 +81,6 @@ public class ColaboracionService {
         pedidoDeApertura.setHeladera(heladeraAsignada);
         pedidoDeApertura.setMotivo("Donación de viandas");
         pedidoDeApertura.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
-        pedidoDeApertura.setFechaHoraRealizada(LocalDateTime.now());
         pedidoDeApertura.setFechaHoraAlta(LocalDateTime.now());
         pedidoDeApertura.setCantidadViandas(cantidadViandas);
 

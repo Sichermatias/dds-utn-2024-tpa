@@ -46,6 +46,7 @@ public abstract class BaseRepositorio<T> {
 
         cq.where(condicionFinal);
         cq.select(root);
+        cq.orderBy(cb.desc(root.get("fechaHoraAlta")));
 
         return getEntityManager().createQuery(cq).getResultList();
     }
