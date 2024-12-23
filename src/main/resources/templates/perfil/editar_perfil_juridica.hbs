@@ -1,0 +1,170 @@
+{{#partial "links"}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+{{/partial}}
+{{#partial "contenido"}}
+    <main class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <form id="editForm" action="/editar/juridica" method="POST">
+                    <h1 class="text-center text-primary">Editar Persona Jurídica</h1>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <input type="text" class="form-control" id="razonSocial" name="razonSocial" value="{{colaborador.razonSocial}}" placeholder="Razón Social" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" list="tipoPersonaJuridicaOptions" class="form-control" id="tipoPersonaJuridica" name="tipoPersonaJuridica" value="{{colaborador.tipoPersonaJuridica.valor}}" placeholder="Tipo de Persona Jurídica" required>
+                            <datalist id="tipoPersonaJuridicaOptions">
+                                <option value="S.A">
+                                <option value="S.R.L.">
+                                <option value="S.A.S">
+                                <option value="A.C">
+                                <option value="Fundacion">
+                            </datalist>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" list="rubroOptions" class="form-control" id="rubro" name="rubro" value="{{colaborador.rubro}}" placeholder="Rubro" required>
+                            <datalist id="rubroOptions">
+                                <option value="Comercio">
+                                <option value="Gastronomia">
+                                <option value="Servicios">
+                                <option value="Industria">
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div id="contact-fields">
+                        {{#each colaborador.mediosDeContacto}}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" name="nombreContacto[]" required>
+                                        <option value="" disabled>Selecciona Medio de Contacto</option>
+                                        <option value="E-MAIL" {{#if (eq this.nombre "E-MAIL")}}selected{{/if}}>E-MAIL</option>
+                                        <option value="WHATSAPP" {{#if (eq this.nombre "WHATSAPP")}}selected{{/if}}>WHATSAPP</option>
+                                        <option value="TELEFONO LINEA" {{#if (eq this.nombre "TELEFONO LINEA")}}selected{{/if}}>TELEFONO LINEA</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text" class="form-control" name="contacto[]" value="{{medioDeContacto.valor}}" placeholder="Dato de Contacto" required>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+
+                    <button type="button" class="btn btn-outline-primary add-contact">Agregar Medio de Contacto</button>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" value="{{usuario.nombreUsuario}}" placeholder="Nombre de Usuario" required>
+                            <span id="username-check-result" class="text-danger" style="display: none;">El nombre de usuario ya existe.</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="lat" name="lat" value="{{colaborador.ubicacion.latitud}}">
+                    <input type="hidden" id="lng" name="lng" value="{{colaborador.ubicacion.longitud}}">
+                    <input type="hidden" id="direccion" name="direccion" value="{{colaborador.ubicacion.direccion}}">
+
+                    <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Mapa de selección de ubicación -->
+        <div class="col-md-6">
+            <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+        </div>
+    </div>
+    </main>
+{{/partial}}
+{{#partial "scripts"}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="/js/MapaRegistro.js"></script>
+    <script src="/js/AgregarMedioContacto.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('registroForm');
+    const usernameInput = document.getElementById('nombreUsuario');
+    const passwordInput = document.getElementById('password');
+
+    form.addEventListener('submit', function (event) {
+        // Validar nombre de usuario
+        const username = usernameInput.value.trim();
+        if (!validarUsername(username)) {
+            alert('El nombre de usuario no es válido. Debe tener al menos 3 caracteres y solo puede contener letras, números y guiones bajos.');
+            event.preventDefault(); // Evita el envío del formulario
+            return;
+        }
+
+        // Validar contraseña
+        const password = passwordInput.value;
+        if (!validarPassword(password)) {
+            alert('La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula y un número.');
+            event.preventDefault(); // Evita el envío del formulario
+            return;
+        }
+
+        // Verificación adicional
+        const isUsernameTaken = document.getElementById('username-check-result').style.display === 'block';
+        if (isUsernameTaken) {
+            event.preventDefault();
+            alert('El nombre de usuario ya está en uso.');
+            return;
+        }
+
+        const direccion = document.getElementById('direccion').value;
+        if (!direccion) {
+            event.preventDefault();
+            alert('Debes ingresar una ubicación en el mapa.');
+            return;
+        }
+    });
+
+        function validarUsername(username) {
+        // Nombre de usuario de al menos 3 caracteres, solo letras, números y guiones bajos
+        const usernameRegex = /^[a-zA-Z0-9_]{3,}$/;
+        return usernameRegex.test(username);
+    }
+
+    function validarPassword(password) {
+        // Contraseña con al menos 8 caracteres, una mayúscula, una minúscula y un número
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        return passwordRegex.test(password);
+    }
+
+    // Verificación del nombre de usuario
+    usernameInput.addEventListener('blur', function () {
+        const username = this.value;
+        if (username) {
+            fetch(`/check-username?username=${username}`)
+                .then(response => response.json())
+                .then(isAvailable => {
+                    const resultElement = document.getElementById('username-check-result');
+                    if (!isAvailable) {
+                        resultElement.style.display = 'block'; // Muestra mensaje de usuario ya en uso
+                    } else {
+                        resultElement.style.display = 'none'; // Oculta el mensaje si está disponible
+                    }
+                });
+        }
+    });
+});
+</script>
+{{/partial}}
+{{>templates/base title="EDITAR PERFIL"}}

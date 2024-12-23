@@ -1,0 +1,26 @@
+<form class="formularioColaboracion" id="dineroForm" action="/colaboraciones/dinero" method="POST" style="display:none;">
+    <div class="row">
+        <div class="form-group mb-3 col-4">
+            <label for="fecha">Fecha de Donación</label>
+            <input type="date" class="form-control" id="fecha" name="fecha" placeholder="Fecha de donación">
+        </div>
+        <div class="form-group mb-3 col-4">
+            <label for="monto">Monto</label>
+            <input type="number" class="form-control" id="monto" name="monto" placeholder="Monto en dinero">
+        </div>
+        <div class="form-group mb-3">
+            <label for="frecuencia">Frecuencia</label>
+            <select class="form-control" id="frecuencia" name="frecuencia" required>
+                <option value="">Seleccionar</option>
+                <option value="SEMANAL">Semanal</option>
+                <option value="MENSUAL">Mensual</option>
+                <option value="TRIMESTRAL">Trimestral</option>
+                <option value="SEMESTRAL">Semestral</option>
+                <option value="ANUAL">Anual</option>
+            </select>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Donar Dinero</button>
+    </div>
+</form>

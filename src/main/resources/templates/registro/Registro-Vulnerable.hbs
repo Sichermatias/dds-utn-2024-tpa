@@ -1,0 +1,94 @@
+{{#partial "contenido"}}
+<main class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <form id="registroForm" action="/registro/vulnerable" method="POST">
+                    <h1 class="text-center text-primary">Registrar Persona Vulnerable</h1>
+
+                    <!-- Fila: Nombre y Apellido -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                        </div>
+                    </div>
+
+                    <!-- Fila: Tipo de Documento y Número de Documento -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <select class="form-control" id="tipoDocumento" name="tipoDocumento" required>
+                                <option value="" disabled selected>Selecciona Tipo de Documento</option>
+                                <option value="DNI">DNI</option>
+                                <option value="LC">LC</option>
+                                <option value="LE">LE</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
+                        </div>
+                    </div>
+
+                    <!-- Fila: Fecha de Nacimiento -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                        </div>
+                    </div>
+
+                    <!-- Personas a Cargo -->
+                    <div id="cargo-fields">
+                        <h5 class="text-secondary">Personas a Cargo</h5>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="nombrePersonaACargo1" name="nombrePersonaACargo[]" placeholder="Nombre Persona a Cargo">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="apellidoPersonaACargo1" name="apellidoPersonaACargo[]" placeholder="Apellido Persona a Cargo">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="tipoDocumento1" name="tipoDocumento[]">
+                                    <option value="" disabled selected>Selecciona Tipo de Documento</option>
+                                    <option value="DNI">DNI</option>
+                                    <option value="LC">LC</option>
+                                    <option value="LE">LE</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="nroDocumento1" name="nroDocumento[]" placeholder="Número de documento">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="date" class="form-control" id="fechaNacimiento1" name="fechaNacimiento[]" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón para agregar más personas a cargo -->
+                    <button type="button" class="btn btn-outline-primary add-cargo mb-3">Agregar Persona a Cargo</button>
+
+                    <!-- Fila: Cantidad de Usos Máximos por Día -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="number" class="form-control" id="cantUsosMaximosPorDia" name="cantUsosMaximosPorDia" placeholder="Usos Máximos por Día" required>
+                        </div>
+                    </div>
+
+                    <!-- Botón para crear Persona Vulnerable -->
+                    <button type="submit" class="btn btn-primary btn-block">Crear Persona Vulnerable</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/AgregarPersonaACargo.js"></script>
+{{/partial}}
+{{> templates/base title="REGISTRO DE PERSONA VULNERABLE"}}

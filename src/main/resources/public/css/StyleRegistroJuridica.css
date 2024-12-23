@@ -1,0 +1,173 @@
+/* Estructura General */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+.add-button, .remove-button {
+    margin-left: 10px;
+    padding: 10px; /* Coincide con el padding de los inputs */
+    background-color: #b22222; /* Color rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    height: 40px; /* Ajusta la altura para coincidir con los inputs */
+    width: 48%;
+}
+
+.remove-button {
+    background-color: #8b1a1a; /* Color rojo oscuro */
+}
+
+.add-button:hover, .remove-button:hover {
+    background-color: #a81818;
+}
+
+/* Ajustar los campos de entrada */
+input[type="text"], input[type="password"], select {
+    width: 48%;
+    padding: 10px; /* Padding ajustado */
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+
+header {
+    background-color: #b22222; /* Tonalidad roja */
+    padding: 10px 0;
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar nav a {
+    color: white;
+    padding: 0 15px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navbar nav a:hover, .navbar nav a.active {
+    text-decoration: underline;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+
+h1 {
+    text-align: center;
+    color: #b22222; /* Tonalidad roja */
+    margin-bottom: 20px;
+}
+
+.row input, .row select {
+    width: 48%; /* Asegura que tanto inputs como selects ocupen el mismo espacio */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Estilo de los inputs */
+input[type="text"], input[type="password"] {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Estilo de los desplegables */
+select {
+    appearance: none;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    width: 90%; /* Alinea el tamaño con los inputs */
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #b22222; /* Tonalidad roja */
+    outline: none;
+}
+
+.select-container {
+    width: 48%; /* Igual que el input */
+    position: relative;
+}
+
+.select-container::after {
+    content: '▼'; /* Triángulo para el desplegable */
+    font-size: 12px;
+    color: #333;
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    pointer-events: none;
+}
+
+/* Estilo de los botones */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #b22222; /* Tonalidad roja */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8b1a1a; /* Más oscuro al hacer hover */
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Añadir espacio entre los inputs dentro de la fila */
+}
+
+.row input, .row select {
+    width: 100%; /* Cambiado a 100% para que el gap sea consistente */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}

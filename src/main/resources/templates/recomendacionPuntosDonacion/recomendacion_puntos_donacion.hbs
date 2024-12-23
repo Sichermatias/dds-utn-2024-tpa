@@ -1,0 +1,63 @@
+{{#partial "contenido"}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Recomendador de Puntos para Donar</h1>
+
+                <form id="recomendacionPuntosDonacionForm" action="/recomendador_puntos_donacion" method="POST">
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <label for="latitud" class="form-label">Latitud</label>
+                            <input type="text" class="form-control" id="latitud" name="latitud" value="{{latitudForm}}" required>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label for="longitud" class="form-label">Longitud</label>
+                            <input type="text" class="form-control" id="longitud" name="longitud" value="{{longitudForm}}" required>
+                        </div>
+                        <div class="mb-3 col-4">
+                            <label for="radio" class="form-label">Radio</label>
+                            <input type="number" class="form-control" id="radio" name="radio" value="{{radioForm}}">
+                        </div>
+                        <div class="mb-3 col-4">
+                            <label for="horarioBuscado" class="form-label">Horario Buscado</label>
+                            <input type="time" class="form-control" id="horarioBuscado" name="horarioBuscado" value="{{horarioBuscadoForm}}">
+                        </div>
+                        <div class="mb-3 col-4">
+                            <label for="diasBuscados" class="form-label">Días Buscados</label>
+                            <input type="text" class="form-control" id="diasBuscados" name="diasBuscados" value="{{diasForm}}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Consultar Puntos</button>
+                </form>
+
+
+
+                <table class="table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Latitud</th>
+                            <th>Longitud</th>
+                            <th>Hora Apertura</th>
+                            <th>Hora Cierre</th>
+                            <th>Días Abierto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each puntosRecomendados}}
+                        <tr>
+                            <td>{{nombre}}</td>
+                            <td>{{puntoGeografico.latitud}}</td>
+                            <td>{{puntoGeografico.longitud}}</td>
+                            <td>{{horaApertura}}</td>
+                            <td>{{horaCierre}}</td>
+                            <td>{{diasAbierto}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/base title="CONSULTAR PUNTOS DONACION"}}

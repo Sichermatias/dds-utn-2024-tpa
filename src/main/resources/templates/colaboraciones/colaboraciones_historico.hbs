@@ -1,0 +1,67 @@
+{{#partial "links"}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Colaboraciones Históricas</h1>
+
+                <!-- Tabla de Colaboraciones -->
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Tipo de Colaboración</th>
+                        <th>Detalles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each colaboraciones}}
+                        <tr>
+                            <td>{{this.colaboracion.fechaColaboracion}}</td>
+                            <td>{{#if this.colaboracion.activo}}Activa{{else}}Inactiva{{/if}}</td>
+                            <td>{{this.colaboracion.tipo}}</td>
+                            <td>
+                                {{#ifCond this.colaboracion.tipo 'DINERO'}}
+                                    Monto: ${{this.monto}} <br> Frecuencia: {{this.frecuencia}}
+                                {{/ifCond}}
+                                {{#ifCond this.colaboracion.tipo 'DONACION_VIANDAS'}}
+                                    {{debug this.colaboracion.tipo}}
+                                    Heladera: {{this.vianda.heladeraAsignada.nombre}} <br>
+                                    Comida: {{this.vianda.nombreComida}} <br>
+                                    Calorías: {{this.vianda.calorias}} <br>
+                                    Peso: {{this.vianda.peso}} kg
+                                {{/ifCond}}
+                                {{#ifCond this.colaboracion.tipo 'REDISTRIBUCION_VIANDAS'}}
+                                    Origen: {{this.heladeraOrigen.nombre}} <br> Destino: {{this.heladeraDestino.nombre}} <br> Cantidad: {{this.cantidadViandas}}
+                                {{/ifCond}}
+                                {{#ifCond this.colaboracion.tipo 'ENTREGA_TARJETAS'}}
+                                    Nombre: {{this.personaVulnerable.nombre}} <br> Apellido: {{this.personaVulnerable.apellido}} <br> Personas a cargo: {{this.personaVulenarble.personasVulnACargo.size}}
+                                {{/ifCond}}
+                                {{#ifCond this.colaboracion.tipo 'HOSTEAR_HELADERA'}}
+                                    Heladera: {{this.heladera.nombre}} <br> Ubicacion: {{this.heladera.ubicacion.direccion}} <br> Capacidad: {{this.heladera.cantMaxViandas}}
+                                {{/ifCond}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <!-- Botón para regresar al perfil -->
+                <div class="text-center mt-4">
+                    <a href="/perfil" class="btn btn-outline-primary">Volver al Perfil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{/partial}}
+{{> templates/base title="COLABORACIONES HISTORICO"}}

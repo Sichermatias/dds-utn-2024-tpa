@@ -1,0 +1,119 @@
+{{#partial "contenido"}}
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-6">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <form id="registroTecnicoForm" action="/tecnico" method="POST">
+                    <h1 class="text-center text-primary">Registrar Técnico</h1>
+
+                    <!-- Nombre y Apellido -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                        </div>
+                    </div>
+
+                    <!-- Tipo de Documento y Número -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <select class="form-control" id="tipoDocumento" name="tipoDocumento" required>
+                                <option value="" disabled selected>Selecciona Tipo de Documento</option>
+                                <option value="DNI">DNI</option>
+                                <option value="LC">LC</option>
+                                <option value="LE">LE</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" placeholder="Número de documento" required>
+                        </div>
+                    </div>
+
+                    <!-- CUIL y Telegram ID -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="cuil" name="cuil" placeholder="CUIL" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="telegramID" name="telegramID" placeholder="Telegram ID">
+                        </div>
+                    </div>
+
+                    <!-- Medio de Contacto -->
+                    <div id="contact-fields">
+                        <!-- Conjunto inicial -->
+                        <div class="form-row align-items-center contact-row">
+                            <div class="form-group col-md-5">
+                                <select class="form-control" name="medioDeContacto[]" required>
+                                    <option value="" disabled selected>Selecciona Medio de Contacto</option>
+                                    <option value="E-MAIL">E-MAIL</option>
+                                    <option value="WHATSAPP">WHATSAPP</option>
+                                    <option value="TELEFONO LINEA">TELEFONO LINEA</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <input type="text" class="form-control" name="datoContacto[]" placeholder="Dato de Contacto" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary mb-3 add-contact">Agregar Medio de Contacto</button>
+
+                    <!-- Localidades de Servicio -->
+                    <div class="form-group">
+                        <label for="localidadesDeServicio">Localidades de Servicio</label>
+                        <select class="form-control" id="localidadesDeServicio" name="localidadesDeServicio" multiple required>
+                            {{#each localidades}}
+                                <option value="{{this.nombreLocalidad}}">{{this.nombreLocalidad}}</option>
+                            {{/each}}
+                        </select>
+                        <small class="form-text text-muted">Mantén presionada la tecla Ctrl (o Cmd en Mac) para seleccionar varias localidades.</small>
+                    </div>
+
+                    <!-- Botón para enviar -->
+                    <button type="submit" class="btn btn-primary btn-block">Registrar Técnico</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{>templates/base title="REGISTRO DE TECNICOS"}}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const addContactButton = document.querySelector('.add-contact');
+        const contactFieldsContainer = document.getElementById('contact-fields');
+
+        // Agregar nuevo conjunto de campos de contacto
+        addContactButton.addEventListener('click', () => {
+            const contactRow = document.createElement('div');
+            contactRow.className = 'form-row align-items-center contact-row mt-2';
+
+            contactRow.innerHTML = `
+                <div class="form-group col-md-5">
+                    <select class="form-control" name="medioDeContacto[]" required>
+                        <option value="" disabled selected>Selecciona Medio de Contacto</option>
+                        <option value="E-MAIL">E-MAIL</option>
+                        <option value="WHATSAPP">WHATSAPP</option>
+                        <option value="TELEFONO LINEA">TELEFONO LINEA</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-5">
+                    <input type="text" class="form-control" name="datoContacto[]" placeholder="Dato de Contacto" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger btn-sm remove-contact">Eliminar</button>
+                </div>
+            `;
+            contactFieldsContainer.appendChild(contactRow);
+        });
+
+        // Delegar evento para eliminar un conjunto de campos de contacto
+        contactFieldsContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-contact')) {
+                const contactRow = event.target.closest('.contact-row');
+                contactFieldsContainer.removeChild(contactRow);
+            }
+        });
+    });
+</script>

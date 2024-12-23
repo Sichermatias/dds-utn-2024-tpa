@@ -1,0 +1,49 @@
+<form id="redistribucionViandasForm" action="/colaboraciones/redistribucion" method="POST" style="display:none;">
+    <div class="form-group mb-3">
+        <label for="heladeraOrigen">Heladera Origen</label>
+        <select class="form-control" id="heladeraOrigen" name="heladeraOrigen">
+            {{#each heladeras}}
+                <option value="{{this.id}}" data-Omax="{{this.cantMaxViandas}}" data-Oactuales="{{this.cantViandasActuales}}">{{this.nombre}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group mb-3">
+        <label for="heladeraDestino">Heladera Destino</label>
+        <select class="form-control" id="heladeraDestino" name="heladeraDestino">
+            {{#each heladeras}}
+                <option value="{{this.id}}" data-Dmax="{{this.cantMaxViandas}}" data-Dactuales="{{this.cantViandasActuales}}">{{this.nombre}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group mb-3">
+        <label for="cantidadViandas">Cantidad de Viandas</label>
+        <input type="number" class="form-control" id="cantidadViandas" name="cantidadViandas" placeholder="Cantidad de viandas" min="1" max="data-Oactuales">
+    </div>
+    <div class="form-group mb-3">
+        <label for="motivoRedistribucion">Motivo de Redistribución</label>
+        <input type="text" class="form-control" id="motivoRedistribucion" name="motivoRedistribucion" placeholder="Motivo de redistribución">
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Distribuir Viandas</button>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const heladeraOrigen = document.getElementById('heladeraOrigen');
+        const heladeraDestino = document.getElementById('heladeraDestino');
+        const cantidadViandas = document.getElementById('cantidadViandas');
+
+        const updateMaxViandas = () => {
+            const origenActuales = parseInt(heladeraOrigen.options[heladeraOrigen.selectedIndex]?.getAttribute('data-Oactuales')) || 0;
+            const destinoMax = parseInt(heladeraDestino.options[heladeraDestino.selectedIndex]?.getAttribute('data-Dmax')) || 0;
+            const destinoActuales= parseInt(heladeraDestino.options[heladeraDestino.selectedIndex]?.getAttribute('data-Dactuales')) || 0;
+
+            // Encontrar el menor de los dos valores
+            const maxViandas = Math.min(destinoMax-destinoActuales, origenActuales);
+            cantidadViandas.max = maxViandas;
+            cantidadViandas.placeholder = `Máximo: ${maxViandas}`;
+            cantidadViandas.value = ''; // Reiniciar el valor al cambiar de heladeras
+        };
+
+        heladeraOrigen.addEventListener('change', updateMaxViandas);
+        heladeraDestino.addEventListener('change', updateMaxViandas);
+    });
+</script>

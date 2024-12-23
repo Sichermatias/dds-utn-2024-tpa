@@ -1,0 +1,141 @@
+{{#partial "links"}}
+    <link href="css/StylePuntosYPremios.css" rel="stylesheet">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+{{/partial}}
+{{#partial "contenido"}}
+    <section class="container my-5 col-lg-10 col-md-12 flex-column align-items-center">
+        <!-- Título y puntos -->
+        <div class="d-flex justify-content-between align-items-center w-100 mb-4">
+            <h2 class="card-title text-left fs-2">Beneficios</h2>
+            <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex justify-content-center shadow-sm">
+                    <i class="bi bi-gift-fill" style="font-size: 1.8em;"></i>
+                </div>
+                <div class="ps-3">
+                    <h6 style="font-size: 1.5em; color: green; font-weight: bold;">{{puntaje}}</h6>
+                    <span style="font-size: 1.1em;">Puntos acumulados</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección para donar premios -->
+        {{#if (eq tipo_rol "COLABORADOR_JURIDICO")}}
+            <div class="col-12 mb-4">
+                <div class="card mb-3 suggestion-shadow border-0">
+                    <div class="card-body py-3">
+                        <div class="text-center">
+                            <h6 class="card-title fs-5 mb-2">¿Desea donar premios?</h6>
+                            <p class="mb-3" style="font-size: 0.9em;">¡Contribuí a la causa completando nuestro formulario y doná tus premios!</p>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <a href="/colaboraciones/premio" class="btn btn-primary btn-sm shadow-sm">Donar premio</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+
+        <!-- Selección de rubro/categoría -->
+        <div class="col-md-6 mb-4">
+            <label for="inputState" class="form-label fs-5">Seleccionar rubro del premio</label>
+            <select id="inputState" class="form-select shadow-sm" onchange="filterProducts()">
+                <option selected value="all">Elegir rubro...</option>
+                {{#each rubros}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <!-- Mensajes de estado -->
+        {{#if canjeado}}
+            <div class="alert alert-success text-left shadow-sm" role="alert">
+                ¡Premio canjeado! Para ver sus premios, dirígase a <a href="/puntos-y-premios/premios-canjeados" class="alert-link">mis premios</a>.
+            </div>
+        {{/if}}
+
+        {{#if faltaDeStock}}
+            <div class="alert alert-danger text-left shadow-sm" role="alert">
+                Lo sentimos, ese premio ya no se encuentra disponible :(
+            </div>
+        {{/if}}
+
+        {{#if puntosInsuficientes}}
+            <div class="alert alert-danger text-left shadow-sm" role="alert">
+                No se pudo completar la transacción por falta de puntos. Reúna más puntos e intente nuevamente.
+            </div>
+        {{/if}}
+
+        {{#if error}}
+            <div class="alert alert-danger text-left shadow-sm" role="alert">
+                Lo sentimos, algo ha salido mal. Por favor, intente nuevamente.
+            </div>
+        {{/if}}
+
+        <!-- Contenedor de premios en cards -->
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="premios-container">
+            {{#if premios.length}}
+                {{#each premios}}
+                    <div class="col-12 col-md-6 col-lg-4 product-card" data-category="{{rubro.nombre}}">
+                        <div class="card card-premio h-100 shadow-sm border-0">
+                            <div class="card-img-container">
+                                {{#if imagenPremio}}
+                                    <img src="{{imagenPremio}}" class="card-img-top rounded" alt="{{nombre}}">
+                                {{else}}
+                                    <div class="placeholder-icon text-center py-5"><i class="bi bi-image fs-1"></i></div>
+                                {{/if}}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">{{nombre}}</h5>
+                                <p class="card-text">Puntos necesarios: {{cantidadPuntosNecesarios}}</p>
+                                <div class="d-grid">
+                                    <form action="/puntos-y-premios/premios-canjeados" method="POST">
+                                        <input type="hidden" name="premioId" value="{{id}}">
+                                        <button type="button"
+                                                class="btn btn-primary shadow-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#canjearPremioModal"
+                                                data-puntos="{{cantidadPuntosNecesarios}}">
+                                            Canjear
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="col-12 text-center">
+                    <p>No hay ningún premio disponible por el momento :(</p>
+                </div>
+            {{/if}}
+        </div>
+    </section>
+
+    <div class="modal fade" id="canjearPremioModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-sm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmar Canje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas canjear este premio por <span id="puntaje-destacado" style="color: green; font-weight: bold;">X</span> puntos?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{/partial}}
+{{#partial "scripts"}}
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center shadow-sm">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+    <script src="js/puntos-y-premios.js"></script>
+{{/partial}}
+
+{{> templates/base title="Puntos y premios - MAACVS"}}

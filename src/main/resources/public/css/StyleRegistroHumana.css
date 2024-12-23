@@ -1,0 +1,124 @@
+        /* Estructura General */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header {
+            background-color: #b22222; /* Tonalidad roja */
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar nav a {
+            color: white;
+            padding: 0 15px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .navbar nav a:hover, .navbar nav a.active {
+            text-decoration: underline;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 70px; /* Para evitar el superpuesto con el header */
+            width: 100%;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 60%; /* Ancho del formulario */
+            margin-right: 20px; /* Espacio entre formulario y mapa */
+        }
+
+        h1 {
+            text-align: center;
+            color: #b22222; /* Tonalidad roja */
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .row input, .row select {
+            width: 48%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #b22222; /* Tonalidad roja */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8b1a1a; /* Más oscuro al hacer hover */
+        }
+
+        /* Estilo del mapa */
+        #map {
+            width: 40%; /* Ancho del mapa */
+            height: 400px; /* Ajusta esta altura según tus necesidades */
+        }
+
+        /* Ajusta la altura de los botones */
+        button.add-contact {
+            height: 10px
+            padding: 8px; /* Altura ajustada para coincidir con los campos */
+            margin-bottom: 15px;
+        }
+
+        .remove-contact {
+            background-color: #b22222; /* Tonalidad roja */
+            color: white;
+            border: none;
+            padding: 6px;
+            height: 35px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .remove-contact:hover {
+            background-color: #8b1a1a;
+        }
+

@@ -1,0 +1,90 @@
+{{#partial "links"}}
+    <!-- Leaflet & Maps CSS Files -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Registrar Colaboración</h1>
+
+                <!-- Tipo de Colaboración -->
+                <div class="form-group mb-3">
+                    <label for="tipoColaboracion">Tipo de Colaboración</label>
+                    <select class="form-control" id="tipoColaboracion" name="tipoColaboracion" required>
+                        <option value="">Seleccionar</option>
+                        <option value="DINERO">Donar Dinero</option>
+                        <option value="OFRECER_PREMIOS">Ofrecer Premios</option>
+                        <option value="HOSTEAR_HELADERA">Hostear Heladera</option>
+                    </select>
+                </div>
+
+                <!-- Dinero Form -->
+                {{> templates/colaboraciones/formularios/colaboracion_dinero}}
+
+                <!-- Hostear Heladera Form -->
+                {{> templates/colaboraciones/formularios/colaboracion_heladera}}
+
+            </div>
+        </div>
+    </div><script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tipoColaboracion = document.getElementById('tipoColaboracion');
+        const forms = {
+            DINERO: document.getElementById('dineroForm'),
+            OFRECER_PREMIOS: document.getElementById('dineroForm'),
+            HOSTEAR_HELADERA: document.getElementById('hostearHeladeraForm')
+        };
+
+        tipoColaboracion.addEventListener('change', function () {
+            // Ocultar todos los formularios
+            Object.values(forms).forEach(form => {
+                if (form) form.style.display = 'none';
+            });
+
+            // Redireccionar si la opción seleccionada es "Hostear Heladera"
+            if (this.value === 'OFRECER_PREMIOS') {
+                window.location.href = "/colaboraciones/premio";
+            }
+             else if (this.value && forms[this.value]) {
+                forms[this.value].style.display = 'block';
+            }
+            map._onResize();
+        });
+    });
+</script>
+    <script>
+document.getElementById('modeloHeladera').addEventListener('input', function () {
+    if (document.getElementById('hostearHeladeraForm').style.display === 'block') {
+        const input = this.value;
+        const datalist = document.getElementById('modelosList');
+        const tempMaxInput = document.getElementById('tempMax');
+        const tempMinInput = document.getElementById('tempMin');
+
+        let found = false;
+        for (let option of datalist.options) {
+            if (option.value === input) {
+                tempMaxInput.value = option.getAttribute('data-tempmax');
+                tempMinInput.value = option.getAttribute('data-tempmin');
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            tempMaxInput.value = '';
+            tempMinInput.value = '';
+        }
+    }
+});</script>
+{{/partial}}
+{{#partial "scripts"}}
+    <!-- Leaflet & Maps JS Files -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="/js/MapaHostearHeladera.js"></script>
+{{/partial}}
+
+{{> templates/base title="Registrar Colaboración"}}

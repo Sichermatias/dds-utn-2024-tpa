@@ -1,0 +1,61 @@
+<form id="donacionViandasForm" action="/colaboraciones/vianda" method="POST" style="display:none;">
+    <div class="row">
+        <div class="form-group mb-3 col-3">
+            <label for="nombreComida">Nombre de la Comida</label>
+            <input type="text" class="form-control" id="nombreComida" name="nombreComida" placeholder="Nombre de la comida">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="fechaCaducidad">Fecha de Caducidad</label>
+            <input type="date" class="form-control" id="fechaCaducidad" name="fechaCaducidad">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="fechaDonacion">Fecha de Donación</label>
+            <input type="date" class="form-control" id="fechaDonacion" name="fechaDonacion">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="calorias">Calorías</label>
+            <input type="number" class="form-control" id="calorias" name="calorias" placeholder="Calorías">
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" class="form-control" id="peso" name="peso" placeholder="Peso en kg">
+        </div>
+        <div class="form-group mb-3 col-6">
+            <label for="heladera">Heladera</label>
+            <select class="form-control" id="heladera" name="heladera" required>
+                {{#each heladeras}}
+                    <option value="{{this.id}}" data-max="{{this.cantMaxViandas}}" data-actuales="{{this.cantViandasActuales}}">{{this.nombre}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="form-group mb-3 col-3">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Cuántas donas" min="1">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Donar Vianda</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const heladeraDestino = document.getElementById('heladera');
+        const cantidadViandas = document.getElementById('cantidad');
+
+        const updateMaxViandas = () => {
+            const destinoMax = parseInt(heladeraDestino.options[heladeraDestino.selectedIndex]?.getAttribute('data-max')) || 0;
+            const destinoActuales = parseInt(heladeraDestino.options[heladeraDestino.selectedIndex]?.getAttribute('data-actuales')) || 0;
+
+            // Encontrar el máximo permitido
+            const maxViandas = destinoMax - destinoActuales;
+
+            // Asegurarse de que el máximo no sea negativo
+            cantidadViandas.max = Math.max(maxViandas, 0);
+            cantidadViandas.placeholder = `Máximo: ${cantidadViandas.max}`;
+            cantidadViandas.value = ''; // Reiniciar el valor al cambiar de heladeras
+        };
+
+        heladeraDestino.addEventListener('change', updateMaxViandas);
+        updateMaxViandas(); // Llamar a la función inicialmente para establecer el máximo al cargar la página
+    });
+</script>

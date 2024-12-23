@@ -1,0 +1,50 @@
+{{#partial "links"}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+{{/partial}}
+{{#partial "contenido"}}
+<div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Visitas de incidente {{incidenteID}}</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Tecnico</th>
+                        <th>Fecha</th>
+                        <th>Resuelto</th>
+                        <th>Imagenes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each visitas}}
+                        <tr>
+                            <td>{{this.tecnicoAsignado.nombre}} {{this.tecnicoAsignado.apellido}}</td>
+                            <td>{{formatDateTime this.fechaHoraAlta}}</td>
+                            <td>{{this.incidenteResuelto}}</td>
+                            <td>
+                                {{#each this.fotosVisita}}
+                                    <img src="{{this}}" style="height: 60px" alt="Foto Visita">
+                                {{/each}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-outline-primary">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{{/partial}}
+{{#partial "scripts"}}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{/partial}}
+{{> templates/base title="Visitas de incidente - MAACVS"}}

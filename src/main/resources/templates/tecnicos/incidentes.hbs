@@ -1,0 +1,94 @@
+{{#partial "links"}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+{{/partial}}
+
+{{#partial "contenido"}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Heladeras Instaladas</h1>
+
+                <!-- Mapa para mostrar todas las heladeras -->
+                <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+
+                <!-- Tabla de heladeras -->
+                <table class="table table-striped mt-4">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ubicación</th>
+                        <th>Capacidad Máxima</th>
+                        <th>Viandas Actuales</th>
+                        <th>Desperfecto</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each incidentes}}
+                        <tr>
+                            <td>{{this.heladeraIncidente.nombre}}</td>
+                            <td>{{this.heladeraIncidente.ubicacion.direccion}}</td>
+                            <td>{{this.heladeraIncidente.cantMaxViandas}}</td>
+                            <td>{{this.heladeraIncidente.cantViandasActuales}}</td>
+                            <td>{{#if this.heladeraIncidente.desperfecto}} Sí {{else}} No {{/if}}</td>
+                            <td>
+                                <a href="/incidentes/{{this.id}}" class="btn btn-primary">Resolver incidente</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-outline-primary">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        // Inicializa el mapa una sola vez, centrado en la primera heladera o en un valor por defecto
+        var map = L.map('map').setView([{{incidentes.[0].heladeraIncidente.ubicacion.latitud}}, {{incidentes.[0].heladeraIncidente.ubicacion.longitud}}], 12);
+
+        // Añadir el mapa base de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Iconos para las heladeras activas e inactivas
+        var iconActiva = L.icon({
+            iconUrl: '/assets/img/icon.png',  // Ruta al archivo PNG
+            iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
+            iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
+            popupAnchor: [0, -50] // Punto desde donde se muestra el popup
+        });
+
+        var iconInactiva = L.icon({
+            iconUrl: '/assets/img/InactiveIcon.png',  // Ruta al archivo PNG
+            iconSize: [40, 40], // Tamaño del ícono en píxeles [ancho, alto]
+            iconAnchor: [25, 50], // Punto donde el ícono apunta en el mapa [ancho/2, alto]
+            popupAnchor: [0, -50] // Punto desde donde se muestra el popup
+        });
+
+        // Añadir un marcador por cada heladera con el icono adecuado
+        {{#each incidentes}}
+            var lat = {{this.heladeraIncidente.ubicacion.latitud}};
+            var lng = {{this.heladeraIncidente.ubicacion.longitud}};
+            var icon = {{#if this.heladeraIncidente.desperfecto}} iconInactiva {{else}} iconActiva {{/if}};
+            L.marker([lat, lng], {icon: icon}).addTo(map)
+                .bindPopup('{{this.heladeraIncidente.nombre}}')
+                .openPopup();
+        {{/each}}
+    </script>
+{{/partial}}
+
+{{> templates/base title="HELADERAS INSTALADAS"}}

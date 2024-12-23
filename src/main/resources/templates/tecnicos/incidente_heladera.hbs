@@ -1,0 +1,54 @@
+{{#partial "contenido"}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <form id="cerrarIncidenteForm" action="/incidentes/{{incidente.id}}" method="POST" enctype="multipart/form-data">
+
+                    <h1 class="text-center text-primary">Cerrar Incidente</h1>
+
+                    <!-- Fecha de la visita -->
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="fechaVisita">Fecha de Visita</label>
+                            <input type="datetime-local" class="form-control" id="fechaVisita" name="fechaVisita" required>
+                        </div>
+                    </div>
+
+                    <!-- Estado del incidente -->
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="incidenteResuelto">Estado del Incidente</label>
+                            <select class="form-control" id="incidenteResuelto" name="incidenteResuelto" required>
+                                <option value="1">Resuelto</option>
+                                <option value="0">No Resuelto</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Carga de fotos -->
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="fotosVisita">Fotos de la Visita</label>
+                            <input type="file" class="form-control" id="fotosVisita" name="fotosVisita" multiple>
+                        </div>
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <button type="submit" class="btn btn-primary btn-block">Cerrar Incidente</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Información adicional del incidente -->
+        <div class="col-md-6">
+            <div class="bg-light p-4 rounded shadow">
+                <h4>Detalles del Incidente</h4>
+                <p><strong>Heladera:</strong> {{incidente.heladeraIncidente.nombre}}</p>
+                <p><strong>Descripcion:</strong> {{incidente.descripcionIncidente}}</p>
+                <p><strong>Ubicación:</strong> {{incidente.heladeraIncidente.ubicacion.direccion}}</p>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{> templates/base title="SOLUCIONAR INCIDENTE HELADERA"}}

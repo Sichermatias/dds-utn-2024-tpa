@@ -1,0 +1,23 @@
+{{#partial "contenido"}}
+<main class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Perfil de {{colaborador.nombre}} {{colaborador.apellido}}</h1>
+            <p><strong>Documento:</strong> {{colaborador.tipoDocumento}} {{colaborador.nroDocumento}}</p>
+            <p><strong>Fecha de Nacimiento:</strong> {{colaborador.fechaNacimiento}}</p>
+            <p><strong>Usuario:</strong> {{colaborador.usuario.nombreUsuario}}</p>
+            <p><strong>Ubicación:</strong> {{colaborador.ubicacion.direccion}}</p>
+            <p><strong>Medios de Contacto:</strong></p>
+            <ul>
+                {{#each colaborador.mediosDeContacto}}
+                    <li>{{this.nombre}}: {{this.valor}}</li>
+                {{/each}}
+            </ul>
+
+            <a href="/editar/humana" class="btn btn-primary">Editar Perfil</a>
+        </div>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+{{/partial}}
+{{> templates/base title="PERFIL"}}

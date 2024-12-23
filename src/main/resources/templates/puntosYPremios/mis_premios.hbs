@@ -1,0 +1,55 @@
+{{#partial "contenido"}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container bg-white p-4 rounded shadow">
+                <h1 class="text-center text-primary">Premios canjeados</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID del canje</th>
+                        <th>Premio</th>
+                        <th>Puntos gastados</th>
+                        <th>Fecha y hora canje</th>
+                        {{#if (eq tipo_rol "ADMIN")}}
+                            <th>Colaborador</th>
+                            <th>Entregado</th>
+                            <th>Acciones</th>
+                        {{/if}}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each premioCanjes}}
+                        <tr>
+                            <td>{{this.id}}</td>
+                            <td>
+                                <a href="/premio/{{this.premio.id}}">{{this.premio.nombre}}</a>
+                            </td>
+                            <td>{{this.premio.cantidadPuntosNecesarios}}</td>
+                            <td>{{formatDateTime this.fechaHoraAlta}}</td>
+                            {{#if (eq tipo_rol "ADMIN")}}
+                                {{#if (eq this.colaborador.tipoPersona "HUMANA")}}
+                                    <td>{{this.colaborador.nombre}} {{this.colaborador.apellido}}</td>
+                                {{else}}
+                                    <td>{{this.colaborador.razonSocial}}</td>
+                                {{/if}}
+                                <td>{{#if this.entregado}} Sí {{else}} No {{/if}}</td>
+                                <td>
+                                    <form action="/puntos-y-premios/premios-canjeados/{{this.id}}" method="POST">
+                                        <button type="submit" class="btn btn-primary">Marcar como entregado</button>
+                                    </form>
+                                </td>
+                            {{/if}}
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-outline-primary">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/base title="Premios canjeados - MAACVS"}}
