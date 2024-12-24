@@ -13,6 +13,7 @@ import ar.edu.utn.frba.dds.services.TransaccionService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -139,7 +140,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         context.redirect("/colaboraciones");
     }
 
-    public void colaboracionVianda(Context context) {
+    public void colaboracionVianda(Context context) throws MqttException {
 
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         Colaboracion colaboracion = colaboracionService.crearColaboracion("Donación de Vianda", "DONACION_VIANDAS", "Descripción viandas", colaborador);
@@ -156,7 +157,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         context.redirect("/colaboraciones");
     }
-    public void colaboracionDistribucion(Context context) {
+    public void colaboracionDistribucion(Context context) throws MqttException {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         Colaboracion colaboracion = colaboracionService.crearColaboracion("Redistribución de Viandas", "REDISTRIBUCION_VIANDAS", "Descripción redistribución", colaborador);
 

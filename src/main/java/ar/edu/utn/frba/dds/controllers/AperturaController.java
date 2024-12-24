@@ -15,6 +15,7 @@ import java.time.Duration;
 import ar.edu.utn.frba.dds.dominio.utils.ConfigReader;
 import java.time.LocalDateTime;
 import java.util.Properties;
+import ar.edu.utn.frba.dds.dominio.services.broker.BrokerHandler;
 
 public class AperturaController  implements IMqttMessageListener {
     private final PedidoDeAperturaRepositorio pedidoDeAperturaRepositorio;
@@ -30,6 +31,7 @@ public class AperturaController  implements IMqttMessageListener {
         this.personaVulnerableRepositorio = personaVulnerableRepositorio;
         this.colaboracionRepositorio = colaboracionRepositorio;
         this.config = new ConfigReader(configPath);
+
     }
 
     @Override

@@ -9,12 +9,15 @@ import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
 import ar.edu.utn.frba.dds.dominio.persona.Tarjeta;
 import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
+import ar.edu.utn.frba.dds.dominio.services.broker.BrokerHandler;
 import ar.edu.utn.frba.dds.dtos.georef.ProvinciaMunicipioGeorefDTO;
 import ar.edu.utn.frba.dds.dtos.georef.PuntoGeorefDTO;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ViandasDonadasColaboradorRepositorio;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,12 +28,14 @@ public class ColaboracionService {
     private final ColaboracionRepositorio colaboracionRepositorio;
     private final DonacionDineroRepositorio donacionDineroRepositorio;
     private final TransaccionService transaccionService;
+    private final BrokerHandler brokerHandler;
 
     public ColaboracionService(ColaboradorRepositorio colaboradorRepositorio, ColaboracionRepositorio colaboracionRepositorio, DonacionDineroRepositorio donacionDineroRepositorio, TransaccionService transaccionService) {
         this.colaboradorRepositorio = colaboradorRepositorio;
         this.colaboracionRepositorio = colaboracionRepositorio;
         this.donacionDineroRepositorio = donacionDineroRepositorio;
         this.transaccionService=transaccionService;
+        this.brokerHandler = new BrokerHandler();
     }
 
     public Colaboracion crearColaboracion(String nombre, String tipo, String descripcion, Colaborador colaborador) {
@@ -65,7 +70,7 @@ public class ColaboracionService {
         nuevaVianda.setFechaHoraAlta(fechaAlta);
         return nuevaVianda;
     }
-    public void crearDonacionVianda(Colaboracion colaboracion, Vianda vianda, Heladera heladeraAsignada, Integer cantidadViandas) {
+    public void crearDonacionVianda(Colaboracion colaboracion, Vianda vianda, Heladera heladeraAsignada, Integer cantidadViandas) throws MqttException {
         Colaborador colaborador = colaboracion.getColaborador();
 
         if (cantidadViandas == null || cantidadViandas <= 0) {
@@ -85,6 +90,13 @@ public class ColaboracionService {
         pedidoDeApertura.setCantidadViandas(cantidadViandas);
 
         donacionVianda.setPedidoDeApertura(pedidoDeApertura);
+
+        BrokerHandler brokerHandler = new BrokerHandler();
+        MqttClient cliente = brokerHandler.conectar();
+
+        brokerHandler.publicar(cliente,"heladera/recibirMensaje","{ Heladera: "+pedidoDeApertura.getHeladera().getId() +",TarjetaId: "+pedidoDeApertura.getTarjeta().getId()+"}");
+
+        cliente.disconnect();
 
         heladeraAsignada.recibirDonacionVianda(donacionVianda);
         heladeraAsignada.setCantSemanalViandasColocadas(
@@ -175,7 +187,7 @@ public class ColaboracionService {
         colaboradorRepositorio.actualizar(colaborador);
     }
 
-    public void crearRedistribucionViandas(Colaboracion colaboracion, Heladera heladeraOrigen, Heladera heladeraDestino, int cantidadViandas, MotivoRedistribucion motivo) {
+    public void crearRedistribucionViandas(Colaboracion colaboracion, Heladera heladeraOrigen, Heladera heladeraDestino, int cantidadViandas, MotivoRedistribucion motivo) throws MqttException {
         Colaborador colaborador = colaboracion.getColaborador();
         heladeraOrigen.setCantViandasActuales(heladeraOrigen.getCantViandasActuales()-cantidadViandas);
         heladeraDestino.setCantViandasActuales(heladeraDestino.getCantViandasActuales()+cantidadViandas);
@@ -208,6 +220,14 @@ public class ColaboracionService {
 
         redistribucionViandas.setPedidoDeAperturaEnDestino(pedidoDestino);
         redistribucionViandas.setPedidoDeAperturaEnOrigen(pedidoOrigen);
+
+        BrokerHandler brokerHandler = new BrokerHandler();
+        MqttClient cliente = brokerHandler.conectar();
+
+        brokerHandler.publicar(cliente,"heladera/recibirMensaje","{ Heladera: "+pedidoDestino.getHeladera().getId() +",TarjetaId: "+pedidoDestino.getTarjeta().getId()+"}");
+        brokerHandler.publicar(cliente,"heladera/recibirMensaje","{ Heladera: "+pedidoOrigen.getHeladera().getId() +",TarjetaId: "+pedidoOrigen.getTarjeta().getId()+"}");
+
+        cliente.disconnect();
 
         Transaccion transaccion = transaccionService.crearTransaccion(colaborador, redistribucionViandas.puntaje());
         colaboracion.setTransaccion(transaccion);
