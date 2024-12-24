@@ -16,6 +16,6 @@ public class BrokerTests {
         BrokerHandler brokerHandler = new BrokerHandler();
         MqttClient cliente = brokerHandler.conectar();
         BrokerReceptorMensajes receptor = new BrokerReceptorMensajes();
-        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/almagro/medrano", receptor);
+        brokerHandler.suscribir(cliente,"dds2024/g12/heladeras/almagro/medrano", receptor);
     }
 }
