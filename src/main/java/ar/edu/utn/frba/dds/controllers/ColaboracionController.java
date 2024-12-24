@@ -8,10 +8,12 @@ import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
+import ar.edu.utn.frba.dds.services.SensorService;
 import ar.edu.utn.frba.dds.services.TransaccionService;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,16 +33,22 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
     private final PremioRepositorio premioRepositorio;
 
     private final ColaboracionService colaboracionService;
+    private final ModeloRepositorio modeloRepositorio;
+    private final SensorService sensorService;
 
     public ColaboracionController(
             ColaboradorRepositorio colaboradorRepositorio,
             HeladerasRepositorio heladeraRepositorio,
             PremioRepositorio premioRepositorio,
-            ColaboracionService colaboracionService) {
+            ColaboracionService colaboracionService,
+            ModeloRepositorio modeloRepositorio,
+            SensorService sensorService) {
         this.colaboradorRepositorio = colaboradorRepositorio;
         this.heladeraRepositorio = heladeraRepositorio;
         this.premioRepositorio = premioRepositorio;
         this.colaboracionService = colaboracionService;
+        this.modeloRepositorio= modeloRepositorio;
+        this.sensorService = sensorService;
     }
     @Override
     public void index(Context context) {
@@ -60,6 +68,8 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
         List<Heladera> heladeras = heladeraRepositorio.buscarTodas();
+        List<Modelo> modelos= modeloRepositorio.buscarTodos(Modelo.class);
+        model.put("modelos", modelos);
         model.put("heladeras", heladeras);
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
@@ -130,7 +140,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         context.redirect("/colaboraciones");
     }
 
-    public void colaboracionVianda(Context context) {
+    public void colaboracionVianda(Context context) throws MqttException {
 
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         Colaboracion colaboracion = colaboracionService.crearColaboracion("Donación de Vianda", "DONACION_VIANDAS", "Descripción viandas", colaborador);
@@ -147,7 +157,7 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
 
         context.redirect("/colaboraciones");
     }
-    public void colaboracionDistribucion(Context context) {
+    public void colaboracionDistribucion(Context context) throws MqttException {
         Colaborador colaborador = obtenerColaboradorDeSesion(context);
         Colaboracion colaboracion = colaboracionService.crearColaboracion("Redistribución de Viandas", "REDISTRIBUCION_VIANDAS", "Descripción redistribución", colaborador);
 
@@ -181,11 +191,17 @@ public class ColaboracionController implements ICrudViewsHandler, WithSimplePers
         Double tempMax = Double.parseDouble(context.formParam("tempMax"));
         Double tempMin = Double.parseDouble(context.formParam("tempMin"));
 
+        List<Modelo> modeloG=modeloRepositorio.buscarPorNombre(nombreModelo);
         Ubicacion ubicacion= colaboracionService.crearUbicacion(direccion,longitud,latitud);
-        Modelo modelo= colaboracionService.crearModelo(nombreModelo, tempMax,tempMin);
+        Modelo modelo;
+        if(modeloG.isEmpty()){modelo= colaboracionService.crearModelo(nombreModelo, tempMax,tempMin);}
+        else{modelo=modeloG.get(0);
+        }
         Heladera heladera = colaboracionService.crearHeladera(nombreHeladera, cantMaxViandas, ubicacion, modelo, colaborador);
 
         colaboracionService.crearHostearHeladera(colaboracion, heladera);
+
+        sensorService.crearSensores(heladera);
 
         context.redirect("/colaboraciones");
     }

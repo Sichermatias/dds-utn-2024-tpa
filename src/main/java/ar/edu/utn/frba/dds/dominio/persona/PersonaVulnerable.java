@@ -33,7 +33,7 @@ public class PersonaVulnerable extends Persistente {
     @Column(name = "nroDocumento", columnDefinition = "INTEGER(11)")
     private String nroDocumento;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "personaVulnerable_id")
     private List<Tarjeta> tarjetas;
 
@@ -47,7 +47,7 @@ public class PersonaVulnerable extends Persistente {
 
     //TODO: llevarlo a una config
     @Column(name = "cantUsosMaximosPorDia", columnDefinition = "TINYINT")
-    private Integer cantUsosMaximosPorDia = 4;
+    private Integer cantUsosMaximosPorDia = 0;
 
     @Column(name = "usosDelDia", columnDefinition = "TINYINT")
     private Integer usosDelDia;
@@ -64,5 +64,7 @@ public class PersonaVulnerable extends Persistente {
     public void agregarPersonasVulnerablesACargo(PersonaVulnerable ... personasVulnerables) {
         Collections.addAll(this.personasVulnACargo, personasVulnerables);
     }
-
+    public void cambiarTarjeta(Tarjeta tarjeta){
+        tarjetas.add(0,tarjeta);
+    }
 }

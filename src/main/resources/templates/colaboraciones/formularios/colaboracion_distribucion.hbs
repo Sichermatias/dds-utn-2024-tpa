@@ -3,7 +3,7 @@
         <label for="heladeraOrigen">Heladera Origen</label>
         <select class="form-control" id="heladeraOrigen" name="heladeraOrigen">
             {{#each heladeras}}
-                <option value="{{this.id}}" data-Omax="{{this.cantMaxViandas}}" data-Oactuales="{{this.cantViandasActuales}}">{{this.ubicacion.direccion}}</option>
+                <option value="{{this.id}}" data-Omax="{{this.cantMaxViandas}}" data-Oactuales="{{this.cantViandasActuales}}">{{this.nombre}}</option>
             {{/each}}
         </select>
     </div>
@@ -11,7 +11,7 @@
         <label for="heladeraDestino">Heladera Destino</label>
         <select class="form-control" id="heladeraDestino" name="heladeraDestino">
             {{#each heladeras}}
-                <option value="{{this.id}}" data-Dmax="{{this.cantMaxViandas}}" data-Dactuales="{{this.cantViandasActuales}}">{{this.ubicacion.direccion}}</option>
+                <option value="{{this.id}}" data-Dmax="{{this.cantMaxViandas}}" data-Dactuales="{{this.cantViandasActuales}}">{{this.nombre}}</option>
             {{/each}}
         </select>
     </div>

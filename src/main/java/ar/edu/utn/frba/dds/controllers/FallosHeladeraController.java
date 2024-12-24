@@ -26,7 +26,7 @@ public class FallosHeladeraController implements ICrudViewsHandler, WithSimplePe
         List<FallosPorHeladera> fallosPorHeladeras= this.fallosHeladeraRepositorio.buscarUltimos7Dias();
         if (usuarioId != null) {
             model.put("fallosPorHeladeras", fallosPorHeladeras);
-            context.render("FallosPorHeladera/reportes/fallos_heladera.hbs", model);
+            context.render("fallosPorHeladera/reportes/fallos_heladera.hbs", model);
         }
         else context.redirect("/login");
     }

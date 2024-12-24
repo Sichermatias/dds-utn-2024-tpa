@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "pedidoDeApertura")
 public class PedidoDeApertura extends Persistente {
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
@@ -27,12 +27,12 @@ public class PedidoDeApertura extends Persistente {
     private LocalDateTime fechaHoraRealizada;
 
     @Column(name = "valido", columnDefinition = "BIT(1)")
-    private Boolean valido=true;
+    private Boolean valido = true;
 
     @Column(name = "motivo", columnDefinition = "TEXT")
     private String motivo;
 
-    @Column(name = "coloboracionCantidadViandas", columnDefinition = "INTEGER(5)")
+    @Column(name = "colaboracionCantidadViandas", columnDefinition = "INTEGER(5)")
     private Integer cantidadViandas;
 
     public PedidoDeApertura() {

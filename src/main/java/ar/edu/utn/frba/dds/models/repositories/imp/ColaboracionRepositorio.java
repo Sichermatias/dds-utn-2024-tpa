@@ -5,10 +5,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -90,6 +87,37 @@ public class ColaboracionRepositorio extends BaseRepositorio implements WithSimp
         query.setParameter("dias", dias);
 
         return query.getResultList();
+    }
+
+    public List<Colaboracion> obtenerColaboracionPorPedidoApertura(PedidoDeApertura pedidoDeApertura) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Colaboracion> cq = cb.createQuery(Colaboracion.class);
+        Root<Colaboracion> root = cq.from(Colaboracion.class);
+
+        // Subquery for DonacionVianda
+        Subquery<DonacionVianda> subqueryDonacion = cq.subquery(DonacionVianda.class);
+        Root<DonacionVianda> rootDonacion = subqueryDonacion.from(DonacionVianda.class);
+        subqueryDonacion.select(rootDonacion.get("colaboracion")).where(cb.equal(rootDonacion.get("pedidoDeApertura"), pedidoDeApertura));
+
+        // Subquery for RedistribucionViandas
+        Subquery<RedistribucionViandas> subqueryRedistribucion = cq.subquery(RedistribucionViandas.class);
+        Root<RedistribucionViandas> rootRedistribucion = subqueryRedistribucion.from(RedistribucionViandas.class);
+        subqueryRedistribucion.select(rootRedistribucion.get("colaboracion")).where(
+                cb.or(
+                        cb.equal(rootRedistribucion.get("pedidoDeAperturaEnOrigen"), pedidoDeApertura),
+                        cb.equal(rootRedistribucion.get("pedidoDeAperturaEnDestino"), pedidoDeApertura)
+                )
+        );
+
+        // Combine the subqueries
+        Predicate condicion = cb.or(
+                root.get("id").in(subqueryDonacion),
+                root.get("id").in(subqueryRedistribucion)
+        );
+        cq.where(condicion);
+        cq.select(root);
+
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     @Override

@@ -7,30 +7,28 @@
 <div class="row">
         <div class="col-md-12">
             <div class="form-container bg-white p-4 rounded shadow">
-                <h1 class="text-center text-primary">Incidentes de la heladera: {{heladera.nombre}}</h1>
+                <h1 class="text-center text-primary">Visitas de incidente {{incidenteID}}</h1>
 
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Tipo</th>
-                        <th>Fecha de Alta</th>
-                        <th>Descripcion</th>
-                        <th>Imagen</th>
-                        <th>Estado</th>
-                        <th>Fecha Resolucion</th>
-                        <th>Acciones</th>
+                        <th>Tecnico</th>
+                        <th>Fecha</th>
+                        <th>Resuelto</th>
+                        <th>Imagenes</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {{#each incidentes}}
+                    {{#each visitas}}
                         <tr>
-                            <td>{{this.tipoIncidente}}</td>
+                            <td>{{this.tecnicoAsignado.nombre}} {{this.tecnicoAsignado.apellido}}</td>
                             <td>{{formatDateTime this.fechaHoraAlta}}</td>
-                            <td>{{this.descripcionIncidente}}</td>
-                            <td><img src="{{this.fotoIncidente}}" style="height: 60px" alt="Incidente"></td>
-                            <td>{{#if this.resuelto}}Resuelto{{else}}Pendiente{{/if}}</td>
-                            <td>{{formatDateTime this.fechaHoraResuelto}}</td>
-                            <td><a class="btn btn-primary" href="/visitas/{{this.id}}" role="button">Ver Visitas</a></td>
+                            <td>{{this.incidenteResuelto}}</td>
+                            <td>
+                                {{#each this.fotosVisita}}
+                                    <img src="{{this}}" style="height: 60px" alt="Foto Visita">
+                                {{/each}}
+                            </td>
                         </tr>
                     {{/each}}
                     </tbody>
@@ -49,4 +47,4 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {{/partial}}
-{{> templates/base title="REPORTE DE FALLOS EN HELADERAS"}}
+{{> templates/base title="Visitas de incidente - MAACVS"}}

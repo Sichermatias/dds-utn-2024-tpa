@@ -19,9 +19,6 @@ import java.util.Scanner;
 @Table(name = "tecnico")
 @Getter @Setter
 public class Tecnico extends Persistente {
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Column(name = "nombre", columnDefinition = "VARCHAR(50)")
     private String nombre;

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.dominio.services.cronjobs;
 
+import ar.edu.utn.frba.dds.config.ServiceLocator;
 import ar.edu.utn.frba.dds.controllers.FactoryController;
 import ar.edu.utn.frba.dds.controllers.SensoresController;
 import ar.edu.utn.frba.dds.dominio.services.cronjobs.tasks.*;
@@ -8,7 +9,6 @@ import ar.edu.utn.frba.dds.models.repositories.imp.*;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
 import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
 import ar.edu.utn.frba.dds.services.PedidoDeAperturaService;
-import ar.edu.utn.frba.dds.services.TransaccionService;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -36,22 +36,14 @@ public class CrontasksScheduler {
             jobFactory.registerJob(
                     ActualizarDiasSinContarPuntajeHosteoHeladera.class,
                     new ActualizarDiasSinContarPuntajeHosteoHeladera(
-                            new ColaboracionService(
-                                    new ColaboracionRepositorio(),
-                                    new DonacionDineroRepositorio(),
-                                    new TransaccionService()
-                            )
+                            ServiceLocator.instanceOf(ColaboracionService.class)
                     )
             );
 
             jobFactory.registerJob(
                     ActualizarPuntajePorHosteoHeladera.class,
                     new ActualizarPuntajePorHosteoHeladera(
-                            new ColaboracionService(
-                                    new ColaboracionRepositorio(),
-                                    new DonacionDineroRepositorio(),
-                                    new TransaccionService()
-                            )
+                            ServiceLocator.instanceOf(ColaboracionService.class)
                     )
             );
 
@@ -81,7 +73,8 @@ public class CrontasksScheduler {
                     ActualizarPedidosDeApertura.class,
                     new ActualizarPedidosDeApertura(
                             new PedidoDeAperturaService(
-                                    new PedidoDeAperturaRepositorio()
+                                    new PedidoDeAperturaRepositorio(),
+                                    new ColaboracionRepositorio()
                             )
                     )
             );
@@ -120,7 +113,7 @@ public class CrontasksScheduler {
                     .build();
             Trigger triggerCincoMinutoVerificarPedidosDeApertura = TriggerBuilder.newTrigger()
                     .withIdentity("triggerCincoMinutoVerificarPedidosDeApertura", "group1")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0 5 * * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * * * ?"))
                     .build();
             Trigger triggerDiario3amActualizarDiasHeladeras = TriggerBuilder.newTrigger()
                     .withIdentity("triggerDiario3amActualizarDiasHeladeras", "group1")
@@ -144,6 +137,7 @@ public class CrontasksScheduler {
             //scheduler.scheduleJob(actualizarDiasHeladeras, triggerDiario3amActualizarDiasHeladeras);
             //scheduler.scheduleJob(actualizarPuntajeHosteoHeladeras, triggerDiario3amActualizarPuntajeHosteoHeladeras);
             //scheduler.scheduleJob(generarReportes, triggerSemanal);
+            scheduler.scheduleJob(actualizarPedidosDeApertura, triggerCincoMinutoVerificarPedidosDeApertura);
 
             // Iniciar el scheduler
             scheduler.start();

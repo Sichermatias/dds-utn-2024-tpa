@@ -126,7 +126,7 @@ public class HeladerasController implements ICrudViewsHandler, WithSimplePersist
     public String guardarFoto(UploadedFile foto) {
         try {
             // Definir el directorio donde se almacenarán las fotos
-            String rutaPrincipal = "src/main/resources";
+            String rutaPrincipal = "src/main/resources/public";
             String directorioFotos = "/uploads/incidentes/";
 
             Path directorioPath = Paths.get(rutaPrincipal + directorioFotos);

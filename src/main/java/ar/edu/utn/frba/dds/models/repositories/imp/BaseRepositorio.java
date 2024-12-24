@@ -46,6 +46,7 @@ public abstract class BaseRepositorio<T> {
 
         cq.where(condicionFinal);
         cq.select(root);
+        cq.orderBy(cb.desc(root.get("fechaHoraAlta")));
 
         return getEntityManager().createQuery(cq).getResultList();
     }
@@ -170,12 +171,12 @@ public abstract class BaseRepositorio<T> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    public List<T> buscarPorEstado(Class<T> claseEntidad, String estado) {
+    public List<T> buscarPorEstado(Class<T> claseEntidad, boolean estado) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(claseEntidad);
         Root<T> root = cq.from(claseEntidad);
 
-        Predicate condicion = cb.equal(root.get("estado").as(Integer.class), estado);
+        Predicate condicion = cb.equal(root.get("valido").as(Boolean.class), estado);
         cq.where(condicion);
         cq.select(root);
 
