@@ -37,3 +37,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/src/main/resources/public/uploads/incidentes/.keep
+/src/main/resources/public/uploads/incidentes/1d349e51-b19a-470d-8653-3851eaa8fa68_quico con cancer 2.jpg
+/src/main/resources/public/uploads/incidentes/tecnico/
