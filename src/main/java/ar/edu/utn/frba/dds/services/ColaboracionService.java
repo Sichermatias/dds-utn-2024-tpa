@@ -2,32 +2,40 @@ package ar.edu.utn.frba.dds.services;
 
 import ar.edu.utn.frba.dds.dominio.colaboracion.*;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Localidad;
-import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Provincia;
 import ar.edu.utn.frba.dds.dominio.contacto.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Modelo;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
 import ar.edu.utn.frba.dds.dominio.persona.PersonaVulnerable;
+import ar.edu.utn.frba.dds.dominio.persona.Tarjeta;
 import ar.edu.utn.frba.dds.dominio.reportes.ViandasDonadasPorColaborador;
+import ar.edu.utn.frba.dds.dominio.services.broker.BrokerHandler;
 import ar.edu.utn.frba.dds.dtos.georef.ProvinciaMunicipioGeorefDTO;
 import ar.edu.utn.frba.dds.dtos.georef.PuntoGeorefDTO;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
 import ar.edu.utn.frba.dds.models.repositories.imp.ViandasDonadasColaboradorRepositorio;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ColaboracionService {
+    private final ColaboradorRepositorio colaboradorRepositorio;
     private final ColaboracionRepositorio colaboracionRepositorio;
     private final DonacionDineroRepositorio donacionDineroRepositorio;
     private final TransaccionService transaccionService;
+    private final BrokerHandler brokerHandler;
 
-    public ColaboracionService(ColaboracionRepositorio colaboracionRepositorio, DonacionDineroRepositorio donacionDineroRepositorio, TransaccionService transaccionService) {
+    public ColaboracionService(ColaboradorRepositorio colaboradorRepositorio, ColaboracionRepositorio colaboracionRepositorio, DonacionDineroRepositorio donacionDineroRepositorio, TransaccionService transaccionService) {
+        this.colaboradorRepositorio = colaboradorRepositorio;
         this.colaboracionRepositorio = colaboracionRepositorio;
         this.donacionDineroRepositorio = donacionDineroRepositorio;
         this.transaccionService=transaccionService;
+        this.brokerHandler = new BrokerHandler();
     }
 
     public Colaboracion crearColaboracion(String nombre, String tipo, String descripcion, Colaborador colaborador) {
@@ -42,14 +50,16 @@ public class ColaboracionService {
     }
 
     public void crearDonacionDinero(Colaboracion colaboracion, double monto, Frecuencia frecuencia) {
+        Colaborador colaborador = colaboracion.getColaborador();
         DonacionDinero donacionDinero = new DonacionDinero();
         donacionDinero.setMonto(monto);
         donacionDinero.setFrecuencia(frecuencia);
         donacionDinero.setFechaHoraAlta(LocalDateTime.now());
-        Transaccion transaccion = transaccionService.crearTransaccion(colaboracion.getColaborador(),donacionDinero.puntaje());
+        Transaccion transaccion = transaccionService.crearTransaccion(colaborador,donacionDinero.puntaje());
         colaboracion.setTransaccion(transaccion);
         donacionDinero.setColaboracion(colaboracion);
         donacionDineroRepositorio.persistir(donacionDinero);
+        colaboradorRepositorio.actualizar(colaborador);
     }
 
     public Vianda crearVianda(String nombreComida, LocalDate fechaCaducidad, Heladera heladeraAsignada, Double calorias, Double peso) {
@@ -60,7 +70,8 @@ public class ColaboracionService {
         nuevaVianda.setFechaHoraAlta(fechaAlta);
         return nuevaVianda;
     }
-    public void crearDonacionVianda(Colaboracion colaboracion, Vianda vianda, Heladera heladeraAsignada, Integer cantidadViandas) {
+    public void crearDonacionVianda(Colaboracion colaboracion, Vianda vianda, Heladera heladeraAsignada, Integer cantidadViandas) throws MqttException {
+        Colaborador colaborador = colaboracion.getColaborador();
 
         if (cantidadViandas == null || cantidadViandas <= 0) {
             throw new IllegalArgumentException("La cantidad de viandas debe ser mayor a cero.");
@@ -70,38 +81,45 @@ public class ColaboracionService {
         donacionVianda.setVianda(vianda);
         donacionVianda.setFechaHoraAlta(LocalDateTime.now());
         donacionVianda.setColaboracion(colaboracion);
+        donacionVianda.setCantViandas(cantidadViandas);
         PedidoDeApertura pedidoDeApertura = new PedidoDeApertura();
         pedidoDeApertura.setHeladera(heladeraAsignada);
         pedidoDeApertura.setMotivo("Donación de viandas");
         pedidoDeApertura.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
-        pedidoDeApertura.setFechaHoraRealizada(LocalDateTime.now());
         pedidoDeApertura.setFechaHoraAlta(LocalDateTime.now());
-        pedidoDeApertura.setCantidadViandas(donacionVianda.getCantViandas());
+        pedidoDeApertura.setCantidadViandas(cantidadViandas);
 
-        donacionVianda.setCantViandas(cantidadViandas);
         donacionVianda.setPedidoDeApertura(pedidoDeApertura);
+
+        BrokerHandler brokerHandler = new BrokerHandler();
+        MqttClient cliente = brokerHandler.conectar();
+
+        brokerHandler.publicar(cliente,"heladera/recibirMensaje","{ Heladera: "+pedidoDeApertura.getHeladera().getId() +",TarjetaId: "+pedidoDeApertura.getTarjeta().getId()+"}");
+
+        cliente.disconnect();
 
         heladeraAsignada.recibirDonacionVianda(donacionVianda);
         heladeraAsignada.setCantSemanalViandasColocadas(
                 heladeraAsignada.getCantSemanalViandasColocadas() + cantidadViandas.intValue()
         );
-        colaboracion.getColaborador().setCantSemanalViandasDonadas(
-                colaboracion.getColaborador().getCantSemanalViandasDonadas() + cantidadViandas.intValue()
+        colaborador.setCantSemanalViandasDonadas(
+                colaborador.getCantSemanalViandasDonadas() + cantidadViandas.intValue()
         );
-        Transaccion transaccion= transaccionService.crearTransaccion(colaboracion.getColaborador(), donacionVianda.puntaje());
+        Transaccion transaccion= transaccionService.crearTransaccion(colaborador, donacionVianda.puntaje());
         colaboracion.setTransaccion(transaccion);
         colaboracionRepositorio.persistir(donacionVianda);
+        colaboradorRepositorio.actualizar(colaborador);
 
         ViandasDonadasColaboradorRepositorio viandasRepo = ViandasDonadasColaboradorRepositorio.getInstancia();
         List<ViandasDonadasPorColaborador> viandasDonadasList = viandasRepo.buscarPorColaboradorId(
-                ViandasDonadasPorColaborador.class, colaboracion.getColaborador().getId()
+                ViandasDonadasPorColaborador.class, colaborador.getId()
         );
 
         ViandasDonadasPorColaborador viandasDonadas;
         if (!viandasDonadasList.isEmpty()) {
             viandasDonadas = viandasDonadasList.get(0);
         } else {
-            viandasDonadas = new ViandasDonadasPorColaborador(colaboracion.getColaborador(), LocalDate.now());
+            viandasDonadas = new ViandasDonadasPorColaborador(colaborador, LocalDate.now());
         }
         viandasDonadas.viandasDonadasSemanal();
         viandasRepo.persistir(viandasDonadas);
@@ -134,6 +152,7 @@ public class ColaboracionService {
         modeloHeladera.setNombre(modelo);
         modeloHeladera.setTempMaxAceptable(tempMax);
         modeloHeladera.setTempMinAceptable(tempMin);
+        modeloHeladera.setFechaHoraAlta(LocalDateTime.now());
         return modeloHeladera;
     }
 
@@ -160,15 +179,16 @@ public class ColaboracionService {
         Integer cantHeladerasHosteadas = colaborador.getCantHeladerasHosteadasActual();
         colaborador.setCantHeladerasHosteadasActual(cantHeladerasHosteadas + 1);
 
-        Transaccion transaccion = transaccionService.crearTransaccion(colaboracion.getColaborador(), hostearHeladera.puntaje());
+        Transaccion transaccion = transaccionService.crearTransaccion(colaborador, hostearHeladera.puntaje());
 
         colaboracion.setTransaccion(transaccion);
         hostearHeladera.setColaboracion(colaboracion);
         colaboracionRepositorio.persistir(hostearHeladera);
-
+        colaboradorRepositorio.actualizar(colaborador);
     }
 
-    public void crearRedistribucionViandas(Colaboracion colaboracion, Heladera heladeraOrigen, Heladera heladeraDestino, int cantidadViandas, MotivoRedistribucion motivo) {
+    public void crearRedistribucionViandas(Colaboracion colaboracion, Heladera heladeraOrigen, Heladera heladeraDestino, int cantidadViandas, MotivoRedistribucion motivo) throws MqttException {
+        Colaborador colaborador = colaboracion.getColaborador();
         heladeraOrigen.setCantViandasActuales(heladeraOrigen.getCantViandasActuales()-cantidadViandas);
         heladeraDestino.setCantViandasActuales(heladeraDestino.getCantViandasActuales()+cantidadViandas);
         heladeraDestino.setCantSemanalViandasColocadas(heladeraDestino.getCantSemanalViandasColocadas()+cantidadViandas);
@@ -188,38 +208,57 @@ public class ColaboracionService {
         pedidoOrigen.setMotivo("Redistribucion"+motivo.getDescripcion());
         pedidoOrigen.setHeladera(heladeraOrigen);
         pedidoOrigen.setValido(true);
-        pedidoOrigen.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
+        pedidoOrigen.setTarjeta(colaborador.getTarjetas().get(0));
         pedidoOrigen.setCantidadViandas(-cantidadViandas);
 
         pedidoDestino.setFechaHoraAlta(LocalDateTime.now());
         pedidoDestino.setMotivo("Redistribucion"+motivo.getDescripcion());
         pedidoDestino.setHeladera(heladeraDestino);
         pedidoDestino.setValido(true);
-        pedidoDestino.setTarjeta(colaboracion.getColaborador().getTarjetas().get(0));
+        pedidoDestino.setTarjeta(colaborador.getTarjetas().get(0));
         pedidoDestino.setCantidadViandas(cantidadViandas);
 
         redistribucionViandas.setPedidoDeAperturaEnDestino(pedidoDestino);
         redistribucionViandas.setPedidoDeAperturaEnOrigen(pedidoOrigen);
 
-        Transaccion transaccion = transaccionService.crearTransaccion(colaboracion.getColaborador(), redistribucionViandas.puntaje());
+        BrokerHandler brokerHandler = new BrokerHandler();
+        MqttClient cliente = brokerHandler.conectar();
+
+        brokerHandler.publicar(cliente,"heladera/recibirMensaje","{ Heladera: "+pedidoDestino.getHeladera().getId() +",TarjetaId: "+pedidoDestino.getTarjeta().getId()+"}");
+        brokerHandler.publicar(cliente,"heladera/recibirMensaje","{ Heladera: "+pedidoOrigen.getHeladera().getId() +",TarjetaId: "+pedidoOrigen.getTarjeta().getId()+"}");
+
+        cliente.disconnect();
+
+        Transaccion transaccion = transaccionService.crearTransaccion(colaborador, redistribucionViandas.puntaje());
         colaboracion.setTransaccion(transaccion);
 
         redistribucionViandas.setColaboracion(colaboracion);
 
         colaboracionRepositorio.persistir(redistribucionViandas);
+        colaboradorRepositorio.actualizar(colaborador);
     }
 
     public void crearColaboracionTarjetas(Colaboracion colaboracion, PersonaVulnerable personaVulnerable) {
+        Colaborador colaborador = colaboracion.getColaborador();
         RegistrarPersonasVulnerables registrarPersonasVulnerables = new RegistrarPersonasVulnerables();
         registrarPersonasVulnerables.setPersonaVulnerable(personaVulnerable);
         registrarPersonasVulnerables.setFechaHoraAlta(LocalDateTime.now());
 
-        Transaccion transaccion = transaccionService.crearTransaccion(colaboracion.getColaborador(), registrarPersonasVulnerables.puntaje());
+        Transaccion transaccion = transaccionService.crearTransaccion(colaborador, registrarPersonasVulnerables.puntaje());
 
         colaboracion.setTransaccion(transaccion);
         registrarPersonasVulnerables.setColaboracion(colaboracion);
 
+        Tarjeta tarjeta= new Tarjeta();
+        tarjeta.setCodigo(personaVulnerable.getNroDocumento()+personaVulnerable.getFechaNacimiento());
+        tarjeta.setActivo(true);
+        tarjeta.setFechaHoraAlta(LocalDateTime.now());
+        tarjeta.setPersonaVulnerable_id(personaVulnerable.getId());
+
+        personaVulnerable.cambiarTarjeta(tarjeta);
+        
         colaboracionRepositorio.persistir(registrarPersonasVulnerables);
+        colaboradorRepositorio.actualizar(colaborador);
     }
 
     public void actualizarDiasSinAcumularPuntajeHosteoHeladera() {
@@ -259,5 +298,9 @@ public class ColaboracionService {
 
             this.colaboracionRepositorio.actualizar(hosteoHeladera);
         }
+    }
+
+    public List<Colaboracion> obtenerColaboracionPorPedidoApertura (PedidoDeApertura pedido){
+        return this.colaboracionRepositorio.obtenerColaboracionPorPedidoApertura(pedido);
     }
 }

@@ -20,7 +20,7 @@ public class FactoryController {
 
             case "Heladeras" -> new HeladerasController();
             case "FallosHeladera" -> new FallosHeladeraController(new FallosHeladeraRepositorio());
-            case "Incidentes" -> new IncidentesController();
+            case "Incidentes" -> new IncidentesController(new IncidenteRepositorio());
 
             case "CargaMasiva" -> new CargaMasivaController();
             case "Vulnerables" -> new RegistroVulnerableController(new PersonaVulnerableRepositorio(), ServiceLocator.instanceOf(ColaboracionController.class));
@@ -30,7 +30,7 @@ public class FactoryController {
             case "RecomendadorPuntos" -> new RecomendadorPuntosController();
 
             case "Sensores" -> new SensoresController(new SensoresTemperaturaRepository(), new SensoresMovimientoRepository(), new IncidentesRepository(), new RegistrosSensoresRepository(), ServiceLocator.instanceOf(GestorDeIncidentesService.class));
-            case "Apertura" -> new AperturaController(new PedidoDeAperturaRepositorio(), new ColaboradorRepositorio());
+            case "Apertura" -> new AperturaController(new PedidoDeAperturaRepositorio(), new ColaboradorRepositorio(), new PersonaVulnerableRepositorio(), new ColaboracionRepositorio());
             default -> null;
         };
     }

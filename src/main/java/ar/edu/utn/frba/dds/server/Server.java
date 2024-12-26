@@ -60,7 +60,7 @@ public class Server {
             });
             config.staticFiles.add(staticFiles -> {
                 staticFiles.hostedPath = "/uploads";  // Ruta base para /uploads
-                staticFiles.directory = "/uploads";   // Directorio de las imágenes y otros recursos subidos
+                staticFiles.directory = "/public/uploads";   // Directorio de las imágenes y otros recursos subidos
                 staticFiles.location = io.javalin.http.staticfiles.Location.CLASSPATH;
             });
 

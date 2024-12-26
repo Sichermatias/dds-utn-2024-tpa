@@ -12,7 +12,7 @@ public class Main {
         MqttClient cliente = brokerHandler.conectar();
         BrokerReceptorMensajes receptor = new BrokerReceptorMensajes();
 
-        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/temperatura", receptor);
+        brokerHandler.suscribir(cliente,"dds2024/g12/heladeras/temperatura", receptor);
 
         /*CrontasksScheduler scheduler = new CrontasksScheduler();
         scheduler.start();*/

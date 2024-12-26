@@ -1,8 +1,13 @@
+
+
+
 // Inicializar el mapa
+
+
 var map = L.map('map').setView([-34.61, -58.38], 13); // Centrar en Buenos Aires
 
 // Añadir el "tile layer" del mapa (estilo y proveedor del mapa)
-L.tileLayer('http://{s}.google.com/vt/lyrs=r&x={x}&y={y}&z={z}', {
+L.tileLayer('https://{s}.google.com/vt/lyrs=r&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 }).addTo(map);
@@ -36,43 +41,50 @@ L.Control.geocoder({
     map.setView(result.center, 13);
 }).addTo(map);
 
-// Opcional: Centrar el mapa en la ubicación del usuario
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-        var lat = position.coords.latitude;
-        var lng = position.coords.longitude;
-        map.setView([lat, lng], 13); // Centrar en la ubicación del usuario
-    });
-}
-
-// Función para obtener la dirección a partir de latitud y longitud
-function reverseGeocode(lat, lng, callback) {
-    geocoder.reverse({lat: lat, lng: lng}, map.options.crs.scale(map.getZoom()), function(results) {
-        var r = results[0];
-        if (r) {
-            callback(r.name);
-        } else {
-            callback('No se encontró la dirección');
-        }
-    });
-}
-
 // Agregar un evento de click al mapa
+var currentMarker = null;
+
 map.on('click', function (e) {
     var lat = e.latlng.lat;
     var lng = e.latlng.lng;
 
+    console.log('Click detectado en:', lat, lng);
+
     document.getElementById('lat').value = lat;
     document.getElementById('lng').value = lng;
 
-    reverseGeocode(lat, lng, function(address) {
-        var popupContent = '<p>' + address + '</p>';
+    if (currentMarker) {
+        map.removeLayer(currentMarker);
+    }
 
+    reverseGeocode(lat, lng, function (address) {
+        console.log('Dirección obtenida:', address);
         document.getElementById('direccion').value = address;
 
-        L.popup()
-            .setLatLng(e.latlng)
-            .setContent(popupContent)
-            .openOn(map);
+        currentMarker = L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup('<p>' + address + '</p>')
+            .openPopup();
+
+        console.log('Marcador añadido en:', lat, lng);
     });
 });
+
+function reverseGeocode(lat, lng, callback) {
+    var url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.display_name) {
+                callback(data.display_name);
+            } else {
+                callback('Dirección no encontrada');
+            }
+        })
+        .catch(error => {
+            console.error('Error en la geocodificación inversa:', error);
+            callback('Error al obtener la dirección');
+        });
+}
+

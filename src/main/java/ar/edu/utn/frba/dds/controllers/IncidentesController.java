@@ -1,38 +1,29 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
-import ar.edu.utn.frba.dds.dominio.incidentes.TipoIncidente;
-import ar.edu.utn.frba.dds.dominio.infraestructura.FiltroSuscripcion;
+import ar.edu.utn.frba.dds.dominio.incidentes.VisitaIncidente;
 import ar.edu.utn.frba.dds.dominio.infraestructura.Heladera;
-import ar.edu.utn.frba.dds.dominio.infraestructura.Suscripcion;
-import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
-import ar.edu.utn.frba.dds.dominio.reportes.FallosPorHeladera;
-import ar.edu.utn.frba.dds.dominio.services.messageSender.Mensajero;
-import ar.edu.utn.frba.dds.dominio.services.messageSender.strategies.EstrategiaMail;
 import ar.edu.utn.frba.dds.models.repositories.imp.*;
-import ar.edu.utn.frba.dds.services.GestorDeIncidentesService;
+import ar.edu.utn.frba.dds.server.exceptions.AccessDeniedException;
 import ar.edu.utn.frba.dds.utils.ICrudViewsHandler;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-import io.javalin.http.UploadedFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class IncidentesController implements ICrudViewsHandler, WithSimplePersistenceUnit {
-    ColaboradorRepositorio colaboradorRepositorio = ColaboradorRepositorio.getInstancia();
+    private final IncidenteRepositorio incidenteRepositorio;
+
+    public IncidentesController(IncidenteRepositorio incidenteRepositorio) {
+        this.incidenteRepositorio = incidenteRepositorio;
+    }
 
     @Override
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
-        Long heladera_id = Long.valueOf(context.pathParam("id"));
+        long heladera_id = Long.parseLong(context.pathParam("id"));
 
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
@@ -79,5 +70,24 @@ public class IncidentesController implements ICrudViewsHandler, WithSimplePersis
     @Override
     public void delete(Context context) {
 
+    }
+
+    public void listarVisitas(Context context) {
+        Map<String, Object> model = new HashMap<>();
+        String tipoRol = context.sessionAttribute("tipo_rol");
+        Long incidenteID = Long.valueOf(context.pathParam("incidenteID"));
+        if(tipoRol == null || !this.tienePermisoDeVerVisitas(tipoRol)) {
+            throw new AccessDeniedException();
+        }
+        List<VisitaIncidente> visitasIncidente = this.incidenteRepositorio.buscarVisitasPorIDIncidente(incidenteID);
+        model.put("visitas", visitasIncidente);
+        model.put("incidenteID", incidenteID);
+        context.render("incidentes/visitas_de_incidente.hbs", model);
+    }
+
+    private boolean tienePermisoDeVerVisitas(String tipoRol) {
+        return tipoRol.equals("ADMIN") ||
+                tipoRol.equals("TECNICO") ||
+                tipoRol.equals("COLABORADOR_JURIDICO");
     }
 }

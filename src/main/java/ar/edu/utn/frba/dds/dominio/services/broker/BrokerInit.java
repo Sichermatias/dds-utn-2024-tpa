@@ -14,8 +14,9 @@ public class BrokerInit {
         SensoresController sensoresController = (SensoresController) FactoryController.controller("Sensores");
         AperturaController aperturaController = (AperturaController) FactoryController.controller("Apertura");
 
-        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/temperatura", sensoresController);
-        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/movimiento", sensoresController);
-        brokerHandler.suscribir(cliente, "dds2024/g12/heladeras/apertura", aperturaController);
+        brokerHandler.suscribir(cliente,"dds2024/g12/heladeras/temperatura", sensoresController);
+        brokerHandler.suscribir(cliente,"dds2024/g12/heladeras/movimiento", sensoresController);
+        brokerHandler.suscribir(cliente,"dds2024/g12/heladeras/apertura", aperturaController);
+
     }
 }

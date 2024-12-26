@@ -24,7 +24,7 @@ public class Router {
         app.get("/incidentes", ((TecnicosController) FactoryController.controller("Tecnicos"))::listarIncidentes);
         app.get("/incidentes/{id}", ((TecnicosController) FactoryController.controller("Tecnicos"))::indexIncidente);
         app.post("/incidentes/{id}", ((TecnicosController) FactoryController.controller("Tecnicos"))::cerrarIncidente);
-
+        app.get("/visitas/{incidenteID}", ((IncidentesController) FactoryController.controller("Incidentes"))::listarVisitas);
 
 
         app.get("/registro/vulnerable", ((RegistroVulnerableController) FactoryController.controller("Vulnerables"))::indexRegistroVulnerable);

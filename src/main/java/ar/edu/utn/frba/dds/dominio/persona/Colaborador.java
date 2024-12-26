@@ -69,7 +69,7 @@ public class Colaborador extends Persistente {
     @Embedded //TODO: está bien embeberlo?
     private Ubicacion ubicacion;
 
-    @Column(name = "puntaje", columnDefinition = "INTEGER(9)")
+    @Column(name = "puntaje")
     private Double puntaje;
 
     @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)

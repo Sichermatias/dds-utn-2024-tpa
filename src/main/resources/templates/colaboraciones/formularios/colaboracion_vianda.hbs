@@ -24,7 +24,7 @@
             <label for="heladera">Heladera</label>
             <select class="form-control" id="heladera" name="heladera" required>
                 {{#each heladeras}}
-                    <option value="{{this.id}}" data-max="{{this.cantMaxViandas}}" data-actuales="{{this.cantViandasActuales}}">{{this.ubicacion.direccion}}</option>
+                    <option value="{{this.id}}" data-max="{{this.cantMaxViandas}}" data-actuales="{{this.cantViandasActuales}}">{{this.nombre}}</option>
                 {{/each}}
             </select>
         </div>

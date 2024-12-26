@@ -1,0 +1,5 @@
+# Create the directory structure
+mkdir -p src/main/resources/uploads/incidentes/tecnico
+
+# Add a placeholder file to ensure the directory is not empty
+touch src/main/resources/uploads/incidentes/tecnico/.keep

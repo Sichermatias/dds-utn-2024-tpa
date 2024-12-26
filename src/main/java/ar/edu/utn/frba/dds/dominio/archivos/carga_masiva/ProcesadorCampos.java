@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.dominio.archivos.carga_masiva;
 
+import ar.edu.utn.frba.dds.config.ServiceLocator;
 import ar.edu.utn.frba.dds.dominio.colaboracion.*;
 import ar.edu.utn.frba.dds.dominio.persona.Colaborador;
 import ar.edu.utn.frba.dds.dominio.persona.TipoDocumento;
@@ -10,7 +11,6 @@ import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
-import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
 import ar.edu.utn.frba.dds.services.TransaccionService;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -18,8 +18,6 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProcesadorCampos implements WithSimplePersistenceUnit {
@@ -83,12 +81,10 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
         colaboracion.setTipo(forma);
         colaboracion.setFechaHoraAlta(LocalDateTime.now());
         colaboracion.setColaborador(colaborador);
-        ColaboracionService colaboracionService=new ColaboracionService(ColaboracionRepositorio.getInstancia(), DonacionDineroRepositorio.getInstancia(), new TransaccionService());
+        ColaboracionService colaboracionService = ServiceLocator.instanceOf(ColaboracionService.class);
         switch (colaboracion.getTipo()) {
-            case "DINERO":
-                colaboracionService.crearDonacionDinero(colaboracion, cantidad, null);
-                break;
-            case "DONACION_VIANDAS":
+            case "DINERO" -> colaboracionService.crearDonacionDinero(colaboracion, cantidad, null);
+            case "DONACION_VIANDAS" -> {
                 DonacionVianda donacionVianda = new DonacionVianda();
                 donacionVianda.setActivo(true);
                 donacionVianda.setVianda(null);
@@ -96,13 +92,13 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
                 donacionVianda.setColaboracion(colaboracion);
                 donacionVianda.setCantViandas(cantidad);
                 donacionVianda.setPedidoDeApertura(null);
-                Transaccion transaccion=new TransaccionService().crearTransaccion(colaboracion.getColaborador(), donacionVianda.puntaje());
+                Transaccion transaccion = new TransaccionService().crearTransaccion(colaboracion.getColaborador(), donacionVianda.puntaje());
                 colaboracion.setTransaccion(transaccion);
                 donacionVianda.setColaboracion(colaboracion);
                 ColaboracionRepositorio.getInstancia().persistir(donacionVianda);
-                break;
-            case "REDISTRIBUCION_VIANDAS":
-                RedistribucionViandas redistribucionViandas=new RedistribucionViandas();
+            }
+            case "REDISTRIBUCION_VIANDAS" -> {
+                RedistribucionViandas redistribucionViandas = new RedistribucionViandas();
                 redistribucionViandas.setHeladeraOrigen(null);
                 redistribucionViandas.setHeladeraDestino(null);
                 redistribucionViandas.setCantidadViandas(cantidad);
@@ -114,13 +110,10 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
                 colaboracion.setTransaccion(tran);
                 redistribucionViandas.setColaboracion(colaboracion);
                 ColaboracionRepositorio.getInstancia().persistir(redistribucionViandas);
-                break;
-            case "ENTREGA_TARJETAS":
-                colaboracionService.crearColaboracionTarjetas(colaboracion, null);
-                break;
-            case default: throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
-
             }
+            case "ENTREGA_TARJETAS" -> colaboracionService.crearColaboracionTarjetas(colaboracion, null);
+            default -> throw new CampoInvalidoException("Forma de colaboración inválida: " + forma);
+        }
 
             if (ValidadorCampos.validarFecha(fecha)) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
