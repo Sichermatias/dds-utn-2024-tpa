@@ -11,9 +11,9 @@
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/tpa_2024_dds" />
-            <property name="hibernate.connection.username" value="lpetron" />
-            <property name="hibernate.connection.password" value="" />
+	    <property name="hibernate.connection.url" value="jdbc:mysql://mysqldatabase-grupo12-dds.c5w4eqk6aqqk.sa-east-1.rds.amazonaws.com:3306/tpa_2024_dds?serverTimezone=America/Argentina/Buenos_Aires" />
+            <property name="hibernate.connection.username" value="admin" />
+            <property name="hibernate.connection.password" value="VelezSarsfield1910!" />
 
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
