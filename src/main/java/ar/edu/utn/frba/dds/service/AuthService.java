@@ -35,7 +35,7 @@ public class AuthService {
         ctx.removeCookie("auth_token");
 
         String logoutUrl = "https://" + Auth0Config.DOMAIN + "/v2/logout" +
-                "?returnTo=" + Auth0Config.REDIRECT_URI +
+                "?returnTo=" + "http://localhost:7000/callback" +
                 "&client_id=" + Auth0Config.CLIENT_ID;
 
         ctx.redirect(logoutUrl);

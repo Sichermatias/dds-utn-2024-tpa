@@ -9,19 +9,17 @@ public class App {
     private static final AuthService authService = new AuthService();
 
     public static void main(String[] args) {
-        try (Javalin app = Javalin.create().start(7000)) {
-            app.get("/", ctx -> ctx.result("Welcome to Javalin with Auth0!"));
+        Javalin app = Javalin.create().start(7000);
 
-            app.get("/login", ctx -> ctx.redirect(Auth0Config.getAuthURL()));
+        app.get("/", ctx -> ctx.result("Welcome to Javalin with Auth0!"));
 
-            app.get("/callback", authService::handleCallback);
+        app.get("/login", ctx -> ctx.redirect(Auth0Config.getAuthURL()));
 
-            app.get("/dashboard", App::handleDashboard);
+        app.get("/callback", authService::handleCallback);
 
-            app.get("/logout", authService::handleLogout);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        app.get("/dashboard", App::handleDashboard);
+
+        app.get("/logout", authService::handleLogout);
     }
 
     private static void handleDashboard(Context ctx) {

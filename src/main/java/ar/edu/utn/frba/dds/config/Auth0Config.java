@@ -6,9 +6,9 @@ public class Auth0Config {
     public static final String DOMAIN = Optional.ofNullable(System.getenv("AUTH0_DOMAIN"))
             .orElse("dev-x3u68ztkuho6jx8w.us.auth0.com");
     public static final String CLIENT_ID = Optional.ofNullable(System.getenv("AUTH0_CLIENT_ID"))
-            .orElse("default_client_id");
+            .orElse("Q1e0wKCzMbhNUmGbVqbAeIZZKjZ91Gqj");
     public static final String CLIENT_SECRET = Optional.ofNullable(System.getenv("AUTH0_CLIENT_SECRET"))
-            .orElse("default_client_secret");
+            .orElse("xegAKJuy-ZSOomSKUThP1hOqXkgLwxFwha05x-gbxLsd3dgIJlaBEmkzDyR2C6Mm");
     public static final String REDIRECT_URI = Optional.ofNullable(System.getenv("REDIRECT_URI"))
             .orElse("http://localhost:7000/callback");
 
