@@ -249,14 +249,16 @@ public class ColaboracionService {
         colaboracion.setTransaccion(transaccion);
         registrarPersonasVulnerables.setColaboracion(colaboracion);
 
-        Tarjeta tarjeta= new Tarjeta();
-        tarjeta.setCodigo(personaVulnerable.getNroDocumento()+personaVulnerable.getFechaNacimiento());
-        tarjeta.setActivo(true);
-        tarjeta.setFechaHoraAlta(LocalDateTime.now());
-        tarjeta.setPersonaVulnerable_id(personaVulnerable.getId());
+        if(personaVulnerable!=null) {
+            Tarjeta tarjeta = new Tarjeta();
+            tarjeta.setCodigo(personaVulnerable.getNroDocumento() + personaVulnerable.getFechaNacimiento());
+            tarjeta.setActivo(true);
+            tarjeta.setFechaHoraAlta(LocalDateTime.now());
+            tarjeta.setPersonaVulnerable_id(personaVulnerable.getId());
 
-        personaVulnerable.cambiarTarjeta(tarjeta);
-        
+            personaVulnerable.cambiarTarjeta(tarjeta);
+        }
+
         colaboracionRepositorio.persistir(registrarPersonasVulnerables);
         colaboradorRepositorio.actualizar(colaborador);
     }

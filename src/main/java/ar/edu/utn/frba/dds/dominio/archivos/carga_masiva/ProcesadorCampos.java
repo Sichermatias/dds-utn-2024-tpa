@@ -11,6 +11,8 @@ import ar.edu.utn.frba.dds.dominio.persona.login.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.imp.ColaboracionRepositorio;
 import ar.edu.utn.frba.dds.dominio.contacto.MedioDeContacto;
 import ar.edu.utn.frba.dds.dominio.contacto.NombreDeMedioDeContacto;
+import ar.edu.utn.frba.dds.models.repositories.imp.ColaboradorRepositorio;
+import ar.edu.utn.frba.dds.models.repositories.imp.DonacionDineroRepositorio;
 import ar.edu.utn.frba.dds.services.ColaboracionService;
 import ar.edu.utn.frba.dds.services.TransaccionService;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -81,7 +83,7 @@ public class ProcesadorCampos implements WithSimplePersistenceUnit {
         colaboracion.setTipo(forma);
         colaboracion.setFechaHoraAlta(LocalDateTime.now());
         colaboracion.setColaborador(colaborador);
-        ColaboracionService colaboracionService = ServiceLocator.instanceOf(ColaboracionService.class);
+        ColaboracionService colaboracionService = new ColaboracionService(ColaboradorRepositorio.getInstancia(),ColaboracionRepositorio.getInstancia(), DonacionDineroRepositorio.getInstancia(), new TransaccionService() );
         switch (colaboracion.getTipo()) {
             case "DINERO" -> colaboracionService.crearDonacionDinero(colaboracion, cantidad, null);
             case "DONACION_VIANDAS" -> {

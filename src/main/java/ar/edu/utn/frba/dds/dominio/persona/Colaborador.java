@@ -70,7 +70,7 @@ public class Colaborador extends Persistente {
     private Ubicacion ubicacion;
 
     @Column(name = "puntaje")
-    private Double puntaje;
+    private Double puntaje=0.0;
 
     @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Suscripcion> suscripciones;
