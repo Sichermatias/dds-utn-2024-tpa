@@ -46,7 +46,7 @@ public class GestorDeIncidentesService {
                     tecnico.agregarIncidente(incidenteAAsignar);
 
                     //creo mensaje
-                    String incidenteString = TextoPlanoConverter.convertirAtextoPlano(incidenteAAsignar);
+                    String incidenteString = TextoPlanoConverter.convertirIncidenteAtextoPlano(incidenteAAsignar);
                     String textoAEnviar = "Hola " + tecnico.getNombre() + "!\n\nSe te ha asignado el incidente: " + incidenteAAsignar.getId() + "\n\nAqui tienes la informacion completa: " + incidenteString;
 
                     //crear estructura de mensaje

@@ -4,9 +4,7 @@ import ar.edu.utn.frba.dds.dominio.Persistente;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -16,9 +14,11 @@ public class Tarjeta extends Persistente {
     @Column(name = "codigo", columnDefinition = "VARCHAR(20)")
     private String codigo;
 
-    @Column(name = "colaborador_id", columnDefinition = "INTEGER(5)")
-    private Long colabodador_id;
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
+    private Colaborador colaborador;
 
-    @Column(name = "persona_vulnerable_id", columnDefinition = "INTEGER(5)")
-    private Long personaVulnerable_id;
+    @ManyToOne
+    @JoinColumn(name = "persona_vulnerable_id", referencedColumnName = "id")
+    private PersonaVulnerable personaVulnerable;
 }

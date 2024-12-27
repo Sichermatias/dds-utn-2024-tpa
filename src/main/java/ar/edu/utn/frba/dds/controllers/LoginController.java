@@ -64,7 +64,6 @@ public class LoginController implements ICrudViewsHandler{
             Usuario usuario = usuarios.get(0);
             if (usuario.getContrasenia().equals(context.formParam("password"))) {
                 String returnPath = context.queryParam("return");
-                System.out.println(returnPath);
                 context.sessionAttribute("usuario_id", usuario.getId());
                 context.sessionAttribute("tipo_rol", usuario.getRol().getTipo().name());
                 if(returnPath == null)

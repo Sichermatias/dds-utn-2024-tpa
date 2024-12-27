@@ -254,7 +254,7 @@ public class ColaboracionService {
             tarjeta.setCodigo(personaVulnerable.getNroDocumento() + personaVulnerable.getFechaNacimiento());
             tarjeta.setActivo(true);
             tarjeta.setFechaHoraAlta(LocalDateTime.now());
-            tarjeta.setPersonaVulnerable_id(personaVulnerable.getId());
+            tarjeta.setPersonaVulnerable(personaVulnerable);
 
             personaVulnerable.cambiarTarjeta(tarjeta);
         }

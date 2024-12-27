@@ -66,8 +66,8 @@ public class AperturaController  implements IMqttMessageListener {
             pedidoDeApertura.getHeladera().setCantViandasActuales(viandasActuales + pedidoDeApertura.getCantidadViandas());
         }
         else{
-            if (pedidoDeApertura.getTarjeta().getPersonaVulnerable_id() != null){
-                Long personaVulnerableId = pedidoDeApertura.getTarjeta().getPersonaVulnerable_id();
+            if (pedidoDeApertura.getTarjeta().getPersonaVulnerable().getId() != null){
+                Long personaVulnerableId = pedidoDeApertura.getTarjeta().getPersonaVulnerable().getId();
                 PersonaVulnerable persona = personaVulnerableRepositorio.buscarPorIdVulnerable(personaVulnerableId);
 
                 if (persona.getUsosDelDia() < persona.getCantUsosMaximosPorDia() && pedidoDeApertura.getHeladera().getCantViandasActuales() > 0){
@@ -85,7 +85,7 @@ public class AperturaController  implements IMqttMessageListener {
                 }
 
             } else {
-                Long colaboradorId = pedidoDeApertura.getTarjeta().getColabodador_id();
+                Long colaboradorId = pedidoDeApertura.getTarjeta().getColaborador().getId();
                 pedidoDeApertura.setFechaHoraRealizada(fechaHoraActual);
                 pedidoDeAperturaRepositorio.actualizar(pedidoDeApertura);
 

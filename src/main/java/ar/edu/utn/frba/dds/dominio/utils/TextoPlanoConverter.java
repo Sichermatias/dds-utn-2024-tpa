@@ -1,4 +1,6 @@
 package ar.edu.utn.frba.dds.dominio.utils;
+import ar.edu.utn.frba.dds.dominio.incidentes.Incidente;
+
 import java.lang.reflect.Field;
 public class TextoPlanoConverter {
 
@@ -16,5 +18,16 @@ public class TextoPlanoConverter {
         }
         // Eliminar la última coma y espacio, y devolver el resultado
         return textoPlano.length() > 0 ? textoPlano.substring(0, textoPlano.length() - 2) : "";
+    }
+
+    public static String convertirIncidenteAtextoPlano(Incidente incidenteAAsignar) {
+        String texto = "\n";
+
+        texto += "Heladera: " + incidenteAAsignar.getHeladeraIncidente().getNombre() + "\n";
+        texto += "Direccion: " + incidenteAAsignar.getHeladeraIncidente().getUbicacion().getDireccion() + "\n";
+        texto += "Tipo de Incidente: " + incidenteAAsignar.getTipoIncidente().name() + "\n";
+        texto += "Descripcion de Incidente: " + incidenteAAsignar.getDescripcionIncidente() + "\n";
+
+        return texto;
     }
 }

@@ -33,8 +33,7 @@ public class PersonaVulnerable extends Persistente {
     @Column(name = "nroDocumento", columnDefinition = "INTEGER(11)")
     private String nroDocumento;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "personaVulnerable_id")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "personaVulnerable")
     private List<Tarjeta> tarjetas;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

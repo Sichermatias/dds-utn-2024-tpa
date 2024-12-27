@@ -77,7 +77,6 @@ public class PremioCanjesController extends Controller implements ICrudViewsHand
                 Colaborador colaborador = this.colaboradorRepositorio.buscarPorIdUsuario(usuario.getId());
 
                 long premioId = Long.parseLong(Objects.requireNonNull(context.formParam("premioId")));
-                System.out.println(premioId);
                 Premio premio = this.premioRepositorio.buscarPorId(Premio.class, premioId);
 
                 if(premio.getCantidadDisponible() <= 0)
