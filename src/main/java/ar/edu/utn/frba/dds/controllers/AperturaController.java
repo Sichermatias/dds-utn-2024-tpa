@@ -85,7 +85,7 @@ public class AperturaController  implements IMqttMessageListener {
                 }
 
             } else {
-                Integer colaboradorId = pedidoDeApertura.getTarjeta().getColabodador_id();
+                Long colaboradorId = pedidoDeApertura.getTarjeta().getColabodador_id();
                 pedidoDeApertura.setFechaHoraRealizada(fechaHoraActual);
                 pedidoDeAperturaRepositorio.actualizar(pedidoDeApertura);
 
