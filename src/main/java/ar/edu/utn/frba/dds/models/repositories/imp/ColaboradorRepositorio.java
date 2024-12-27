@@ -40,6 +40,7 @@ public class ColaboradorRepositorio extends BaseRepositorio implements WithSimpl
 
         entityManager().clear();
 
+
         return query.getResultList().get(0);
     }
 

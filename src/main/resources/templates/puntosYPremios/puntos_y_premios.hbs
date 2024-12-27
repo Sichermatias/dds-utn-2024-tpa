@@ -42,7 +42,7 @@
             <select id="inputState" class="form-select shadow-sm" onchange="filterProducts()">
                 <option selected value="all">Elegir rubro...</option>
                 {{#each rubros}}
-                    <option value="{{this}}">{{this}}</option>
+                    <option value="{{this.nombre}}">{{this.nombre}}</option>
                 {{/each}}
             </select>
         </div>

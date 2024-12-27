@@ -17,7 +17,7 @@ public class Tarjeta extends Persistente {
     private String codigo;
 
     @Column(name = "colaborador_id", columnDefinition = "INTEGER(5)")
-    private Integer colabodador_id;
+    private Long colabodador_id;
 
     @Column(name = "persona_vulnerable_id", columnDefinition = "INTEGER(5)")
     private Long personaVulnerable_id;

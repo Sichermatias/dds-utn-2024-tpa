@@ -42,9 +42,12 @@ public class Tecnico extends Persistente {
     @JoinColumn(name = "tecnico_id", referencedColumnName = "id")
     private List<MedioDeContacto> mediosDeContacto=new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "Localidad_tecnico", joinColumns = @JoinColumn(name = "tecnico_id"))
-    @JoinColumn(name = "localidad_id")
+    @ManyToMany
+    @JoinTable(
+            name = "localidad_x_tecnico",
+            joinColumns = @JoinColumn(name = "tecnico_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "localidad_id", referencedColumnName = "id")
+    )
     private List<Localidad> localidadesDeServicio=new ArrayList<>();
 
     @OneToMany//debería tener una lista de visitaIncidente?

@@ -96,7 +96,7 @@ function reverseGeocode(lat, lng, callback) {
             callback('Error al obtener la dirección');
         });
 }
-
+n
 function obtenerPuntosRecomendados() {
     // Obtener los valores de los inputs del formulario
     var latitud = document.getElementById('lat').value;
