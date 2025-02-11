@@ -13,10 +13,12 @@ import io.javalin.http.HttpStatus;
 import ar.edu.utn.frba.dds.server.exceptions.AccessDeniedException;
 import ar.edu.utn.frba.dds.server.handlers.*;
 import ar.edu.utn.frba.dds.middlewares.AuthMiddleware;
+import io.javalin.micrometer.MicrometerPlugin;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public class Server {
@@ -30,8 +32,17 @@ public class Server {
 
     public static void init() {
         if (app == null) {
+            final var metricsUtils = new DDMetricsUtils("transferencias");
+            final var registry = metricsUtils.getRegistry();
+
+            // Metricas
+            final var myGauge = registry.gauge("dds.unGauge", new AtomicInteger(0));
+
+            // Config
+            final var micrometerPlugin = new MicrometerPlugin(config -> config.registry = registry);
+
             int port = Integer.parseInt(System.getProperty("port", "7777"));
-            app = Javalin.create(config()).start(port);
+            app = Javalin.create(config(micrometerPlugin)).start(port);
 
             AuthMiddleware.apply(app);
             AppHandlers.applyHandlers(app);
@@ -48,10 +59,17 @@ public class Server {
 
             CrontasksScheduler scheduler = new CrontasksScheduler();
             scheduler.start();
+
+            app.get("/number/{number}", ctx -> {
+                var number = ctx.pathParamAsClass("number", Integer.class).get();
+                myGauge.set(number);
+                registry.counter("transferencias","status","ok").increment();
+                ctx.result("updated number: " + number.toString());
+            });
         }
     }
 
-    private static Consumer<JavalinConfig> config() {
+    private static Consumer<JavalinConfig> config(MicrometerPlugin micrometerPlugin) {
         return config -> {
             // Configuración para servir archivos estáticos desde /public y /uploads
             config.staticFiles.add(staticFiles -> {
@@ -122,6 +140,8 @@ public class Server {
                     return "No se encuentra la página indicada...";
                 }
             }));
+
+            config.registerPlugin(micrometerPlugin);
         };
     }
 }
