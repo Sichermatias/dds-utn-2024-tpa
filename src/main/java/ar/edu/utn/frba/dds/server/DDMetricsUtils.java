@@ -33,6 +33,11 @@ public class DDMetricsUtils {
 			}
 
 			@Override
+			public String applicationKey() {
+				return "ff1d71828a4129f3a486fd729acc4a6823ca8acc";
+			}
+
+			@Override
 			public String uri() {
 				return "https://api.us5.datadoghq.com";
 			}

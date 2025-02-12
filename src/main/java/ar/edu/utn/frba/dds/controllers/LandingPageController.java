@@ -8,7 +8,9 @@ import io.micrometer.core.instrument.step.StepMeterRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class LandingPageController implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
     final DDMetricsUtils metricsUtils = new DDMetricsUtils("inicio");
@@ -16,13 +18,14 @@ public class LandingPageController implements ICrudViewsHandler, WithSimplePersi
 
     @Override
     public void index(Context context) {
-        registry.counter("inicio","status","ok").increment();
-
         Map<String, Object> model = new HashMap<>();
         String tipoRol = context.sessionAttribute("tipo_rol");
         Long usuarioId= context.sessionAttribute("usuario_id");
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
+        log.info("hola holaa");
+        registry.counter("inicio.inicio","status","ok").increment();
+        registry.summary("log", "que ondaa", "ok");
         context.render("Landing-Page.hbs", model);
     }
 
@@ -32,6 +35,7 @@ public class LandingPageController implements ICrudViewsHandler, WithSimplePersi
         Long usuarioId= context.sessionAttribute("usuario_id");
         model.put("tipo_rol", tipoRol);
         model.put("usuario_id", usuarioId);
+        registry.counter("inicio.nosotros","status","ok").increment();
         context.render("Nosotros.hbs", model);
     }
 
