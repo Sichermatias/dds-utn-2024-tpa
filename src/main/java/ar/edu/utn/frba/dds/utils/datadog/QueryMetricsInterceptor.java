@@ -58,13 +58,16 @@ public class QueryMetricsInterceptor implements StatementInspector {
         long duration = System.nanoTime() - startTime;
 
         // Incrementar el contador de consultas
-        Counter queryCounter = meterRegistry.counter("custom.query.count");
-        queryCounter.increment();
+        Counter.builder("custom.query.count")
+                .tag("type", sql.split("\\s+")[0])
+                .register(meterRegistry)
+                .increment();
 
-        // Registrar la duración de la consulta
-        Timer queryTimer = meterRegistry.timer("custom.query.duration");
-        queryTimer.record(duration , TimeUnit.MILLISECONDS); // En milisegundos
-
+        // Medir tiempo de respuesta
+        Timer.builder("custom.query.duration")
+                .tag("type", sql.split("\\s+")[0])
+                .register(meterRegistry)
+                .record(duration, TimeUnit.MILLISECONDS);
 
         log.info("Ejecutando SQL: " + sql);
         log.info("Duración de la consulta: " + duration + " ms");

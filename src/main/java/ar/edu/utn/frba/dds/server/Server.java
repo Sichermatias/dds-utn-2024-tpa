@@ -2,11 +2,14 @@ package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.dominio.services.broker.BrokerInit;
 import ar.edu.utn.frba.dds.dominio.services.cronjobs.CrontasksScheduler;
+import ar.edu.utn.frba.dds.middlewares.MetricsMiddleware;
 import ar.edu.utn.frba.dds.utils.Initializer;
 import ar.edu.utn.frba.dds.utils.JavalinRenderer;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Template;
+import com.timgroup.statsd.NonBlockingStatsDClient;
+import com.timgroup.statsd.StatsDClient;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
@@ -32,15 +35,6 @@ public class Server {
 
     public static void init() {
         if (app == null) {
-            /*final StatsDClient statsd = new NonBlockingStatsDClient(new NonBlockingStatsDClientBuilder());
-
-            app.before(ctx -> ctx.attribute("start-time", System.nanoTime()));
-
-            app.after(ctx -> {
-                long startTime = ctx.attribute("start-time");
-                long durationMs = (System.nanoTime() - startTime) / 1_000_000;
-                statsd.recordExecutionTime("request.latency", durationMs);
-            });*/
 
             final var metricsUtils = new DDMetricsUtils("transferencias");
             final var registry = metricsUtils.getRegistry();
@@ -57,6 +51,8 @@ public class Server {
             AuthMiddleware.apply(app);
             AppHandlers.applyHandlers(app);
             Router.init(app);
+
+            app.before(new MetricsMiddleware(registry));
 
             app.exception(AccessDeniedException.class, (e, ctx) -> {
                 ctx.status(403);
@@ -76,6 +72,7 @@ public class Server {
                 registry.counter("transferencias","status","ok").increment();
                 ctx.result("updated number: " + number.toString());
             });
+
         }
     }
 
