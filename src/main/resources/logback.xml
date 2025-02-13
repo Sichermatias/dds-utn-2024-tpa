@@ -1,0 +1,35 @@
+<configuration>
+<!-- Definir el formato de los logs -->
+<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>logs/app.log</file>
+    <append>true</append>  <!-- No sobrescribir, seguir agregando -->
+    <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+</appender>
+
+    <appender name="JSON_TCP" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>intake.logs.datadoghq.com:10516</destination>
+        <keepAliveDuration>20 seconds</keepAliveDuration>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <prefix class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>"598a822d3c562bcd031a855cb57a1b8e" %mdc{keyThatDoesNotExist}</pattern>
+                </layout>
+            </prefix>
+        </encoder>
+        <ssl />
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+</appender>
+
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="JSON_TCP"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

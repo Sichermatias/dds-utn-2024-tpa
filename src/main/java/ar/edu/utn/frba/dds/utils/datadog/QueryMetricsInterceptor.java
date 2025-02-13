@@ -61,7 +61,6 @@ public class QueryMetricsInterceptor implements StatementInspector {
         Counter queryCounter = meterRegistry.counter("custom.query.count");
         queryCounter.increment();
 
-
         // Registrar la duración de la consulta
         Timer queryTimer = meterRegistry.timer("custom.query.duration");
         queryTimer.record(duration , TimeUnit.MILLISECONDS); // En milisegundos

@@ -32,6 +32,16 @@ public class Server {
 
     public static void init() {
         if (app == null) {
+            /*final StatsDClient statsd = new NonBlockingStatsDClient(new NonBlockingStatsDClientBuilder());
+
+            app.before(ctx -> ctx.attribute("start-time", System.nanoTime()));
+
+            app.after(ctx -> {
+                long startTime = ctx.attribute("start-time");
+                long durationMs = (System.nanoTime() - startTime) / 1_000_000;
+                statsd.recordExecutionTime("request.latency", durationMs);
+            });*/
+
             final var metricsUtils = new DDMetricsUtils("transferencias");
             final var registry = metricsUtils.getRegistry();
 
