@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TelegramSender {
 
-    private static final String BOT_TOKEN = "7706139539:AAFHkw2EQzpaXSAKYxGFpE-mUB1jjadMzKc"; // Coloca aquí el token de tu bot (moverlo a un config)
+    private static final String BOT_TOKEN = ""; // Coloca aquí el token de tu bot (moverlo a un config)
    // private static final String CHAT_ID = "";   // Coloca aquí el chat ID del usuario o grupo (se asigna abajo)
 
     public static void enviarMensajeTelegram(Mensaje mensaje){
