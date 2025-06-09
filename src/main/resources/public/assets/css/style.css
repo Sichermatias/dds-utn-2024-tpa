@@ -11,21 +11,27 @@
 --------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
+  --bg-color: #f6f9ff;
+  --text-color: #333333;
+  --primary-color: #4361ee;
+  --primary-hover: #2b55cc;
+  --header-bg: #ffffff;
+  --footer-bg: #ffffff;
 }
 
 body {
   font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
-  color: #444444;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 a {
-  color: #4154f1;
+  color: var(--primary-color);
   text-decoration: none;
 }
 
 a:hover {
-  color: #717ff5;
+  color: var(--primary-hover);
   text-decoration: none;
 }
 
@@ -381,7 +387,7 @@ h6 {
   z-index: 997;
   height: 60px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+  background-color: var(--header-bg);
   padding-left: 20px;
   /* Toggle Sidebar Button */
   /* Search Bar */
@@ -1221,10 +1227,9 @@ h6 {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #007bff; /* Cambia según tu diseño */
-  color: white;
+  background-color: var(--footer-bg);
+  color: var(--text-color);
   text-align: center;
-  padding: 1rem 0; /* Ajusta según tu diseño */
 }
 
 .footer .copyright {
@@ -1238,20 +1243,36 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
-.footer {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #007bff; /* Cambia según tu diseño */
-    color: white;
-    text-align: center;
-    padding: 1rem 0; /* Ajusta según tu diseño */
-}
 /*--------------------------------------------------------------
 # OVERWRITE
 --------------------------------------------------------------*/
 
 .logo span{
   font-size:20px;
+}
+
+/*--------------------------------------------------------------
+# Dark Mode
+--------------------------------------------------------------*/
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --primary-color: #90caf9;
+  --primary-hover: #bbdefb;
+  --header-bg: #1e1e1e;
+  --footer-bg: #1e1e1e;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+body.dark-mode .card {
+  background-color: #1e1e1e;
+  color: var(--text-color);
+}
+
+body.dark-mode .header,
+body.dark-mode footer {
+  background-color: var(--header-bg);
+  color: var(--text-color);
 }
 
