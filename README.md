@@ -1,80 +1,46 @@
-# java-base-project
+# Heladeras solidarias — TP anual de Diseño de Sistemas (UTN FRBA, 2024)
 
-Esta es una plantilla de proyecto diseñada para: 
+Plataforma web para una ONG que reduce la inseguridad alimentaria con una red de heladeras comunitarias. Personas y organizaciones colaboran donando dinero o viandas, distribuyendo viandas entre heladeras o hosteando una heladera; las heladeras reportan su estado con sensores y el sistema gestiona incidentes, puntos y reportes.
 
-* Java 17. :warning: Si bien el proyecto no lo limita explícitamente, el comando `mvn verify` no funcionará con versiones más antiguas de Java. 
-* JUnit 5. :warning: La versión 5 de JUnit es la más nueva del framework y presenta algunas diferencias respecto a la versión "clásica" (JUnit 4). Para mayores detalles, ver: 
-  *  [Apunte de herramientas](https://docs.google.com/document/d/1VYBey56M0UU6C0689hAClAvF9ILE6E7nKIuOqrRJnWQ/edit#heading=h.dnwhvummp994)
-  *  [Entrada de Blog (en inglés)](https://www.baeldung.com/junit-5-migration) 
-  *  [Entrada de Blog (en español)](https://www.paradigmadigital.com/dev/nos-espera-junit-5/)
-* Maven 3.8.1 o superior
+Trabajo práctico anual en equipo (Grupo 12) de la materia Diseño de Sistemas de Información.
 
-## Ejecutar tests
+## Funcionalidades
 
-```
-mvn test
-```
+- **Colaboraciones** de personas humanas y jurídicas: donación de dinero y de viandas, redistribución de viandas, hosteo de heladeras, registro de personas en situación de vulnerabilidad y oferta de premios.
+- **Puntos y canje de premios** según las colaboraciones de cada persona.
+- **Carga masiva** de colaboradores desde CSV.
+- **Heladeras con sensores** de temperatura y movimiento que publican por **MQTT**; las alertas y fallas técnicas generan **incidentes** y visitas de técnicos.
+- **Suscripciones** a eventos de una heladera (pocas viandas, heladera llena, desperfectos) con aviso por mail.
+- **Recomendación de puntos** para ubicar heladeras y donar, usando la API de Georef.
+- **Reportes semanales** programados: fallas por heladera, viandas por heladera y viandas donadas por colaborador.
+- Interfaz web con login y control de acceso por rol.
 
-## Validar el proyecto de forma exahustiva
+## Stack
 
-```
-mvn clean verify
-```
+Java 17 · Javalin · Handlebars · Hibernate / JPA · MySQL · MQTT (Eclipse Paho) · Quartz · Retrofit · JavaMail · JUnit 5 · Mockito · Maven
 
-Este comando hará lo siguiente:
-
- 1. Ejecutará los tests
- 2. Validará las convenciones de formato mediante checkstyle
- 3. Detectará la presencia de (ciertos) code smells
- 4. Validará la cobertura del proyecto
-
-## Entrega del proyecto
-
-Para entregar el proyecto, crear un tag llamado `entrega-final`. Es importante que antes de realizarlo se corra la validación
-explicada en el punto anterior. Se recomienda hacerlo de la siguiente forma:
+## Estructura
 
 ```
-mvn clean verify && git tag entrega-final && git push origin HEAD --tags
+src/main/java/ar/edu/utn/frba/dds/
+├── dominio/       modelo: colaboraciones, personas, heladeras e infraestructura, incidentes, reportes, puntos
+├── controllers/   controladores web (Javalin)
+├── services/      casos de uso e integraciones (Georef, sensores, incidentes)
+├── models/        repositorios y persistencia
+├── server/        servidor, rutas, handlers y excepciones
+└── middlewares/   autenticación
+src/main/resources/templates/   vistas Handlebars
 ```
 
-## Configuración del IDE (IntelliJ)
+## Cómo correrlo
 
-### Usar el SDK de Java 17
+1. Java 17 y Maven. Una base MySQL local (`tpa_2024_dds`).
+2. Completar la conexión a la base en `persistence.xml` y la cuenta de envío en `src/main/resources/mailconfig.properties`.
+3. Correr los tests: `mvn verify`
+4. Levantar la app web: clase `ar.edu.utn.frba.dds.server.App`.
 
-1. En **File/Project Structure...**, ir a **Project Settings | Project**
-2. En **Project SDK** seleccionar la versión 17 y en **Project language level** seleccionar `17 - Sealed types, always-strict floating-point semantics`
+## Equipo
 
-![image](https://user-images.githubusercontent.com/39303639/228126065-221b9851-fb96-4f7f-a8e1-010732dc7ef6.png)
+[@Bietti-Federico](https://github.com/Bietti-Federico) · [@Carrizo-Gonzalo](https://github.com/Carrizo-Gonzalo) · [@Sichermatias](https://github.com/Sichermatias) · [@lautaropetronacci](https://github.com/lautaropetronacci) · [@tinchoi99](https://github.com/tinchoi99)
 
-### Usar fin de linea unix
-1. En **File/Settings...**, ir a **Editor | Code Style**.
-2. En la lista **Line separator**, seleccionar `Unix and OS X (\n)`.
-
-![image](https://user-images.githubusercontent.com/39303639/228126546-352289fa-8feb-4b39-99db-d8b860915fea.png)
-
-### Tabular con dos espacios
-
-1. En **File/Settings...**, ir a **Editor | Code Style | Java | Tabs and Indents**.
-2. Cambiar **Tab size**, **Indent** y **Continuation indent** a 2, 2 y 4 respectivamente:
-
-![image](https://user-images.githubusercontent.com/39303639/228127009-8c84ea72-969b-4e05-b311-45e3688a4164.png)
-
-### Ordenar los imports
-
-1. En **File/Settings...**, ir a **Editor | Code Style | Java | Imports**.
-2. Cambiar **Class count to use import with '*'** y **Names count to use static import with '*'** a un número muy alto (ej: 99).
-3. En **Import Layout**, dejarlo como se muestra a continuación:
-    - `import static all other imports`
-    - `<blank line>`
-    - `import all other imports`
-
-![image](https://user-images.githubusercontent.com/39303639/228126787-36f9ecff-27f2-4b99-bf11-a6bd89f67087.png)
-
-### Instalar y configurar Checkstyle
-
-1. Instalar el plugin https://plugins.jetbrains.com/plugin/1065-checkstyle-idea:
-2. En **File/Settings...**, ir a **Tools | Checkstyle**.
-3. Configurarlo activando los Checks de Google y la versión de Checkstyle `== 9.0.1`:
-
-![image](https://github.com/dds-utn/java-base-project/assets/11719816/b1edc122-4675-4f8d-bffc-9e3d3366fac6)
-
+Servicio REST complementario del mismo TP: [2024-tpa-mi-no-grupo-12-api-rest](https://github.com/Sichermatias/2024-tpa-mi-no-grupo-12-api-rest).
